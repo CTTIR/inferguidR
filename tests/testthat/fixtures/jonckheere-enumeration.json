@@ -1,0 +1,254 @@
+{
+  "status": "oracle_preparation_only",
+  "assertions": 40,
+  "script_sha256": "5a0ea103dcf30b395ef0f4212b5356231fa02fb2855189625a830a3a6b1482a5",
+  "convention": "Inclusive directional tails; min(1, 2*min(lower, upper)).",
+  "cases": [
+    {
+      "case": "all_equal",
+      "values": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "group_sizes": [
+        2,
+        2,
+        2
+      ],
+      "twice_observed": 12,
+      "labelled_permutations": 720,
+      "increasing_tail": "1",
+      "decreasing_tail": "1",
+      "two_sided": "1",
+      "distribution": {
+        "12": 720
+      }
+    },
+    {
+      "case": "strict_increase",
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "group_sizes": [
+        2,
+        2,
+        2
+      ],
+      "twice_observed": 24,
+      "labelled_permutations": 720,
+      "increasing_tail": "1/90",
+      "decreasing_tail": "1",
+      "two_sided": "1/45",
+      "distribution": {
+        "0": 8,
+        "2": 16,
+        "4": 40,
+        "6": 56,
+        "8": 88,
+        "10": 96,
+        "12": 112,
+        "14": 96,
+        "16": 88,
+        "18": 56,
+        "20": 40,
+        "22": 16,
+        "24": 8
+      }
+    },
+    {
+      "case": "strict_decrease",
+      "values": [
+        5,
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "group_sizes": [
+        2,
+        2,
+        2
+      ],
+      "twice_observed": 0,
+      "labelled_permutations": 720,
+      "increasing_tail": "1",
+      "decreasing_tail": "1/90",
+      "two_sided": "1/45",
+      "distribution": {
+        "0": 8,
+        "2": 16,
+        "4": 40,
+        "6": 56,
+        "8": 88,
+        "10": 96,
+        "12": 112,
+        "14": 96,
+        "16": 88,
+        "18": 56,
+        "20": 40,
+        "22": 16,
+        "24": 8
+      }
+    },
+    {
+      "case": "ties_unequal",
+      "values": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        2
+      ],
+      "group_sizes": [
+        1,
+        2,
+        3
+      ],
+      "twice_observed": 19,
+      "labelled_permutations": 720,
+      "increasing_tail": "1/10",
+      "decreasing_tail": "1",
+      "two_sided": "1/5",
+      "distribution": {
+        "2": 36,
+        "5": 72,
+        "7": 72,
+        "8": 36,
+        "9": 72,
+        "11": 72,
+        "12": 156,
+        "15": 96,
+        "16": 36,
+        "19": 72
+      }
+    },
+    {
+      "case": "ties_interleaved",
+      "values": [
+        0,
+        2,
+        1,
+        0,
+        2,
+        1
+      ],
+      "group_sizes": [
+        2,
+        2,
+        2
+      ],
+      "twice_observed": 15,
+      "labelled_permutations": 720,
+      "increasing_tail": "7/18",
+      "decreasing_tail": "71/90",
+      "two_sided": "7/9",
+      "distribution": {
+        "0": 8,
+        "4": 64,
+        "7": 64,
+        "8": 16,
+        "9": 128,
+        "12": 160,
+        "15": 128,
+        "16": 16,
+        "17": 64,
+        "20": 64,
+        "24": 8
+      }
+    },
+    {
+      "case": "two_groups",
+      "values": [
+        0,
+        1,
+        1,
+        2,
+        3
+      ],
+      "group_sizes": [
+        2,
+        3
+      ],
+      "twice_observed": 11,
+      "labelled_permutations": 120,
+      "increasing_tail": "1/5",
+      "decreasing_tail": "1",
+      "two_sided": "2/5",
+      "distribution": {
+        "0": 12,
+        "3": 24,
+        "5": 24,
+        "6": 12,
+        "8": 24,
+        "11": 24
+      }
+    },
+    {
+      "case": "four_groups",
+      "values": [
+        3,
+        0,
+        2,
+        4,
+        1,
+        5,
+        2
+      ],
+      "group_sizes": [
+        1,
+        2,
+        1,
+        3
+      ],
+      "twice_observed": 19,
+      "labelled_permutations": 5040,
+      "increasing_tail": "3/7",
+      "decreasing_tail": "2/3",
+      "two_sided": "6/7",
+      "distribution": {
+        "1": 24,
+        "3": 48,
+        "4": 12,
+        "5": 96,
+        "6": 36,
+        "7": 144,
+        "8": 72,
+        "9": 216,
+        "10": 96,
+        "11": 312,
+        "12": 108,
+        "13": 408,
+        "14": 108,
+        "15": 480,
+        "16": 108,
+        "17": 504,
+        "18": 108,
+        "19": 480,
+        "20": 96,
+        "21": 432,
+        "22": 84,
+        "23": 336,
+        "24": 60,
+        "25": 264,
+        "26": 36,
+        "27": 168,
+        "28": 24,
+        "29": 96,
+        "30": 12,
+        "31": 48,
+        "33": 24
+      }
+    }
+  ]
+}

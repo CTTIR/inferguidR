@@ -1,0 +1,647 @@
+{
+  "schema_version": "inferguidR.registry/0.1.0",
+  "family": "chi2",
+  "family_label": "Chi-square tests",
+  "source": {
+    "path": "specs/gpower-capabilities.json",
+    "sha256": "3a8bfd54327cac2a1adf4c4efb3ec0a9793400ee3db9ca4462eacae4ccfa5f86",
+    "inventory_status": "certified",
+    "inventory_date": "2026-10-03",
+    "live_capture_date": "2026-10-05",
+    "reference_versions": {
+      "manual": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)",
+      "mac_resources": "G*Power 3.1.9.6 Mac bundle (static inspection; not executed)",
+      "windows_resources": "G*Power 3.1.9.7 GPowerNT.exe (static PE-resource and string inspection; not executed)",
+      "windows_live": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+    }
+  },
+  "generated_by": "project/tools/build_registry.R",
+  "reference_note": "Inventory certified against the running G*Power 3.1.9.7 under Wine 10.0 (emulator_capture; decisions D22/D23; specs/gpower-app-capture.json): modes, options, defaults and the live input and output labels per analysis type. Every method stays reference_pending here; agreement with G*Power is reported per method domain by fixture comparisons (validation/compare/).",
+  "methods": [
+    {
+      "method_id": "chi2_variance_one_sample",
+      "family": "chi2",
+      "inventory_index": 47,
+      "label": {
+        "en": "Variance: Difference from constant (one sample case)",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Variance: Difference from constant (one sample case)",
+        "mac_3196": "Variance: Difference from constant (one sample case)",
+        "windows_3197_live": "Variance: Difference from constant (one sample case)"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Variances > One group",
+        "mac_3196": "Tests > Variances > One group"
+      },
+      "aliases": ["χ2 test: Variance - difference from constant (one sample case) [manual ch. 26]"],
+      "hypothesis": {
+        "H0": "sigma - sigma0 = 0",
+        "H1": "sigma - sigma0 != 0 (or one-sided)"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["a_priori"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.chi2_variance_one_sample.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        }
+      ],
+      "effect_size": {
+        "symbol": "var1/var0",
+        "definition": "sigma²/sigma0²; inputs in [0.999, 1.001] prohibited a priori",
+        "conventions": null,
+        "drawer": {
+          "drawer_id": "drawer_Chi_Variance (Mac; controller Eff_F_VarEquality) / RT_DIALOG 194 (Windows)",
+          "input_modes": ["from two variances"],
+          "inputs": ["Variance V0", "Variance V1"],
+          "outputs": ["Ratio V1/V0 (manual: 'Ratio var1/var0')"]
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "Ratio var1/var0", "α err prob", "Power (1-β err prob)", "β/α ratio", "Total sample size"],
+      "outputs": ["Lower critical χ²", "Upper critical χ²", "Df", "Total sample size", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "Ratio var1/var0"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Ratio var1/var0",
+            "control": "Edit",
+            "default": "1.5",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Ratio var1/var0",
+            "control": "Edit",
+            "default": "1.5",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Ratio var1/var0",
+            "control": "Edit",
+            "default": "1.5",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Ratio var1/var0",
+            "control": "Edit",
+            "default": "1.5",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Lower critical χ²", "Upper critical χ²", "Df", "Total sample size", "Actual power"],
+        "post_hoc": ["Lower critical χ²", "Upper critical χ²", "Df", "Power (1-β err prob)"],
+        "sensitivity": ["Lower critical χ²", "Upper critical χ²", "Df", "Ratio var1/var0"],
+        "criterion": ["Lower critical χ²", "Upper critical χ²", "Df", "α err prob"],
+        "compromise": ["Lower critical χ²", "Upper critical χ²", "Df", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "26",
+        "pdf_pages": [64],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-136", "DOC-137", "DOC-138"],
+      "coverage": {
+        "row_count": 10,
+        "branch_dimensions": {
+          "tails": ["one", "two"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "09",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.chi2_variance_one_sample",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["H1: central chi² scaled by variance ratio (manual §26.5).", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "chi2_goodness_of_fit_contingency",
+      "family": "chi2",
+      "inventory_index": 48,
+      "label": {
+        "en": "Goodness-of-fit tests: Contingency tables",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Goodness-of-fit tests: Contingency tables",
+        "mac_3196": "Goodness-of-fit tests: Contingency tables",
+        "windows_3197_live": "Goodness-of-fit tests: Contingency tables"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Proportions > Multigroup: Goodness-of-Fit",
+        "mac_3196": "Tests > Proportions > Multigroup: Goodness-of-fit test"
+      },
+      "aliases": [],
+      "hypothesis": {
+        "H0": "cell probabilities p(H0) (inferred)",
+        "H1": "cell probabilities p(H1) (inferred)",
+        "status": "no manual chapter"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": [],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.chi2_goodness_of_fit_contingency.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [],
+      "effect_size": {
+        "symbol": "w",
+        "definition": "Cohen's w from cell probabilities (inferred)",
+        "conventions": "w = .10 small, .30 medium, .50 large (tooltip strings)",
+        "drawer": {
+          "drawer_id": "drawer_CHI_Gof_Cont (Mac) / RT_DIALOG 157 and 212 (Windows)",
+          "input_modes": ["table of p(H0), p(H1) with Equal / Normalize / Auto calc last cell (Windows 212: Input mode Normalize | Auto last cell | Standard)"],
+          "inputs": ["Number of cells", "Cell p(H0)", "Cell p(H1)"],
+          "outputs": ["Effect size w"]
+        }
+      },
+      "gpower_inputs": ["Effect size w", "α err prob", "Power (1-β err prob)", "Df", "β/α ratio", "Total sample size"],
+      "outputs": ["Noncentrality parameter λ", "Critical χ²", "Total sample size", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "Effect size w"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Effect size w",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Df",
+            "control": "Edit",
+            "default": "5"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Effect size w",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Df",
+            "control": "Edit",
+            "default": "5"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Df",
+            "control": "Edit",
+            "default": "5"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Effect size w",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Df",
+            "control": "Edit",
+            "default": "5"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Effect size w",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Df",
+            "control": "Edit",
+            "default": "5"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Noncentrality parameter λ", "Critical χ²", "Total sample size", "Actual power"],
+        "post_hoc": ["Noncentrality parameter λ", "Critical χ²", "Power (1-β err prob)"],
+        "sensitivity": ["Noncentrality parameter λ", "Critical χ²", "Effect size w"],
+        "criterion": ["Noncentrality parameter λ", "Critical χ²", "α err prob"],
+        "compromise": ["Noncentrality parameter λ", "Critical χ²", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": null,
+        "pdf_pages": [],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": [],
+      "coverage": {
+        "row_count": 5,
+        "branch_dimensions": {},
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "09",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.chi2_goodness_of_fit_contingency",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["APP-ONLY: no manual chapter. Contingency-table independence tests are reached through the same procedure via w and df (to verify).", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "chi2_generic",
+      "family": "chi2",
+      "inventory_index": 49,
+      "label": {
+        "en": "Generic χ² test",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "$\\bullet$ Generic $\\chi^2$ test",
+        "mac_3196": "$\\bullet$ Generic $\\chi^2$ test",
+        "windows_3197_live": "• Generic χ² test"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Generic > Generic Chi²",
+        "mac_3196": "Tests > Generic > Generic Chi²"
+      },
+      "aliases": [],
+      "hypothesis": {
+        "H0": "central chi²(df)",
+        "H1": "noncentral chi²(df, lambda)",
+        "status": "inferred"
+      },
+      "modes": ["post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": [],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 4 types for this test (Compromise: Compute α and β - given β/α ratio, and noncentrality parameter; Criterion: Compute alpha - given β, and noncentrality parameter; Post hoc: Compute power - given α, and noncentrality parameter; Sensitivity: Compute noncentrality parameter - given α, and power). Evidence: specs/gpower-app-capture.json procedures.chi2_generic.analysis_types_live. Earlier provisional basis: Inferred from the four generic analysis labels in both binaries.",
+      "options": [],
+      "effect_size": {
+        "symbol": "λ",
+        "definition": "noncentrality parameter (inferred)",
+        "conventions": null,
+        "drawer": null
+      },
+      "gpower_inputs": ["Noncentrality parameter λ", "β/α ratio", "Df", "Power (1-β err prob)", "α err prob"],
+      "outputs": ["Critical χ²", "α err prob", "β err prob", "Power (1-β err prob)", "Noncentrality parameter λ"],
+      "inputs_by_mode_live": {
+        "post_hoc": [
+          {
+            "label": "Noncentrality parameter λ",
+            "control": "Edit",
+            "default": "20"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Df",
+            "control": "Edit",
+            "default": "5"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Df",
+            "control": "Edit",
+            "default": "5"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Noncentrality parameter λ",
+            "control": "Edit",
+            "default": "20"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Df",
+            "control": "Edit",
+            "default": "5"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Noncentrality parameter λ",
+            "control": "Edit",
+            "default": "20"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Df",
+            "control": "Edit",
+            "default": "5"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "post_hoc": ["Critical χ²", "β err prob", "Power (1-β err prob)"],
+        "sensitivity": ["Critical χ²", "Noncentrality parameter λ"],
+        "criterion": ["Critical χ²", "α err prob"],
+        "compromise": ["Critical χ²", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": null,
+        "pdf_pages": [],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": [],
+      "coverage": {
+        "row_count": 4,
+        "branch_dimensions": {},
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "06",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.chi2_generic",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["APP-ONLY: no manual chapter.", "[completeness review 2026-10-03] owner_phase changed 09 -> 06. Generic continuous-test modules belong to phase 06; this generic test uses continuous central/noncentral distributions. Only the generic binomial test (discrete) stays with phase 09. Phase 07/09 helpers may be reused.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    }
+  ]
+}

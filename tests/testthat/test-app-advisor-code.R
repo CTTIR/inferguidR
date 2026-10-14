@@ -1,0 +1,38 @@
+test_that("advisor code controls preserve explicit direction and selected variant", {
+ skip_if_not_installed("shiny")
+ map <- c(q.aim="compare",q.stage="analysis",q.outcome_type="continuous",q.unit="individuals",q.structure="independent",
+   q.independence_check="no",q.n_factors="one",q.n_groups="two",q.covariates="no",q.estimand_continuous="mean",
+   q.variance="not_justified",q.direction="two_sided",q.missingness="none")
+ shiny::testServer(.ig_advisor_server,args=list(language=shiny::reactive("en")), {
+  state(advisor_replay(map));session$flushReact()
+  expect_match(output$r_code_controls$html,"95%",fixed=TRUE)
+  expect_match(output$r_code_text,"var.equal = FALSE",fixed=TRUE)
+  expect_match(output$r_code_download$html,"Download R example",fixed=TRUE)
+  one <- map;one[['q.direction']] <- "one_sided_prespecified"
+  state(advisor_replay(one));session$flushReact()
+  expect_match(output$r_code_text,"Specify greater or less",fixed=TRUE)
+  expect_null(output$r_code_download)
+  session$setInputs(code_alternative="less")
+  expect_match(output$r_code_text,'alternative <- "less"',fixed=TRUE)
+  state(advisor_replay(map));session$flushReact()
+  expect_match(output$r_code_text,'alternative <- "two.sided"',fixed=TRUE)
+  state(advisor_override(state(),"t_means_two_independent_student"));session$flushReact()
+  expect_match(output$r_code_text,"var.equal = TRUE",fixed=TRUE)
+  state(advisor_override(state(),"rank_sum_mann_whitney"));session$flushReact()
+  expect_match(output$r_code_controls$html,"95%",fixed=TRUE)
+  expect_match(output$r_code_text,"probability_superiority",fixed=TRUE)
+  expect_match(output$r_code_download$html,"Download R example",fixed=TRUE)
+  state(advisor_replay(c(q.aim="describe")));session$flushReact()
+  expect_identical(advisor_recommendation(state())$preferred$analysis_variant_id,"descriptive_summary")
+  expect_match(output$r_code_controls$html,"95%",fixed=TRUE)
+  expect_match(output$r_code_download$html,"Download R example",fixed=TRUE)
+  expect_false(grepl("alternative <-",output$r_code_text,fixed=TRUE))
+  e<-new.env();invisible(capture.output(eval(parse(text=output$r_code_text),e)))
+  expect_null(e$example_result$p_value)
+  expect_identical(e$example_result$measurement,"continuous")
+  # An unresolved walkthrough still has no export controls or download.
+  state(advisor_session());session$flushReact()
+  expect_null(output$r_code_controls)
+  expect_null(output$r_code_download)
+ })
+})

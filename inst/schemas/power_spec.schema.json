@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:inferguidr:schema:power_spec:0.1.0",
+  "title": "inferguidR power_spec",
+  "description": "Immutable specification of one power analysis: method, analysis mode, solve target(s), every input and every result-affecting option with all applied defaults written out. spec_hash is the SHA-256 of the canonical JSON of {schema_version, object_type, method_id, mode, target, inputs, options}. JSON Schema checks the shape; domains, applicability and duplicates are re-validated by analysis_spec() on import.",
+  "type": "object",
+  "required": [
+    "schema_version", "object_type", "method_id", "family", "mode", "target",
+    "joint_target", "inputs", "options", "defaults_applied", "validation_level",
+    "unvalidated_inputs", "spec_hash"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "inferguidR.power_spec/0.1.0" },
+    "object_type": { "const": "power_spec" },
+    "method_id": { "$ref": "common.schema.json#/$defs/identifier" },
+    "family": { "type": "string", "minLength": 1 },
+    "mode": { "$ref": "common.schema.json#/$defs/mode" },
+    "target": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/name" },
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true
+    },
+    "joint_target": { "type": "boolean" },
+    "inputs": {
+      "type": "object",
+      "propertyNames": { "$ref": "common.schema.json#/$defs/name" },
+      "additionalProperties": { "$ref": "#/$defs/input_value" }
+    },
+    "options": {
+      "type": "object",
+      "propertyNames": { "$ref": "common.schema.json#/$defs/name" },
+      "additionalProperties": { "$ref": "common.schema.json#/$defs/code" }
+    },
+    "defaults_applied": {
+      "type": "object",
+      "required": ["inputs", "options"],
+      "additionalProperties": false,
+      "properties": {
+        "inputs": { "$ref": "common.schema.json#/$defs/string_array" },
+        "options": { "$ref": "common.schema.json#/$defs/string_array" }
+      }
+    },
+    "validation_level": { "enum": ["method_definition", "registry_metadata"] },
+    "unvalidated_inputs": { "$ref": "common.schema.json#/$defs/string_array" },
+    "spec_hash": { "$ref": "common.schema.json#/$defs/sha256" }
+  },
+  "if": { "properties": { "mode": { "const": "compromise" } } },
+  "then": {
+    "properties": {
+      "joint_target": { "const": true },
+      "target": { "minItems": 2 }
+    }
+  },
+  "else": {
+    "properties": {
+      "joint_target": { "const": false },
+      "target": { "maxItems": 1 }
+    }
+  },
+  "$defs": {
+    "input_value": {
+      "description": "Inputs are finite numbers, strings or flags (scalars or non-empty homogeneous arrays). Non-finite values are not admissible inputs.",
+      "oneOf": [
+        { "type": "number" },
+        { "type": "string" },
+        { "type": "boolean" },
+        { "type": "array", "minItems": 1, "items": { "type": "number" } },
+        { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        { "type": "array", "minItems": 1, "items": { "type": "boolean" } }
+      ]
+    }
+  }
+}

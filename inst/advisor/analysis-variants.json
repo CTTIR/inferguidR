@@ -1,0 +1,2908 @@
+{
+ "schema_version": "inferguidR.analysis-variants/0.1.0",
+ "variants_version": "2026-10-13.1",
+ "status": "provisional",
+ "created_date": "2026-10-03",
+ "note": "Revision 2026-10-13.1 records the implemented SMC permutation parallel-analysis helper for EFA; other call sketches remain historical drafts pending semantic reconciliation. Analysis variant ids used by specs/advisor/rules.json (primary outcomes, alternatives and rejected routes). r_functions are call sketches for phase 12A templates, not executed templates. gpower_method_id is null throughout because no G*Power application inventory with method ids exists yet (phase 01/03); gpower_candidate records only what the June 2023 manual documents. Review 2026-10-03.2 (rules-review.md): estimand or notes texts of rank_sum_mann_whitney, kruskal_wallis, sign_test_one_sample and lmm_cluster_random_intercept corrected; no r_functions changed. Revision 2026-10-05.1 (decision D12): the r_functions of boschloo_two_sided_central, boschloo_two_sided_minlike and boschloo_one_sided name inferguidR's own Boschloo engine (boschloo_test(), boschloo_power(), boschloo_sample_size()) instead of exact2x2::boschloo, which D12 rejects as engine and as oracle; Exact::exact.test is listed as a comparator only; the gpower_candidate.relation of the three variants is different_method_comparator (phase 09A classification, provisional).",
+ "api_check": {
+  "date": "2026-10-03",
+  "r_version": "R 4.6.1",
+  "method": "Every package::function in r_functions was checked with requireNamespace() and exists() in the installed library on 2026-10-03; versions are the installed versions. Argument names in call sketches were checked against formals() for exact2x2::boschloo, exact2x2::exact2x2, exact2x2::mcnemarExactDP, exact2x2::uncondExact2x2, Exact::exact.test, effectsize::cohens_d, effectsize::p_superiority, DescTools::StuartMaxwellTest, DescTools::SignTest, stats::factanal, cluster::daisy and afex::aov_ez; small smoke calls were run for exact2x2 paired McNemar (central and mid-p), stats::mcnemar.test on a 3 x 3 table, afex::aov_ez with GG correction, stats::anova.mlm with test = 'Spherical', DescTools::CochranQTest and car::leveneTest.",
+  "recheck_2026_10_03": "Re-run in a continuation session on 2026-10-03 (R 4.6.1): all 101 package::function entries re-checked with requireNamespace()/exists() (0 missing); formals of exact2x2::boschloo, exact2x2::uncondExact2x2, exact2x2::mcnemarExactDP, exact2x2::exact2x2, exact2x2::ucControl and Exact::exact.test (method, tsmethod, model, cond.row present) re-read; exact2x2::mcnemar.exact() namespaced failure and the stats::t.test formula error for paired = TRUE reproduced; Boschloo tie-handling observation recorded in boschloo_two_sided_central notes.",
+  "recheck_2026_10_05": "The inferguidR entries of the three Boschloo variants (boschloo_test, boschloo_power, boschloo_sample_size) were checked against formals() of inferguidR 0.0.0.9000 and run once each on 2026-10-05; exact2x2::boschloo is no longer named in r_functions (decision D12)."
+ },
+ "gpower_candidate_relation_vocabulary": {
+  "same_test_candidate": "the manual documents a procedure for the same test; parity unproven until authentic captures exist (B01)",
+  "same_test_candidate_approximation": "the manual documents approximate power procedures with selectable options for this model",
+  "same_test_planning_model_differs": "same test, but the manual's planning model (A.R.E./Lehmann, parent distribution) parameterises the effect differently from the advisor's estimand",
+  "different_method_comparator": "the manual documents a different method for the design",
+  "not_in_manual": "no chapter in the June 2023 manual; the application inventory must decide",
+  "undetermined": "relationship to be decided by phases 03/09A",
+  "none": "no G*Power procedure documented",
+  "not_applicable": "planning does not apply"
+ },
+ "variants": [
+  {
+   "analysis_variant_id": "descriptive_summary",
+   "name_en": "Descriptive summary with interval estimates",
+   "name_de": "Deskriptive Zusammenfassung mit Intervallschätzungen",
+   "family": "descriptive",
+   "estimand_en": "Distributions and point estimates with confidence intervals; no hypothesis test.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "quantile",
+     "call_sketch": "stats::quantile(x, probs = c(0.25, 0.5, 0.75), na.rm = TRUE)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "stats",
+     "function": "sd",
+     "call_sketch": "stats::sd(x, na.rm = TRUE)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "stats",
+     "function": "t.test",
+     "call_sketch": "stats::t.test(x)$conf.int  # interval for a mean only; no test is reported",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "stats",
+     "function": "binom.test",
+     "call_sketch": "stats::binom.test(x_events, n)$conf.int  # Clopper-Pearson interval for a proportion",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Summaries are chosen by measurement meaning, not R storage type. Interval functions are used for their intervals only.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "Description has no hypothesis-test power analysis."
+   },
+   "learning_method_ids": [
+    "viz_distribution_plots",
+    "reporting_table1_gtsummary"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.describe",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw001"
+   ]
+  },
+  {
+   "analysis_variant_id": "t_mean_one_sample",
+   "name_en": "One-sample t-test against a reference mean",
+   "name_de": "Einstichproben-t-Test gegen einen Referenzmittelwert",
+   "family": "t",
+   "estimand_en": "Mean minus the pre-specified reference value mu0.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "t.test",
+     "call_sketch": "stats::t.test(x, mu = mu0, alternative = alt)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "mu0 must be supplied by the user (no default of 0; DescrTab2 flag Q04).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "20 t test: Means - difference from constant (one sample case)",
+    "manual_page": 50,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents a one-sample t test with noncentral t power."
+   },
+   "learning_method_ids": [
+    "t_mean_one_sample"
+   ],
+   "descrtab2_test_name": "Student's one-sample t-test",
+   "used_by": [
+    {
+     "outcome_id": "out.one_sample.t",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw038"
+   ]
+  },
+  {
+   "analysis_variant_id": "signed_rank_wilcoxon_one_sample",
+   "name_en": "Wilcoxon signed-rank test against a reference value (one sample)",
+   "name_de": "Wilcoxon-Vorzeichen-Rang-Test gegen einen Referenzwert (eine Stichprobe)",
+   "family": "rank",
+   "estimand_en": "Symmetry of the distribution about m0 (pseudo-median); requires interval-level data.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "wilcox.test",
+     "call_sketch": "stats::wilcox.test(x, mu = m0, conf.int = TRUE, alternative = alt)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Not offered for ordinal codes (DescrTab2 applies it to integer codes against 0; flag Q04). Alternative only, for continuous one-sample data.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "22 Wilcoxon signed-rank test: Means - difference from constant (one sample case)",
+    "manual_page": 53,
+    "relation": "same_test_planning_model_differs",
+    "basis": "Manual computes power with the A.R.E. method parameterised by a mean-type effect under an assumed parent distribution."
+   },
+   "learning_method_ids": [
+    "signed_rank_wilcoxon"
+   ],
+   "descrtab2_test_name": "Wilcoxon's one-sample signed-rank test",
+   "used_by": [
+    {
+     "outcome_id": "out.one_sample.t",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.one_sample.sign",
+     "role": "rejected_route"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw039"
+   ]
+  },
+  {
+   "analysis_variant_id": "binomial_exact_one_sample",
+   "name_en": "Exact binomial test of one proportion",
+   "name_de": "Exakter Binomialtest für einen Anteil",
+   "family": "exact",
+   "estimand_en": "Event probability compared with the pre-specified p0.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "binom.test",
+     "call_sketch": "stats::binom.test(x_events, n, p = p0, alternative = alt)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "p0 must be supplied by the user (DescrTab2 fixes p0 = 0.5; flag Q04). Two-sided p-value follows the stats definition (probability ordering).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "4 Exact: Proportion - difference from constant (one sample case)",
+    "manual_page": 11,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents an exact binomial test; two-sided alpha handling must be matched before any parity claim."
+   },
+   "learning_method_ids": [
+    "binomial_exact_one_sample"
+   ],
+   "descrtab2_test_name": "Exact binomial test",
+   "used_by": [
+    {
+     "outcome_id": "out.one_sample.binomial",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw022"
+   ]
+  },
+  {
+   "analysis_variant_id": "prop_one_sample_score",
+   "name_en": "One-sample proportion score test (asymptotic, no continuity correction)",
+   "name_de": "Score-Test für einen Anteil (asymptotisch, ohne Stetigkeitskorrektur)",
+   "family": "z",
+   "estimand_en": "Event probability compared with p0; Wilson score interval.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "prop.test",
+     "call_sketch": "stats::prop.test(x_events, n, p = p0, correct = FALSE, alternative = alt)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Asymptotic alternative to the exact binomial test.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_in_manual",
+    "basis": "No one-sample z test for a proportion is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "prop_one_sample_score"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.one_sample.binomial",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "chisq_goodness_of_fit",
+   "name_en": "Chi-squared goodness-of-fit test with specified proportions",
+   "name_de": "Chi-Quadrat-Anpassungstest mit vorgegebenen Anteilen",
+   "family": "chi2",
+   "estimand_en": "Agreement of category frequencies with fully specified expected proportions.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "chisq.test",
+     "call_sketch": "stats::chisq.test(x = observed_counts, p = expected_proportions)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Expected proportions must be supplied (DescrTab2 tests only equal proportions). If parameters are estimated from the data, degrees of freedom must be reduced. Not used as a normality pre-test.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_in_manual",
+    "basis": "No chi-squared goodness-of-fit chapter exists in the June 2023 manual; the phase 01 application inventory decides."
+   },
+   "learning_method_ids": [
+    "chisq_goodness_of_fit"
+   ],
+   "descrtab2_test_name": "Chi-squared goodness-of-fit test",
+   "used_by": [
+    {
+     "outcome_id": "out.one_sample.gof",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.one_sample.sign",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw023"
+   ]
+  },
+  {
+   "analysis_variant_id": "chisq_goodness_of_fit_mc",
+   "name_en": "Goodness-of-fit test with Monte Carlo p-value",
+   "name_de": "Anpassungstest mit Monte-Carlo-p-Wert",
+   "family": "chi2",
+   "estimand_en": "As chisq_goodness_of_fit, with a simulated reference distribution for sparse expected counts.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "chisq.test",
+     "call_sketch": "set.seed(seed); stats::chisq.test(x = observed_counts, p = expected_proportions, simulate.p.value = TRUE, B = 1e5)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Seed and B are recorded; Monte Carlo error is reported separately from the p-value.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "chisq_goodness_of_fit"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.one_sample.gof",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "sign_test_one_sample",
+   "name_en": "Sign test against a reference value or category",
+   "name_de": "Vorzeichentest gegen einen Referenzwert oder eine Referenzkategorie",
+   "family": "exact",
+   "estimand_en": "Whether values above and below the reference are equally likely (for a continuous outcome: whether the median equals the reference; with ties at the reference this is not equivalent).",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "binom.test",
+     "call_sketch": "stats::binom.test(n_above, n_above + n_below, p = 0.5, alternative = alt)  # values equal to the reference are excluded and reported",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "DescTools",
+     "function": "SignTest",
+     "call_sketch": "DescTools::SignTest(x, mu = reference)  # numeric scores only",
+     "package_version_installed": "0.99.60"
+    }
+   ],
+   "notes": "Uses only the order relative to the reference, so it is valid for ordinal outcomes.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "8 Exact: Proportion - sign test",
+    "manual_page": 22,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents the sign test as a binomial test with p = 0.5."
+   },
+   "learning_method_ids": [
+    "sign_test"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.one_sample.sign",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "t_means_two_independent_welch",
+   "name_en": "Welch two-sample t-test (unequal variances)",
+   "name_de": "Welch-t-Test für zwei unabhängige Stichproben (ungleiche Varianzen)",
+   "family": "t",
+   "estimand_en": "Difference in population means, with a Welch confidence interval.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "t.test",
+     "call_sketch": "stats::t.test(y ~ group, data = d, var.equal = FALSE, alternative = alt)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "effectsize",
+     "function": "cohens_d",
+     "call_sketch": "effectsize::cohens_d(y ~ group, data = d, pooled_sd = FALSE)  # standardiser stated explicitly",
+     "package_version_installed": "1.0.3"
+    }
+   ],
+   "notes": "Default for two independent groups. Kept distinct from the pooled Student variant in analysis and planning.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "21 t test: Means - difference between two independent means (two groups)",
+    "manual_page": 52,
+    "relation": "different_method_comparator",
+    "basis": "Manual states the test assumes equal variances; H0/H1 distributions are central/noncentral t(N - 2), i.e. the pooled test. Welch planning must not be replaced by it."
+   },
+   "learning_method_ids": [
+    "t_means_two_independent_welch",
+    "effect_size_cohens_d"
+   ],
+   "descrtab2_test_name": "Welch's two-sample t-test",
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.welch",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.two_group.student",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.two_group.wmw",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.ancova",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.paired.t",
+     "role": "rejected_route"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw002"
+   ]
+  },
+  {
+   "analysis_variant_id": "t_means_two_independent_student",
+   "name_en": "Student two-sample t-test (pooled variance)",
+   "name_de": "t-Test nach Student für zwei unabhängige Stichproben (gepoolte Varianz)",
+   "family": "t",
+   "estimand_en": "Difference in population means under equal variances.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "t.test",
+     "call_sketch": "stats::t.test(y ~ group, data = d, var.equal = TRUE, alternative = alt)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Only when equal variances are justified in advance (never after a Levene pre-test).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "21 t test: Means - difference between two independent means (two groups)",
+    "manual_page": 52,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents the pooled two-sample t test (df N - 2)."
+   },
+   "learning_method_ids": [
+    "t_means_two_independent_student"
+   ],
+   "descrtab2_test_name": "Student's two-sample t-test",
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.welch",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.two_group.student",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw003"
+   ]
+  },
+  {
+   "analysis_variant_id": "rank_sum_mann_whitney",
+   "name_en": "Wilcoxon-Mann-Whitney rank-sum test",
+   "name_de": "Wilcoxon-Mann-Whitney-Rangsummentest",
+   "family": "rank",
+   "estimand_en": "Probability of superiority P(X > Y) + 0.5 P(X = Y); the p-value is computed under identical distributions, so it is not a test of medians or means unless distributions differ only by a shift, and not a valid test of P = 0.5 when spreads or shapes differ.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "wilcox.test",
+     "call_sketch": "stats::wilcox.test(y ~ group, data = d, conf.int = TRUE, alternative = alt)  # Hodges-Lehmann shift is interpretable only under a location-shift model",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "effectsize",
+     "function": "p_superiority",
+     "call_sketch": "effectsize::p_superiority(y ~ group, data = d, parametric = FALSE)",
+     "package_version_installed": "1.0.3"
+    },
+    {
+     "package": "coin",
+     "function": "wilcox_test",
+     "call_sketch": "coin::wilcox_test(y ~ group, data = d, distribution = \"exact\")  # exact conditional p with ties",
+     "package_version_installed": "1.4.5"
+    }
+   ],
+   "notes": "For ordinal outcomes report the probability of superiority or rank-biserial correlation, not a Hodges-Lehmann shift on codes (DescrTab2 flag Q05). Simulation on 2026-10-03 (R 4.6.1, 4000 replicates, normal data with P(X > Y) = 0.5, n = 10 with SD 4 versus n = 30 with SD 1, alpha 0.05, normal approximation): stats::wilcox.test rejected in 12.65 % and brunnermunzel::brunnermunzel.test in 4.67 %; with the SDs swapped between the groups the rejection rates were 1.63 % and 5.45 %. Illustration only, not validation (fagerland2009).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "24 Wilcoxon-Mann-Whitney test of a difference between two independent means",
+    "manual_page": 59,
+    "relation": "same_test_planning_model_differs",
+    "basis": "Manual computes power by A.R.E. or Lehmann methods with an effect d defined on means of assumed parent distributions; this parameterisation differs from the stochastic-superiority estimand."
+   },
+   "learning_method_ids": [
+    "rank_sum_mann_whitney",
+    "effect_size_rank_biserial"
+   ],
+   "descrtab2_test_name": "Mann-Whitney's U test",
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.welch",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.two_group.wmw",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw004"
+   ]
+  },
+  {
+   "analysis_variant_id": "brunner_munzel",
+   "name_en": "Brunner-Munzel test",
+   "name_de": "Brunner-Munzel-Test",
+   "family": "rank",
+   "estimand_en": "Probability of superiority without assuming equal distribution shapes.",
+   "r_functions": [
+    {
+     "package": "brunnermunzel",
+     "function": "brunnermunzel.test",
+     "call_sketch": "brunnermunzel::brunnermunzel.test(y ~ group, data = d)",
+     "package_version_installed": "2.0"
+    }
+   ],
+   "notes": "Alternative to Wilcoxon-Mann-Whitney when spreads may differ.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.wmw",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "boschloo_two_sided_central",
+   "name_en": "Boschloo test, two-sided central variant",
+   "name_de": "Boschloo-Test, zweiseitige zentrale Variante",
+   "family": "exact_unconditional",
+   "estimand_en": "Equality of two independent binomial probabilities p1 = p2; p-value = min(1, 2 x smaller one-sided p), each one-sided p maximised over the common nuisance probability with the one-sided Fisher p-value as ordering statistic.",
+   "r_functions": [
+    {
+     "package": "inferguidR",
+     "function": "boschloo_test",
+     "call_sketch": "inferguidR::boschloo_test(x1, n1, x2, n2, variant = \"central\", alpha = 0.05, groups = c(\"<group 1 = reference group>\", \"<group 2>\"), event = \"<event level>\")  # x1 events among n1 in group 1, x2 among n2 in group 2; inferguidR's own engine (D12): relative tie tolerance 1e-7 with exact integer fallback, refined nuisance supremum with a rigorous bound",
+     "package_version_installed": "0.0.0.9000"
+    },
+    {
+     "package": "inferguidR",
+     "function": "boschloo_power",
+     "call_sketch": "inferguidR::boschloo_power(n1, n2, p1, p2, alpha = 0.05, variant = \"central\")  # exact power of a fixed design, same rejection region as boschloo_test()",
+     "package_version_installed": "0.0.0.9000"
+    },
+    {
+     "package": "inferguidR",
+     "function": "boschloo_sample_size",
+     "call_sketch": "inferguidR::boschloo_sample_size(p1, p2, power = 0.8, alpha = 0.05, variant = \"central\", allocation_ratio = 1)  # same-test planning: first and stable design of the declared allocation sequence",
+     "package_version_installed": "0.0.0.9000"
+    },
+    {
+     "package": "Exact",
+     "function": "exact.test",
+     "call_sketch": "Exact::exact.test(data = tab_2x2, method = \"boschloo\", tsmethod = \"central\", model = \"Binomial\", cond.row = TRUE, to.plot = FALSE)  # rows are the groups (cond.row = TRUE); alternative refers to p1 - p2 (row 1 minus row 2); matched a tie-inclusive enumeration on 426 tables on 2026-10-03; comparator only (Suggests, D12): phase 09A found agreement with inferguidR's engine within 4.6e-9 for p <= 0.5 on 17,728 tables; Exact doubles the one-sided p in the observed direction, so tables with equal sample proportions differ (specs/method-notes/boschloo.md section 2)",
+     "package_version_installed": "3.3"
+    }
+   ],
+   "notes": "Same definition as DescrTab2's automatic Boschloo route (exact2x2 1.7.0 defaults, nPgrid = 100). Grid settings are part of the variant key; one table in the DescrTab2 audit gave a slightly smaller p at nPgrid = 100 than at 2000 (provisional). Event level and reference group are explicit inputs. A confidence interval, if shown, comes from a separately labelled procedure (DescrTab2 flag Q08). Never replaced by Fisher above a sample-size threshold (flag Q09). Observation 2026-10-03 (R 4.6.1, exact2x2 1.7.0, Exact 3.3; provisional, not validation): exact2x2::boschloo omitted sample tables whose Fisher ordering p-value ties the observed one in exact arithmetic but differs from it by about 5e-17 in floating point. Example: 1/7 vs 4/5 events, one-sided (p2 > p1): exact2x2 0.017398; enumeration including the tied table 0/7 vs 3/5 (both Fisher p = 1/22) 0.023179; Exact::exact.test 0.023179. Two-sided central: 0.034796 vs 0.046358. Over all tables of the designs 7 vs 5, 6 vs 6, 10 vs 10 and 15 vs 12 (426 tables), the exact2x2 central p was smaller than the tie-inclusive enumeration in 37 tables (by up to 0.27) and never larger; Exact 3.3 matched the enumeration in all 426; no decision at alpha = 0.05 changed in these designs. DescrTab2's automatic route inherits this behaviour. Phase 09A must use a tie-tolerant ordering (or verify by enumeration) before any template or planning engine relies on exact2x2::boschloo.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "different_method_comparator",
+    "basis": "G*Power has no Boschloo procedure. The June 2023 manual documents only Fisher's exact test for two independent proportions (chapter 6, a conditional test with unconditional power), and the application's unconditional procedure (exact_proportions_unconditional) orders tables by other statistics, not by the Fisher p-value; both are comparators with a different method. Classification by phase 09A (specs/method-notes/boschloo.md section 11), provisional until the procedure's options are confirmed by application captures."
+   },
+   "learning_method_ids": [
+    "boschloo_two_sided",
+    "power_boschloo_two_sided"
+   ],
+   "descrtab2_test_name": "Boschloo's test",
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.welch",
+     "role": "rejected_route"
+    },
+    {
+     "outcome_id": "out.two_group.boschloo_central",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.two_group.boschloo_one_sided",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.two_group.fisher_2x2",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.paired.mcnemar",
+     "role": "rejected_route"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw019"
+   ]
+  },
+  {
+   "analysis_variant_id": "boschloo_two_sided_minlike",
+   "name_en": "Boschloo test, two-sided minlike variant",
+   "name_de": "Boschloo-Test, zweiseitige minlike-Variante",
+   "family": "exact_unconditional",
+   "estimand_en": "As boschloo_two_sided_central, but with the two-sided minlike ordering.",
+   "r_functions": [
+    {
+     "package": "inferguidR",
+     "function": "boschloo_test",
+     "call_sketch": "inferguidR::boschloo_test(x1, n1, x2, n2, variant = \"minlike\", alpha = 0.05, groups = c(\"<group 1 = reference group>\", \"<group 2>\"), event = \"<event level>\")  # x1 events among n1 in group 1, x2 among n2 in group 2; inferguidR's own engine (D12): relative tie tolerance 1e-7 with exact integer fallback, refined nuisance supremum with a rigorous bound",
+     "package_version_installed": "0.0.0.9000"
+    },
+    {
+     "package": "inferguidR",
+     "function": "boschloo_power",
+     "call_sketch": "inferguidR::boschloo_power(n1, n2, p1, p2, alpha = 0.05, variant = \"minlike\")  # exact power of a fixed design, same rejection region as boschloo_test()",
+     "package_version_installed": "0.0.0.9000"
+    },
+    {
+     "package": "inferguidR",
+     "function": "boschloo_sample_size",
+     "call_sketch": "inferguidR::boschloo_sample_size(p1, p2, power = 0.8, alpha = 0.05, variant = \"minlike\", allocation_ratio = 1)  # same-test planning: first and stable design of the declared allocation sequence",
+     "package_version_installed": "0.0.0.9000"
+    },
+    {
+     "package": "Exact",
+     "function": "exact.test",
+     "call_sketch": "Exact::exact.test(data = tab_2x2, method = \"boschloo\", tsmethod = \"square\", model = \"Binomial\", cond.row = TRUE, to.plot = FALSE)  # comparator only (Suggests, D12); rows are the groups; phase 09A: inferguidR's minlike ordering corresponds to Exact tsmethod \"square\"",
+     "package_version_installed": "3.3"
+    }
+   ],
+   "notes": "The exact2x2 validation vignette reports Boschloo comparisons for this option (BOSCHLOO.md). Not reachable through DescrTab2::descr() (flag Q16). In one table Exact 3.3 tsmethod 'square' gave a value close to, but not identical with, exact2x2 minlike; equivalence of the definitions is unconfirmed. Second table checked on 2026-10-03 (1/7 vs 4/5): exact2x2 minlike 0.038567, Exact 3.3 'square' 0.038574. Floating-point ties in the ordering (see boschloo_two_sided_central) were enumerated only for the central and one-sided variants, not for minlike. Phase 09A (2026-10-05): this variant corresponds to Exact 3.3 tsmethod 'square'; both agree with inferguidR's engine (for example 7/20 vs 2/22: 0.04513832; specs/method-notes/boschloo.md section 10).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "different_method_comparator",
+    "basis": "See boschloo_two_sided_central."
+   },
+   "learning_method_ids": [
+    "boschloo_two_sided"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.boschloo_central",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.paired.mcnemar",
+     "role": "rejected_route"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw020"
+   ]
+  },
+  {
+   "analysis_variant_id": "boschloo_one_sided",
+   "name_en": "Boschloo test, one-sided",
+   "name_de": "Boschloo-Test, einseitig",
+   "family": "exact_unconditional",
+   "estimand_en": "One-sided comparison of two independent binomial probabilities, pre-specified direction.",
+   "r_functions": [
+    {
+     "package": "inferguidR",
+     "function": "boschloo_test",
+     "call_sketch": "inferguidR::boschloo_test(x1, n1, x2, n2, variant = \"less\" | \"greater\", alpha = 0.05, groups = c(\"<group 1 = reference group>\", \"<group 2>\"), event = \"<event level>\")  # x1 events among n1 in group 1, x2 among n2 in group 2; inferguidR's own engine (D12): relative tie tolerance 1e-7 with exact integer fallback, refined nuisance supremum with a rigorous bound; variant = \"less\" means H1: p1 < p2 and \"greater\" means H1: p1 > p2, with group 1 the explicit reference group and events counted at the explicit event level (exact2x2 alternative = \"greater\" corresponds to variant = \"less\")",
+     "package_version_installed": "0.0.0.9000"
+    },
+    {
+     "package": "inferguidR",
+     "function": "boschloo_power",
+     "call_sketch": "inferguidR::boschloo_power(n1, n2, p1, p2, alpha = 0.05, variant = \"less\" | \"greater\")  # exact power of a fixed design, same rejection region as boschloo_test()",
+     "package_version_installed": "0.0.0.9000"
+    },
+    {
+     "package": "inferguidR",
+     "function": "boschloo_sample_size",
+     "call_sketch": "inferguidR::boschloo_sample_size(p1, p2, power = 0.8, alpha = 0.05, variant = \"less\" | \"greater\", allocation_ratio = 1)  # same-test planning: first and stable design of the declared allocation sequence",
+     "package_version_installed": "0.0.0.9000"
+    }
+   ],
+   "notes": "Only with a documented pre-specified direction; orientation is never taken from level order (DescrTab2 flag Q14). Direction convention checked on 2026-10-03 against the uncondExact2x2 help page ('higher values suggest larger theta2 compared to theta1') and numerically: with directions aligned as in the call sketch, the one-sided Boschloo p never exceeded the one-sided Fisher p on all tables of 7 vs 5, 6 vs 6 and 4 vs 9. Observation 2026-10-03 (R 4.6.1, exact2x2 1.7.0, Exact 3.3; provisional, not validation): exact2x2::boschloo omitted sample tables whose Fisher ordering p-value ties the observed one in exact arithmetic but differs from it by about 5e-17 in floating point. Example: 1/7 vs 4/5 events, one-sided (p2 > p1): exact2x2 0.017398; enumeration including the tied table 0/7 vs 3/5 (both Fisher p = 1/22) 0.023179; Exact::exact.test 0.023179. Two-sided central: 0.034796 vs 0.046358. Over all tables of the designs 7 vs 5, 6 vs 6, 10 vs 10 and 15 vs 12 (426 tables), the exact2x2 central p was smaller than the tie-inclusive enumeration in 37 tables (by up to 0.27) and never larger; Exact 3.3 matched the enumeration in all 426; no decision at alpha = 0.05 changed in these designs. DescrTab2's automatic route inherits this behaviour. Phase 09A must use a tie-tolerant ordering (or verify by enumeration) before any template or planning engine relies on exact2x2::boschloo. Revision 2026-10-05.1: the call sketches name inferguidR's engine; the direction statements above use exact2x2's convention (alternative = 'greater' means p2 > p1), which corresponds to inferguidR variant = 'less'.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "different_method_comparator",
+    "basis": "See boschloo_two_sided_central."
+   },
+   "learning_method_ids": [
+    "boschloo_two_sided"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.boschloo_one_sided",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.paired.mcnemar",
+     "role": "rejected_route"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw021"
+   ]
+  },
+  {
+   "analysis_variant_id": "fisher_exact_2x2",
+   "name_en": "Fisher's exact test (2 x 2)",
+   "name_de": "Exakter Test nach Fisher (2 x 2)",
+   "family": "exact_conditional",
+   "estimand_en": "Equality of two probabilities conditional on both margins.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "fisher.test",
+     "call_sketch": "stats::fisher.test(tab_2x2, alternative = alt)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Matches the design only when both margins are fixed; conservative otherwise. Two-sided p uses the stats probability ordering.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "6 Exact: Proportions - inequality of two independent groups (Fisher's exact-test)",
+    "manual_page": 17,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents unconditional power of the conditional Fisher test and three possible two-sided statistics; the R two-sided convention must be matched to one of them before any parity claim."
+   },
+   "learning_method_ids": [
+    "fisher_exact_2x2"
+   ],
+   "descrtab2_test_name": "Fisher's exact test",
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.boschloo_central",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.two_group.boschloo_one_sided",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.two_group.fisher_2x2",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.paired.mcnemar",
+     "role": "rejected_route"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw018"
+   ]
+  },
+  {
+   "analysis_variant_id": "prop_two_independent_pearson_chisq",
+   "name_en": "Pearson chi-squared / z test for two independent proportions",
+   "name_de": "Pearson-Chi-Quadrat- bzw. z-Test für zwei unabhängige Anteile",
+   "family": "chi2",
+   "estimand_en": "Difference of two independent proportions, asymptotic.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "prop.test",
+     "call_sketch": "stats::prop.test(x = c(x1, x2), n = c(n1, n2), correct = FALSE, alternative = alt)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Requires adequate expected counts; no continuity correction by default (campbell2007).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_in_manual",
+    "basis": "No z test for two independent proportions is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "prop_two_independent_pearson_chisq"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.boschloo_central",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.two_group.boschloo_one_sided",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.paired.mcnemar",
+     "role": "rejected_route"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "unconditional_exact_z_pooled",
+   "name_en": "Unconditional exact test with pooled-z ordering",
+   "name_de": "Unbedingter exakter Test mit gepoolter z-Ordnung",
+   "family": "exact_unconditional",
+   "estimand_en": "Equality of two independent binomial probabilities with a different ordering statistic from Boschloo's.",
+   "r_functions": [
+    {
+     "package": "Exact",
+     "function": "exact.test",
+     "call_sketch": "Exact::exact.test(data = tab_2x2, method = \"z-pooled\", model = \"Binomial\")",
+     "package_version_installed": "3.3"
+    }
+   ],
+   "notes": "A distinct unconditional test; never labelled as Boschloo.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.boschloo_central",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.two_group.boschloo_one_sided",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "anova_one_way_welch",
+   "name_en": "Welch one-way ANOVA (unequal variances)",
+   "name_de": "Welch-ANOVA (einfaktoriell, ungleiche Varianzen)",
+   "family": "F",
+   "estimand_en": "Equality of k population means without assuming equal variances.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "oneway.test",
+     "call_sketch": "stats::oneway.test(y ~ group, data = d, var.equal = FALSE)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Default for k independent groups (DescrTab2 uses the pooled F; flag Q03).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "10 F test: Fixed effects ANOVA - one way",
+    "manual_page": 24,
+    "relation": "different_method_comparator",
+    "basis": "Manual documents the pooled-variance F test (noncentral F(k - 1, N - k, lambda = f^2 N))."
+   },
+   "learning_method_ids": [
+    "anova_one_way_welch"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.kgroup.welch_anova",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.kgroup.anova_f",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.kgroup.kruskal",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw006"
+   ]
+  },
+  {
+   "analysis_variant_id": "anova_one_way",
+   "name_en": "Classical one-way ANOVA F-test (pooled variance)",
+   "name_de": "Klassische einfaktorielle ANOVA (gepoolte Varianz)",
+   "family": "F",
+   "estimand_en": "Equality of k population means under equal variances.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "oneway.test",
+     "call_sketch": "stats::oneway.test(y ~ group, data = d, var.equal = TRUE)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "stats",
+     "function": "TukeyHSD",
+     "call_sketch": "stats::TukeyHSD(stats::aov(y ~ group, data = d))  # if all pairwise comparisons are pre-specified",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Only when equal variances are justified in advance.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "10 F test: Fixed effects ANOVA - one way",
+    "manual_page": 24,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents the pooled one-way F test."
+   },
+   "learning_method_ids": [
+    "anova_one_way",
+    "posthoc_tukey"
+   ],
+   "descrtab2_test_name": "F-test (ANOVA)",
+   "used_by": [
+    {
+     "outcome_id": "out.kgroup.welch_anova",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.kgroup.anova_f",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw005"
+   ]
+  },
+  {
+   "analysis_variant_id": "kruskal_wallis",
+   "name_en": "Kruskal-Wallis rank test",
+   "name_de": "Kruskal-Wallis-Rangtest",
+   "family": "rank",
+   "estimand_en": "Whether some groups tend to have larger values than others (stochastic ordering via mean ranks); not a test of medians without shift assumptions.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "kruskal.test",
+     "call_sketch": "stats::kruskal.test(y ~ group, data = d)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Post hoc pairwise comparisons must be pre-specified and multiplicity-adjusted. The p-value refers to identical distributions in all groups; with differing spreads or shapes a rejection need not reflect stochastic ordering.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "kruskal_wallis",
+    "posthoc_dunn"
+   ],
+   "descrtab2_test_name": "Kruskal-Wallis's one-way ANOVA",
+   "used_by": [
+    {
+     "outcome_id": "out.kgroup.welch_anova",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.kgroup.kruskal",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw007"
+   ]
+  },
+  {
+   "analysis_variant_id": "jonckheere_terpstra",
+   "name_en": "Jonckheere-Terpstra trend test",
+   "name_de": "Jonckheere-Terpstra-Trendtest",
+   "family": "rank",
+   "estimand_en": "Monotone trend across pre-specified ordered groups.",
+   "r_functions": [
+    {
+     "package": "DescTools",
+     "function": "JonckheereTerpstraTest",
+     "call_sketch": "set.seed(seed); DescTools::JonckheereTerpstraTest(x = y, g = ordered_group, nperm = 1e4)",
+     "package_version_installed": "0.99.60"
+    }
+   ],
+   "notes": "Seed recorded for the permutation p-value (DescrTab2 sets none).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": "Jonckheere-Terpstra's test",
+   "used_by": [
+    {
+     "outcome_id": "out.kgroup.kruskal",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw041"
+   ]
+  },
+  {
+   "analysis_variant_id": "chisq_independence_rxc",
+   "name_en": "Pearson chi-squared test of independence (no continuity correction)",
+   "name_de": "Pearson-Chi-Quadrat-Unabhängigkeitstest (ohne Stetigkeitskorrektur)",
+   "family": "chi2",
+   "estimand_en": "Independence of two categorical classifications (equal category distributions across groups).",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "chisq.test",
+     "call_sketch": "stats::chisq.test(tab, correct = FALSE)  # report expected counts",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "effectsize",
+     "function": "cramers_v",
+     "call_sketch": "effectsize::cramers_v(tab)",
+     "package_version_installed": "1.0.3"
+    }
+   ],
+   "notes": "Expected counts are reported; an exact alternative is pre-specified when sparse counts are expected.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_in_manual",
+    "basis": "No chi-squared contingency-table chapter exists in the June 2023 manual; the phase 01 application inventory decides."
+   },
+   "learning_method_ids": [
+    "chisq_independence_rxc"
+   ],
+   "descrtab2_test_name": "Pearson's chi-squared test",
+   "used_by": [
+    {
+     "outcome_id": "out.kgroup.kruskal",
+     "role": "rejected_route"
+    },
+    {
+     "outcome_id": "out.rxc.chisq",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.rxc.fisher",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw016"
+   ]
+  },
+  {
+   "analysis_variant_id": "fisher_exact_rxc",
+   "name_en": "Fisher-Freeman-Halton exact test (r x c)",
+   "name_de": "Exakter Test nach Fisher-Freeman-Halton (r x c)",
+   "family": "exact_conditional",
+   "estimand_en": "Independence in an r x c table conditional on both margins.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "fisher.test",
+     "call_sketch": "stats::fisher.test(tab)  # for large tables: set.seed(seed); stats::fisher.test(tab, simulate.p.value = TRUE, B = 1e5)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Simulation settings and seed recorded when used.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "The manual documents Fisher's test only for 2 x 2 tables (chapter 6)."
+   },
+   "learning_method_ids": [
+    "fisher_exact_rxc"
+   ],
+   "descrtab2_test_name": "Fisher's exact test",
+   "used_by": [
+    {
+     "outcome_id": "out.rxc.chisq",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.rxc.fisher",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw017"
+   ]
+  },
+  {
+   "analysis_variant_id": "cochran_armitage_trend",
+   "name_en": "Cochran-Armitage trend test",
+   "name_de": "Cochran-Armitage-Trendtest",
+   "family": "chi2",
+   "estimand_en": "Linear trend of a binary outcome across pre-specified ordered groups.",
+   "r_functions": [
+    {
+     "package": "DescTools",
+     "function": "CochranArmitageTest",
+     "call_sketch": "DescTools::CochranArmitageTest(tab_2_by_k)",
+     "package_version_installed": "0.99.60"
+    }
+   ],
+   "notes": "Alternative only; requires ordered groups and scores fixed in advance.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": "Cochran-Armitage's test",
+   "used_by": [
+    {
+     "outcome_id": "out.rxc.chisq",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.rxc.fisher",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw040"
+   ]
+  },
+  {
+   "analysis_variant_id": "anova_factorial",
+   "name_en": "Factorial ANOVA (linear model with interaction)",
+   "name_de": "Mehrfaktorielle ANOVA (lineares Modell mit Wechselwirkung)",
+   "family": "F",
+   "estimand_en": "Main effects and interaction of crossed factors on the mean.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "lm",
+     "call_sketch": "fit <- stats::lm(y ~ A * B, data = d)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "car",
+     "function": "Anova",
+     "call_sketch": "car::Anova(fit, type = 2)  # or type = 3 with sum-to-zero contrasts; sums-of-squares type pre-specified",
+     "package_version_installed": "3.1.5"
+    }
+   ],
+   "notes": "Homoscedastic residuals assumed; heteroscedasticity-consistent standard errors (sandwich::vcovHC with lmtest::coeftest) are the robust alternative.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "11 F test: Fixed effects ANOVA - special, main effects and interactions",
+    "manual_page": 26,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents F tests for main effects and interactions in fixed-effects designs."
+   },
+   "learning_method_ids": [
+    "anova_factorial"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.factorial.anova",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw008"
+   ]
+  },
+  {
+   "analysis_variant_id": "ancova_baseline_adjusted",
+   "name_en": "ANCOVA: group comparison adjusted for covariates",
+   "name_de": "ANCOVA: für Kovariablen adjustierter Gruppenvergleich",
+   "family": "F",
+   "estimand_en": "Covariate-adjusted difference in means between groups.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "lm",
+     "call_sketch": "fit <- stats::lm(y ~ group + baseline + covariate, data = d)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "emmeans",
+     "function": "emmeans",
+     "call_sketch": "emmeans::emmeans(fit, ~ group)  # adjusted means and their difference",
+     "package_version_installed": "2.0.3"
+    }
+   ],
+   "notes": "Covariates pre-specified and unaffected by group assignment.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_in_manual",
+    "basis": "No ANCOVA chapter exists in the June 2023 manual; the phase 01 application inventory decides."
+   },
+   "learning_method_ids": [
+    "ancova_baseline_adjusted"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.welch",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.factorial.anova",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.ancova",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "variance_brown_forsythe",
+   "name_en": "Brown-Forsythe test (median-centred Levene test)",
+   "name_de": "Brown-Forsythe-Test (median-zentrierter Levene-Test)",
+   "family": "F",
+   "estimand_en": "Equality of spread between independent groups, robust to non-normality.",
+   "r_functions": [
+    {
+     "package": "car",
+     "function": "leveneTest",
+     "call_sketch": "car::leveneTest(y ~ group, data = d, center = median)",
+     "package_version_installed": "3.1.5"
+    }
+   ],
+   "notes": "Answers a question about spread in its own right; never used as a pre-test for choosing another test.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "15 F test: Inequality of two Variances",
+    "manual_page": 39,
+    "relation": "different_method_comparator",
+    "basis": "Manual documents the F test of two variances under normality, a different test."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.spread.brown_forsythe",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw034"
+   ]
+  },
+  {
+   "analysis_variant_id": "variance_f_test_two",
+   "name_en": "F test for two variances",
+   "name_de": "F-Test für zwei Varianzen",
+   "family": "F",
+   "estimand_en": "Ratio of two population variances under normality.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "var.test",
+     "call_sketch": "stats::var.test(y ~ group, data = d)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Highly sensitive to non-normality (box1953); alternative only.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "15 F test: Inequality of two Variances",
+    "manual_page": 39,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents this test."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.spread.brown_forsythe",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw033"
+   ]
+  },
+  {
+   "analysis_variant_id": "variance_fligner_killeen",
+   "name_en": "Fligner-Killeen test of homogeneity of variances",
+   "name_de": "Fligner-Killeen-Test auf Varianzhomogenität",
+   "family": "rank",
+   "estimand_en": "Equality of spread between groups, rank based.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "fligner.test",
+     "call_sketch": "stats::fligner.test(y ~ group, data = d)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Alternative robust spread test (conover1981).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.spread.brown_forsythe",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "variance_chisq_one_sample",
+   "name_en": "Chi-squared test of one variance against a known value",
+   "name_de": "Chi-Quadrat-Test einer Varianz gegen einen bekannten Wert",
+   "family": "chi2",
+   "estimand_en": "One population variance compared with a known sigma0^2.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "pchisq",
+     "call_sketch": "stats::pchisq((n - 1) * stats::var(x) / sigma0^2, df = n - 1)  # one-sample test; requires normality",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Listed only as a rejected route: it cannot compare groups and requires normality (UZH routes 'distribution-free' data to it; incorrect).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "26 χ2 test: Variance - difference from constant (one sample case)",
+    "manual_page": 64,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents this one-sample test."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.spread.brown_forsythe",
+     "role": "rejected_route"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw035"
+   ]
+  },
+  {
+   "analysis_variant_id": "t_means_paired",
+   "name_en": "Paired t-test",
+   "name_de": "t-Test für verbundene Stichproben",
+   "family": "t",
+   "estimand_en": "Mean of the within-pair differences.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "t.test",
+     "call_sketch": "stats::t.test(x = d_wide$after, y = d_wide$before, paired = TRUE, alternative = alt)  # R 4.6.1: the formula method rejects paired = TRUE",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Pairs formed from a confirmed ID (one record per ID and occasion). Incomplete pairs are excluded and reported.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "19 t test: Means - difference between two dependent means (matched pairs)",
+    "manual_page": 48,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents the paired t test."
+   },
+   "learning_method_ids": [
+    "t_means_paired"
+   ],
+   "descrtab2_test_name": "Student's paired t-test",
+   "used_by": [
+    {
+     "outcome_id": "out.paired.t",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.paired.wilcoxon",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw009"
+   ]
+  },
+  {
+   "analysis_variant_id": "signed_rank_wilcoxon",
+   "name_en": "Wilcoxon signed-rank test (paired)",
+   "name_de": "Wilcoxon-Vorzeichen-Rang-Test (gepaart)",
+   "family": "rank",
+   "estimand_en": "Symmetry of the paired differences about zero (Hodges-Lehmann pseudo-median); requires interval-level differences.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "wilcox.test",
+     "call_sketch": "stats::wilcox.test(x = d_wide$after, y = d_wide$before, paired = TRUE, conf.int = TRUE, alternative = alt)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Not applied to ordinal codes (DescrTab2 does so for ordered factors).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "23 Wilcoxon signed-rank test: (matched pairs)",
+    "manual_page": 55,
+    "relation": "same_test_planning_model_differs",
+    "basis": "Manual computes power with A.R.E. or moment-based methods under an assumed parent distribution."
+   },
+   "learning_method_ids": [
+    "signed_rank_wilcoxon"
+   ],
+   "descrtab2_test_name": "Wilcoxon two-sample signed-rank test",
+   "used_by": [
+    {
+     "outcome_id": "out.paired.t",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.paired.wilcoxon",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.paired.sign",
+     "role": "rejected_route"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw010"
+   ]
+  },
+  {
+   "analysis_variant_id": "sign_test_paired",
+   "name_en": "Sign test (paired)",
+   "name_de": "Vorzeichentest (gepaart)",
+   "family": "exact",
+   "estimand_en": "Whether increases and decreases within pairs are equally likely.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "binom.test",
+     "call_sketch": "stats::binom.test(n_increase, n_increase + n_decrease, p = 0.5, alternative = alt)  # tied pairs excluded and reported",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "DescTools",
+     "function": "SignTest",
+     "call_sketch": "DescTools::SignTest(x = after_scores, y = before_scores)",
+     "package_version_installed": "0.99.60"
+    }
+   ],
+   "notes": "Uses only the direction of change, so it is valid for ordinal outcomes.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "8 Exact: Proportion - sign test",
+    "manual_page": 22,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents the sign test as a binomial test with p = 0.5."
+   },
+   "learning_method_ids": [
+    "sign_test"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.paired.wilcoxon",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.paired.sign",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.paired.nominal",
+     "role": "rejected_route"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw011"
+   ]
+  },
+  {
+   "analysis_variant_id": "mcnemar_exact_conditional",
+   "name_en": "Exact conditional McNemar test",
+   "name_de": "Exakter bedingter McNemar-Test",
+   "family": "exact_conditional",
+   "estimand_en": "Equality of the two discordant-cell probabilities (marginal homogeneity for paired binary data).",
+   "r_functions": [
+    {
+     "package": "exact2x2",
+     "function": "exact2x2",
+     "call_sketch": "exact2x2::exact2x2(tab_paired_2x2, paired = TRUE)  # central two-sided p; equals stats::binom.test on the discordant pairs",
+     "package_version_installed": "1.7.0"
+    },
+    {
+     "package": "exact2x2",
+     "function": "mcnemarExactDP",
+     "call_sketch": "exact2x2::mcnemarExactDP(x = n12, m = n12 + n21, n = n_pairs)  # interval for the paired difference in proportions",
+     "package_version_installed": "1.7.0"
+    },
+    {
+     "package": "stats",
+     "function": "binom.test",
+     "call_sketch": "stats::binom.test(n12, n12 + n21, p = 0.5, alternative = alt)  # independent check",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Identical to the sign test applied to paired binary outcomes. Observed with exact2x2 1.7.0 on 2026-10-03: exact2x2::mcnemar.exact() fails when called namespaced without attaching exact2x2 (it calls do.call(\"exact2x2\", ...)); Historical call sketches therefore use exact2x2::exact2x2(paired = TRUE). The bundled teaching template uses the equivalent stats::binom.test on discordant pairs and reports a Clopper-Pearson interval for conditional discordance probability; it does not implement the marginal-difference interval in the second call sketch.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "5 Exact: Proportion - inequality, two dependent groups (McNemar)",
+    "manual_page": 14,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents the exact conditional McNemar test with exact unconditional power and three two-sided alpha-balancing options; the option must be matched before any parity claim."
+   },
+   "learning_method_ids": [
+    "mcnemar_exact"
+   ],
+   "descrtab2_test_name": "Exact McNemar's test",
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.boschloo_central",
+     "role": "rejected_route"
+    },
+    {
+     "outcome_id": "out.two_group.boschloo_one_sided",
+     "role": "rejected_route"
+    },
+    {
+     "outcome_id": "out.paired.mcnemar",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw012"
+   ]
+  },
+  {
+   "analysis_variant_id": "mcnemar_midp",
+   "name_en": "Mid-p McNemar test",
+   "name_de": "Mid-p-McNemar-Test",
+   "family": "exact_conditional",
+   "estimand_en": "As the exact conditional McNemar test, with the mid-p adjustment.",
+   "r_functions": [
+    {
+     "package": "exact2x2",
+     "function": "exact2x2",
+     "call_sketch": "exact2x2::exact2x2(tab_paired_2x2, paired = TRUE, midp = TRUE)",
+     "package_version_installed": "1.7.0"
+    }
+   ],
+   "notes": "Closer to the nominal level and more powerful than the exact conditional test; size not guaranteed (fagerland2013).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "different_method_comparator",
+    "basis": "The manual's McNemar procedure is the exact conditional test, not its mid-p version."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.paired.mcnemar",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "mcnemar_asymptotic_uncorrected",
+   "name_en": "Asymptotic McNemar test without continuity correction",
+   "name_de": "Asymptotischer McNemar-Test ohne Stetigkeitskorrektur",
+   "family": "chi2",
+   "estimand_en": "Equality of discordant-cell probabilities, large-sample approximation.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "mcnemar.test",
+     "call_sketch": "stats::mcnemar.test(tab_paired_2x2, correct = FALSE)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Reasonable with many discordant pairs (fagerland2013).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "different_method_comparator",
+    "basis": "The manual's 'faster approximation' is a power approximation for the exact test, not this asymptotic test."
+   },
+   "learning_method_ids": [
+    "mcnemar_asymptotic"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.paired.mcnemar",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "mcnemar_asymptotic_cc",
+   "name_en": "Asymptotic McNemar test with continuity correction",
+   "name_de": "Asymptotischer McNemar-Test mit Stetigkeitskorrektur",
+   "family": "chi2",
+   "estimand_en": "As above, with continuity correction (stats default).",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "mcnemar.test",
+     "call_sketch": "stats::mcnemar.test(tab_paired_2x2, correct = TRUE)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "DescrTab2's asymptotic McNemar route; conservative (fagerland2013). Listed as a labelled, not preferred alternative.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "different_method_comparator",
+    "basis": "Not the manual's exact McNemar procedure."
+   },
+   "learning_method_ids": [
+    "mcnemar_asymptotic"
+   ],
+   "descrtab2_test_name": "McNemar's test",
+   "used_by": [
+    {
+     "outcome_id": "out.paired.mcnemar",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw036"
+   ]
+  },
+  {
+   "analysis_variant_id": "stuart_maxwell_marginal_homogeneity",
+   "name_en": "Stuart-Maxwell test of marginal homogeneity",
+   "name_de": "Stuart-Maxwell-Test auf Randhomogenität",
+   "family": "chi2",
+   "estimand_en": "Equality of the marginal category distributions at two occasions for a nominal outcome with k >= 3 categories.",
+   "r_functions": [
+    {
+     "package": "DescTools",
+     "function": "StuartMaxwellTest",
+     "call_sketch": "DescTools::StuartMaxwellTest(tab_paired_kxk)",
+     "package_version_installed": "0.99.60"
+    }
+   ],
+   "notes": "DescrTab2 gives 'No test' for this design (gap G03).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.paired.nominal",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "bowker_symmetry",
+   "name_en": "Bowker test of symmetry",
+   "name_de": "Bowker-Symmetrietest",
+   "family": "chi2",
+   "estimand_en": "Symmetry of the k x k paired table (a stronger hypothesis than marginal homogeneity).",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "mcnemar.test",
+     "call_sketch": "stats::mcnemar.test(tab_paired_kxk)  # for k > 2 this computes the symmetry test (smoke-checked on a 3 x 3 table, 2026-10-03)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Alternative only.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.paired.nominal",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "anova_repeated_one_way_gg",
+   "name_en": "Repeated-measures ANOVA with Greenhouse-Geisser correction",
+   "name_de": "Varianzanalyse mit Messwiederholung mit Greenhouse-Geisser-Korrektur",
+   "family": "F",
+   "estimand_en": "Equality of occasion means within individuals; correction applied routinely, not after a Mauchly test.",
+   "r_functions": [
+    {
+     "package": "afex",
+     "function": "aov_ez",
+     "call_sketch": "afex::aov_ez(id = \"id\", dv = \"y\", data = d_long, within = \"occasion\", anova_table = list(correction = \"GG\"))",
+     "package_version_installed": "1.5.1"
+    },
+    {
+     "package": "stats",
+     "function": "anova",
+     "call_sketch": "stats::anova(stats::lm(Y_wide ~ 1), X = ~ 1, test = \"Spherical\")  # base R; reports G-G and H-F adjusted p",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Complete data only (subjects with a missing occasion are dropped); the linear mixed model is the route with missing data.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_in_manual",
+    "basis": "The June 2023 manual has no repeated-measures chapter (it only lists 'ANOVA: Repeated measures, between factors' as a related test name in 10.4); the phase 01 application inventory decides."
+   },
+   "learning_method_ids": [
+    "anova_repeated_one_way"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.repeated.rm_anova",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.repeated.lmm",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.repeated.friedman",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw013"
+   ]
+  },
+  {
+   "analysis_variant_id": "lmm_repeated_measures",
+   "name_en": "Linear mixed model / GLS for repeated measures",
+   "name_de": "Lineares gemischtes Modell / GLS für Messwiederholungen",
+   "family": "mixed",
+   "estimand_en": "Occasion mean differences using all available measurements (valid under MAR).",
+   "r_functions": [
+    {
+     "package": "nlme",
+     "function": "gls",
+     "call_sketch": "nlme::gls(y ~ occasion, data = d_long, correlation = nlme::corSymm(form = ~ occ_index | id), weights = nlme::varIdent(form = ~ 1 | occasion), na.action = na.omit)  # unstructured covariance",
+     "package_version_installed": "3.1.170"
+    },
+    {
+     "package": "nlme",
+     "function": "lme",
+     "call_sketch": "nlme::lme(y ~ occasion, random = ~ 1 | id, data = d_long, na.action = na.omit)  # random intercept = compound symmetry",
+     "package_version_installed": "3.1.170"
+    }
+   ],
+   "notes": "Covariance structure pre-specified and named (DescrTab2 labels its random-intercept model 'Mixed model ANOVA'; flag Q15).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "lmm_random_intercept",
+    "power_simulation_lmm"
+   ],
+   "descrtab2_test_name": "Mixed model ANOVA",
+   "used_by": [
+    {
+     "outcome_id": "out.paired.t",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.repeated.rm_anova",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.repeated.lmm",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.repeated.friedman",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw014"
+   ]
+  },
+  {
+   "analysis_variant_id": "friedman",
+   "name_en": "Friedman rank test",
+   "name_de": "Friedman-Rangtest",
+   "family": "rank",
+   "estimand_en": "Whether some occasions tend to have higher within-individual ranks.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "friedman.test",
+     "call_sketch": "stats::friedman.test(y ~ occasion | id, data = d_long_complete)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Needs complete blocks: individuals with a missing occasion are dropped and reported (DescrTab2 errors instead; flag Q12). Dunn post hoc tests on mean ranks are not used.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "friedman"
+   ],
+   "descrtab2_test_name": "Friedman test",
+   "used_by": [
+    {
+     "outcome_id": "out.repeated.rm_anova",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.repeated.friedman",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw015"
+   ]
+  },
+  {
+   "analysis_variant_id": "cochran_q",
+   "name_en": "Cochran's Q test",
+   "name_de": "Cochran-Q-Test",
+   "family": "chi2",
+   "estimand_en": "Equality of success probabilities across three or more occasions within individuals.",
+   "r_functions": [
+    {
+     "package": "DescTools",
+     "function": "CochranQTest",
+     "call_sketch": "DescTools::CochranQTest(y ~ occasion | id, data = d_long_complete)",
+     "package_version_installed": "0.99.60"
+    }
+   ],
+   "notes": "Complete cases only, reported (DescrTab2 errors on any missing response; flag Q12).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": "Cochran's Q test",
+   "used_by": [
+    {
+     "outcome_id": "out.repeated.cochran_q",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw037"
+   ]
+  },
+  {
+   "analysis_variant_id": "lmm_cluster_random_intercept",
+   "name_en": "Linear mixed model with random cluster intercept",
+   "name_de": "Lineares gemischtes Modell mit zufälligem Cluster-Achsenabschnitt",
+   "family": "mixed",
+   "estimand_en": "Group difference in means, or regression coefficients, accounting for the correlation within clusters or within individuals with several records (cluster- or individual-specific).",
+   "r_functions": [
+    {
+     "package": "lmerTest",
+     "function": "lmer",
+     "call_sketch": "lmerTest::lmer(y ~ group + (1 | cluster), data = d)  # Satterthwaite degrees of freedom",
+     "package_version_installed": "3.2.1"
+    },
+    {
+     "package": "nlme",
+     "function": "lme",
+     "call_sketch": "nlme::lme(y ~ group, random = ~ 1 | cluster, data = d)",
+     "package_version_installed": "3.1.170"
+    }
+   ],
+   "notes": "Inference with few clusters is unreliable; small-sample degrees-of-freedom corrections are used.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "lmm_random_intercept"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.clustered.lmm",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.model.linear_multiple",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "glmm_logistic_random_intercept",
+   "name_en": "Logistic mixed model with random cluster intercept",
+   "name_de": "Logistisches gemischtes Modell mit zufälligem Cluster-Achsenabschnitt",
+   "family": "mixed",
+   "estimand_en": "Cluster-specific (conditional) odds ratio.",
+   "r_functions": [
+    {
+     "package": "lme4",
+     "function": "glmer",
+     "call_sketch": "lme4::glmer(y ~ group + (1 | cluster), family = binomial, data = d)",
+     "package_version_installed": "2.0.1"
+    }
+   ],
+   "notes": "Differs from the population-averaged odds ratio of GEE; choose by estimand.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.clustered.binary",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "gee_logistic_exchangeable",
+   "name_en": "GEE logistic model with exchangeable working correlation",
+   "name_de": "GEE-Logitmodell mit austauschbarer Arbeitskorrelation",
+   "family": "gee",
+   "estimand_en": "Population-averaged (marginal) odds ratio with robust standard errors.",
+   "r_functions": [
+    {
+     "package": "geepack",
+     "function": "geeglm",
+     "call_sketch": "geepack::geeglm(y ~ group, id = cluster, family = binomial, corstr = \"exchangeable\", data = d_sorted_by_cluster)",
+     "package_version_installed": "1.3.13"
+    }
+   ],
+   "notes": "Needs enough clusters for the robust variance; valid under MCAR for missing outcomes unless weighted.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.repeated.cochran_q",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.clustered.lmm",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.clustered.binary",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "correlation_pearson",
+   "name_en": "Pearson correlation",
+   "name_de": "Pearson-Korrelation",
+   "family": "correlation",
+   "estimand_en": "Linear association (population correlation rho).",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "cor.test",
+     "call_sketch": "stats::cor.test(x, y, method = \"pearson\", alternative = alt)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Test and Fisher-z interval rely on bivariate normality or large n; sensitive to outliers; not causal.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "3 Exact: Correlation - Difference from constant (one sample case)",
+    "manual_page": 9,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents an exact test of rho under the bivariate normal model."
+   },
+   "learning_method_ids": [
+    "correlation_pearson"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.assoc.pearson",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.assoc.spearman",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.model.linear_simple",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw024"
+   ]
+  },
+  {
+   "analysis_variant_id": "correlation_spearman",
+   "name_en": "Spearman rank correlation",
+   "name_de": "Rangkorrelation nach Spearman",
+   "family": "correlation",
+   "estimand_en": "Monotonic association (correlation of ranks); not a measure of linear association.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "cor.test",
+     "call_sketch": "stats::cor.test(x, y, method = \"spearman\", exact = FALSE, alternative = alt)  # exact = FALSE with ties",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Kendall's tau-b is preferred for ordinal variables with many ties.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "correlation_spearman"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.assoc.pearson",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.assoc.spearman",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw025"
+   ]
+  },
+  {
+   "analysis_variant_id": "correlation_kendall",
+   "name_en": "Kendall's tau-b",
+   "name_de": "Kendalls tau-b",
+   "family": "correlation",
+   "estimand_en": "Monotonic association via concordant and discordant pairs, tie-adjusted.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "cor.test",
+     "call_sketch": "stats::cor.test(x, y, method = \"kendall\", exact = FALSE, alternative = alt)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Alternative to Spearman, especially with many ties.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "correlation_kendall"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.assoc.spearman",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "regression_linear_simple",
+   "name_en": "Simple linear regression",
+   "name_de": "Einfache lineare Regression",
+   "family": "regression",
+   "estimand_en": "Change in the conditional mean of y per unit of x.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "lm",
+     "call_sketch": "fit <- stats::lm(y ~ x, data = d)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "stats",
+     "function": "confint",
+     "call_sketch": "stats::confint(fit)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "No causal interpretation without design support.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "12 t test: Linear Regression (size of slope, one group)",
+    "manual_page": 31,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents a t test of the slope in simple linear regression."
+   },
+   "learning_method_ids": [
+    "regression_linear_simple"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.assoc.pearson",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.model.linear_simple",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw026"
+   ]
+  },
+  {
+   "analysis_variant_id": "regression_linear_multiple",
+   "name_en": "Multiple linear regression",
+   "name_de": "Multiple lineare Regression",
+   "family": "regression",
+   "estimand_en": "Conditional mean of y given pre-specified predictors; each coefficient adjusted for the others.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "lm",
+     "call_sketch": "fit <- stats::lm(y ~ x1 + x2 + x3, data = d)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "stats",
+     "function": "anova",
+     "call_sketch": "stats::anova(fit_reduced, fit)  # test of a pre-specified predictor set (R^2 increase)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Stepwise selection is not offered (harrell2015).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "13/14 F test: Multiple Regression - omnibus (R2 deviation from zero) / special (increase of R2), fixed model",
+    "manual_page": 33,
+    "relation": "same_test_candidate",
+    "basis": "Manual documents fixed-model F tests for R^2 and R^2 increase; the hypothesis tested must be matched."
+   },
+   "learning_method_ids": [
+    "regression_linear_multiple",
+    "regression_diagnostics"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.causal_observational",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.model.linear_multiple",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw027"
+   ]
+  },
+  {
+   "analysis_variant_id": "regression_logistic_binary",
+   "name_en": "Binary logistic regression",
+   "name_de": "Binäre logistische Regression",
+   "family": "regression",
+   "estimand_en": "Odds ratios for the event, adjusted for the other predictors.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "glm",
+     "call_sketch": "fit <- stats::glm(y ~ x1 + x2, family = binomial, data = d)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "stats",
+     "function": "confint",
+     "call_sketch": "stats::confint(fit)  # profile-likelihood intervals",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Binary outcomes only (UZH routes any nominal outcome here; incorrect).",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "29 Z test: Multiple Logistic Regression",
+    "manual_page": 70,
+    "relation": "same_test_candidate_approximation",
+    "basis": "Manual documents approximate power procedures with selectable methods; the method option must be matched."
+   },
+   "learning_method_ids": [
+    "regression_logistic_binary"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.causal_observational",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.model.logistic",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw028"
+   ]
+  },
+  {
+   "analysis_variant_id": "regression_ordinal_proportional_odds",
+   "name_en": "Proportional-odds (cumulative logit) regression",
+   "name_de": "Proportional-Odds-Regression (kumulatives Logit)",
+   "family": "regression",
+   "estimand_en": "Common odds ratio for higher versus lower outcome categories.",
+   "r_functions": [
+    {
+     "package": "MASS",
+     "function": "polr",
+     "call_sketch": "MASS::polr(y_ordered ~ x1 + x2, data = d, Hess = TRUE)",
+     "package_version_installed": "7.3.66"
+    },
+    {
+     "package": "ordinal",
+     "function": "clm",
+     "call_sketch": "ordinal::clm(y_ordered ~ x1 + x2, data = d)",
+     "package_version_installed": "2025.12.29"
+    }
+   ],
+   "notes": "Proportional-odds assumption to be assessed.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "regression_ordinal_proportional_odds"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.two_group.wmw",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.kgroup.kruskal",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.model.ordinal",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "regression_multinomial",
+   "name_en": "Multinomial logistic regression",
+   "name_de": "Multinomiale logistische Regression",
+   "family": "regression",
+   "estimand_en": "Odds of each category versus a reference category.",
+   "r_functions": [
+    {
+     "package": "nnet",
+     "function": "multinom",
+     "call_sketch": "nnet::multinom(y_nominal ~ x1 + x2, data = d)",
+     "package_version_installed": "7.3.21"
+    }
+   ],
+   "notes": "Reference category stated explicitly.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "regression_multinomial"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.model.logistic",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.model.ordinal",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.model.multinomial",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "regression_poisson",
+   "name_en": "Poisson regression",
+   "name_de": "Poisson-Regression",
+   "family": "regression",
+   "estimand_en": "Rate ratios.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "glm",
+     "call_sketch": "stats::glm(count ~ x1 + offset(log(exposure)), family = poisson, data = d)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Overdispersion assumption to be pre-specified; negative binomial is the alternative.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": "30 Z test: Poisson Regression",
+    "manual_page": 75,
+    "relation": "same_test_candidate_approximation",
+    "basis": "Manual documents approximate power for Poisson regression; options must be matched."
+   },
+   "learning_method_ids": [
+    "regression_poisson"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.model.count",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "regression_negative_binomial",
+   "name_en": "Negative binomial regression",
+   "name_de": "Negativ-binomiale Regression",
+   "family": "regression",
+   "estimand_en": "Rate ratios allowing overdispersion.",
+   "r_functions": [
+    {
+     "package": "MASS",
+     "function": "glm.nb",
+     "call_sketch": "MASS::glm.nb(count ~ x1 + offset(log(exposure)), data = d)",
+     "package_version_installed": "7.3.66"
+    }
+   ],
+   "notes": "Alternative to Poisson regression.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "none",
+    "basis": "No procedure for this method is documented in the June 2023 manual."
+   },
+   "learning_method_ids": [
+    "regression_negative_binomial"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.model.count",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "prediction_model_linear",
+   "name_en": "Linear prediction model with internal validation",
+   "name_de": "Lineares Vorhersagemodell mit interner Validierung",
+   "family": "prediction",
+   "estimand_en": "Predictions for new individuals and their expected accuracy.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "lm",
+     "call_sketch": "fit <- stats::lm(y ~ x1 + x2 + x3, data = d_dev)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "boot",
+     "function": "boot",
+     "call_sketch": "boot::boot(d_dev, statistic = optimism_fun, R = 200)  # optimism-corrected performance",
+     "package_version_installed": "1.3.32"
+    }
+   ],
+   "notes": "Predictors pre-specified; sample-size criteria for prediction models (riley2020) are not implemented in inferguidR.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "Prediction-model development is not a hypothesis-test power problem."
+   },
+   "learning_method_ids": [
+    "regression_linear_multiple"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.predict.linear",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "prediction_model_logistic",
+   "name_en": "Logistic prediction model with internal validation",
+   "name_de": "Logistisches Vorhersagemodell mit interner Validierung",
+   "family": "prediction",
+   "estimand_en": "Predicted risks for new individuals; discrimination and calibration.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "glm",
+     "call_sketch": "fit <- stats::glm(y ~ x1 + x2 + x3, family = binomial, data = d_dev)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "boot",
+     "function": "boot",
+     "call_sketch": "boot::boot(d_dev, statistic = optimism_fun, R = 200)",
+     "package_version_installed": "1.3.32"
+    },
+    {
+     "package": "pROC",
+     "function": "roc",
+     "call_sketch": "pROC::roc(response = d_test$y, predictor = p_hat, levels = c(neg, pos), direction = \"<\")",
+     "package_version_installed": "1.19.0.1"
+    }
+   ],
+   "notes": "Cutoff choice and performance reporting continue in the classification workspace.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "Prediction-model development is not a hypothesis-test power problem."
+   },
+   "learning_method_ids": [
+    "regression_logistic_binary",
+    "roc_curve_auc",
+    "calibration_binned",
+    "classifier_heldout_validation"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.predict.logistic",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "efa_common_factor_ml",
+   "name_en": "Exploratory factor analysis (maximum likelihood, oblique rotation)",
+   "name_de": "Explorative Faktorenanalyse (Maximum Likelihood, oblique Rotation)",
+   "family": "multivariate_exploratory",
+   "estimand_en": "Loadings of observed variables on k latent factors.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "factanal",
+     "call_sketch": "stats::factanal(x, factors = k, rotation = \"promax\")",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "The teaching template provides explicit common-factor parallel analysis using SMC communalities and independent column permutations. Quantile comparisons are exploratory guidance, not automatic ML model selection or an exact test. Factor count is explicitly chosen; the Kaiser criterion is not used alone.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "Exploratory factor analysis has no conventional power analysis."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.structure.efa",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.structure.pca",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw029"
+   ]
+  },
+  {
+   "analysis_variant_id": "pca_components",
+   "name_en": "Principal component analysis",
+   "name_de": "Hauptkomponentenanalyse",
+   "family": "multivariate_exploratory",
+   "estimand_en": "Orthogonal weighted sums of standardised variables retaining maximal variance.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "prcomp",
+     "call_sketch": "stats::prcomp(x, scale. = TRUE)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Components are not latent factors.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "Exploratory data reduction has no conventional power analysis."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.structure.efa",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.structure.pca",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw030"
+   ]
+  },
+  {
+   "analysis_variant_id": "cluster_hierarchical_ward",
+   "name_en": "Hierarchical clustering with Ward's criterion",
+   "name_de": "Hierarchische Clusteranalyse nach Ward",
+   "family": "multivariate_exploratory",
+   "estimand_en": "Exploratory grouping of cases.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "hclust",
+     "call_sketch": "stats::hclust(stats::dist(scale(x)), method = \"ward.D2\")",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "stats",
+     "function": "cutree",
+     "call_sketch": "stats::cutree(hc, k = k)",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "cluster",
+     "function": "silhouette",
+     "call_sketch": "cluster::silhouette(groups, stats::dist(scale(x)))",
+     "package_version_installed": "2.1.8.3"
+    }
+   ],
+   "notes": "Standardisation, distance and k are analyst choices and are reported; stability assessed. Missing values: complete cases or multiple imputation, not mean imputation.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "Cluster analysis has no conventional power analysis."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.structure.cluster_numeric",
+     "role": "primary"
+    },
+    {
+     "outcome_id": "out.structure.cluster_mixed",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw031"
+   ]
+  },
+  {
+   "analysis_variant_id": "cluster_kmeans",
+   "name_en": "k-means clustering",
+   "name_de": "k-Means-Clusteranalyse",
+   "family": "multivariate_exploratory",
+   "estimand_en": "Exploratory grouping of cases around k centres.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "kmeans",
+     "call_sketch": "set.seed(seed); stats::kmeans(scale(x), centers = k, nstart = 25)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Alternative; seed recorded.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "Cluster analysis has no conventional power analysis."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.structure.cluster_numeric",
+     "role": "alternative"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "cluster_gower_pam",
+   "name_en": "Partitioning around medoids on Gower dissimilarities",
+   "name_de": "Partitionierung um Medoide mit Gower-Distanzen",
+   "family": "multivariate_exploratory",
+   "estimand_en": "Exploratory grouping of cases described by mixed variable types.",
+   "r_functions": [
+    {
+     "package": "cluster",
+     "function": "daisy",
+     "call_sketch": "dd <- cluster::daisy(x, metric = \"gower\")",
+     "package_version_installed": "2.1.8.3"
+    },
+    {
+     "package": "cluster",
+     "function": "pam",
+     "call_sketch": "cluster::pam(dd, k = k, diss = TRUE)",
+     "package_version_installed": "2.1.8.3"
+    },
+    {
+     "package": "cluster",
+     "function": "silhouette",
+     "call_sketch": "cluster::silhouette(pam_fit)",
+     "package_version_installed": "2.1.8.3"
+    }
+   ],
+   "notes": "Scale levels are not downgraded; variable types declared to daisy.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "Cluster analysis has no conventional power analysis."
+   },
+   "learning_method_ids": [],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.structure.cluster_numeric",
+     "role": "alternative"
+    },
+    {
+     "outcome_id": "out.structure.cluster_mixed",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": [
+    "cw032"
+   ]
+  },
+  {
+   "analysis_variant_id": "classifier_cutoff_exploration",
+   "name_en": "Classifier cutoff exploration (descriptive)",
+   "name_de": "Erkundung von Klassifikator-Cutoffs (deskriptiv)",
+   "family": "classification",
+   "estimand_en": "Operating-point metrics across cutoffs on the same data (descriptive).",
+   "r_functions": [
+    {
+     "package": "pROC",
+     "function": "roc",
+     "call_sketch": "pROC::roc(response = truth, predictor = score, levels = c(neg, pos), direction = \"<\")  # direction confirmed by the user, never chosen to force AUC > 0.5",
+     "package_version_installed": "1.19.0.1"
+    },
+    {
+     "package": "pROC",
+     "function": "coords",
+     "call_sketch": "pROC::coords(roc_fit, x = \"all\", transpose = FALSE)",
+     "package_version_installed": "1.19.0.1"
+    }
+   ],
+   "notes": "Implemented in the classification workspace (phase 10A); confusion counts are enumerated directly as an independent check.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "G*Power is not an oracle for classifier metrics (CLASSIFICATION_CUTOFF); conventional test power does not apply."
+   },
+   "learning_method_ids": [
+    "classifier_cutoff_metrics",
+    "cutpoint_youden",
+    "roc_curve_auc"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.classifier.explore",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "classifier_predeclared_rule",
+   "name_en": "Evaluation of a pre-declared cutoff rule",
+   "name_de": "Bewertung einer vorab festgelegten Cutoff-Regel",
+   "family": "classification",
+   "estimand_en": "Performance of a cutoff fixed before seeing these data.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "binom.test",
+     "call_sketch": "stats::binom.test(TP, TP + FN)$conf.int  # sensitivity interval at the fixed cutoff; analogous for specificity, PPV, NPV",
+     "package_version_installed": "4.6.1"
+    },
+    {
+     "package": "pROC",
+     "function": "roc",
+     "call_sketch": "pROC::roc(response = truth, predictor = score, levels = c(neg, pos), direction = \"<\")",
+     "package_version_installed": "1.19.0.1"
+    }
+   ],
+   "notes": "Fixed-cutoff intervals; metric definitions and denominators per CLASSIFICATION_CUTOFF.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "G*Power is not an oracle for classifier metrics (CLASSIFICATION_CUTOFF); conventional test power does not apply."
+   },
+   "learning_method_ids": [
+    "diagnostic_sens_spec",
+    "diagnostic_predictive_values",
+    "classifier_cutoff_metrics"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.classifier.predeclared",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "classifier_heldout_validation",
+   "name_en": "Held-out validation of a selected cutoff rule",
+   "name_de": "Validierung einer gewählten Cutoff-Regel auf zurückgehaltenen Daten",
+   "family": "classification",
+   "estimand_en": "Performance on untouched held-out or external data of a rule selected on development data.",
+   "r_functions": [
+    {
+     "package": "pROC",
+     "function": "roc",
+     "call_sketch": "pROC::roc(response = truth_test, predictor = score_test, levels = c(neg, pos), direction = \"<\")",
+     "package_version_installed": "1.19.0.1"
+    },
+    {
+     "package": "stats",
+     "function": "binom.test",
+     "call_sketch": "stats::binom.test(TP_test, TP_test + FN_test)$conf.int",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "With resampling, cutoff selection happens inside each resample.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "G*Power is not an oracle for classifier metrics (CLASSIFICATION_CUTOFF); conventional test power does not apply."
+   },
+   "learning_method_ids": [
+    "classifier_heldout_validation"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.classifier.heldout",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "diagnostic_2x2_fixed_cutoff",
+   "name_en": "Operating-point metrics from 2 x 2 counts",
+   "name_de": "Kennzahlen am Arbeitspunkt aus einer 2 x 2-Tafel",
+   "family": "classification",
+   "estimand_en": "Sensitivity, specificity, predictive values and likelihood ratios at one cutoff.",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "binom.test",
+     "call_sketch": "stats::binom.test(TP, TP + FN)$conf.int  # analogous for the other proportions",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "ROC curves and cutoff sweeps are unavailable from aggregate counts.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "G*Power is not an oracle for classifier metrics (CLASSIFICATION_CUTOFF); conventional test power does not apply."
+   },
+   "learning_method_ids": [
+    "diagnostic_sens_spec",
+    "diagnostic_predictive_values",
+    "diagnostic_likelihood_ratios"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.classifier.fixed_counts",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  },
+  {
+   "analysis_variant_id": "classifier_binormal_theory",
+   "name_en": "Binormal theory model for cutoff scenarios",
+   "name_de": "Binormales Theoriemodell für Cutoff-Szenarien",
+   "family": "classification",
+   "estimand_en": "Expected operating-point metrics under assumed score distributions S0 ~ N(0,1), S1 ~ N(d, sigma^2).",
+   "r_functions": [
+    {
+     "package": "stats",
+     "function": "pnorm",
+     "call_sketch": "stats::pnorm(cutoff, mean = d, sd = sigma, lower.tail = FALSE)  # TPR; FPR with mean 0, sd 1; d = qnorm(AUC) * sqrt(1 + sigma^2)",
+     "package_version_installed": "4.6.1"
+    }
+   ],
+   "notes": "Hypothetical expected values, not observed performance.",
+   "gpower_method_id": null,
+   "gpower_candidate": {
+    "manual_section": null,
+    "manual_page": null,
+    "relation": "not_applicable",
+    "basis": "G*Power is not an oracle for classifier metrics (CLASSIFICATION_CUTOFF); conventional test power does not apply."
+   },
+   "learning_method_ids": [
+    "roc_curve_auc",
+    "diagnostic_predictive_values"
+   ],
+   "descrtab2_test_name": null,
+   "used_by": [
+    {
+     "outcome_id": "out.classifier.theoretical",
+     "role": "primary"
+    }
+   ],
+   "crosswalk_ids": []
+  }
+ ]
+}

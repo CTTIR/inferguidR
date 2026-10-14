@@ -1,0 +1,350 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:inferguidr:schema:registry:0.1.0",
+  "title": "inferguidR method registry file",
+  "description": "One file per test family under inst/registry/. Inventory families are generated from specs/gpower-capabilities.json by project/tools/build_registry.R; extension families that are not G*Power procedures (boschloo.json) are maintained by their owning phase and have reference_status not_applicable and a null inventory_index. Holds method metadata only (no code). Families generated from the inventory certified against the live application (emulator_capture) also carry the live input rows and output labels per analysis type, the live control behind each option value and the coverage branches added or pruned by the live capture; these fields are optional. Option values carry machine codes and G*Power UI labels; a null default means the default is not documented. Applicability conditions use the grammar {mode: [...]}, {option: id, in: [...]}, {all: [...]}, {any: [...]}; a null condition means applicability is unverified.",
+  "type": "object",
+  "required": [
+    "schema_version", "family", "family_label", "source", "generated_by",
+    "reference_note", "methods"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "inferguidR.registry/0.1.0" },
+    "family": { "type": "string", "minLength": 1 },
+    "family_label": { "type": "string" },
+    "source": {
+      "type": "object",
+      "required": ["path", "sha256", "inventory_status", "inventory_date", "reference_versions"],
+      "properties": {
+        "path": { "type": "string" },
+        "sha256": { "$ref": "common.schema.json#/$defs/sha256" },
+        "inventory_status": { "enum": ["provisional", "certified"] },
+        "inventory_date": { "type": "string" },
+        "reference_versions": { "type": "object" }
+      }
+    },
+    "generated_by": { "type": "string" },
+    "reference_note": { "type": "string" },
+    "methods": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/method" }
+    }
+  },
+  "$defs": {
+    "method": {
+      "type": "object",
+      "required": [
+        "method_id", "family", "inventory_index", "label", "label_raw", "navigation",
+        "aliases", "hypothesis", "modes", "modes_demonstrated", "modes_evidence", "options",
+        "effect_size", "gpower_inputs", "outputs", "outputs_mode_dependent", "manual",
+        "documented_example_ids", "coverage", "owner_phase", "inventory_status",
+        "evidence_level", "implementation_status", "reference_status", "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "method_id": { "$ref": "common.schema.json#/$defs/identifier" },
+        "family": { "type": "string" },
+        "inventory_index": {
+          "description": "Position in the reference inventory; null only for inferguidR extensions (reference_status not_applicable), which have no inventory position.",
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "label": { "$ref": "common.schema.json#/$defs/label" },
+        "label_raw": {
+          "type": "object",
+          "required": ["windows_3197", "mac_3196"],
+          "properties": {
+            "windows_3197": { "type": "string" },
+            "mac_3196": { "type": "string" }
+          }
+        },
+        "navigation": {
+          "type": "object",
+          "required": ["windows_3197", "mac_3196"],
+          "properties": {
+            "windows_3197": { "type": "string" },
+            "mac_3196": { "type": "string" }
+          }
+        },
+        "aliases": { "$ref": "common.schema.json#/$defs/string_array" },
+        "hypothesis": { "type": "object" },
+        "modes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/mode" }
+        },
+        "modes_demonstrated": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/mode" }
+        },
+        "modes_evidence": { "type": "string" },
+        "options": { "type": "array", "items": { "$ref": "#/$defs/option" } },
+        "effect_size": {
+          "type": "object",
+          "required": ["symbol", "definition", "conventions", "drawer"],
+          "properties": {
+            "symbol": { "type": "string" },
+            "definition": { "type": "string" },
+            "conventions": { "type": ["string", "null"] },
+            "drawer": {
+              "oneOf": [
+                { "type": "null" },
+                {
+                  "type": "object",
+                  "required": ["drawer_id", "input_modes", "inputs", "outputs"],
+                  "properties": {
+                    "drawer_id": { "type": "string" },
+                    "input_modes": { "$ref": "common.schema.json#/$defs/string_array" },
+                    "inputs": { "$ref": "common.schema.json#/$defs/string_array" },
+                    "outputs": { "$ref": "common.schema.json#/$defs/string_array" }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "gpower_inputs": { "$ref": "common.schema.json#/$defs/string_array" },
+        "outputs": { "$ref": "common.schema.json#/$defs/string_array" },
+        "inputs_by_mode_live": {
+          "description": "Live G*Power input rows per analysis type (label, control, displayed default, combo choices, Determine buttons) in the order shown; null when the inventory entry is not certified against the application.",
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "propertyNames": { "$ref": "common.schema.json#/$defs/mode" },
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["label", "control", "default"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "label": { "type": "string" },
+                    "control": { "enum": ["Edit", "ComboBox"] },
+                    "default": { "type": ["string", "null"] },
+                    "choices": { "$ref": "common.schema.json#/$defs/string_array" },
+                    "buttons": { "$ref": "common.schema.json#/$defs/string_array" }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "outputs_by_mode_live": {
+          "description": "Live G*Power output labels per analysis type, in the order shown; null when the inventory entry is not certified against the application.",
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "propertyNames": { "$ref": "common.schema.json#/$defs/mode" },
+              "additionalProperties": { "$ref": "common.schema.json#/$defs/string_array" }
+            }
+          ]
+        },
+        "outputs_mode_dependent": { "type": "object" },
+        "manual": {
+          "type": "object",
+          "required": ["section", "pdf_pages", "version"],
+          "properties": {
+            "section": { "type": ["string", "null"] },
+            "pdf_pages": { "type": "array", "items": { "type": "integer", "minimum": 1 } },
+            "version": { "type": "string" }
+          }
+        },
+        "documented_example_ids": { "$ref": "common.schema.json#/$defs/string_array" },
+        "coverage": {
+          "type": "object",
+          "required": ["row_count", "branch_dimensions"],
+          "properties": {
+            "row_count": { "type": "integer", "minimum": 0 },
+            "branch_dimensions": {
+              "type": "object",
+              "additionalProperties": { "$ref": "common.schema.json#/$defs/string_array" }
+            }
+          }
+        },
+        "owner_phase": { "type": "string", "pattern": "^[0-9]{2}[A-Z]?$" },
+        "inventory_status": { "enum": ["provisional", "certified"] },
+        "evidence_level": { "type": "string" },
+        "live_capture": {
+          "description": "Summary of the live certification of the inventory entry (status, date, evidence kind, capture reference).",
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["status", "date", "evidence_kind"],
+              "properties": {
+                "status": { "type": "string" },
+                "date": { "type": "string" },
+                "evidence_kind": { "type": "string" }
+              }
+            }
+          ]
+        },
+        "implementation_status": { "const": "not_implemented" },
+        "reference_status": { "enum": ["reference_pending", "not_applicable"] },
+        "notes": { "$ref": "common.schema.json#/$defs/string_array" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["reference_status"],
+            "properties": { "reference_status": { "not": { "const": "not_applicable" } } }
+          },
+          "then": { "properties": { "inventory_index": { "type": "integer" } } }
+        }
+      ]
+    },
+    "option": {
+      "type": "object",
+      "required": [
+        "option_id", "ui_label", "kind", "value_type", "values", "domain", "default",
+        "default_label", "default_evidence", "result_affecting", "result_affecting_note",
+        "applies_when", "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "option_id": { "$ref": "common.schema.json#/$defs/name" },
+        "ui_label": { "type": "string" },
+        "kind": { "enum": ["main_window_input", "options_dialog"] },
+        "value_type": { "enum": ["choice", "continuous"] },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["code", "label"],
+            "additionalProperties": false,
+            "properties": {
+              "code": { "$ref": "common.schema.json#/$defs/code" },
+              "label": { "type": "string" },
+              "applies_when": { "$ref": "#/$defs/condition" },
+              "live": {
+                "description": "Live control that selects this value (kind, control id, verbatim text, combo item or check-box state) and how it was matched to the allowed value.",
+                "oneOf": [
+                  { "type": "null" },
+                  {
+                    "type": "object",
+                    "required": ["kind", "text", "match"],
+                    "properties": {
+                      "kind": { "enum": ["radio", "checkbox", "combo", "ComboBox"] },
+                      "text": { "type": "string" },
+                      "match": {
+                        "enum": ["text", "near_text", "prefix", "position", "prefix+combo_item", "check_box_state"]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "domain": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["text", "lower", "lower_inclusive", "upper", "upper_inclusive"],
+              "properties": {
+                "text": { "type": "string" },
+                "lower": { "$ref": "common.schema.json#/$defs/number_value" },
+                "lower_expression": { "type": "string" },
+                "lower_inclusive": { "type": ["boolean", "null"] },
+                "upper": { "$ref": "common.schema.json#/$defs/number_value" },
+                "upper_inclusive": { "type": ["boolean", "null"] }
+              }
+            }
+          ]
+        },
+        "default": {
+          "oneOf": [{ "type": "null" }, { "$ref": "common.schema.json#/$defs/code" }]
+        },
+        "default_value": {
+          "description": "Default of a continuous option as displayed by the live application; null for choice options or when no default is known.",
+          "oneOf": [{ "type": "null" }, { "type": "number" }]
+        },
+        "default_label": { "type": ["string", "null"] },
+        "default_evidence": { "type": "string" },
+        "result_affecting": { "type": "boolean" },
+        "result_affecting_note": { "type": "string" },
+        "applies_when": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["text", "condition"],
+              "properties": {
+                "text": { "type": "string" },
+                "condition": {
+                  "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/condition" }]
+                }
+              }
+            }
+          ]
+        },
+        "live": {
+          "description": "Live control of the option: where it is set, control kind, label or dialog title, enabled state and secondary controls such as a computation threshold; present = false when the application never displayed it.",
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["present", "where"],
+              "properties": {
+                "present": { "type": "boolean" },
+                "where": { "type": "string" }
+              }
+            }
+          ]
+        },
+        "notes": { "type": ["string", "null"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "value_type": { "const": "choice" } } },
+          "then": { "properties": { "values": { "minItems": 1 }, "domain": { "type": "null" } } },
+          "else": { "properties": { "values": { "maxItems": 0 }, "domain": { "type": "object" } } }
+        }
+      ]
+    },
+    "condition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["mode"],
+          "additionalProperties": false,
+          "properties": {
+            "mode": { "type": "array", "minItems": 1, "items": { "$ref": "common.schema.json#/$defs/mode" } }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["option", "in"],
+          "additionalProperties": false,
+          "properties": {
+            "option": { "$ref": "common.schema.json#/$defs/name" },
+            "in": { "type": "array", "minItems": 1, "items": { "$ref": "common.schema.json#/$defs/code" } }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["all"],
+          "additionalProperties": false,
+          "properties": {
+            "all": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/condition" } }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["any"],
+          "additionalProperties": false,
+          "properties": {
+            "any": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/condition" } }
+          }
+        }
+      ]
+    }
+  }
+}

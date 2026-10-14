@@ -1,0 +1,2379 @@
+{
+ "schema_version": "inferguidR.advisor-acceptance/0.1.0",
+ "rules_version": "2026-10-05.1",
+ "created_date": "2026-10-03",
+ "status": "provisional",
+ "note": "Encodes every acceptance scenario of DIGITAL_ADVISOR.md as an answer sequence plus expected outcome, for testthat tests in phase 12A. Operations: change_answer (backtracking), override, language, save_restore, code_export, deep_link, planning_action. test_level 'engine' can be checked against rules.json alone; 'engine_and_ui' additionally needs the Shiny modules or templates (pending); 'static' checks the rule file itself. Review 2026-10-03.2: AS06 and AS23 answer q.records_per_individual; AS01d also checks the Brunner-Munzel alternative and the assumption a.rank_null_identical (expected key assumption_ids_include: every listed id is among the outcome's assumption ids); AS25-AS29 added. Rules 2026-10-05.1 (Boschloo variant settings and tie assumption text, decision D12) change no routing, so every scenario is unchanged; rules_version updated to match.",
+ "operation_semantics": {
+  "backtracking_en": "Changing the answer to a question invalidates every answer recorded after it in the trace (and any results, planning specifications or exports derived from them); the walkthrough continues from the changed question.",
+  "override_policy_en": "A user may replace the outcome's variant only by a variant listed in its 'alternatives' with override_allowed = true. The override is recorded with the alternative's why-not text, and the resulting status is at most 'conditional'. Variants in 'rejected_routes' are refused with the stated reason; any other variant is refused as not compatible with the recorded design.",
+  "restore_policy_en": "A saved state records schema_version, rules_version and the raw answer trace. Restoring with the same rules_version replays the trace and must reproduce the same outcome. A different rules_version yields 'migration_required': the state is not re-interpreted silently; an explicit migration must map answers and report changes.",
+  "deep_link_policy_en": "A deep link carries an answer map. It is replayed through the graph in transition order; an unknown question or option id makes the link invalid ('invalid_input'); answers to questions not reached on the path are reported as ignored_answers and do not influence the result.",
+  "incomplete_policy_en": "Replaying an answer set that stops at an applicable but unanswered question yields out.needs_information with pending_question_id set to that question."
+ },
+ "scenarios": [
+  {
+   "scenario_id": "AS01",
+   "title": "Two independent numeric groups: Welch by default",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios",
+    "METHOD_CONTRACT.md: Welch/Student distinct"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "mean"
+    },
+    {
+     "question_id": "q.variance",
+     "answer": "not_justified"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.welch",
+    "status": "recommended",
+    "analysis_variant_id": "t_means_two_independent_welch",
+    "planning_compatibility": "gpower_comparator_different_method",
+    "r_template_id": "tpl.t_means_two_independent_welch.v1"
+   }
+  },
+  {
+   "scenario_id": "AS01b",
+   "title": "Two independent numeric groups, equal variances justified a priori: Student, conditional",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "mean"
+    },
+    {
+     "question_id": "q.variance",
+     "answer": "justified"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.student",
+    "status": "conditional",
+    "analysis_variant_id": "t_means_two_independent_student",
+    "planning_compatibility": "not_yet_validated"
+   }
+  },
+  {
+   "scenario_id": "AS01c",
+   "title": "Variance question answered 'I do not know': Welch, no downgrade (route without assumption)",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "mean"
+    },
+    {
+     "question_id": "q.variance",
+     "answer": "dont_know"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.welch",
+    "status": "recommended",
+    "analysis_variant_id": "t_means_two_independent_welch",
+    "assumptions_made_from": []
+   }
+  },
+  {
+   "scenario_id": "AS01d",
+   "title": "Rank estimand: Wilcoxon-Mann-Whitney presented as probability of superiority, not a median test",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "rank"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.wmw",
+    "status": "recommended",
+    "analysis_variant_id": "rank_sum_mann_whitney",
+    "estimand_en_contains": "P(X > Y)",
+    "alternatives_include": [
+     "brunner_munzel"
+    ],
+    "assumption_ids_include": [
+     "a.rank_null_identical"
+    ]
+   }
+  },
+  {
+   "scenario_id": "AS02",
+   "title": "Paired observations with missing pairs: paired t, conditional, mixed model offered",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "paired"
+    },
+    {
+     "question_id": "q.pairing_id",
+     "answer": "yes"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "mean"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "some"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.paired.t",
+    "status": "conditional",
+    "analysis_variant_id": "t_means_paired",
+    "status_modifiers_applied": [
+     "sm.missing_incomplete_pairs"
+    ],
+    "alternatives_include": [
+     "lmm_repeated_measures"
+    ]
+   }
+  },
+  {
+   "scenario_id": "AS03",
+   "title": "Independent binary groups: Boschloo (two-sided central)",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios",
+    "BOSCHLOO.md"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.binary_margins",
+     "answer": "group_sizes_fixed"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.boschloo_central",
+    "status": "recommended",
+    "analysis_variant_id": "boschloo_two_sided_central",
+    "planning_compatibility": "not_yet_validated",
+    "alternatives_include": [
+     "boschloo_two_sided_minlike",
+     "fisher_exact_2x2"
+    ]
+   }
+  },
+  {
+   "scenario_id": "AS03b",
+   "title": "Independent binary groups, pre-specified direction: one-sided Boschloo",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios",
+    "BOSCHLOO.md"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.binary_margins",
+     "answer": "group_sizes_fixed"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "one_sided_prespecified"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.boschloo_one_sided",
+    "status": "recommended",
+    "analysis_variant_id": "boschloo_one_sided"
+   }
+  },
+  {
+   "scenario_id": "AS03c",
+   "title": "Margins question answered 'I do not know': Boschloo, downgraded to conditional with recorded assumption",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.binary_margins",
+     "answer": "dont_know"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.boschloo_central",
+    "status": "conditional",
+    "analysis_variant_id": "boschloo_two_sided_central",
+    "assumptions_made_from": [
+     "q.binary_margins"
+    ]
+   }
+  },
+  {
+   "scenario_id": "AS03d",
+   "title": "Both margins fixed by design: Fisher's exact test",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.binary_margins",
+     "answer": "both_margins_fixed"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.fisher_2x2",
+    "status": "recommended",
+    "analysis_variant_id": "fisher_exact_2x2"
+   }
+  },
+  {
+   "scenario_id": "AS04",
+   "title": "Paired binary observations: McNemar-type test; the independent Boschloo route is rejected",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios",
+    "BOSCHLOO.md"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "paired"
+    },
+    {
+     "question_id": "q.pairing_id",
+     "answer": "yes"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "operations": [
+    {
+     "op": "override",
+     "analysis_variant_id": "boschloo_two_sided_central",
+     "expect": "refused_rejected_route"
+    },
+    {
+     "op": "override",
+     "analysis_variant_id": "mcnemar_midp",
+     "expect": "allowed"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.paired.mcnemar",
+    "status": "recommended",
+    "analysis_variant_id": "mcnemar_exact_conditional",
+    "rejected_routes_include": [
+     "boschloo_two_sided_central",
+     "boschloo_two_sided_minlike",
+     "boschloo_one_sided"
+    ]
+   }
+  },
+  {
+   "scenario_id": "AS05",
+   "title": "Multi-group ordinal outcome: Kruskal-Wallis",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "ordinal"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "more_than_two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.kgroup.kruskal",
+    "status": "recommended",
+    "analysis_variant_id": "kruskal_wallis",
+    "planning_availability": "simulation_only_if_implemented"
+   }
+  },
+  {
+   "scenario_id": "AS06",
+   "title": "Adjusted regression (model aim, several predictors)",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "model"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.records_per_individual",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_predictors",
+     "answer": "several"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.model.linear_multiple",
+    "status": "recommended",
+    "analysis_variant_id": "regression_linear_multiple"
+   }
+  },
+  {
+   "scenario_id": "AS06b",
+   "title": "Group comparison adjusted for covariates: ANCOVA",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "yes"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.ancova",
+    "status": "recommended",
+    "analysis_variant_id": "ancova_baseline_adjusted"
+   }
+  },
+  {
+   "scenario_id": "AS07a",
+   "title": "Clustered observations: linear mixed model, conditional",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "clusters"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.clustered.lmm",
+    "status": "conditional",
+    "analysis_variant_id": "lmm_cluster_random_intercept",
+    "planning_availability": "simulation_only_if_implemented"
+   }
+  },
+  {
+   "scenario_id": "AS07b",
+   "title": "Repeated observations, complete data: RM-ANOVA with routine GG correction",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "repeated"
+    },
+    {
+     "question_id": "q.pairing_id",
+     "answer": "yes"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "mean"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.repeated.rm_anova",
+    "status": "recommended",
+    "analysis_variant_id": "anova_repeated_one_way_gg"
+   }
+  },
+  {
+   "scenario_id": "AS07c",
+   "title": "Repeated observations with missing occasions: linear mixed model, conditional",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "repeated"
+    },
+    {
+     "question_id": "q.pairing_id",
+     "answer": "yes"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "mean"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "some"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.repeated.lmm",
+    "status": "conditional",
+    "analysis_variant_id": "lmm_repeated_measures"
+   }
+  },
+  {
+   "scenario_id": "AS08a",
+   "title": "Exploratory factor analysis; conventional planning not applicable",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "structure"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.structure_goal",
+     "answer": "variables"
+    },
+    {
+     "question_id": "q.reduction_purpose",
+     "answer": "latent"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.structure.efa",
+    "status": "recommended",
+    "analysis_variant_id": "efa_common_factor_ml",
+    "planning_compatibility": "not_applicable"
+   }
+  },
+  {
+   "scenario_id": "AS08b",
+   "title": "Exploratory cluster analysis with mixed variable types",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "structure"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.structure_goal",
+     "answer": "cases"
+    },
+    {
+     "question_id": "q.cluster_types",
+     "answer": "mixed"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.structure.cluster_mixed",
+    "status": "recommended",
+    "analysis_variant_id": "cluster_gower_pam",
+    "planning_compatibility": "not_applicable"
+   }
+  },
+  {
+   "scenario_id": "AS09a",
+   "title": "Unanswered: walkthrough stops before the unit question",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.needs_information",
+    "status": "needs_information",
+    "pending_question_id": "q.unit"
+   }
+  },
+  {
+   "scenario_id": "AS09b",
+   "title": "Aim unknown: needs information, no default",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "dont_know"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.needs_information",
+    "status": "needs_information"
+   }
+  },
+  {
+   "scenario_id": "AS09c",
+   "title": "Contradictory design: 'independent groups' but individuals appear more than once",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "yes"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.contradictory_design",
+    "status": "needs_information"
+   }
+  },
+  {
+   "scenario_id": "AS09d",
+   "title": "Contradictory design: duplicate records per ID and occasion in a paired design",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios",
+    "descrtab2-audit.md Q11"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "paired"
+    },
+    {
+     "question_id": "q.pairing_id",
+     "answer": "duplicates"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.contradictory_design",
+    "status": "needs_information"
+   }
+  },
+  {
+   "scenario_id": "AS09e",
+   "title": "No recorded pairing ID: needs information, pairs never guessed",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "paired"
+    },
+    {
+     "question_id": "q.pairing_id",
+     "answer": "no_id"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.needs_information",
+    "status": "needs_information"
+   }
+  },
+  {
+   "scenario_id": "AS10",
+   "title": "Backtracking: changing the structure answer invalidates dependent answers",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.binary_margins",
+     "answer": "group_sizes_fixed"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "operations": [
+    {
+     "op": "change_answer",
+     "question_id": "q.structure",
+     "answer": "paired",
+     "expect_invalidated": [
+      "q.independence_check",
+      "q.n_factors",
+      "q.n_groups",
+      "q.covariates",
+      "q.binary_margins",
+      "q.direction",
+      "q.missingness"
+     ],
+     "then_answers": [
+      {
+       "question_id": "q.pairing_id",
+       "answer": "yes"
+      },
+      {
+       "question_id": "q.direction",
+       "answer": "two_sided"
+      },
+      {
+       "question_id": "q.missingness",
+       "answer": "none"
+      }
+     ]
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.paired.mcnemar",
+    "status": "recommended",
+    "analysis_variant_id": "mcnemar_exact_conditional"
+   }
+  },
+  {
+   "scenario_id": "AS11",
+   "title": "Method overrides: listed alternative allowed, rejected or unlisted variant refused",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "mean"
+    },
+    {
+     "question_id": "q.variance",
+     "answer": "not_justified"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "operations": [
+    {
+     "op": "override",
+     "analysis_variant_id": "t_means_two_independent_student",
+     "expect": "allowed",
+     "expect_status": "conditional"
+    },
+    {
+     "op": "override",
+     "analysis_variant_id": "boschloo_two_sided_central",
+     "expect": "refused_rejected_route"
+    },
+    {
+     "op": "override",
+     "analysis_variant_id": "anova_one_way",
+     "expect": "refused_not_listed"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.welch",
+    "status": "recommended",
+    "analysis_variant_id": "t_means_two_independent_welch"
+   }
+  },
+  {
+   "scenario_id": "AS12",
+   "title": "Language switch: German texts, identical decision",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine_and_ui",
+   "language": "de",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.binary_margins",
+     "answer": "group_sizes_fixed"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "operations": [
+    {
+     "op": "language",
+     "language": "de",
+     "expect": "same_outcome_and_all_visited_texts_present"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.boschloo_central",
+    "status": "recommended",
+    "analysis_variant_id": "boschloo_two_sided_central"
+   }
+  },
+  {
+   "scenario_id": "AS13",
+   "title": "Save and restore: same rules version restores exactly; other version requires explicit migration",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "ordinal"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "more_than_two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "operations": [
+    {
+     "op": "save_restore",
+     "rules_version": "same",
+     "expect": "identical"
+    },
+    {
+     "op": "save_restore",
+     "rules_version": "2026-01-01.0",
+     "expect": "migration_required"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.kgroup.kruskal",
+    "status": "recommended",
+    "analysis_variant_id": "kruskal_wallis"
+   }
+  },
+  {
+   "scenario_id": "AS14",
+   "title": "Code export: template id matches the recommended variant (no silent test switch)",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine_and_ui",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "mean"
+    },
+    {
+     "question_id": "q.variance",
+     "answer": "not_justified"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "operations": [
+    {
+     "op": "code_export",
+     "expect_r_template_id": "tpl.t_means_two_independent_welch.v1",
+     "expect_template_calls": "stats::t.test with var.equal = FALSE",
+     "template_status": "pending_phase_12A"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.welch",
+    "status": "recommended",
+    "analysis_variant_id": "t_means_two_independent_welch"
+   }
+  },
+  {
+   "scenario_id": "AS15",
+   "title": "Deep links: answer map replays to the same outcome; invalid options rejected; unreached answers ignored",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine_and_ui",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "paired"
+    },
+    {
+     "question_id": "q.pairing_id",
+     "answer": "yes"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "operations": [
+    {
+     "op": "deep_link",
+     "answers_map": {
+      "q.aim": "compare",
+      "q.stage": "analysis",
+      "q.outcome_type": "binary",
+      "q.unit": "individuals",
+      "q.structure": "paired",
+      "q.pairing_id": "yes",
+      "q.direction": "two_sided",
+      "q.missingness": "none"
+     },
+     "expect": "same_outcome"
+    },
+    {
+     "op": "deep_link",
+     "answers_map": {
+      "q.aim": "compare",
+      "q.structure": "crossover"
+     },
+     "expect": "invalid_input"
+    },
+    {
+     "op": "deep_link",
+     "answers_map": {
+      "q.aim": "compare",
+      "q.stage": "analysis",
+      "q.outcome_type": "binary",
+      "q.unit": "individuals",
+      "q.structure": "paired",
+      "q.pairing_id": "yes",
+      "q.direction": "two_sided",
+      "q.missingness": "none",
+      "q.variance": "justified"
+     },
+     "expect": "same_outcome",
+     "expect_ignored": [
+      "q.variance"
+     ]
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.paired.mcnemar",
+    "status": "recommended",
+    "analysis_variant_id": "mcnemar_exact_conditional"
+   }
+  },
+  {
+   "scenario_id": "AS16",
+   "title": "Unavailable planning: Kruskal-Wallis planning explained, no manufactured sample size",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine_and_ui",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "ordinal"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "more_than_two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "operations": [
+    {
+     "op": "planning_action",
+     "expect": "explanation_shown_no_sample_size"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.kgroup.kruskal",
+    "status": "recommended",
+    "analysis_variant_id": "kruskal_wallis",
+    "planning_compatibility": "not_yet_validated",
+    "planning_availability": "simulation_only_if_implemented"
+   }
+  },
+  {
+   "scenario_id": "AS17",
+   "title": "Model-performance destination: held-out validation in the classification workspace",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios",
+    "CLASSIFICATION_CUTOFF.md"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "performance"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.perf_inputs",
+     "answer": "truth_and_scores"
+    },
+    {
+     "question_id": "q.perf_purpose",
+     "answer": "heldout"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.classifier.heldout",
+    "status": "recommended",
+    "analysis_variant_id": "classifier_heldout_validation",
+    "destination": "classification_workspace",
+    "planning_compatibility": "not_applicable"
+   }
+  },
+  {
+   "scenario_id": "AS17b",
+   "title": "Performance evaluation design unknown: labelled exploratory, conditional",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios",
+    "CLASSIFICATION_CUTOFF.md"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "performance"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.perf_inputs",
+     "answer": "truth_and_scores"
+    },
+    {
+     "question_id": "q.perf_purpose",
+     "answer": "dont_know"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.classifier.explore",
+    "status": "conditional",
+    "analysis_variant_id": "classifier_cutoff_exploration",
+    "assumptions_made_from": [
+     "q.perf_purpose"
+    ]
+   }
+  },
+  {
+   "scenario_id": "AS18",
+   "title": "Causal question with observational data: outside supported scope",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "causal"
+    },
+    {
+     "question_id": "q.causal_randomised",
+     "answer": "no"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.causal_observational",
+    "status": "outside_supported_scope"
+   }
+  },
+  {
+   "scenario_id": "AS18b",
+   "title": "Causal question with randomised exposure: comparison route (Boschloo)",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "causal"
+    },
+    {
+     "question_id": "q.causal_randomised",
+     "answer": "yes"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.binary_margins",
+     "answer": "group_sizes_fixed"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.two_group.boschloo_central",
+    "status": "recommended",
+    "analysis_variant_id": "boschloo_two_sided_central"
+   }
+  },
+  {
+   "scenario_id": "AS19",
+   "title": "One sample without a justified reference value: estimate, no test",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios",
+    "descrtab2-audit.md Q04"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "one_sample"
+    },
+    {
+     "question_id": "q.reference_value",
+     "answer": "no"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.describe",
+    "status": "recommended",
+    "analysis_variant_id": "descriptive_summary"
+   }
+  },
+  {
+   "scenario_id": "AS20",
+   "title": "Spread comparison: Brown-Forsythe, chi-square variance test rejected",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "independent"
+    },
+    {
+     "question_id": "q.independence_check",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.n_factors",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.n_groups",
+     "answer": "more_than_two"
+    },
+    {
+     "question_id": "q.covariates",
+     "answer": "no"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "spread"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.spread.brown_forsythe",
+    "status": "recommended",
+    "analysis_variant_id": "variance_brown_forsythe",
+    "rejected_routes_include": [
+     "variance_chisq_one_sample"
+    ]
+   }
+  },
+  {
+   "scenario_id": "AS21",
+   "title": "No normality-pre-test switching rule anywhere in the graph",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "static",
+   "answers": [],
+   "expected": {
+    "all_questions_input_kind": "design_or_aim",
+    "forbidden_routing_inputs_declared": true,
+    "forbidden_option_terms": [
+     "shapiro",
+     "kolmogorov",
+     "lilliefors",
+     "levene",
+     "bartlett",
+     "mauchly",
+     "normality test",
+     "pre-test",
+     "p_value",
+     "significant",
+     "normalitätstest",
+     "vortest",
+     "signifikant"
+    ],
+    "forbidden_option_terms_scope": "option_id and label_en/label_de of every question option, and every condition in applies_when, transitions and status modifiers (which may reference only question ids and option ids). Explanatory texts may mention these tests to say that they are not used for routing."
+   }
+  },
+  {
+   "scenario_id": "AS22",
+   "title": "Categorical-by-continuous association: re-framed as a group comparison with a restart action",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "associate"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.assoc_types",
+     "answer": "categorical_continuous"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.assoc_reframe_compare",
+    "status": "needs_information",
+    "next_actions_include": [
+     "restart_with:q.aim=compare"
+    ]
+   }
+  },
+  {
+   "scenario_id": "AS23",
+   "title": "Prediction model for a binary outcome: conditional, planning not applicable, classifier workspace next",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "predict"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "planning"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "binary"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.records_per_individual",
+     "answer": "one"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "none"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.predict.logistic",
+    "status": "conditional",
+    "analysis_variant_id": "prediction_model_logistic",
+    "planning_compatibility": "not_applicable",
+    "next_actions_include": [
+     "open_classification_workspace"
+    ]
+   }
+  },
+  {
+   "scenario_id": "AS24",
+   "title": "Time-to-event outcome: outside supported scope",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "time_to_event"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.survival_outside",
+    "status": "outside_supported_scope"
+   }
+  },
+  {
+   "scenario_id": "AS25",
+   "title": "Two trial arms measured at baseline and follow-up: groups-over-time design is re-framed, never analysed as paired",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios (clustered/repeated observations)",
+    "rules-review.md: R02"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "groups_over_time"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.group_time_design",
+    "status": "needs_information",
+    "next_actions_include": [
+     "backtrack_to:q.structure"
+    ]
+   }
+  },
+  {
+   "scenario_id": "AS26",
+   "title": "Regression with several records per individual (continuous outcome): random-intercept mixed model, conditional",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios (clustered/repeated observations)",
+    "rules-review.md: R01"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "model"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.records_per_individual",
+     "answer": "several"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.clustered.lmm",
+    "status": "conditional",
+    "analysis_variant_id": "lmm_cluster_random_intercept"
+   }
+  },
+  {
+   "scenario_id": "AS27",
+   "title": "Correlation with several records per individual: outside supported scope, not analysed as independent pairs",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios (clustered/repeated observations)",
+    "rules-review.md: R01"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "associate"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.assoc_types",
+     "answer": "both_continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.records_per_individual",
+     "answer": "several"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.dependent_other_outside",
+    "status": "outside_supported_scope"
+   }
+  },
+  {
+   "scenario_id": "AS28",
+   "title": "Records question unanswered: walkthrough stops, no independence is assumed",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Walkthrough and questions",
+    "rules-review.md: R01"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "associate"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.assoc_types",
+     "answer": "both_categorical"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.needs_information",
+    "status": "needs_information",
+    "pending_question_id": "q.records_per_individual"
+   }
+  },
+  {
+   "scenario_id": "AS29",
+   "title": "Paired rank comparison with missing pairs: conditional, modifier does not point to a mean-based alternative that is not listed",
+   "spec_refs": [
+    "DIGITAL_ADVISOR.md: Acceptance scenarios (paired observations with missing pairs)",
+    "rules-review.md: R04"
+   ],
+   "test_level": "engine",
+   "answers": [
+    {
+     "question_id": "q.aim",
+     "answer": "compare"
+    },
+    {
+     "question_id": "q.stage",
+     "answer": "analysis"
+    },
+    {
+     "question_id": "q.outcome_type",
+     "answer": "continuous"
+    },
+    {
+     "question_id": "q.unit",
+     "answer": "individuals"
+    },
+    {
+     "question_id": "q.structure",
+     "answer": "paired"
+    },
+    {
+     "question_id": "q.pairing_id",
+     "answer": "yes"
+    },
+    {
+     "question_id": "q.estimand_continuous",
+     "answer": "rank"
+    },
+    {
+     "question_id": "q.direction",
+     "answer": "two_sided"
+    },
+    {
+     "question_id": "q.missingness",
+     "answer": "some"
+    }
+   ],
+   "expected": {
+    "outcome_id": "out.paired.wilcoxon",
+    "status": "conditional",
+    "analysis_variant_id": "signed_rank_wilcoxon",
+    "status_modifiers_applied": [
+     "sm.missing_incomplete_pairs_rank"
+    ]
+   }
+  }
+ ],
+ "draft_check": {
+  "date": "2026-10-03",
+  "tool": "temporary Python 3.14.4 walker written for the adversarial review (an independent re-implementation of the engine semantics in this file), run from a scratch directory and deleted afterwards; not a testthat test. R 4.6.1 was used only for the r_functions existence check and an illustrative Wilcoxon-Mann-Whitney simulation (see analysis-variants.json).",
+  "answer_paths_enumerated": 5076,
+  "max_questions_on_a_path": 14,
+  "guard_transitions_reached": 0,
+  "unreachable_outcomes": 0,
+  "unreachable_questions": 0,
+  "non_guard_transitions_never_fired": 0,
+  "outcome_status_combinations_reachable": 90,
+  "r_functions_exist": "101 of 101 entries (60 distinct package::function pairs), re-checked with requireNamespace()/exists() in R 4.6.1 on 2026-10-03",
+  "acceptance_scenarios": "45 of 45 passed at rule level; UI, template and rendering parts of engine_and_ui scenarios are pending",
+  "problems": [],
+  "checks": [
+   "unique ids; bilingual texts present",
+   "every question has a dont_know option with explanation and policy",
+   "conditions reference existing questions/options",
+   "transition orders contiguous and last transition an unconditional guard",
+   "exhaustive depth-first enumeration of all answer combinations: applies_when holds on arrival, no cycles, no guard reached",
+   "all outcomes and questions reachable; all non-guard transitions fire on some path",
+   "no outcome claims exact_gpower_match or independently_validated_extension",
+   "all variant ids, source node ids and crosswalk ids resolve; every source node appears in the crosswalk",
+   "every r_functions entry exists in the installed library",
+   "acceptance scenarios replayed with the status rules, override, backtracking, restore and deep-link semantics of engine",
+   "every crosswalk row has a non-empty difference_reason; coverage header equals project/COVERAGE.csv",
+   "every learning_method_id resolves in inst/metadata/learning-resources.json (crosswalk method_id vocabulary)",
+   "every outcome reference id exists in references",
+   "every r_template_id equals tpl.<analysis_variant_id>.v1 (code export cannot select another test)",
+   "both Boschloo outcomes carry the a.ordering_ties assumption; classifier outcomes never carry test-power planning",
+   "AS21: no option id or label (en/de) contains a normality/variance/sphericity pre-test or significance term",
+   "independent engine re-implementation: exhaustive enumeration reproduced the counts reported for rules_version 2026-10-03.1 on the unmodified files (4932 paths, 89 outcome-status combinations, 40 of 40 scenarios)",
+   "design consistency on every enumerated path: independent-group outcomes only with structure = independent and independence check = no; paired, repeated and one-sample outcomes only with the matching structure and (paired/repeated) a confirmed ID; cluster outcomes only for clusters or several records per individual; outcome-type requirements of every method outcome; no analysis outcome for groups_over_time",
+   "aims model, predict and associate with unit = individuals reach an analysis outcome only after q.records_per_individual = one, or a cluster outcome after 'several'",
+   "status modifiers that point to a mixed-model alternative only on outcomes that list lmm_repeated_measures",
+   "every needs_information or outside_supported_scope outcome has at least one next action",
+   "every analysis-variant used_by list equals the usage in rules.json",
+   "all 4932 answer paths of rules_version 2026-10-03.1 replayed on 2026-10-03.2: 360 now stop at q.records_per_individual (pending), all others give the same outcome and status"
+  ],
+  "mutation_check": "9 of 9 deliberately broken copies were detected with a non-zero exit: removed transition of q.records_per_individual (guard reached), groups_over_time routed to out.paired.t, paired binary routed to Boschloo, several records routed to Pearson, removed dont_know option, removed a.rank_null_identical, dead-end outcome without next action, pre-test wording in an option label, Wilcoxon modifier pointing to an unlisted mixed-model alternative"
+ },
+ "draft_check_rules_2026_10_03_1": {
+  "date": "2026-10-03",
+  "tool": "temporary R script (R version 4.6.1 (2026-06-24), jsonlite 2.0.0) run from a scratch directory and deleted afterwards; not a testthat test. Re-run in a continuation session on 2026-10-03 after the final corrections, with the added checks listed below",
+  "answer_paths_enumerated": 4932,
+  "max_questions_on_a_path": 14,
+  "guard_transitions_reached": 0,
+  "unreachable_outcomes": 0,
+  "unreachable_questions": 0,
+  "non_guard_transitions_never_fired": 0,
+  "outcome_status_combinations_reachable": 89,
+  "r_functions_exist": "101 of 101",
+  "acceptance_scenarios": "40 of 40 passed at rule level; UI, template and rendering parts of engine_and_ui scenarios are pending",
+  "problems": [],
+  "checks": [
+   "unique ids; bilingual texts present",
+   "every question has a dont_know option with explanation and policy",
+   "conditions reference existing questions/options",
+   "transition orders contiguous and last transition an unconditional guard",
+   "exhaustive depth-first enumeration of all answer combinations: applies_when holds on arrival, no cycles, no guard reached",
+   "all outcomes and questions reachable; all non-guard transitions fire on some path",
+   "no outcome claims exact_gpower_match or independently_validated_extension",
+   "all variant ids, source node ids and crosswalk ids resolve; every source node appears in the crosswalk",
+   "every r_functions entry exists in the installed library",
+   "acceptance scenarios replayed with the status rules, override, backtracking, restore and deep-link semantics of engine",
+   "every crosswalk row has a non-empty difference_reason; coverage header equals project/COVERAGE.csv",
+   "every learning_method_id resolves in inst/metadata/learning-resources.json (crosswalk method_id vocabulary)",
+   "every outcome reference id exists in references",
+   "every r_template_id equals tpl.<analysis_variant_id>.v1 (code export cannot select another test)",
+   "both Boschloo outcomes carry the a.ordering_ties assumption; classifier outcomes never carry test-power planning",
+   "AS21: no option id or label (en/de) contains a normality/variance/sphericity pre-test or significance term"
+  ],
+  "mutation_check": "7 of 7 deliberately broken copies were detected with a non-zero exit: removed dont_know option, transition to an unknown target, emptied McNemar rejected routes, pre-test wording in an option label, removed transition (guard reached), exact_gpower_match claim, mismatched template id"
+ }
+}

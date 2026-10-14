@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:inferguidr:schema:recommendation:0.1.0",
+  "title": "inferguidR recommendation",
+  "description": "Versioned advisor outcome (DIGITAL_ADVISOR): answered questions, rule trace, estimand and design, preferred method and variant, rationale, assumptions, alternatives, missing information, R implementation, planning compatibility, learning links, visual preset, references and rule versions. It references power specifications by hash (planning.spec_refs) and never contains numerical results. recommendation_hash is the SHA-256 of the canonical JSON without recommendation_hash.",
+  "type": "object",
+  "required": [
+    "schema_version", "object_type", "status", "outcome_id", "rules", "answers",
+    "rule_trace", "estimand", "design", "preferred", "rationale", "assumptions",
+    "alternatives", "missing_information", "r_implementation", "planning",
+    "learning_links", "visual_preset", "references", "next_actions",
+    "recommendation_hash"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "inferguidR.recommendation/0.1.0" },
+    "object_type": { "const": "recommendation" },
+    "status": { "enum": ["recommended", "conditional", "needs_information", "outside_supported_scope"] },
+    "outcome_id": { "type": "string", "minLength": 1 },
+    "rules": {
+      "type": "object",
+      "required": ["rules_id", "rules_version"],
+      "properties": {
+        "rules_id": { "type": "string", "minLength": 1 },
+        "rules_version": { "type": "string", "minLength": 1 },
+        "uzh_tree_version": { "type": ["string", "null"] },
+        "descrtab2_tree_version": { "type": ["string", "null"] },
+        "analysis_variants_version": { "type": ["string", "null"] }
+      }
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["question_id", "option_ids"],
+        "properties": {
+          "question_id": { "type": "string", "minLength": 1 },
+          "option_ids": { "$ref": "common.schema.json#/$defs/string_array" }
+        }
+      }
+    },
+    "rule_trace": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["question_id", "transition_id", "to"],
+        "properties": {
+          "step": { "type": "integer", "minimum": 1 },
+          "question_id": { "type": "string", "minLength": 1 },
+          "transition_id": { "type": "string", "minLength": 1 },
+          "to": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "estimand": {
+      "oneOf": [{ "type": "null" }, { "$ref": "common.schema.json#/$defs/label" }]
+    },
+    "design": { "type": "object" },
+    "preferred": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["analysis_variant_id"],
+          "properties": { "analysis_variant_id": { "type": "string", "minLength": 1 } }
+        }
+      ]
+    },
+    "rationale": { "$ref": "common.schema.json#/$defs/label" },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["assumption_id", "state", "text_en"],
+        "properties": {
+          "assumption_id": { "type": "string", "minLength": 1 },
+          "state": { "enum": ["met", "unknown", "not_met", "not_applicable"] },
+          "text_en": { "type": "string" },
+          "text_de": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["analysis_variant_id", "why_not_preferred_en"],
+        "properties": {
+          "analysis_variant_id": { "type": "string", "minLength": 1 },
+          "why_not_preferred_en": { "type": "string" },
+          "why_not_preferred_de": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "missing_information": { "$ref": "common.schema.json#/$defs/string_array" },
+    "r_implementation": {
+      "type": "object",
+      "required": ["template_id", "template_status"],
+      "properties": {
+        "template_id": { "type": ["string", "null"] },
+        "template_status": { "type": "string" }
+      }
+    },
+    "planning": {
+      "type": "object",
+      "required": [
+        "planning_compatibility", "planning_availability", "gpower_method_id",
+        "spec_refs", "evidence_ids", "note_en", "note_de"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "planning_compatibility": {
+          "enum": [
+            "exact_gpower_match", "gpower_comparator_different_method",
+            "independently_validated_extension", "not_yet_validated", "not_applicable"
+          ]
+        },
+        "planning_availability": {
+          "enum": [
+            "planned_with_gpower_reference_candidate", "planned_independent_validation",
+            "simulation_only_if_implemented", "unavailable", "not_applicable"
+          ]
+        },
+        "gpower_method_id": {
+          "oneOf": [{ "type": "null" }, { "$ref": "common.schema.json#/$defs/identifier" }]
+        },
+        "spec_refs": {
+          "type": "array",
+          "items": { "$ref": "common.schema.json#/$defs/sha256" }
+        },
+        "evidence_ids": { "$ref": "common.schema.json#/$defs/string_array" },
+        "note_en": { "type": ["string", "null"] },
+        "note_de": { "type": ["string", "null"] }
+      }
+    },
+    "learning_links": { "$ref": "common.schema.json#/$defs/string_array" },
+    "visual_preset": { "type": ["string", "null"] },
+    "references": { "$ref": "common.schema.json#/$defs/string_array" },
+    "next_actions": { "$ref": "common.schema.json#/$defs/string_array" },
+    "recommendation_hash": { "$ref": "common.schema.json#/$defs/sha256" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "enum": ["recommended", "conditional"] } } },
+      "then": { "properties": { "preferred": { "type": "object" } } }
+    },
+    {
+      "if": { "properties": { "status": { "const": "needs_information" } } },
+      "then": {
+        "properties": {
+          "preferred": { "type": "null" },
+          "missing_information": { "minItems": 1 }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "outside_supported_scope" } } },
+      "then": {
+        "properties": {
+          "preferred": { "type": "null" },
+          "planning": { "properties": { "planning_compatibility": { "const": "not_applicable" } } }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "planning": { "properties": { "planning_compatibility": { "const": "exact_gpower_match" } } } }
+      },
+      "then": { "properties": { "planning": { "properties": { "evidence_ids": { "minItems": 1 } } } } }
+    }
+  ]
+}

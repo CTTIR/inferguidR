@@ -1,0 +1,2134 @@
+{
+ "schema": "inferguidR.source_tree/0.1-draft",
+ "tree_id": "descrtab2_tree",
+ "audit_date": "2026-10-03",
+ "phase": "01A",
+ "requirement_ids": [
+  "R06",
+  "R10",
+  "R05",
+  "R07"
+ ],
+ "source": {
+  "name": "IMBI Heidelberg DescrTab2 test choice tree",
+  "url": "https://imbi-heidelberg.github.io/DescrTab2/articles/b_test_choice_tree_pdf.pdf",
+  "retrieved_utc": "2026-10-03T11:45:28Z",
+  "http_status": 200,
+  "bytes": 55922,
+  "sha256": "0ce1c47bfa738758b97cbdc2bd6ebb9016c5a313684ab559b722717589353323",
+  "pdf_metadata": {
+   "title": "Test choice tree",
+   "creator": "LaTeX via pandoc",
+   "producer": "pdfTeX-1.40.24",
+   "creation_date": "2022-10-24T13:13:54+02:00",
+   "pages": 1,
+   "page_size_pt": [
+    841.888,
+    595.275
+   ]
+  },
+  "related_links": {
+   "project": "https://imbi-heidelberg.github.io/DescrTab2/",
+   "usage_guide": "https://imbi-heidelberg.github.io/DescrTab2/articles/a_usage_guide.html",
+   "reference_descr": "https://imbi-heidelberg.github.io/DescrTab2/reference/descr.html",
+   "validation_statement": "https://imbi-heidelberg.github.io/DescrTab2/articles/d_validation_statement.html",
+   "repository": "https://github.com/imbi-heidelberg/DescrTab2",
+   "cran_page": "https://cran.r-project.org/package=DescrTab2"
+  },
+  "link_check_utc_date": "2026-10-03",
+  "link_check_note": "PDF, usage guide, reference and validation statement URLs returned HTTP 200 on 2026-10-03 via curl. The CRAN page now states the package was removed (archived 2025-10-18).",
+  "extraction_method": [
+   "pdftotext (raw and -layout) for labels",
+   "pdftoppm 200 dpi full page plus 600 dpi and 400 dpi crops, inspected visually for connections",
+   "PyMuPDF vector extraction: 52 line segments matched to label boxes (every endpoint within 3 pt of a label)",
+   "tikz-cd source of the same diagram read in the CRAN 2.1.16 tarball (vignettes/test_choice_tree.tex) and in GitHub commit f157380 (vignettes/b_test_choice_tree.Rmd)"
+  ],
+  "rights_note": "Node labels are short factual quotations for provenance; descriptions are paraphrased. The diagram graphic itself is not reproduced."
+ },
+ "version_diagram": {
+  "printed_version": null,
+  "note": "The PDF carries no package version. The pkgdown site index showed 2.1.26 on 2026-10-03 (as at blueprint time, 2026-09-27).",
+  "website_pdf_built": "2022-10-24",
+  "identical_text_to": "doc/b_test_choice_tree_pdf.pdf shipped with installed DescrTab2 2.1.16 (sha256 54819bd3123c4efd76b9c2e160b6ee42ec1b0cee99de6abf4b7f85866f45f152, built 2022-09-06); whitespace-normalised pdftotext output identical",
+  "tikz_topology_identical_in": [
+   "CRAN 2.1.16 tarball vignettes/test_choice_tree.tex",
+   "GitHub imbi-heidelberg/DescrTab2 commit f157380e7abcb7964612a480e09e59a45e7a01be vignettes/b_test_choice_tree.Rmd (DESCRIPTION Version 2.1.26, Date 2024-01-30)"
+  ],
+  "tikz_differences": "Only scale/offset (scale cd 0.31 vs 0.28, hspace -4.7cm vs -2.5cm). The GitHub head preface prose was later edited ('will give produce' -> 'will give'); the website PDF still has the older prose."
+ },
+ "version_code": {
+  "audited_version": "2.1.16",
+  "installed_path": "~/R/x86_64-pc-linux-gnu-library/4.6/DescrTab2",
+  "cran_published": "2022-09-06",
+  "cran_status_2026_10_03": "Archived on CRAN 2025-10-18 ('issues were not corrected despite reminders'); 2.1.16 is the last CRAN release; 2.1.26 was never released on CRAN.",
+  "cran_tarball": {
+   "url": "https://cloud.r-project.org/src/contrib/Archive/DescrTab2/DescrTab2_2.1.16.tar.gz",
+   "sha256": "cfdb2aa80fdf2c0334f8ff710d12640ab1719120c8cba881649e8302d10c221d",
+   "retrieved_utc": "2026-10-03T11:47:01Z",
+   "descr_R_sha256": "89f1fde5eef57f0617a92b90f31b828e0f72f6800f61d18e7a9d40756674aa2e"
+  },
+  "installed_equals_tarball": "74 of 74 functions present in both the tarball R/ sources and the installed namespace have identical deparsed bodies and formals (checked 2026-10-03).",
+  "github_head_compared": {
+   "commit": "f157380e7abcb7964612a480e09e59a45e7a01be",
+   "commit_date": "2024-01-30T12:14:55Z",
+   "version": "2.1.26",
+   "retrieved_utc": "2026-10-03T11:47:14Z",
+   "selector_identical": [
+    "sig_test",
+    "descr_var",
+    "ignore_unused_args",
+    "print_test_names",
+    "guess_ID_variable",
+    "can.be.numeric",
+    "descr() test_options defaults"
+   ],
+   "differences_not_affecting_dispatch": [
+    "format_options default print_CI TRUE (2.1.16) vs FALSE (2.1.26)",
+    "summary-statistic digits 2 vs 3",
+    "percent_accuracy NULL vs 0.1",
+    "explicit_na() replaces deprecated forcats::fct_explicit_na()",
+    "reserved group level/label names now rejected",
+    "empty-string handling restricted to character/factor columns",
+    "console abbreviation, LaTeX escaping and Word output changes"
+   ]
+  },
+  "runtime_versions": {
+   "R": "4.6.1",
+   "exact2x2": "1.7.0",
+   "stats": "4.6.1",
+   "DescTools": "0.99.60",
+   "nlme": "3.1.170",
+   "forcats": "1.0.1",
+   "Exact": "3.3"
+  },
+  "selector_function": "sig_test (R/descr.R lines 2306-3001); defaults in descr() lines 263-275; per-variable override precedence in descr_var lines 849-857"
+ },
+ "retrieved_utc": {
+  "diagram_pdf": "2026-10-03T11:45:28Z",
+  "cran_index": "2026-10-03T11:46:53Z",
+  "cran_tarball_2.1.16": "2026-10-03T11:47:01Z",
+  "github_head_tarball": "2026-10-03T11:47:14Z",
+  "pkgdown_index": "2026-10-03T11:53:20Z"
+ },
+ "code_preprocessing": [
+  {
+   "id": "pre_coerce",
+   "code_ref": "descr.R 303-319, 431-436",
+   "rule": "descr() converts Date/POSIXt to factor, difftime to numeric, and every other non-numeric column (character, logical, factor) with forcats::as_factor() + fct_explicit_na(); ordered factors stay ordered. 'Categorical' in the diagram therefore means 'factor after this coercion'.",
+   "consequence": "Numeric storage (e.g. 0/1 or 1-5 codes) always enters the Numerical branch; character columns always enter Nominal with level order by first appearance."
+  },
+  {
+   "id": "pre_group",
+   "code_ref": "descr.R 382-406",
+   "rule": "group column coerced with as_factor(); rows with NA group dropped unless format_options$omit_missings_in_group = FALSE."
+  },
+  {
+   "id": "pre_filter",
+   "code_ref": "descr.R 2315-2362",
+   "rule": "Inside sig_test: drop NA var, the '(Missing)' var level (unless include_categorical_missings_in_test) and the '(Missing)' group (unless include_group_missings_in_test); droplevels(); n_levels_group = remaining group levels (1 when group is NULL); n_levels_var = remaining var levels."
+  },
+  {
+   "id": "pre_skip",
+   "code_ref": "descr.R 2366-2383",
+   "rule": "'No test' when the factor has 1 level, or a numeric var has <= 1 nonmissing observation in some group, or only 1 observation overall."
+  },
+  {
+   "id": "pre_order",
+   "code_ref": "descr.R 2384, 2409, 2438",
+   "rule": "Evaluation order: (1) is.ordered(var) || (is.numeric(var) && nonparametric) -> Ordinal; (2) is.numeric(var) -> Continuous; (3) is.factor(var) -> Nominal."
+  },
+  {
+   "id": "pre_override",
+   "code_ref": "descr.R 849-857, 2365",
+   "rule": "If test_override (global test_options or var_options[[v]]) is set, the tree is skipped entirely; per-variable settings take precedence over global ones."
+  },
+  {
+   "id": "pre_ids",
+   "code_ref": "descr.R 354-368, 2316-2349",
+   "rule": "Paired tests need test_options$indices (vector or a column name). guess_id defaults to FALSE in code (the descr() documentation text says TRUE is the default). Without indices, paired branches call stop(), which descr_var converts into 'Test errored, check console output.'"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "dt2_root",
+   "kind": "root",
+   "source_label": "Which test is chosen for the variable var?",
+   "description": "Entry point: one significance test per summarised variable, chosen from its R class, the grouping and three user switches.",
+   "diagram_center_pt": [
+    489.9,
+    354.2
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_categorical",
+   "kind": "branch",
+   "source_label": "Categorical",
+   "description": "Variable is a factor (after descr() coercion of character/logical/Date columns).",
+   "diagram_center_pt": [
+    433.9,
+    368.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_numerical",
+   "kind": "branch",
+   "source_label": "Numerical",
+   "description": "Variable is stored as numeric (integer or double).",
+   "diagram_center_pt": [
+    551.5,
+    368.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_nominal",
+   "kind": "branch",
+   "source_label": "Nominal",
+   "description": "Unordered factor.",
+   "diagram_center_pt": [
+    297.5,
+    384.7
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_ordinal",
+   "kind": "branch",
+   "source_label": "Ordinal",
+   "description": "Ordered factor, or numeric variable with nonparametric = TRUE; analysed with rank tests.",
+   "diagram_center_pt": [
+    489.9,
+    384.7
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_continuous",
+   "kind": "branch",
+   "source_label": "Continuous and normally distributed",
+   "description": "Numeric variable with nonparametric = FALSE; analysed with t/ANOVA-type tests. The code does not check continuity or normality.",
+   "diagram_center_pt": [
+    701.1,
+    385.4
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_nom_asym",
+   "kind": "branch",
+   "source_label": "Asymptotic",
+   "description": "Nominal variable with exact = FALSE: large-sample tests.",
+   "diagram_center_pt": [
+    261.6,
+    401.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_nom_exact",
+   "kind": "branch",
+   "source_label": "Exact",
+   "description": "Nominal variable with exact = TRUE: exact or unconditional exact tests.",
+   "diagram_center_pt": [
+    332.5,
+    401.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_nom_asym_paired",
+   "kind": "branch",
+   "source_label": "Paired",
+   "description": "Asymptotic nominal test for matched observations (requires subject IDs).",
+   "diagram_center_pt": [
+    220.6,
+    416.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_nom_asym_indep",
+   "kind": "branch",
+   "source_label": "Independent",
+   "description": "Asymptotic nominal test for independent groups or one sample.",
+   "diagram_center_pt": [
+    261.6,
+    416.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_nom_exact_paired",
+   "kind": "branch",
+   "source_label": "Paired",
+   "description": "Exact nominal test for matched observations (requires subject IDs).",
+   "diagram_center_pt": [
+    297.5,
+    416.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_nom_exact_indep",
+   "kind": "branch",
+   "source_label": "Independent",
+   "description": "Exact nominal test for independent groups or one sample.",
+   "diagram_center_pt": [
+    332.5,
+    416.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_ord_paired",
+   "kind": "branch",
+   "source_label": "Paired",
+   "description": "Rank test for repeated measurements on the same subjects.",
+   "diagram_center_pt": [
+    433.9,
+    416.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_ord_indep",
+   "kind": "branch",
+   "source_label": "Independent",
+   "description": "Rank test for independent groups or one sample.",
+   "diagram_center_pt": [
+    551.5,
+    416.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_cont_paired",
+   "kind": "branch",
+   "source_label": "Paired",
+   "description": "Parametric test for repeated measurements on the same subjects.",
+   "diagram_center_pt": [
+    653.8,
+    416.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_cont_indep",
+   "kind": "branch",
+   "source_label": "Independent",
+   "description": "Parametric test for independent groups or one sample.",
+   "diagram_center_pt": [
+    792.3,
+    416.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_asym_paired_2x2",
+   "kind": "table_condition",
+   "source_label": "2x2 table",
+   "description": "Two occasions (group levels) x binary response, matched by subject ID.",
+   "diagram_center_pt": [
+    22.7,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_asym_paired_kxl_binary",
+   "kind": "table_condition",
+   "source_label": "K repetitions x L Groups table, binary response",
+   "description": "Binary response measured on three or more occasions (group levels) per subject.",
+   "diagram_center_pt": [
+    67.4,
+    432.5
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_asym_indep_1xl",
+   "kind": "table_condition",
+   "source_label": "1xL table",
+   "description": "No grouping (or one group level): one-way frequency table.",
+   "diagram_center_pt": [
+    122.9,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_asym_indep_kxl",
+   "kind": "table_condition",
+   "source_label": "KxL table",
+   "description": "Two or more independent groups by two or more categories.",
+   "diagram_center_pt": [
+    174.9,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_exact_paired_2x2",
+   "kind": "table_condition",
+   "source_label": "2x2 table",
+   "description": "Two occasions x binary response, matched by subject ID.",
+   "diagram_center_pt": [
+    220.6,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_exact_indep_1xl",
+   "kind": "table_condition",
+   "source_label": "1xL table",
+   "description": "No grouping (or one group level): one-way table; code supports only 2 categories.",
+   "diagram_center_pt": [
+    261.6,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_exact_indep_2x2",
+   "kind": "table_condition",
+   "source_label": "2x2 table",
+   "description": "Two independent groups x binary response, with total nonmissing n <= boschloo_max_n (default 200).",
+   "diagram_center_pt": [
+    297.5,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_exact_indep_kxl_large_n",
+   "kind": "table_condition",
+   "source_label": "KxL table or large n",
+   "description": "Larger than 2x2, or a 2x2 table whose nonmissing n exceeds boschloo_max_n.",
+   "diagram_center_pt": [
+    332.5,
+    433.0
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_ord_paired_2g",
+   "kind": "table_condition",
+   "source_label": "2 groups",
+   "description": "Two occasions per subject.",
+   "diagram_center_pt": [
+    384.2,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_ord_paired_ge3g",
+   "kind": "table_condition",
+   "source_label": ">= 3 groups",
+   "description": "Three or more occasions per subject.",
+   "diagram_center_pt": [
+    433.9,
+    434.4
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_ord_indep_1g",
+   "kind": "table_condition",
+   "source_label": "1 group",
+   "description": "No grouping variable.",
+   "diagram_center_pt": [
+    489.9,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_ord_indep_2g",
+   "kind": "table_condition",
+   "source_label": "2 groups",
+   "description": "Two independent groups.",
+   "diagram_center_pt": [
+    551.5,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_ord_indep_ge3g",
+   "kind": "table_condition",
+   "source_label": ">= 3 groups",
+   "description": "Three or more independent groups.",
+   "diagram_center_pt": [
+    603.1,
+    434.4
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_cont_paired_2g",
+   "kind": "table_condition",
+   "source_label": "2 groups",
+   "description": "Two occasions per subject.",
+   "diagram_center_pt": [
+    653.8,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_cont_paired_ge3g",
+   "kind": "table_condition",
+   "source_label": ">= 3 groups",
+   "description": "Three or more occasions per subject.",
+   "diagram_center_pt": [
+    701.1,
+    434.4
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_cont_indep_1g",
+   "kind": "table_condition",
+   "source_label": "1 group",
+   "description": "One sample (no grouping or a single group level).",
+   "diagram_center_pt": [
+    751.6,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_cont_indep_2g",
+   "kind": "table_condition",
+   "source_label": "2 groups",
+   "description": "Two independent groups.",
+   "diagram_center_pt": [
+    792.3,
+    433.3
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_cont_indep_ge3g",
+   "kind": "table_condition",
+   "source_label": ">= 3 groups",
+   "description": "Three or more independent groups.",
+   "diagram_center_pt": [
+    826.0,
+    434.4
+   ],
+   "source_ref": "source.url"
+  },
+  {
+   "id": "dt2_leaf_mcnemar",
+   "kind": "leaf",
+   "source_label": "McNemar's test",
+   "description": "Asymptotic test of marginal homogeneity for matched binary pairs.",
+   "diagram_center_pt": [
+    22.7,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "McNemar's test",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "mcnemar_paired_binary",
+   "proposed_variant_id": "asymptotic_continuity_corrected",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_cochran_q",
+   "kind": "leaf",
+   "source_label": "Cochrane's Q test",
+   "description": "Cochran's Q test for equal success probabilities over repeated binary measurements (diagram spells 'Cochrane').",
+   "diagram_center_pt": [
+    67.4,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Cochran's Q test",
+   "diagram_label_valid_as_test_override": false,
+   "proposed_method_id": "cochran_q_repeated_binary",
+   "proposed_variant_id": "asymptotic",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_chisq_gof",
+   "kind": "leaf",
+   "source_label": "Chi-squared goodness-of-fit test",
+   "description": "Chi-squared test of equal category proportions.",
+   "diagram_center_pt": [
+    122.9,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Chi-squared goodness-of-fit test",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "chisq_goodness_of_fit",
+   "proposed_variant_id": "uniform_null",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_pearson_chisq",
+   "kind": "leaf",
+   "source_label": "Pearson's Chi-squared test",
+   "description": "Pearson chi-squared test of independence, no continuity correction.",
+   "diagram_center_pt": [
+    174.9,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Pearson's chi-squared test",
+   "diagram_label_valid_as_test_override": false,
+   "proposed_method_id": "chisq_independence",
+   "proposed_variant_id": "no_yates",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_exact_mcnemar",
+   "kind": "leaf",
+   "source_label": "Exact McNemar's test",
+   "description": "Exact conditional test on discordant pairs.",
+   "diagram_center_pt": [
+    220.6,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Exact McNemar's test",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "mcnemar_paired_binary",
+   "proposed_variant_id": "exact_conditional_central",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_exact_binomial",
+   "kind": "leaf",
+   "source_label": "Exact binomial test",
+   "description": "Exact binomial test of the first category's proportion against 0.5.",
+   "diagram_center_pt": [
+    261.6,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Exact binomial test",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "binomial_one_sample",
+   "proposed_variant_id": "exact_p0_0.5",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_boschloo",
+   "kind": "leaf",
+   "source_label": "Boschloo's test",
+   "description": "Unconditional exact test for two independent binomial proportions using the one-sided Fisher p-value as ordering statistic, maximised over the common nuisance probability.",
+   "diagram_center_pt": [
+    297.5,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Boschloo's test",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "boschloo_independent_binary",
+   "proposed_variant_id": "fisher_ordering_central_two_sided",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_fisher",
+   "kind": "leaf",
+   "source_label": "Fisher's exact test",
+   "description": "Fisher's conditional exact test (r x c), two-sided p-value by the stats::fisher.test definition.",
+   "diagram_center_pt": [
+    332.5,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Fisher's exact test",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "fisher_exact",
+   "proposed_variant_id": "conditional_rxc_stats_two_sided",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_wilcoxon_paired",
+   "kind": "leaf",
+   "source_label": "Wilcoxon's two-sample signed-rank test",
+   "description": "Wilcoxon signed-rank test on paired differences.",
+   "diagram_center_pt": [
+    384.2,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Wilcoxon two-sample signed-rank test",
+   "diagram_label_valid_as_test_override": false,
+   "proposed_method_id": "wilcoxon_signed_rank_paired",
+   "proposed_variant_id": "no_continuity_correction",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_friedman",
+   "kind": "leaf",
+   "source_label": "Friedman's test",
+   "description": "Friedman rank test for unreplicated complete blocks.",
+   "diagram_center_pt": [
+    433.9,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Friedman test",
+   "diagram_label_valid_as_test_override": false,
+   "proposed_method_id": "friedman_rank",
+   "proposed_variant_id": "complete_blocks",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_wilcoxon_one_sample",
+   "kind": "leaf",
+   "source_label": "Wilcoxon's one-sample signed-rank test",
+   "description": "Wilcoxon signed-rank test of symmetry about 0.",
+   "diagram_center_pt": [
+    489.9,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Wilcoxon's one-sample signed-rank test",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "wilcoxon_signed_rank_one_sample",
+   "proposed_variant_id": "mu0_no_continuity_correction",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_mann_whitney",
+   "kind": "leaf",
+   "source_label": "Mann-Whitney's U test",
+   "description": "Wilcoxon-Mann-Whitney rank-sum test with a Hodges-Lehmann interval.",
+   "diagram_center_pt": [
+    551.5,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Mann-Whitney's U test",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "wilcoxon_mann_whitney",
+   "proposed_variant_id": "no_continuity_correction_hodges_lehmann_ci",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_kruskal_wallis",
+   "kind": "leaf",
+   "source_label": "Kruskal-Wallis's one-way ANOVA",
+   "description": "Kruskal-Wallis rank test.",
+   "diagram_center_pt": [
+    603.1,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Kruskal-Wallis's one-way ANOVA",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "kruskal_wallis",
+   "proposed_variant_id": "asymptotic",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_paired_t",
+   "kind": "leaf",
+   "source_label": "Student's paired t-test",
+   "description": "Paired t-test on within-subject differences.",
+   "diagram_center_pt": [
+    653.8,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Student's paired t-test",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "t_test_paired",
+   "proposed_variant_id": "standard",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_mixed_model_anova",
+   "kind": "leaf",
+   "source_label": "Mixed model ANOVA, subject ID as random effect",
+   "description": "Linear mixed model with random intercept per subject; F-test of the occasion effect.",
+   "diagram_center_pt": [
+    701.1,
+    451.6
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Mixed model ANOVA",
+   "diagram_label_valid_as_test_override": false,
+   "proposed_method_id": "lmm_random_intercept_occasion_effect",
+   "proposed_variant_id": "nlme_reml_anova_f",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_one_sample_t",
+   "kind": "leaf",
+   "source_label": "Student's one-sample t-test",
+   "description": "One-sample t-test of mean 0.",
+   "diagram_center_pt": [
+    751.6,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Student's one-sample t-test",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "t_test_one_sample",
+   "proposed_variant_id": "mu0",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_welch_t",
+   "kind": "leaf",
+   "source_label": "Welch's t-test",
+   "description": "Welch two-sample t-test (unequal variances).",
+   "diagram_center_pt": [
+    792.3,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "Welch's two-sample t-test",
+   "diagram_label_valid_as_test_override": false,
+   "proposed_method_id": "t_test_two_sample",
+   "proposed_variant_id": "welch_unequal_variance",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  },
+  {
+   "id": "dt2_leaf_anova_f",
+   "kind": "leaf",
+   "source_label": "F-test (ANOVA)",
+   "description": "Classical one-way ANOVA F-test (pooled variance).",
+   "diagram_center_pt": [
+    826.0,
+    451.9
+   ],
+   "source_ref": "source.url",
+   "code_test_name": "F-test (ANOVA)",
+   "diagram_label_valid_as_test_override": true,
+   "proposed_method_id": "anova_oneway",
+   "proposed_variant_id": "pooled_variance_f",
+   "id_status": "provisional; final IDs assigned by the phase 04 registry"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e01",
+   "from": "dt2_root",
+   "to": "dt2_categorical",
+   "diagram_label": "is.factor(var)==T",
+   "code_condition": "is.factor(var) (after descr() coercion; tested third, after the ordinal and numeric checks)",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2438",
+   "notes": "Character/logical/Date columns become factors before this test; see code_preprocessing pre_coerce."
+  },
+  {
+   "id": "e02",
+   "from": "dt2_root",
+   "to": "dt2_numerical",
+   "diagram_label": "is.numeric(var)==T",
+   "code_condition": "is.numeric(var)",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384, 2409",
+   "notes": "Storage type only: numeric codes for categories are treated as numerical."
+  },
+  {
+   "id": "e03",
+   "from": "dt2_categorical",
+   "to": "dt2_nominal",
+   "diagram_label": "is.ordered(var)==F",
+   "code_condition": "is.factor(var) && !is.ordered(var)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2438",
+   "notes": ""
+  },
+  {
+   "id": "e04",
+   "from": "dt2_categorical",
+   "to": "dt2_ordinal",
+   "diagram_label": "is.ordered(var)==T",
+   "code_condition": "is.ordered(var)",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384",
+   "notes": "exact and nonparametric are ignored for ordered factors; an ordered binary factor never reaches Boschloo/Fisher (run R8: Mann-Whitney)."
+  },
+  {
+   "id": "e05",
+   "from": "dt2_numerical",
+   "to": "dt2_ordinal",
+   "diagram_label": "nonparametric==T",
+   "code_condition": "is.numeric(var) && isTRUE(test_options$nonparametric == TRUE)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384",
+   "notes": ""
+  },
+  {
+   "id": "e06",
+   "from": "dt2_numerical",
+   "to": "dt2_continuous",
+   "diagram_label": "nonparametric==F",
+   "code_condition": "is.numeric(var) && !isTRUE(test_options$nonparametric == TRUE)",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2409",
+   "notes": "No continuity or normality check despite the node label."
+  },
+  {
+   "id": "e07",
+   "from": "dt2_nominal",
+   "to": "dt2_nom_asym",
+   "diagram_label": "exact==F",
+   "code_condition": "!isTRUE(test_options$exact == TRUE)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2440, 2475",
+   "notes": ""
+  },
+  {
+   "id": "e08",
+   "from": "dt2_nominal",
+   "to": "dt2_nom_exact",
+   "diagram_label": "exact==T",
+   "code_condition": "isTRUE(test_options$exact == TRUE)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2440",
+   "notes": ""
+  },
+  {
+   "id": "e09",
+   "from": "dt2_nom_asym",
+   "to": "dt2_nom_asym_paired",
+   "diagram_label": "paired==T",
+   "code_condition": "isTRUE(test_options$paired == TRUE); stop() if test_options$indices is NULL",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2477-2482",
+   "notes": "Missing IDs give 'Test errored' (run P8)."
+  },
+  {
+   "id": "e10",
+   "from": "dt2_nom_asym",
+   "to": "dt2_nom_asym_indep",
+   "diagram_label": "paired==F",
+   "code_condition": "!isTRUE(test_options$paired == TRUE)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2490",
+   "notes": ""
+  },
+  {
+   "id": "e11",
+   "from": "dt2_nom_exact",
+   "to": "dt2_nom_exact_paired",
+   "diagram_label": "paired==T",
+   "code_condition": "isTRUE(test_options$paired == TRUE); stop() if test_options$indices is NULL",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2442-2447",
+   "notes": ""
+  },
+  {
+   "id": "e12",
+   "from": "dt2_nom_exact",
+   "to": "dt2_nom_exact_indep",
+   "diagram_label": "paired==F",
+   "code_condition": "!isTRUE(test_options$paired == TRUE)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2453",
+   "notes": ""
+  },
+  {
+   "id": "e13",
+   "from": "dt2_ordinal",
+   "to": "dt2_ord_paired",
+   "diagram_label": "paired==T",
+   "code_condition": "isTRUE(test_options$paired == TRUE); stop() if test_options$indices is NULL",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2386-2391",
+   "notes": ""
+  },
+  {
+   "id": "e14",
+   "from": "dt2_ordinal",
+   "to": "dt2_ord_indep",
+   "diagram_label": "paired==F",
+   "code_condition": "!isTRUE(test_options$paired == TRUE)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2399",
+   "notes": ""
+  },
+  {
+   "id": "e15",
+   "from": "dt2_continuous",
+   "to": "dt2_cont_paired",
+   "diagram_label": "paired==T",
+   "code_condition": "isTRUE(test_options$paired == TRUE); stop() if test_options$indices is NULL",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2411-2416",
+   "notes": ""
+  },
+  {
+   "id": "e16",
+   "from": "dt2_continuous",
+   "to": "dt2_cont_indep",
+   "diagram_label": "paired==F",
+   "code_condition": "!isTRUE(test_options$paired == TRUE)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2422",
+   "notes": ""
+  },
+  {
+   "id": "e17",
+   "from": "dt2_nom_asym_paired",
+   "to": "dt2_asym_paired_2x2",
+   "diagram_label": null,
+   "code_condition": "n_levels_group == 2 & n_levels_var == 2",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2483",
+   "notes": ""
+  },
+  {
+   "id": "e18",
+   "from": "dt2_nom_asym_paired",
+   "to": "dt2_asym_paired_kxl_binary",
+   "diagram_label": null,
+   "code_condition": "n_levels_group >= 3 & n_levels_var == 2",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2485",
+   "notes": "Code: group levels are the K repeated occasions; no separate between-subject group factor. Paired nominal with >= 3 categories -> 'No test' (run P7)."
+  },
+  {
+   "id": "e19",
+   "from": "dt2_nom_asym_indep",
+   "to": "dt2_asym_indep_1xl",
+   "diagram_label": null,
+   "code_condition": "is.null(group) | n_levels_group == 1",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2492",
+   "notes": ""
+  },
+  {
+   "id": "e20",
+   "from": "dt2_nom_asym_indep",
+   "to": "dt2_asym_indep_kxl",
+   "diagram_label": null,
+   "code_condition": "n_levels_group >= 2 (any n_levels_var >= 2)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2494",
+   "notes": ""
+  },
+  {
+   "id": "e21",
+   "from": "dt2_nom_exact_paired",
+   "to": "dt2_exact_paired_2x2",
+   "diagram_label": null,
+   "code_condition": "n_levels_group == 2 && n_levels_var == 2; otherwise 'No test'",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2448-2451",
+   "notes": "Exact paired designs other than 2x2 are not supported (run P7)."
+  },
+  {
+   "id": "e22",
+   "from": "dt2_nom_exact_indep",
+   "to": "dt2_exact_indep_1xl",
+   "diagram_label": null,
+   "code_condition": "n_levels_group == 1 && n_levels_var <= 2 (1-level factors were already skipped)",
+   "reconciliation": "diverges",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2469",
+   "notes": "Diagram says 1xL; code only handles L = 2; L >= 3 -> 'No test'."
+  },
+  {
+   "id": "e23",
+   "from": "dt2_nom_exact_indep",
+   "to": "dt2_exact_indep_2x2",
+   "diagram_label": null,
+   "code_condition": "n_levels_group == 2 && n_levels_var == 2 && (is.null(test_options$boschloo_max_n) || length(var) <= test_options$boschloo_max_n); default boschloo_max_n = 200; length(var) = nonmissing n after filtering",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2455-2458",
+   "notes": "Threshold and its default are not shown in the diagram (runs R2, R6, O3)."
+  },
+  {
+   "id": "e24",
+   "from": "dt2_nom_exact_indep",
+   "to": "dt2_exact_indep_kxl_large_n",
+   "diagram_label": null,
+   "code_condition": "n_levels_group >= 2 && n_levels_var >= 2 && not the Boschloo condition; warning when caused by n > boschloo_max_n",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2459-2467",
+   "notes": "'large n' = nonmissing n > boschloo_max_n (default 200) (runs R6, R7, R13)."
+  },
+  {
+   "id": "e25",
+   "from": "dt2_ord_paired",
+   "to": "dt2_ord_paired_2g",
+   "diagram_label": null,
+   "code_condition": "n_levels_group == 2",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2393",
+   "notes": ""
+  },
+  {
+   "id": "e26",
+   "from": "dt2_ord_paired",
+   "to": "dt2_ord_paired_ge3g",
+   "diagram_label": null,
+   "code_condition": "n_levels_group >= 3 (written as >= 2 after the == 2 test)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2395",
+   "notes": ""
+  },
+  {
+   "id": "e27",
+   "from": "dt2_ord_indep",
+   "to": "dt2_ord_indep_1g",
+   "diagram_label": null,
+   "code_condition": "is.null(group)",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2401",
+   "notes": "A supplied group with a single remaining level leaves test NULL -> 'No test'."
+  },
+  {
+   "id": "e28",
+   "from": "dt2_ord_indep",
+   "to": "dt2_ord_indep_2g",
+   "diagram_label": null,
+   "code_condition": "n_levels_group == 2",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2403",
+   "notes": ""
+  },
+  {
+   "id": "e29",
+   "from": "dt2_ord_indep",
+   "to": "dt2_ord_indep_ge3g",
+   "diagram_label": null,
+   "code_condition": "n_levels_group >= 3",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2405",
+   "notes": ""
+  },
+  {
+   "id": "e30",
+   "from": "dt2_cont_paired",
+   "to": "dt2_cont_paired_2g",
+   "diagram_label": null,
+   "code_condition": "n_levels_group == 2",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2417",
+   "notes": ""
+  },
+  {
+   "id": "e31",
+   "from": "dt2_cont_paired",
+   "to": "dt2_cont_paired_ge3g",
+   "diagram_label": null,
+   "code_condition": "n_levels_group != 2 (else branch, so 1 group also lands here)",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2419-2420",
+   "notes": "Not run for the 1-group case; code reading only."
+  },
+  {
+   "id": "e32",
+   "from": "dt2_cont_indep",
+   "to": "dt2_cont_indep_1g",
+   "diagram_label": null,
+   "code_condition": "n_levels_group == 1 (includes group = NULL)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2424",
+   "notes": ""
+  },
+  {
+   "id": "e33",
+   "from": "dt2_cont_indep",
+   "to": "dt2_cont_indep_2g",
+   "diagram_label": null,
+   "code_condition": "n_levels_group == 2; Welch if !isTRUE(var_equal) else Student two-sample t-test",
+   "reconciliation": "match_qualified",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2426-2431",
+   "notes": "var_equal = TRUE leads to a code-only leaf (dt2_code_student_t) not drawn in the diagram (run R15)."
+  },
+  {
+   "id": "e34",
+   "from": "dt2_cont_indep",
+   "to": "dt2_cont_indep_ge3g",
+   "diagram_label": null,
+   "code_condition": "n_levels_group >= 3 (var_equal not consulted)",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2432-2433",
+   "notes": ""
+  },
+  {
+   "id": "e35",
+   "from": "dt2_asym_paired_2x2",
+   "to": "dt2_leaf_mcnemar",
+   "diagram_label": null,
+   "code_condition": "test <- \"McNemar's test\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e36",
+   "from": "dt2_asym_paired_kxl_binary",
+   "to": "dt2_leaf_cochran_q",
+   "diagram_label": null,
+   "code_condition": "test <- \"Cochran's Q test\"",
+   "reconciliation": "match_name_differs",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": "Diagram label 'Cochrane's Q test' differs from the code string 'Cochran's Q test'; only the code string is accepted by test_override."
+  },
+  {
+   "id": "e37",
+   "from": "dt2_asym_indep_1xl",
+   "to": "dt2_leaf_chisq_gof",
+   "diagram_label": null,
+   "code_condition": "test <- \"Chi-squared goodness-of-fit test\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e38",
+   "from": "dt2_asym_indep_kxl",
+   "to": "dt2_leaf_pearson_chisq",
+   "diagram_label": null,
+   "code_condition": "test <- \"Pearson's chi-squared test\"",
+   "reconciliation": "match_name_differs",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": "Diagram label 'Pearson's Chi-squared test' differs from the code string 'Pearson's chi-squared test'; only the code string is accepted by test_override."
+  },
+  {
+   "id": "e39",
+   "from": "dt2_exact_paired_2x2",
+   "to": "dt2_leaf_exact_mcnemar",
+   "diagram_label": null,
+   "code_condition": "test <- \"Exact McNemar's test\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e40",
+   "from": "dt2_exact_indep_1xl",
+   "to": "dt2_leaf_exact_binomial",
+   "diagram_label": null,
+   "code_condition": "test <- \"Exact binomial test\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e41",
+   "from": "dt2_exact_indep_2x2",
+   "to": "dt2_leaf_boschloo",
+   "diagram_label": null,
+   "code_condition": "test <- \"Boschloo's test\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e42",
+   "from": "dt2_exact_indep_kxl_large_n",
+   "to": "dt2_leaf_fisher",
+   "diagram_label": null,
+   "code_condition": "test <- \"Fisher's exact test\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e43",
+   "from": "dt2_ord_paired_2g",
+   "to": "dt2_leaf_wilcoxon_paired",
+   "diagram_label": null,
+   "code_condition": "test <- \"Wilcoxon two-sample signed-rank test\"",
+   "reconciliation": "match_name_differs",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": "Diagram label 'Wilcoxon's two-sample signed-rank test' differs from the code string 'Wilcoxon two-sample signed-rank test'; only the code string is accepted by test_override."
+  },
+  {
+   "id": "e44",
+   "from": "dt2_ord_paired_ge3g",
+   "to": "dt2_leaf_friedman",
+   "diagram_label": null,
+   "code_condition": "test <- \"Friedman test\"",
+   "reconciliation": "match_name_differs",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": "Diagram label 'Friedman's test' differs from the code string 'Friedman test'; only the code string is accepted by test_override."
+  },
+  {
+   "id": "e45",
+   "from": "dt2_ord_indep_1g",
+   "to": "dt2_leaf_wilcoxon_one_sample",
+   "diagram_label": null,
+   "code_condition": "test <- \"Wilcoxon's one-sample signed-rank test\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e46",
+   "from": "dt2_ord_indep_2g",
+   "to": "dt2_leaf_mann_whitney",
+   "diagram_label": null,
+   "code_condition": "test <- \"Mann-Whitney's U test\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e47",
+   "from": "dt2_ord_indep_ge3g",
+   "to": "dt2_leaf_kruskal_wallis",
+   "diagram_label": null,
+   "code_condition": "test <- \"Kruskal-Wallis's one-way ANOVA\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e48",
+   "from": "dt2_cont_paired_2g",
+   "to": "dt2_leaf_paired_t",
+   "diagram_label": null,
+   "code_condition": "test <- \"Student's paired t-test\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e49",
+   "from": "dt2_cont_paired_ge3g",
+   "to": "dt2_leaf_mixed_model_anova",
+   "diagram_label": null,
+   "code_condition": "test <- \"Mixed model ANOVA\"",
+   "reconciliation": "match_name_differs",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": "Diagram label 'Mixed model ANOVA, subject ID as random effect' differs from the code string 'Mixed model ANOVA'; only the code string is accepted by test_override."
+  },
+  {
+   "id": "e50",
+   "from": "dt2_cont_indep_1g",
+   "to": "dt2_leaf_one_sample_t",
+   "diagram_label": null,
+   "code_condition": "test <- \"Student's one-sample t-test\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  },
+  {
+   "id": "e51",
+   "from": "dt2_cont_indep_2g",
+   "to": "dt2_leaf_welch_t",
+   "diagram_label": null,
+   "code_condition": "test <- \"Welch's two-sample t-test\"",
+   "reconciliation": "match_name_differs",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": "Diagram label 'Welch's t-test' differs from the code string 'Welch's two-sample t-test'; only the code string is accepted by test_override."
+  },
+  {
+   "id": "e52",
+   "from": "dt2_cont_indep_ge3g",
+   "to": "dt2_leaf_anova_f",
+   "diagram_label": null,
+   "code_condition": "test <- \"F-test (ANOVA)\"",
+   "reconciliation": "match",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2384-2501",
+   "notes": ""
+  }
+ ],
+ "code_only_nodes": [
+  {
+   "id": "dt2_code_student_t",
+   "kind": "leaf",
+   "in_diagram": false,
+   "code_test_name": "Student's two-sample t-test",
+   "reached_by": "Numerical, nonparametric = FALSE, paired = FALSE, 2 groups, test_options$var_equal = TRUE",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2427-2428",
+   "proposed_method_id": "t_test_two_sample",
+   "proposed_variant_id": "pooled_equal_variance"
+  },
+  {
+   "id": "dt2_code_cochran_armitage",
+   "kind": "leaf",
+   "in_diagram": false,
+   "code_test_name": "Cochran-Armitage's test",
+   "reached_by": "test_override only",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2937-2945",
+   "proposed_method_id": "cochran_armitage_trend",
+   "proposed_variant_id": "descTools_default"
+  },
+  {
+   "id": "dt2_code_jonckheere_terpstra",
+   "kind": "leaf",
+   "in_diagram": false,
+   "code_test_name": "Jonckheere-Terpstra's test",
+   "reached_by": "test_override only",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2946-2956",
+   "proposed_method_id": "jonckheere_terpstra",
+   "proposed_variant_id": "permutation_nperm_1000"
+  },
+  {
+   "id": "dt2_code_no_test",
+   "kind": "terminal",
+   "in_diagram": false,
+   "code_test_name": "No test",
+   "reached_by": "pre_skip rules; paired nominal designs other than 2x2 / binary-by->=3-occasions; exact one-sample with >= 3 categories; ordinal independent with a single supplied group level; unknown test_override strings (p = NA)",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2366-2383, 2448-2452, 2469-2473, 2487-2489, 2957-2961"
+  },
+  {
+   "id": "dt2_code_test_errored",
+   "kind": "terminal",
+   "in_diagram": false,
+   "code_test_name": "Test errored, check console output.",
+   "reached_by": "any error inside sig_test (e.g. paired without indices, Friedman with incomplete blocks, Cochran's Q with missing responses, invalid additional_test_args)",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 891-905"
+  },
+  {
+   "id": "dt2_code_custom_override",
+   "kind": "leaf",
+   "in_diagram": false,
+   "code_test_name": "<user supplied>",
+   "reached_by": "test_override = list(name, abbreviation, p, [CI, CI_name, paired]) with user functions",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2963-2994"
+  }
+ ],
+ "test_dispatch": [
+  {
+   "node_id": "dt2_leaf_mcnemar",
+   "dt2_test_name": "McNemar's test",
+   "r_function": "stats::mcnemar.test",
+   "arguments": {
+    "x": "table(x, y); x, y = var at the first and second group level for IDs that occur exactly twice (others removed with a warning), each sorted by id",
+    "correct": "not set: stats default TRUE (continuity correction)",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "secondary_calls": [
+    {
+     "purpose": "CI",
+     "r_function": "stats::prop.test",
+     "arguments": {
+      "x": "table(group, var) using all filtered observations, not only matched pairs",
+      "correct": false
+     },
+     "label": "Wald CI for difference in proportions of the first var level, group 1 minus group 2 (unpaired)"
+    }
+   ],
+   "variant_notes": "Continuity-corrected, unlike the chi-squared tests, which set correct = FALSE. The CI does not use the pairing; DescrTab2 warns about this.",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2850-2891",
+   "run_evidence": [
+    "P2"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_cochran_q",
+   "dt2_test_name": "Cochran's Q test",
+   "r_function": "DescTools::CochranQTest",
+   "arguments": {
+    "y": "var ~ group | idx",
+    "data": "tibble(var, group, idx = test_options$indices)",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "idx uses the unfiltered indices, so any removed observation makes the column lengths differ and the test errors (run P5b).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2892-2907",
+   "run_evidence": [
+    "P5",
+    "P5b"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_chisq_gof",
+   "dt2_test_name": "Chi-squared goodness-of-fit test",
+   "r_function": "stats::chisq.test",
+   "arguments": {
+    "x": "table(var)",
+    "correct": false,
+    "p": "not set: equal proportions",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "Null hypothesis of equal category probabilities; 'correct' has no effect for a one-way table.",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2908-2917",
+   "run_evidence": []
+  },
+  {
+   "node_id": "dt2_leaf_pearson_chisq",
+   "dt2_test_name": "Pearson's chi-squared test",
+   "r_function": "stats::chisq.test",
+   "arguments": {
+    "x": "var",
+    "y": "group",
+    "correct": false,
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "secondary_calls": [
+    {
+     "purpose": "CI (2x2 only)",
+     "r_function": "stats::prop.test",
+     "arguments": {
+      "x": "table(group, var)",
+      "correct": false
+     },
+     "label": "Wald CI for difference in proportions of the first var level, group 1 minus group 2"
+    }
+   ],
+   "variant_notes": "No Yates correction. Sparse expected counts only trigger R's warning; p is still reported (run R1).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2918-2936",
+   "run_evidence": [
+    "R1"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_exact_mcnemar",
+   "dt2_test_name": "Exact McNemar's test",
+   "r_function": "exact2x2::exact2x2",
+   "arguments": {
+    "x": "table(x, y); x, y = var at the first and second group level for IDs that occur exactly twice (others removed with a warning), each sorted by id",
+    "alternative": "two.sided",
+    "tsmethod": "central",
+    "paired": true,
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "secondary_calls": [
+    {
+     "purpose": "CI",
+     "r_function": "exact2x2::mcnemarExactDP",
+     "arguments": {
+      "n": "sum(table)",
+      "x": "table[1,2]",
+      "m": "table[1,2] + table[2,1]"
+     },
+     "label": "Melded CI for the difference in paired proportions; with DescrTab2's mapping, P(first var level at group level 1) minus P(first var level at group level 2), per exact2x2 documentation"
+    }
+   ],
+   "variant_notes": "With paired = TRUE exact2x2 calls mcnemar.exact.calc(x[1,2], x[2,1]): exact binomial test on discordant pairs, central two-sided p. p matched exact2x2::mcnemar.exact on run P1.",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2731-2772",
+   "run_evidence": [
+    "P1",
+    "P3"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_exact_binomial",
+   "dt2_test_name": "Exact binomial test",
+   "r_function": "stats::binom.test",
+   "arguments": {
+    "x": "table(var)[1] (count of first level)",
+    "n": "length(var)",
+    "p": "not set: 0.5",
+    "alternative": "not set: two.sided",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "Tests whether the first level has probability 0.5. stop() if > 2 levels. Also used when a supplied group has a single level (run R11).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2809-2823",
+   "run_evidence": [
+    "R11",
+    "R12"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_boschloo",
+   "dt2_test_name": "Boschloo's test",
+   "r_function": "exact2x2::boschloo",
+   "arguments": {
+    "x1": "table(var, group)[1, 1] = count of the first var level in the first group level",
+    "n1": "sum(table(var, group)[, 1]) = size of the first group level",
+    "x2": "table(var, group)[1, 2]",
+    "n2": "sum(table(var, group)[, 2])",
+    "conf.int": false,
+    "alternative": "not set: 'two.sided'",
+    "tsmethod": "not set: 'central'",
+    "midp": "not set: FALSE",
+    "or": "not set: NULL (null odds ratio 1)",
+    "conf.level": "not set: 0.95",
+    "control": "not set: exact2x2::ucControl() = list(nCIgrid = 500, errbound = 0, nPgrid = 100, power2 = 20, maxPgridRatio = 1 - 1e-6, minPgridRatio = 1e-6)",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'; boschloo() has no '...', so only x1, n1, x2, n2, alternative, or, conf.int, conf.level, midp, tsmethod, control pass"
+   },
+   "secondary_calls": [
+    {
+     "purpose": "CI",
+     "r_function": "exact2x2::uncondExact2x2",
+     "arguments": {
+      "x1": "as above",
+      "n1": "as above",
+      "x2": "as above",
+      "n2": "as above",
+      "conf.int": true,
+      "method": "FisherAdj",
+      "parmtype": "difference",
+      "tsmethod": "not set: 'central'",
+      "alternative": "not set: 'two.sided'",
+      "nullparm": "not set: NULL (0)",
+      "midp": "not set: FALSE",
+      "control": "not set: ucControl()",
+      "additional_test_args": "merged with modifyList; uncondExact2x2 has '...', so all extra arguments are passed"
+     },
+     "label": "CI for p2 - p1 (group level 2 minus group level 1, proportion of the first var level) from a different unconditional exact test (FisherAdj ordering), not from boschloo()"
+    }
+   ],
+   "variant_notes": "Central two-sided variant: p = min(1, 2 * p_less, 2 * p_greater); each one-sided p comes from exact2x2::uncondExact2x2(method = 'user', parmtype = 'oddsratio', Tfunc = one-sided Fisher exact p via exact2x2(..., alternative = 'less'/'greater')), maximised over the common nuisance probability. Not the 'minlike' variant covered by the exact2x2 validation vignette. In run R2 the DescrTab2 p equalled a direct boschloo(7, 20, 2, 22) call (integration check only, not validation).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2773-2808",
+   "run_evidence": [
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R10",
+    "P13",
+    "O1",
+    "O2",
+    "O5"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_fisher",
+   "dt2_test_name": "Fisher's exact test",
+   "r_function": "stats::fisher.test",
+   "arguments": {
+    "x": "table(group, var)",
+    "conf.int": "TRUE only for 2x2, else FALSE",
+    "workspace": "not set: 200000",
+    "simulate.p.value": "not set: FALSE",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "Two-sided p sums all tables no more probable than the observed one (stats definition, equivalent to 'minlike'), unlike the central Boschloo it replaces when n > boschloo_max_n. 2x2 CI is the conditional MLE odds-ratio interval.",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2824-2849",
+   "run_evidence": [
+    "R6",
+    "R7",
+    "R13",
+    "M2",
+    "M3",
+    "O3"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_wilcoxon_paired",
+   "dt2_test_name": "Wilcoxon two-sample signed-rank test",
+   "r_function": "stats::wilcox.test",
+   "arguments": {
+    "x": "var at the first group level for IDs that occur exactly twice (others removed with a warning), sorted by id",
+    "y": "var at the second group level, same IDs, sorted by id",
+    "correct": false,
+    "paired": true,
+    "exact": "not set: stats default (exact if n < 50 and no ties/zeros)",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "Ordered factors are converted to integer level codes (as.numeric).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2526-2560",
+   "run_evidence": []
+  },
+  {
+   "node_id": "dt2_leaf_friedman",
+   "dt2_test_name": "Friedman test",
+   "r_function": "stats::friedman.test",
+   "arguments": {
+    "formula": "var ~ group | idx",
+    "data": "tibble(var, group, idx = id) with filtered id"
+   },
+   "variant_notes": "Errors on incomplete or replicated blocks; unlike the two-occasion tests there is no removal of incomplete subjects (run P12).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2561-2576",
+   "run_evidence": [
+    "P12"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_wilcoxon_one_sample",
+   "dt2_test_name": "Wilcoxon's one-sample signed-rank test",
+   "r_function": "stats::wilcox.test",
+   "arguments": {
+    "x": "var (ordered factors as integer codes)",
+    "correct": false,
+    "mu": "not set: 0",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "Tests symmetry about 0. For ordered-factor codes 1..L this is trivially significant (run P9: p = 5.96e-08). Printed by default in ungrouped tables.",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2577-2586",
+   "run_evidence": [
+    "P9"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_mann_whitney",
+   "dt2_test_name": "Mann-Whitney's U test",
+   "r_function": "stats::wilcox.test",
+   "arguments": {
+    "formula": "var ~ group",
+    "conf.int": true,
+    "correct": false,
+    "data": "tibble(var, group)",
+    "exact": "not set: stats default",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "Hodges-Lehmann interval on integer codes for ordered factors (run R8 gave CI 0 to 0).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2587-2604",
+   "run_evidence": [
+    "R8",
+    "P11"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_kruskal_wallis",
+   "dt2_test_name": "Kruskal-Wallis's one-way ANOVA",
+   "r_function": "stats::kruskal.test",
+   "arguments": {
+    "formula": "var ~ group",
+    "data": "tibble(var, group)",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2605-2615",
+   "run_evidence": []
+  },
+  {
+   "node_id": "dt2_leaf_paired_t",
+   "dt2_test_name": "Student's paired t-test",
+   "r_function": "stats::t.test",
+   "arguments": {
+    "x": "var at the first group level for IDs that occur exactly twice (others removed with a warning), sorted by id",
+    "y": "var at the second group level, same IDs, sorted by id",
+    "paired": true,
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "An ID with two records in the same group passes the 'exactly twice' check and silently misaligns pairs (run P4: p 0.828 vs 0.300 for correctly matched IDs).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2616-2654",
+   "run_evidence": [
+    "P4"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_mixed_model_anova",
+   "dt2_test_name": "Mixed model ANOVA",
+   "r_function": "nlme::lme",
+   "arguments": {
+    "fixed": "var ~ group",
+    "random": "~ 1 | idx",
+    "data": "tibble(var, group, idx = id)",
+    "method": "not set: REML",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "p = stats::anova(fit)$`p-value`[2] (group term, nlme denominator df). Random-intercept (compound-symmetry) model, not a sphericity-corrected repeated-measures ANOVA.",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2655-2674",
+   "run_evidence": [
+    "P6"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_one_sample_t",
+   "dt2_test_name": "Student's one-sample t-test",
+   "r_function": "stats::t.test",
+   "arguments": {
+    "x": "var",
+    "mu": "not set: 0",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "Tests mean 0; printed by default in ungrouped tables (run P10: p = 9.7e-14 for data with mean near 100).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2675-2683",
+   "run_evidence": [
+    "P10"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_welch_t",
+   "dt2_test_name": "Welch's two-sample t-test",
+   "r_function": "stats::t.test",
+   "arguments": {
+    "formula": "var ~ group",
+    "var.equal": false,
+    "data": "tibble(var, group)",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "CI for difference in means (first minus second group level).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2701-2717",
+   "run_evidence": [
+    "R15"
+   ]
+  },
+  {
+   "node_id": "dt2_leaf_anova_f",
+   "dt2_test_name": "F-test (ANOVA)",
+   "r_function": "stats::aov",
+   "arguments": {
+    "formula": "var ~ group",
+    "data": "tibble(var, group)",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "p = summary(aov)[[1]]$`Pr(>F)`[1]. Pooled-variance F-test even though two-group default is Welch; var_equal is ignored (run R14: F p 0.618 vs Welch ANOVA oneway.test p 0.692 on the same heteroscedastic data).",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2718-2730",
+   "run_evidence": [
+    "R14"
+   ]
+  },
+  {
+   "node_id": "dt2_code_student_t",
+   "dt2_test_name": "Student's two-sample t-test",
+   "r_function": "stats::t.test",
+   "arguments": {
+    "formula": "var ~ group",
+    "var.equal": true,
+    "data": "tibble(var, group)",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "Only with test_options$var_equal = TRUE and 2 groups.",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2684-2700",
+   "run_evidence": [
+    "R15"
+   ]
+  },
+  {
+   "node_id": "dt2_code_cochran_armitage",
+   "dt2_test_name": "Cochran-Armitage's test",
+   "r_function": "DescTools::CochranArmitageTest",
+   "arguments": {
+    "x": "table(var, group)",
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "Reachable only through test_override; not run in this audit.",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2937-2945",
+   "run_evidence": []
+  },
+  {
+   "node_id": "dt2_code_jonckheere_terpstra",
+   "dt2_test_name": "Jonckheere-Terpstra's test",
+   "r_function": "DescTools::JonckheereTerpstraTest",
+   "arguments": {
+    "x": "var",
+    "g": "group",
+    "nperm": 1000,
+    "additional_test_args": "modifyList(defaults, test_options$additional_test_args), filtered by ignore_unused_args() to the callee's formals unless it has '...'"
+   },
+   "variant_notes": "Reachable only through test_override. With nperm set, DescTools uses a permutation p-value; DescrTab2 sets no seed. Not run in this audit.",
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2946-2956",
+   "run_evidence": []
+  }
+ ],
+ "boschloo_dispatch": {
+  "automatic_route": {
+   "required": [
+    "variable is an unordered factor after descr() coercion (factor, character or logical column; NOT ordered, NOT numeric)",
+    "test_options$exact = TRUE (default FALSE)",
+    "test_options$paired is not TRUE",
+    "exactly 2 group levels remain after filtering (group must be supplied)",
+    "exactly 2 variable levels remain after filtering",
+    "is.null(test_options$boschloo_max_n) or nonmissing n = length(var) <= boschloo_max_n (default 200)"
+   ],
+   "fallback": "n > boschloo_max_n -> Fisher's exact test with a warning; larger tables -> Fisher's exact test",
+   "options_that_prevent_it": [
+    "include_categorical_missings_in_test = TRUE with missing values (adds a '(Missing)' level -> Fisher; run M2)",
+    "include_group_missings_in_test = TRUE with missing groups (adds a group -> Fisher; run M3)",
+    "ordered factor coding (-> Mann-Whitney; run R8)",
+    "numeric 0/1 coding (-> Welch t-test; run R9)",
+    "paired = TRUE (-> Exact McNemar)"
+   ],
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 2438-2468"
+  },
+  "override_route": {
+   "how": "test_options = list(test_override = \"Boschloo's test\") (all variables) or var_options = list(<var> = list(test_options = list(test_override = \"Boschloo's test\"))) (one variable; also accepted as var_options[[v]]$test_override)",
+   "checks_performed": "none on table shape or variable type",
+   "observed": [
+    "3-category variable silently collapsed to first level vs rest (run O1)",
+    "3 groups: only the first two group levels used, no warning (run O2)",
+    "global override applied to a numeric variable produced a p-value from table(z, group)[1, ] (run O5)",
+    "a curly apostrophe in the name yields p = NA with only a warning"
+   ],
+   "code_ref": "DescrTab2 2.1.16 R/descr.R 849-857, 2773-2808"
+  },
+  "exact2x2_call": {
+   "function": "exact2x2::boschloo",
+   "exact2x2_version": "1.7.0",
+   "explicit_arguments": {
+    "x1": "table(var, group)[1,1]",
+    "n1": "sum(table(var, group)[,1])",
+    "x2": "table(var, group)[1,2]",
+    "n2": "sum(table(var, group)[,2])",
+    "conf.int": false
+   },
+   "effective_defaults": {
+    "alternative": "two.sided",
+    "tsmethod": "central",
+    "midp": false,
+    "or": null,
+    "conf.level": 0.95,
+    "control": {
+     "nCIgrid": 500,
+     "errbound": 0,
+     "nPgrid": 100,
+     "power2": 20,
+     "maxPgridRatio": 0.999999,
+     "minPgridRatio": 1e-06
+    }
+   },
+   "event_and_group_orientation": "event = first level of the variable; group 1 = first group level. For character columns both orders follow first appearance in the data (forcats::as_factor). Two-sided central p is unchanged by reversing the event level (run P13); CI sign and one-sided alternatives flip.",
+   "user_modifiable_via": "test_options$additional_test_args (merged into BOTH the boschloo() and the uncondExact2x2() call)",
+   "tsmethod_minlike_reachable": false,
+   "tsmethod_minlike_note": "additional_test_args = list(tsmethod = 'minlike') errors in the CI call (uncondExact2x2 accepts only 'central'/'square') and the variable gets 'Test errored' (run R4).",
+   "alternative_note": "additional_test_args = list(alternative = 'less') works and matched direct boschloo(..., alternative = 'less') (run R5); 'less' refers to the second group level having the smaller proportion of the first variable level."
+  },
+  "ci_call": {
+   "function": "exact2x2::uncondExact2x2",
+   "arguments": {
+    "conf.int": true,
+    "method": "FisherAdj",
+    "parmtype": "difference"
+   },
+   "note": "A different unconditional exact procedure from the reported p-value; in run R2 its p-value happened to equal the boschloo() p (0.0480581)."
+  },
+  "descrtab2_own_validation": "c_other_software_comparison.Rmd (in the 2.1.16 tarball and GitHub head) states DescrTab2 uses tsmethod = central and that no comparison is readily available for this option; it compares tsmethod = minlike with Exact::exact.test instead.",
+  "observations_for_09A": [
+   "Single table 7/20 vs 2/22 (2026-10-03, provisional, not validation): exact2x2 central p 0.048058109 with default nPgrid = 100 vs 0.048058311 with nPgrid = 2000; Exact::exact.test(tsmethod = 'central') 0.048058312. minlike: exact2x2 0.045135313 (default) vs 0.045138295 (nPgrid 2000); Exact 'square' 0.045138318. The default grid gave slightly smaller p-values on this table.",
+   "Exact::exact.test tsmethod 'square' corresponds to exact2x2 boschloo tsmethod 'minlike' (exact2x2 calls uncondExact2x2 with tsmethod = 'square' internally); this is a naming correspondence from code reading, to be confirmed in 09A."
+  ]
+ },
+ "gaps": [
+  {
+   "id": "G01",
+   "type": "diagram_vs_code",
+   "text": "'Continuous and normally distributed' is never checked; the route depends only on numeric storage and the nonparametric flag.",
+   "status": "open"
+  },
+  {
+   "id": "G02",
+   "type": "diagram_vs_code",
+   "text": "Exact '1xL table' -> exact binomial: code supports only L = 2 (p0 = 0.5); L >= 3 gives 'No test'.",
+   "status": "open"
+  },
+  {
+   "id": "G03",
+   "type": "missing_branch",
+   "text": "Paired nominal with >= 3 categories gives 'No test' (no Stuart-Maxwell/Bowker); exact paired designs other than 2x2 give 'No test'.",
+   "status": "open"
+  },
+  {
+   "id": "G04",
+   "type": "missing_branch",
+   "text": "var_equal = TRUE route (Student two-sample t) and override-only tests (Cochran-Armitage, Jonckheere-Terpstra) are not in the diagram.",
+   "status": "recorded_as_code_only_nodes"
+  },
+  {
+   "id": "G05",
+   "type": "diagram_vs_code",
+   "text": "'large n' is nonmissing n > boschloo_max_n (default 200, NULL disables); not stated in the diagram.",
+   "status": "recorded"
+  },
+  {
+   "id": "G06",
+   "type": "naming",
+   "text": "6 of 18 diagram leaf labels are not valid test_override strings: 'Cochrane's Q test'; 'Pearson's Chi-squared test'; 'Wilcoxon's two-sample signed-rank test'; 'Friedman's test'; 'Mixed model ANOVA, subject ID as random effect'; 'Welch's t-test'. print_test_names() also lists the misspelt 'Exact binomal test', which returns p = NA (run O4).",
+   "status": "recorded"
+  },
+  {
+   "id": "G07",
+   "type": "diagram_vs_code",
+   "text": "Ordinal '1 group' only when no group is supplied; a supplied single-level group gives 'No test'. Continuous paired else-branch sends a 1-group case to Mixed model ANOVA (code reading only).",
+   "status": "open"
+  },
+  {
+   "id": "G08",
+   "type": "hidden_precondition",
+   "text": "Paired branches need subject IDs (indices); guess_id defaults to FALSE in code although the descr() help says TRUE.",
+   "status": "recorded"
+  },
+  {
+   "id": "G09",
+   "type": "hidden_precondition",
+   "text": "Missing-value options (include_categorical_missings_in_test, include_group_missings_in_test) change the table dimension and therefore the test (Boschloo -> Fisher; runs M2, M3).",
+   "status": "recorded"
+  },
+  {
+   "id": "G10",
+   "type": "hidden_precondition",
+   "text": "Pre-tree coercion and skip rules (character/logical/Date -> nominal; numeric codes -> numerical; single-level factors and <= 1 observation per group -> 'No test') are not shown.",
+   "status": "recorded"
+  },
+  {
+   "id": "G11",
+   "type": "not_in_diagram",
+   "text": "Confidence-interval methods and two-sided conventions per test are not in the diagram (Boschloo central vs Fisher stats definition; McNemar CI unpaired).",
+   "status": "recorded_in_test_dispatch"
+  },
+  {
+   "id": "G12",
+   "type": "version",
+   "text": "DescrTab2 is archived on CRAN (2025-10-18); 2.1.26 exists only on GitHub. Selector logic identical in 2.1.16 and 2.1.26 head; print_CI default differs. inferguidR cannot rely on a CRAN-installable DescrTab2.",
+   "status": "open_for_phase_02"
+  },
+  {
+   "id": "G13",
+   "type": "user_confirmation",
+   "text": "Per METHOD_TREE_SOURCES, numeric type semantics (when numeric storage means categories or ordinal scores) must be confirmed by the user; this audit only documents DescrTab2's storage-type behaviour.",
+   "status": "pending_user"
+  },
+  {
+   "id": "G14",
+   "type": "untested",
+   "text": "Not run in this audit: Wilcoxon paired, Kruskal-Wallis, chi-squared goodness-of-fit, Cochran-Armitage, Jonckheere-Terpstra, Fisher workspace limits on large r x c tables, the continuous paired 1-group path, boschloo_max_n = NULL at n > 200.",
+   "status": "open"
+  },
+  {
+   "id": "G15",
+   "type": "validation",
+   "text": "Numerical correctness of exact2x2::boschloo (central) and of the nuisance-grid accuracy was not validated here; DescrTab2-vs-exact2x2 equality (run R2) is an integration check only. Belongs to 09A/11.",
+   "status": "open_for_09A"
+  }
+ ],
+ "statistical_flags": [
+  {
+   "id": "Q01",
+   "rule": "Storage type decides scale (numeric 0/1 -> Welch t; ordered binary -> Mann-Whitney)",
+   "runs": [
+    "R8",
+    "R9"
+   ]
+  },
+  {
+   "id": "Q02",
+   "rule": "'Continuous and normally distributed' label without any check; nonparametric is a manual switch",
+   "runs": []
+  },
+  {
+   "id": "Q03",
+   "rule": "Welch for 2 groups but pooled-variance F-test for >= 3 groups; var_equal ignored",
+   "runs": [
+    "R14"
+   ]
+  },
+  {
+   "id": "Q04",
+   "rule": "One-sample defaults with arbitrary references (mean 0, ordinal codes vs 0, proportion 0.5, uniform categories) printed in ungrouped tables",
+   "runs": [
+    "P9",
+    "P10",
+    "R12"
+   ]
+  },
+  {
+   "id": "Q05",
+   "rule": "Hodges-Lehmann interval on ordered-factor integer codes",
+   "runs": [
+    "R8"
+   ]
+  },
+  {
+   "id": "Q06",
+   "rule": "McNemar continuity-corrected while chi-squared tests are not; McNemar CI ignores pairing",
+   "runs": [
+    "P2"
+   ]
+  },
+  {
+   "id": "Q07",
+   "rule": "Pearson chi-squared reported despite sparse expected counts",
+   "runs": [
+    "R1"
+   ]
+  },
+  {
+   "id": "Q08",
+   "rule": "Boschloo p and its CI come from different procedures",
+   "runs": [
+    "R2"
+   ]
+  },
+  {
+   "id": "Q09",
+   "rule": "Data-dependent switch Boschloo -> Fisher at n > 200 changes conditioning and two-sided convention",
+   "runs": [
+    "R6"
+   ]
+  },
+  {
+   "id": "Q10",
+   "rule": "Forced Boschloo accepts non-2x2 input and numeric variables without warning",
+   "runs": [
+    "O1",
+    "O2",
+    "O5"
+   ]
+  },
+  {
+   "id": "Q11",
+   "rule": "Duplicate IDs within an occasion silently misalign pairs",
+   "runs": [
+    "P4"
+   ]
+  },
+  {
+   "id": "Q12",
+   "rule": "Cochran's Q fails with any missing response; Friedman fails with incomplete blocks",
+   "runs": [
+    "P5b",
+    "P12"
+   ]
+  },
+  {
+   "id": "Q13",
+   "rule": "Exact binomial against 0.5 when a supplied group has one level",
+   "runs": [
+    "R11"
+   ]
+  },
+  {
+   "id": "Q14",
+   "rule": "Event and group orientation set by level order (first appearance for character data)",
+   "runs": [
+    "R10",
+    "P13"
+   ]
+  },
+  {
+   "id": "Q15",
+   "rule": "Random-intercept LME labelled 'Mixed model ANOVA' (compound symmetry, not sphericity-corrected RM-ANOVA)",
+   "runs": [
+    "P6"
+   ]
+  },
+  {
+   "id": "Q16",
+   "rule": "minlike Boschloo unreachable via additional_test_args (CI call fails)",
+   "runs": [
+    "R4"
+   ]
+  }
+ ],
+ "checks_run": {
+  "date": "2026-10-03",
+  "status": "actual",
+  "environment": "R 4.6.1, DescrTab2 2.1.16, exact2x2 1.7.0, DescTools 0.99.60, nlme 3.1.170, forcats 1.0.1, Exact 3.3",
+  "note": "Scenario scripts were run from a temporary scratch directory and deleted afterwards; inputs and outputs are summarised here and in descrtab2-audit.md. These are dispatch/integration checks, not numerical validation.",
+  "scenarios": {
+   "R1": "unordered binary 2x2, defaults -> Pearson's chi-squared test, p 0.0409796, chi-squared approximation warnings",
+   "R2": "same data, exact = TRUE, n = 42 -> Boschloo's test, p 0.0480581 = direct exact2x2::boschloo(7, 20, 2, 22); CI -0.5680218 to -0.0021725 = uncondExact2x2 FisherAdj difference",
+   "R3": "var_options test_override Boschloo with exact = FALSE -> Boschloo's test, same p",
+   "R4": "exact = TRUE, additional_test_args tsmethod = 'minlike' -> 'Test errored' (match.arg in uncondExact2x2); direct minlike p 0.0451353",
+   "R5": "exact = TRUE, additional_test_args alternative = 'less' -> p 0.0240291 = direct boschloo less",
+   "R6": "exact = TRUE, n = 201 -> Fisher's exact test with warning, p 0.048385 = stats::fisher.test",
+   "R7": "exact = TRUE, 2x3 -> Fisher's exact test",
+   "R8": "ordered binary factor, exact = TRUE -> Mann-Whitney's U test, HL CI 0 to 0",
+   "R9": "numeric 0/1, exact = TRUE -> Welch's two-sample t-test",
+   "R10": "character variable, rows reordered -> Boschloo's test; levels by first appearance (var: no, yes; group: B, A)",
+   "R11": "supplied group with one level, exact = TRUE -> Exact binomial test",
+   "R12": "no group, exact = TRUE -> Exact binomial test, p equals binom.test(9, 42)",
+   "R13": "binary by 3 groups, exact = TRUE -> Fisher's exact test",
+   "R14": "numeric 3 groups, var_equal FALSE and TRUE -> F-test (ANOVA) p 0.617788 both; oneway.test Welch p 0.692124",
+   "R15": "numeric 2 groups -> Welch (default) / Student's two-sample t-test (var_equal = TRUE)",
+   "P1": "paired binary exact -> Exact McNemar's test p 0.507813 = exact2x2::mcnemar.exact",
+   "P2": "paired binary asymptotic -> McNemar's test p 0.504985 = mcnemar.test(correct = TRUE) (correct = FALSE gives 0.317311); unpaired-CI warning",
+   "P3": "paired, one subject missing -> pair removed with warning",
+   "P4": "paired numeric with ID 31 twice in t0 and ID 32 twice in t1 -> Student's paired t-test p 0.827561, no warning; correctly matched IDs give 0.300278",
+   "P5": "3 occasions binary complete -> Cochran's Q test",
+   "P5b": "same with one missing response -> 'Test errored' (tibble size mismatch)",
+   "P6": "paired numeric 3 occasions -> Mixed model ANOVA",
+   "P7": "paired nominal 3 categories (exact FALSE and TRUE) -> 'No test'",
+   "P8": "paired = TRUE without indices -> 'Test errored'",
+   "P9": "ordered factor, no group -> Wilcoxon's one-sample signed-rank test p 5.96e-08",
+   "P10": "numeric mean about 100, no group -> Student's one-sample t-test p 9.7e-14",
+   "P11": "numeric nonparametric 2 groups -> Mann-Whitney's U test with HL CI",
+   "P12": "Friedman with an incomplete block -> 'Test errored'",
+   "P13": "event level order reversed -> same Boschloo p, CI sign flipped",
+   "M1": "binary with 2 missing values, exact -> Boschloo (missing excluded)",
+   "M2": "include_categorical_missings_in_test = TRUE -> Fisher's exact test",
+   "M3": "include_group_missings_in_test = TRUE with missing groups -> Fisher's exact test",
+   "O1": "override Boschloo on 3-category variable -> p 0.0937317 = boschloo(5, 20, 1, 22) (first level vs rest)",
+   "O2": "override Boschloo with 3 groups -> p of groups A vs B only",
+   "O3": "boschloo_max_n = NULL at n = 42 -> Boschloo; boschloo_max_n = 10 -> Fisher with warning",
+   "O4": "override 'Exact binomal test' -> p NA",
+   "O5": "global override Boschloo -> also applied to a numeric variable (p 0.748222)"
+  }
+ }
+}

@@ -1,0 +1,35 @@
+test_that("history keeps result and draft mismatched until inputs acknowledge restoration", {
+ skip_if_not_installed("shiny");skip_if_not_installed("ggplot2")
+ shiny::testServer(.ig_power_workspace_server,args=list(language=shiny::reactive("en")), {
+  session$flushReact()
+  session$setInputs(method="t_means_one_sample",mode="post_hoc",research=TRUE,
+    field_t_means_one_sample_d="0.5",field_t_means_one_sample_alpha="0.05",
+    field_t_means_one_sample_n_total="30",option_t_means_one_sample_tails="two")
+  session$setInputs(calculate=1)
+  first <- state()$committed$analysis_hash
+  session$setInputs(field_t_means_one_sample_d="0.8",calculate=2)
+  second <- state()$committed$analysis_hash
+  expect_false(identical(first,second))
+  session$setInputs(history_back=1)
+  expect_identical(state()$committed$analysis_hash,first)
+  expect_true(state()$dirty)
+  expect_match(output$status,"Restoring history")
+  session$setInputs(calculate=3)
+  expect_identical(state()$committed$analysis_hash,first)
+  session$setInputs(field_t_means_one_sample_d="0.5")
+  expect_false(state()$dirty)
+  expect_null(restoring())
+  session$setInputs(history_forward=1)
+  expect_identical(state()$committed$analysis_hash,second)
+  expect_true(state()$dirty)
+  session$setInputs(field_t_means_one_sample_d="0.8")
+  expect_false(state()$dirty)
+  expect_length(state()$history,2)
+  session$setInputs(history_back=2)
+  session$setInputs(field_t_means_one_sample_d="0.5")
+  session$setInputs(field_t_means_one_sample_d="0.6",calculate=4)
+  expect_length(state()$history,2)
+  expect_equal(state()$cursor,2)
+  expect_equal(state()$committed$spec$inputs$d,.6)
+ })
+})

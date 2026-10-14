@@ -1,0 +1,827 @@
+{
+  "method": "Independent dense block-covariance REML profile; grid-bracketed scalar variance-ratio optimization and GLS coefficient covariance, separate beta-integral tails",
+  "cases": [
+    {
+      "name": "repeated_balanced",
+      "kind": "lmm_repeated_measures",
+      "data": [
+        {
+          "id": 1,
+          "cluster": 1,
+          "level": 0,
+          "y": -6
+        },
+        {
+          "id": 2,
+          "cluster": 1,
+          "level": 1,
+          "y": -3
+        },
+        {
+          "id": 3,
+          "cluster": 1,
+          "level": 2,
+          "y": 1
+        },
+        {
+          "id": 4,
+          "cluster": 2,
+          "level": 0,
+          "y": -2
+        },
+        {
+          "id": 5,
+          "cluster": 2,
+          "level": 1,
+          "y": -2
+        },
+        {
+          "id": 6,
+          "cluster": 2,
+          "level": 2,
+          "y": 2
+        },
+        {
+          "id": 7,
+          "cluster": 3,
+          "level": 0,
+          "y": -1
+        },
+        {
+          "id": 8,
+          "cluster": 3,
+          "level": 1,
+          "y": 2
+        },
+        {
+          "id": 9,
+          "cluster": 3,
+          "level": 2,
+          "y": 3
+        },
+        {
+          "id": 10,
+          "cluster": 4,
+          "level": 0,
+          "y": 1
+        },
+        {
+          "id": 11,
+          "cluster": 4,
+          "level": 1,
+          "y": 2
+        },
+        {
+          "id": 12,
+          "cluster": 4,
+          "level": 2,
+          "y": 4
+        },
+        {
+          "id": 13,
+          "cluster": 5,
+          "level": 0,
+          "y": 0
+        },
+        {
+          "id": 14,
+          "cluster": 5,
+          "level": 1,
+          "y": 4
+        },
+        {
+          "id": 15,
+          "cluster": 5,
+          "level": 2,
+          "y": 6
+        },
+        {
+          "id": 16,
+          "cluster": 6,
+          "level": 0,
+          "y": 2
+        },
+        {
+          "id": 17,
+          "cluster": 6,
+          "level": 1,
+          "y": 3
+        },
+        {
+          "id": 18,
+          "cluster": 6,
+          "level": 2,
+          "y": 8
+        },
+        {
+          "id": 19,
+          "cluster": 7,
+          "level": 0,
+          "y": 5
+        },
+        {
+          "id": 20,
+          "cluster": 7,
+          "level": 1,
+          "y": 5
+        },
+        {
+          "id": 21,
+          "cluster": 7,
+          "level": 2,
+          "y": 9
+        },
+        {
+          "id": 22,
+          "cluster": 8,
+          "level": 0,
+          "y": 5
+        },
+        {
+          "id": 23,
+          "cluster": 8,
+          "level": 1,
+          "y": 8
+        },
+        {
+          "id": 24,
+          "cluster": 8,
+          "level": 2,
+          "y": 12
+        }
+      ],
+      "missing_ids": [],
+      "means": [
+        0.5000000000000066,
+        2.3750000000000018,
+        5.625000000000003
+      ],
+      "se": [
+        1.3041828198732244,
+        1.3041828198732246,
+        1.3041828198732246
+      ],
+      "sigma2": 1.1250000106317255,
+      "tau2": 12.482142610588069,
+      "F": 47.81481436294451,
+      "df1": 2,
+      "df2": 14,
+      "p_value": 5.538608227772132e-07,
+      "profile_log_ratio": 2.4065159866392536
+    },
+    {
+      "name": "repeated_missing",
+      "kind": "lmm_repeated_measures",
+      "data": [
+        {
+          "id": 1,
+          "cluster": 1,
+          "level": 0,
+          "y": -6
+        },
+        {
+          "id": 2,
+          "cluster": 1,
+          "level": 1,
+          "y": -3
+        },
+        {
+          "id": 3,
+          "cluster": 1,
+          "level": 2,
+          "y": 1
+        },
+        {
+          "id": 4,
+          "cluster": 2,
+          "level": 0,
+          "y": -2
+        },
+        {
+          "id": 5,
+          "cluster": 2,
+          "level": 1,
+          "y": -2
+        },
+        {
+          "id": 6,
+          "cluster": 2,
+          "level": 2,
+          "y": 2
+        },
+        {
+          "id": 7,
+          "cluster": 3,
+          "level": 0,
+          "y": -1
+        },
+        {
+          "id": 8,
+          "cluster": 3,
+          "level": 1,
+          "y": 2
+        },
+        {
+          "id": 9,
+          "cluster": 3,
+          "level": 2,
+          "y": 3
+        },
+        {
+          "id": 10,
+          "cluster": 4,
+          "level": 0,
+          "y": 1
+        },
+        {
+          "id": 11,
+          "cluster": 4,
+          "level": 1,
+          "y": 2
+        },
+        {
+          "id": 12,
+          "cluster": 4,
+          "level": 2,
+          "y": 4
+        },
+        {
+          "id": 13,
+          "cluster": 5,
+          "level": 0,
+          "y": 0
+        },
+        {
+          "id": 14,
+          "cluster": 5,
+          "level": 1,
+          "y": 4
+        },
+        {
+          "id": 15,
+          "cluster": 5,
+          "level": 2,
+          "y": 6
+        },
+        {
+          "id": 16,
+          "cluster": 6,
+          "level": 0,
+          "y": 2
+        },
+        {
+          "id": 17,
+          "cluster": 6,
+          "level": 1,
+          "y": 3
+        },
+        {
+          "id": 18,
+          "cluster": 6,
+          "level": 2,
+          "y": 8
+        },
+        {
+          "id": 19,
+          "cluster": 7,
+          "level": 0,
+          "y": 5
+        },
+        {
+          "id": 20,
+          "cluster": 7,
+          "level": 1,
+          "y": 5
+        },
+        {
+          "id": 21,
+          "cluster": 7,
+          "level": 2,
+          "y": 9
+        },
+        {
+          "id": 22,
+          "cluster": 8,
+          "level": 0,
+          "y": 5
+        },
+        {
+          "id": 23,
+          "cluster": 8,
+          "level": 1,
+          "y": 8
+        },
+        {
+          "id": 24,
+          "cluster": 8,
+          "level": 2,
+          "y": 12
+        }
+      ],
+      "missing_ids": [
+        1,
+        5,
+        12,
+        19
+      ],
+      "means": [
+        0.4460790838463595,
+        2.5686385644276877,
+        5.856135492856788
+      ],
+      "se": [
+        1.2360916963613517,
+        1.2222520885198216,
+        1.2222520885198216
+      ],
+      "sigma2": 0.9418755571677411,
+      "tau2": 10.807422170594887,
+      "F": 46.48294787588572,
+      "df1": 2,
+      "df2": 10,
+      "p_value": 8.640382925895218e-06,
+      "profile_log_ratio": 2.4401152541581794
+    },
+    {
+      "name": "cluster_balanced",
+      "kind": "lmm_cluster_random_intercept",
+      "data": [
+        {
+          "id": 1,
+          "cluster": 1,
+          "level": 0,
+          "y": -4
+        },
+        {
+          "id": 2,
+          "cluster": 1,
+          "level": 0,
+          "y": -3
+        },
+        {
+          "id": 3,
+          "cluster": 1,
+          "level": 0,
+          "y": -2
+        },
+        {
+          "id": 4,
+          "cluster": 2,
+          "level": 0,
+          "y": -3
+        },
+        {
+          "id": 5,
+          "cluster": 2,
+          "level": 0,
+          "y": -2
+        },
+        {
+          "id": 6,
+          "cluster": 2,
+          "level": 0,
+          "y": -1
+        },
+        {
+          "id": 7,
+          "cluster": 3,
+          "level": 0,
+          "y": -2
+        },
+        {
+          "id": 8,
+          "cluster": 3,
+          "level": 0,
+          "y": -1
+        },
+        {
+          "id": 9,
+          "cluster": 3,
+          "level": 0,
+          "y": 0
+        },
+        {
+          "id": 10,
+          "cluster": 4,
+          "level": 0,
+          "y": 0
+        },
+        {
+          "id": 11,
+          "cluster": 4,
+          "level": 0,
+          "y": 1
+        },
+        {
+          "id": 12,
+          "cluster": 4,
+          "level": 0,
+          "y": 2
+        },
+        {
+          "id": 13,
+          "cluster": 5,
+          "level": 0,
+          "y": 1
+        },
+        {
+          "id": 14,
+          "cluster": 5,
+          "level": 0,
+          "y": 2
+        },
+        {
+          "id": 15,
+          "cluster": 5,
+          "level": 0,
+          "y": 3
+        },
+        {
+          "id": 16,
+          "cluster": 6,
+          "level": 0,
+          "y": 2
+        },
+        {
+          "id": 17,
+          "cluster": 6,
+          "level": 0,
+          "y": 3
+        },
+        {
+          "id": 18,
+          "cluster": 6,
+          "level": 0,
+          "y": 4
+        },
+        {
+          "id": 19,
+          "cluster": 7,
+          "level": 1,
+          "y": -1
+        },
+        {
+          "id": 20,
+          "cluster": 7,
+          "level": 1,
+          "y": 0
+        },
+        {
+          "id": 21,
+          "cluster": 7,
+          "level": 1,
+          "y": 1
+        },
+        {
+          "id": 22,
+          "cluster": 8,
+          "level": 1,
+          "y": 0
+        },
+        {
+          "id": 23,
+          "cluster": 8,
+          "level": 1,
+          "y": 1
+        },
+        {
+          "id": 24,
+          "cluster": 8,
+          "level": 1,
+          "y": 2
+        },
+        {
+          "id": 25,
+          "cluster": 9,
+          "level": 1,
+          "y": 1
+        },
+        {
+          "id": 26,
+          "cluster": 9,
+          "level": 1,
+          "y": 2
+        },
+        {
+          "id": 27,
+          "cluster": 9,
+          "level": 1,
+          "y": 3
+        },
+        {
+          "id": 28,
+          "cluster": 10,
+          "level": 1,
+          "y": 3
+        },
+        {
+          "id": 29,
+          "cluster": 10,
+          "level": 1,
+          "y": 4
+        },
+        {
+          "id": 30,
+          "cluster": 10,
+          "level": 1,
+          "y": 5
+        },
+        {
+          "id": 31,
+          "cluster": 11,
+          "level": 1,
+          "y": 4
+        },
+        {
+          "id": 32,
+          "cluster": 11,
+          "level": 1,
+          "y": 5
+        },
+        {
+          "id": 33,
+          "cluster": 11,
+          "level": 1,
+          "y": 6
+        },
+        {
+          "id": 34,
+          "cluster": 12,
+          "level": 1,
+          "y": 5
+        },
+        {
+          "id": 35,
+          "cluster": 12,
+          "level": 1,
+          "y": 6
+        },
+        {
+          "id": 36,
+          "cluster": 12,
+          "level": 1,
+          "y": 7
+        }
+      ],
+      "missing_ids": [],
+      "means": [
+        7.771561172376096e-16,
+        3.0
+      ],
+      "se": [
+        0.9660917722077029,
+        0.9660917722077029
+      ],
+      "sigma2": 1.0000000093776402,
+      "tau2": 5.266666537505306,
+      "F": 4.821428679941261,
+      "df1": 1,
+      "df2": 10,
+      "p_value": 0.05281735439244733,
+      "profile_log_ratio": 1.661397617462862
+    },
+    {
+      "name": "cluster_missing",
+      "kind": "lmm_cluster_random_intercept",
+      "data": [
+        {
+          "id": 1,
+          "cluster": 1,
+          "level": 0,
+          "y": -4
+        },
+        {
+          "id": 2,
+          "cluster": 1,
+          "level": 0,
+          "y": -3
+        },
+        {
+          "id": 3,
+          "cluster": 1,
+          "level": 0,
+          "y": -2
+        },
+        {
+          "id": 4,
+          "cluster": 2,
+          "level": 0,
+          "y": -3
+        },
+        {
+          "id": 5,
+          "cluster": 2,
+          "level": 0,
+          "y": -2
+        },
+        {
+          "id": 6,
+          "cluster": 2,
+          "level": 0,
+          "y": -1
+        },
+        {
+          "id": 7,
+          "cluster": 3,
+          "level": 0,
+          "y": -2
+        },
+        {
+          "id": 8,
+          "cluster": 3,
+          "level": 0,
+          "y": -1
+        },
+        {
+          "id": 9,
+          "cluster": 3,
+          "level": 0,
+          "y": 0
+        },
+        {
+          "id": 10,
+          "cluster": 4,
+          "level": 0,
+          "y": 0
+        },
+        {
+          "id": 11,
+          "cluster": 4,
+          "level": 0,
+          "y": 1
+        },
+        {
+          "id": 12,
+          "cluster": 4,
+          "level": 0,
+          "y": 2
+        },
+        {
+          "id": 13,
+          "cluster": 5,
+          "level": 0,
+          "y": 1
+        },
+        {
+          "id": 14,
+          "cluster": 5,
+          "level": 0,
+          "y": 2
+        },
+        {
+          "id": 15,
+          "cluster": 5,
+          "level": 0,
+          "y": 3
+        },
+        {
+          "id": 16,
+          "cluster": 6,
+          "level": 0,
+          "y": 2
+        },
+        {
+          "id": 17,
+          "cluster": 6,
+          "level": 0,
+          "y": 3
+        },
+        {
+          "id": 18,
+          "cluster": 6,
+          "level": 0,
+          "y": 4
+        },
+        {
+          "id": 19,
+          "cluster": 7,
+          "level": 1,
+          "y": -1
+        },
+        {
+          "id": 20,
+          "cluster": 7,
+          "level": 1,
+          "y": 0
+        },
+        {
+          "id": 21,
+          "cluster": 7,
+          "level": 1,
+          "y": 1
+        },
+        {
+          "id": 22,
+          "cluster": 8,
+          "level": 1,
+          "y": 0
+        },
+        {
+          "id": 23,
+          "cluster": 8,
+          "level": 1,
+          "y": 1
+        },
+        {
+          "id": 24,
+          "cluster": 8,
+          "level": 1,
+          "y": 2
+        },
+        {
+          "id": 25,
+          "cluster": 9,
+          "level": 1,
+          "y": 1
+        },
+        {
+          "id": 26,
+          "cluster": 9,
+          "level": 1,
+          "y": 2
+        },
+        {
+          "id": 27,
+          "cluster": 9,
+          "level": 1,
+          "y": 3
+        },
+        {
+          "id": 28,
+          "cluster": 10,
+          "level": 1,
+          "y": 3
+        },
+        {
+          "id": 29,
+          "cluster": 10,
+          "level": 1,
+          "y": 4
+        },
+        {
+          "id": 30,
+          "cluster": 10,
+          "level": 1,
+          "y": 5
+        },
+        {
+          "id": 31,
+          "cluster": 11,
+          "level": 1,
+          "y": 4
+        },
+        {
+          "id": 32,
+          "cluster": 11,
+          "level": 1,
+          "y": 5
+        },
+        {
+          "id": 33,
+          "cluster": 11,
+          "level": 1,
+          "y": 6
+        },
+        {
+          "id": 34,
+          "cluster": 12,
+          "level": 1,
+          "y": 5
+        },
+        {
+          "id": 35,
+          "cluster": 12,
+          "level": 1,
+          "y": 6
+        },
+        {
+          "id": 36,
+          "cluster": 12,
+          "level": 1,
+          "y": 7
+        }
+      ],
+      "missing_ids": [
+        2,
+        7,
+        13,
+        28
+      ],
+      "means": [
+        0.17355856078883178,
+        3.0768835901474905
+      ],
+      "se": [
+        0.990857275464204,
+        0.9863358241197296
+      ],
+      "sigma2": 0.974553790110524,
+      "tau2": 5.485844183085654,
+      "F": 4.312418183710506,
+      "df1": 1,
+      "df2": 10,
+      "p_value": 0.06456116244156164,
+      "profile_log_ratio": 1.7279465533735834
+    }
+  ]
+}

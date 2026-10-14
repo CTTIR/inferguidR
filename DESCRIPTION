@@ -1,0 +1,64 @@
+Package: inferguidR
+Type: Package
+Title: Guided Inference, Power Analysis and Diagnostic Accuracy
+Version: 0.0.0.9000
+Authors@R:
+    person("Raban", "Heller", , "raban.heller@charite.de", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0001-8006-9742"))
+Description: Plans and explains statistical analyses. Provides a registry of
+    power-analysis procedures modelled on the test inventory of the 'G*Power'
+    3.1 program, immutable analysis specifications that are validated against
+    each procedure's modes, inputs and options, and results that always carry a
+    typed status (ok, infeasible, unsupported, invalid input, numerical failure
+    or reference pending) together with provenance and a reproducible R call.
+    Specifications, results, analysis envelopes, advisor recommendations and
+    report snapshots are serialised as canonical JSON with SHA-256 hashes and
+    versioned JSON Schemas, and are imported again without evaluating code.
+    Power calculations, diagnostic-accuracy and classifier-cutoff tools, a
+    guided method advisor and an interactive 'shiny' application are added in
+    stages; a procedure without an implemented engine returns the status
+    'unsupported' instead of a number. Numerical agreement with 'G*Power' is
+    not claimed until it has been shown against recorded reference cases.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 8.0.0
+Depends:
+    R (>= 4.1.0)
+Imports:
+    digest,
+    grDevices,
+    graphics,
+    grid,
+    jsonlite,
+    stats,
+    utils
+Suggests:
+    bslib,
+    cluster,
+    Exact,
+    exact2x2,
+    geepack,
+    ggplot2,
+    jsonvalidate,
+    knitr,
+    lme4,
+    MASS,
+    MESS,
+    nlme,
+    nnet,
+    pROC,
+    pwr,
+    pwrss,
+    quarto,
+    rmarkdown,
+    shiny,
+    shinytest2,
+    testthat (>= 3.0.0),
+    WebPower,
+    withr,
+    yardstick
+Config/testthat/edition: 3
+Config/testthat/parallel: true
+URL: https://github.com/CTTIR/inferguidR
+BugReports: https://github.com/CTTIR/inferguidR/issues

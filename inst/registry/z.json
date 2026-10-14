@@ -1,0 +1,4599 @@
+{
+  "schema_version": "inferguidR.registry/0.1.0",
+  "family": "z",
+  "family_label": "z tests",
+  "source": {
+    "path": "specs/gpower-capabilities.json",
+    "sha256": "3a8bfd54327cac2a1adf4c4efb3ec0a9793400ee3db9ca4462eacae4ccfa5f86",
+    "inventory_status": "certified",
+    "inventory_date": "2026-10-03",
+    "live_capture_date": "2026-10-05",
+    "reference_versions": {
+      "manual": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)",
+      "mac_resources": "G*Power 3.1.9.6 Mac bundle (static inspection; not executed)",
+      "windows_resources": "G*Power 3.1.9.7 GPowerNT.exe (static PE-resource and string inspection; not executed)",
+      "windows_live": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+    }
+  },
+  "generated_by": "project/tools/build_registry.R",
+  "reference_note": "Inventory certified against the running G*Power 3.1.9.7 under Wine 10.0 (emulator_capture; decisions D22/D23; specs/gpower-app-capture.json): modes, options, defaults and the live input and output labels per analysis type. Every method stays reference_pending here; agreement with G*Power is reported per method domain by fixture comparisons (validation/compare/).",
+  "methods": [
+    {
+      "method_id": "z_logistic_regression",
+      "family": "z",
+      "inventory_index": 39,
+      "label": {
+        "en": "Logistic regression",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Logistic regression",
+        "mac_3196": "Logistic regression (also literals 'Logistic regression: Continuous predictors', 'Logistic regression: Binary predictors' - role unverified)",
+        "windows_3197_live": "Logistic regression"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Correlation and regression > Logistic regression",
+        "mac_3196": "Tests > Correlation and regression > Logistic regression"
+      },
+      "aliases": ["Z test: Multiple Logistic Regression [manual ch. 29]"],
+      "hypothesis": {
+        "H0": "beta1 = 0 (other betas unrestricted)",
+        "H1": "beta1 != 0",
+        "test": "Wald (large sample / enumeration) or likelihood ratio (enumeration)"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["a_priori"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.z_logistic_regression.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally. Sensitivity excluded for the Manual X-distribution branches.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "computation",
+          "ui_label": "Computation",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "enumeration",
+              "label": "Use enumeration procedure (Lyles et al., 2007) if N < x",
+              "live": {
+                "kind": "radio",
+                "id": 1218,
+                "text": "Use enumeration procedure (Lyles et al., 2007) if  N  <",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "large_sample",
+              "label": "Use large sample approximation",
+              "live": {
+                "kind": "radio",
+                "id": 1098,
+                "text": "Use large sample approximation",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "large_sample",
+          "default_value": null,
+          "default_label": "Use large sample approximation",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1218,
+                "kind": "radio",
+                "text": "Use enumeration procedure (Lyles et al., 2007) if  N  <",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1098,
+                "kind": "radio",
+                "text": "Use large sample approximation",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1137,
+                "kind": "edit",
+                "default": "10000",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true,
+            "secondary_controls": [
+              {
+                "kind": "edit",
+                "id": 1137,
+                "default": "10000"
+              }
+            ]
+          },
+          "notes": "Enumeration is required for likelihood-ratio tests and is not available with the Manual X distribution (manual §29.1/§30.1)."
+        },
+        {
+          "option_id": "test_statistic",
+          "ui_label": "Test statistic",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "wald",
+              "label": "Wald",
+              "live": {
+                "kind": "radio",
+                "id": 1217,
+                "text": "Wald",
+                "match": "text"
+              }
+            },
+            {
+              "code": "likelihood_ratio",
+              "label": "Likelihood ratio",
+              "live": {
+                "kind": "radio",
+                "id": 1099,
+                "text": "Likelihood ratio",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "wald",
+          "default_value": null,
+          "default_label": "Wald",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "enumeration procedure",
+            "condition": {
+              "option": "computation",
+              "in": ["enumeration"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1217,
+                "kind": "radio",
+                "text": "Wald",
+                "checked_by_default": true,
+                "enabled_by_default": false
+              },
+              {
+                "id": 1099,
+                "kind": "radio",
+                "text": "Likelihood ratio",
+                "checked_by_default": false,
+                "enabled_by_default": false
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": false
+          },
+          "notes": null
+        },
+        {
+          "option_id": "test_procedure",
+          "ui_label": "Test procedure",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "demidenko",
+              "label": "Demidenko (2007) - recommended",
+              "live": {
+                "kind": "radio",
+                "id": 1219,
+                "text": "Demidenko (2007) - recommended",
+                "match": "text"
+              }
+            },
+            {
+              "code": "hsieh",
+              "label": "Hsieh et al. (1998) - for binary and N(0,1) X-Distribution",
+              "live": {
+                "kind": "radio",
+                "id": 1100,
+                "text": "Hsieh et al. (1998) - for binary and N(0,1) X-Distribution",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "demidenko",
+          "default_value": null,
+          "default_label": "Demidenko (2007) - recommended",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "large sample approximation",
+            "condition": {
+              "option": "computation",
+              "in": ["large_sample"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1219,
+                "kind": "radio",
+                "text": "Demidenko (2007) - recommended",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1100,
+                "kind": "radio",
+                "text": "Hsieh et al. (1998) - for binary and N(0,1) X-Distribution",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": "If Hsieh is selected with an X distribution other than standard normal or binomial, G*Power switches to Demidenko automatically (manual §29.2)."
+        },
+        {
+          "option_id": "variance_correction",
+          "ui_label": "With variance correction",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "on",
+              "label": "checked",
+              "live": {
+                "kind": "checkbox",
+                "id": 1019,
+                "text": "With variance correction",
+                "state": "checked",
+                "match": "check_box_state"
+              }
+            },
+            {
+              "code": "off",
+              "label": "unchecked",
+              "live": {
+                "kind": "checkbox",
+                "id": 1019,
+                "text": "With variance correction",
+                "state": "unchecked",
+                "match": "check_box_state"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "on",
+          "default_value": null,
+          "default_label": "checked",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "Demidenko procedure",
+            "condition": {
+              "option": "test_procedure",
+              "in": ["demidenko"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1019,
+                "kind": "checkbox",
+                "text": "With variance correction",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "x_distribution",
+          "ui_label": "X distribution",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "binomial",
+              "label": "Binomial",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Binomial",
+                "match": "text"
+              }
+            },
+            {
+              "code": "exponential",
+              "label": "Exponential",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Exponential",
+                "match": "text"
+              }
+            },
+            {
+              "code": "lognormal",
+              "label": "Lognormal",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Lognormal",
+                "match": "text"
+              }
+            },
+            {
+              "code": "normal",
+              "label": "Normal",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Normal",
+                "match": "text"
+              }
+            },
+            {
+              "code": "poisson",
+              "label": "Poisson",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Poisson",
+                "match": "text"
+              }
+            },
+            {
+              "code": "uniform",
+              "label": "Uniform",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Uniform",
+                "match": "text"
+              }
+            },
+            {
+              "code": "manual",
+              "label": "Manual",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Manual",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "normal",
+          "default_value": null,
+          "default_label": "Normal",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "X distribution"
+          },
+          "notes": "Manual mode takes X Var(β|H0) and X Var(β|H1); sensitivity analysis not possible in manual mode."
+        },
+        {
+          "option_id": "r2_other_x",
+          "ui_label": "R² other X",
+          "kind": "main_window_input",
+          "value_type": "continuous",
+          "values": [],
+          "domain": {
+            "text": "[0, 1]",
+            "lower": 0,
+            "lower_inclusive": true,
+            "upper": 1,
+            "upper_inclusive": true
+          },
+          "default": null,
+          "default_value": 0,
+          "default_label": "0",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "Edit",
+            "label": "R² other X",
+            "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"]
+          },
+          "notes": null
+        },
+        {
+          "option_id": "effect_size_input_mode",
+          "ui_label": "Input effect size as ...",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "odds_ratio",
+              "label": "Odds ratio",
+              "live": {
+                "kind": "radio",
+                "id": 1220,
+                "text": "Odds ratio",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two_probabilities",
+              "label": "Two probabilities",
+              "live": {
+                "kind": "radio",
+                "id": 1101,
+                "text": "Two probabilities",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "odds_ratio",
+          "default_value": null,
+          "default_label": "Odds ratio",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "parameterisation (solved quantity in sensitivity)",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1220,
+                "kind": "radio",
+                "text": "Odds ratio",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1101,
+                "kind": "radio",
+                "text": "Two probabilities",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "effect_direction",
+          "ui_label": "Effect direction (sensitivity)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "p2_le_p1",
+              "label": "p2 <= p1",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "p2 <= p1",
+                "match": "text"
+              }
+            },
+            {
+              "code": "p2_ge_p1",
+              "label": "p2 >= p1",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "p2 >= p1",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "p2_le_p1",
+          "default_value": null,
+          "default_label": "p2 <= p1",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "sensitivity mode",
+            "condition": {
+              "mode": ["sensitivity"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Effect direction"
+          },
+          "notes": null
+        }
+      ],
+      "effect_size": {
+        "symbol": "OR or p2 given p1",
+        "definition": "p1 = Pr(Y=1|X=1) H0; p2 = Pr(Y=1|X=1) H1; OR = [p2/(1-p2)]/[p1/(1-p1)], beta1 = log OR",
+        "conventions": null,
+        "drawer": {
+          "drawer_id": "drawer_Z_LogRegress (Mac) / RT_DIALOG 236 (Windows)",
+          "input_modes": ["probabilities <-> odds ratio"],
+          "inputs": ["Pr(Y=1|X=1) H0", "Pr(Y=1|X=1) H1", "Odds ratio"],
+          "outputs": ["Odds ratio / Pr(Y=1|X=1) H1"]
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "Odds ratio", "Pr(Y=1|X=1) H0", "α err prob", "Power (1-β err prob)", "R² other X", "X distribution", "X parm μ", "X parm σ", "β/α ratio", "Total sample size", "Effect direction"],
+      "outputs": ["Critical z", "Total sample size", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "Odds ratio"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Pr(Y=1|X=1) H0",
+            "control": "Edit",
+            "default": "0.2"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "R² other X",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X distribution",
+            "control": "ComboBox",
+            "default": "Normal",
+            "choices": ["Binomial", "Exponential", "Lognormal", "Normal", "Poisson", "Uniform", "Manual"]
+          },
+          {
+            "label": "X parm μ",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X parm σ",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Pr(Y=1|X=1) H0",
+            "control": "Edit",
+            "default": "0.2"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "R² other X",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X distribution",
+            "control": "ComboBox",
+            "default": "Normal",
+            "choices": ["Binomial", "Exponential", "Lognormal", "Normal", "Poisson", "Uniform", "Manual"]
+          },
+          {
+            "label": "X parm μ",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X parm σ",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect direction",
+            "control": "ComboBox",
+            "default": "p2 <= p1",
+            "choices": ["p2 <= p1", "p2 >= p1"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Pr(Y=1|X=1) H0",
+            "control": "Edit",
+            "default": "0.2"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "R² other X",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X distribution",
+            "control": "ComboBox",
+            "default": "Normal",
+            "choices": ["Binomial", "Exponential", "Lognormal", "Normal", "Poisson", "Uniform", "Manual"]
+          },
+          {
+            "label": "X parm μ",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X parm σ",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Pr(Y=1|X=1) H0",
+            "control": "Edit",
+            "default": "0.2"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "R² other X",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X distribution",
+            "control": "ComboBox",
+            "default": "Normal",
+            "choices": ["Binomial", "Exponential", "Lognormal", "Normal", "Poisson", "Uniform", "Manual"]
+          },
+          {
+            "label": "X parm μ",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X parm σ",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Pr(Y=1|X=1) H0",
+            "control": "Edit",
+            "default": "0.2"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "R² other X",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X distribution",
+            "control": "ComboBox",
+            "default": "Normal",
+            "choices": ["Binomial", "Exponential", "Lognormal", "Normal", "Poisson", "Uniform", "Manual"]
+          },
+          {
+            "label": "X parm μ",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X parm σ",
+            "control": "Edit",
+            "default": "1"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Critical z", "Total sample size", "Actual power"],
+        "post_hoc": ["Critical z", "Power (1-β err prob)"],
+        "sensitivity": ["Critical z", "Odds ratio", "Actual power"],
+        "criterion": ["Critical z", "α err prob"],
+        "compromise": ["Critical z", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "29",
+        "pdf_pages": [70, 71, 72, 73, 74],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-150", "DOC-151", "DOC-152", "DOC-153", "DOC-154", "DOC-155", "DOC-156", "DOC-157", "DOC-158", "DOC-159"],
+      "coverage": {
+        "row_count": 432,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "x_distribution": ["binomial", "exponential", "lognormal", "normal", "poisson", "uniform", "manual"],
+          "procedure": ["enumeration", "large_sample_demidenko", "large_sample_hsieh"],
+          "test_statistic": ["wald", "likelihood_ratio"],
+          "effect_direction": ["p2_le_p1", "p2_ge_p1"],
+          "sensitivity_target": ["odds_ratio", "two_probabilities"],
+          "variance_correction": ["off", "on"]
+        },
+        "branches_added": [],
+        "branches_pruned": [],
+        "branch_note_live": "The Manual X distribution is not offered with the enumeration procedure (live list); no branch combines them."
+      },
+      "owner_phase": "08",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.z_logistic_regression",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["From 3.1.8 on, sensitivity returns the power-maximising effect size when the target power is unattainable (manual §29.3).", "Variance-correction constant a = 0.75 (lognormal), 0.85 (binomial), 1 otherwise (manual §29.6.2).", "[completeness review 2026-10-03] Manual §29.1 exponential X density is garbled ('(1/λ)e^(-1/λ)'), so the rate-vs-mean meaning of X parm λ is not documented for logistic regression; verify by capture.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "z_poisson_regression",
+      "family": "z",
+      "inventory_index": 40,
+      "label": {
+        "en": "Poisson regression",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Poisson regression",
+        "mac_3196": "Poisson regression",
+        "windows_3197_live": "Poisson regression"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Correlation and regression > Poisson regression",
+        "mac_3196": "Tests > Correlation and regression > Poisson regression"
+      },
+      "aliases": ["Z test: Poisson Regression [manual ch. 30]", "Regression: Poisson Regression [manual example 'Statistical test' line]"],
+      "hypothesis": {
+        "H0": "beta1 = 0",
+        "H1": "beta1 != 0"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["a_priori", "post_hoc"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.z_poisson_regression.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally. Sensitivity excluded for Manual X distribution (manual §30.5.2).",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "computation",
+          "ui_label": "Computation",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "enumeration",
+              "label": "Use enumeration procedure (Lyles et al., 2007) if N < x",
+              "live": {
+                "kind": "radio",
+                "id": 1218,
+                "text": "use enumeration procedure (Lyles et al., 2007) if  N  <",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "large_sample",
+              "label": "Use large sample approximation",
+              "live": {
+                "kind": "radio",
+                "id": 1098,
+                "text": "use large sample approximation",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "large_sample",
+          "default_value": null,
+          "default_label": "use large sample approximation",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1218,
+                "kind": "radio",
+                "text": "use enumeration procedure (Lyles et al., 2007) if  N  <",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1098,
+                "kind": "radio",
+                "text": "use large sample approximation",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1137,
+                "kind": "edit",
+                "default": "10000",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true,
+            "secondary_controls": [
+              {
+                "kind": "edit",
+                "id": 1137,
+                "default": "10000"
+              }
+            ]
+          },
+          "notes": "Enumeration is required for likelihood-ratio tests and is not available with the Manual X distribution (manual §29.1/§30.1)."
+        },
+        {
+          "option_id": "test_statistic",
+          "ui_label": "Test statistic",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "wald",
+              "label": "Wald",
+              "live": {
+                "kind": "radio",
+                "id": 1217,
+                "text": "Wald",
+                "match": "text"
+              }
+            },
+            {
+              "code": "likelihood_ratio",
+              "label": "Likelihood ratio",
+              "live": {
+                "kind": "radio",
+                "id": 1099,
+                "text": "Likelihood ratio",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "wald",
+          "default_value": null,
+          "default_label": "Wald",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "enumeration procedure",
+            "condition": {
+              "option": "computation",
+              "in": ["enumeration"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1217,
+                "kind": "radio",
+                "text": "Wald",
+                "checked_by_default": true,
+                "enabled_by_default": false
+              },
+              {
+                "id": 1099,
+                "kind": "radio",
+                "text": "Likelihood ratio",
+                "checked_by_default": false,
+                "enabled_by_default": false
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": false
+          },
+          "notes": null
+        },
+        {
+          "option_id": "test_procedure",
+          "ui_label": "Test procedure",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "demidenko",
+              "label": "Demidenko (2007) - recommended",
+              "live": {
+                "kind": "radio",
+                "id": 1219,
+                "text": "Demidenko (2007)",
+                "match": "prefix"
+              }
+            },
+            {
+              "code": "signorini",
+              "label": "Signorini (1991) - not recommended",
+              "live": {
+                "kind": "radio",
+                "id": 1100,
+                "text": "Signorini (1991) - not recommended",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "demidenko",
+          "default_value": null,
+          "default_label": "Demidenko (2007)",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "large sample approximation",
+            "condition": {
+              "option": "computation",
+              "in": ["large_sample"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1219,
+                "kind": "radio",
+                "text": "Demidenko (2007)",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1100,
+                "kind": "radio",
+                "text": "Signorini (1991) - not recommended",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": "Windows RT_DIALOG 242 caption reads 'Demidenko (2007)' without '- recommended'."
+        },
+        {
+          "option_id": "variance_correction",
+          "ui_label": "With variance correction",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "on",
+              "label": "checked",
+              "live": {
+                "kind": "checkbox",
+                "id": 1019,
+                "text": "With variance correction",
+                "state": "checked",
+                "match": "check_box_state"
+              }
+            },
+            {
+              "code": "off",
+              "label": "unchecked",
+              "live": {
+                "kind": "checkbox",
+                "id": 1019,
+                "text": "With variance correction",
+                "state": "unchecked",
+                "match": "check_box_state"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "on",
+          "default_value": null,
+          "default_label": "checked",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "Demidenko procedure, and also Signorini (live: the check box stays enabled and changes the result)",
+            "condition": {
+              "option": "test_procedure",
+              "in": ["demidenko", "signorini"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1019,
+                "kind": "checkbox",
+                "text": "With variance correction",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "x_distribution",
+          "ui_label": "X distribution",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "binomial",
+              "label": "Binomial",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Binomial",
+                "match": "text"
+              }
+            },
+            {
+              "code": "exponential",
+              "label": "Exponential",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Exponential",
+                "match": "text"
+              }
+            },
+            {
+              "code": "lognormal",
+              "label": "Lognormal",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Lognormal",
+                "match": "text"
+              }
+            },
+            {
+              "code": "normal",
+              "label": "Normal",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Normal",
+                "match": "text"
+              }
+            },
+            {
+              "code": "poisson",
+              "label": "Poisson",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Poisson",
+                "match": "text"
+              }
+            },
+            {
+              "code": "uniform",
+              "label": "Uniform",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Uniform",
+                "match": "text"
+              }
+            },
+            {
+              "code": "manual",
+              "label": "Manual",
+              "live": {
+                "kind": "ComboBox",
+                "label": "X distribution",
+                "text": "Manual",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "normal",
+          "default_value": null,
+          "default_label": "Normal",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "X distribution"
+          },
+          "notes": "Manual mode takes X Var(β|H0) and X Var(β|H1); sensitivity analysis not possible in manual mode."
+        },
+        {
+          "option_id": "r2_other_x",
+          "ui_label": "R² other X",
+          "kind": "main_window_input",
+          "value_type": "continuous",
+          "values": [],
+          "domain": {
+            "text": "[0, 1]",
+            "lower": 0,
+            "lower_inclusive": true,
+            "upper": 1,
+            "upper_inclusive": true
+          },
+          "default": null,
+          "default_value": 0,
+          "default_label": "0",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "Edit",
+            "label": "R² other X",
+            "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"]
+          },
+          "notes": null
+        },
+        {
+          "option_id": "over_dispersion",
+          "ui_label": "Over-dispersion",
+          "kind": "main_window_input",
+          "value_type": "continuous",
+          "values": [],
+          "domain": {
+            "text": "continuous (domain unknown)",
+            "lower": null,
+            "lower_inclusive": null,
+            "upper": null,
+            "upper_inclusive": null
+          },
+          "default": null,
+          "default_value": null,
+          "default_label": null,
+          "default_evidence": "unknown",
+          "result_affecting": true,
+          "result_affecting_note": "unknown (never displayed in the live application)",
+          "applies_when": null,
+          "live": {
+            "present": false,
+            "where": "main window",
+            "control": null,
+            "label": "Over-dispersion",
+            "note": "label never displayed in any captured main-window layout (all analysis types, all option variants)"
+          },
+          "notes": "Not documented in the June 2023 manual; must be characterised in the application."
+        },
+        {
+          "option_id": "effect_direction",
+          "ui_label": "Effect direction (sensitivity)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "beta1_le_0",
+              "label": "β1 <= 0",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "β1 <= 0",
+                "match": "text"
+              }
+            },
+            {
+              "code": "beta1_ge_0",
+              "label": "β1 >= 0",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "β1 >= 0",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "beta1_ge_0",
+          "default_value": null,
+          "default_label": "β1 >= 0",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "sensitivity mode",
+            "condition": {
+              "mode": ["sensitivity"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Effect direction"
+          },
+          "notes": null
+        }
+      ],
+      "effect_size": {
+        "symbol": "Exp(β1)",
+        "definition": "rate ratio R = exp(beta1) per unit X; Exp(β1)=1 not allowed a priori",
+        "conventions": null,
+        "drawer": null
+      },
+      "gpower_inputs": ["Tail(s)", "Exp(β1)", "α err prob", "Power (1-β err prob)", "Base rate exp(β0)", "Mean exposure", "R² other X", "X distribution", "X parm μ", "X parm σ", "β/α ratio", "Total sample size", "Effect direction"],
+      "outputs": ["Critical z", "Total sample size", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "Exp(β1)"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Exp(β1)",
+            "control": "Edit",
+            "default": "1.3"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Base rate exp(β0)",
+            "control": "Edit",
+            "default": "0.85"
+          },
+          {
+            "label": "Mean exposure",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "R² other X",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X distribution",
+            "control": "ComboBox",
+            "default": "Normal",
+            "choices": ["Binomial", "Exponential", "Lognormal", "Normal", "Poisson", "Uniform", "Manual"]
+          },
+          {
+            "label": "X parm μ",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X parm σ",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Exp(β1)",
+            "control": "Edit",
+            "default": "1.3"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Base rate exp(β0)",
+            "control": "Edit",
+            "default": "0.85"
+          },
+          {
+            "label": "Mean exposure",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "R² other X",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X distribution",
+            "control": "ComboBox",
+            "default": "Normal",
+            "choices": ["Binomial", "Exponential", "Lognormal", "Normal", "Poisson", "Uniform", "Manual"]
+          },
+          {
+            "label": "X parm μ",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X parm σ",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect direction",
+            "control": "ComboBox",
+            "default": "β1 >= 0",
+            "choices": ["β1 <= 0", "β1 >= 0"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Base rate exp(β0)",
+            "control": "Edit",
+            "default": "0.85"
+          },
+          {
+            "label": "Mean exposure",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "R² other X",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X distribution",
+            "control": "ComboBox",
+            "default": "Normal",
+            "choices": ["Binomial", "Exponential", "Lognormal", "Normal", "Poisson", "Uniform", "Manual"]
+          },
+          {
+            "label": "X parm μ",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X parm σ",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Exp(β1)",
+            "control": "Edit",
+            "default": "1.3"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Base rate exp(β0)",
+            "control": "Edit",
+            "default": "0.85"
+          },
+          {
+            "label": "Mean exposure",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "R² other X",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X distribution",
+            "control": "ComboBox",
+            "default": "Normal",
+            "choices": ["Binomial", "Exponential", "Lognormal", "Normal", "Poisson", "Uniform", "Manual"]
+          },
+          {
+            "label": "X parm μ",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X parm σ",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Exp(β1)",
+            "control": "Edit",
+            "default": "1.3"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Base rate exp(β0)",
+            "control": "Edit",
+            "default": "0.85"
+          },
+          {
+            "label": "Mean exposure",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "R² other X",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X distribution",
+            "control": "ComboBox",
+            "default": "Normal",
+            "choices": ["Binomial", "Exponential", "Lognormal", "Normal", "Poisson", "Uniform", "Manual"]
+          },
+          {
+            "label": "X parm μ",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "X parm σ",
+            "control": "Edit",
+            "default": "1"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Critical z", "Total sample size", "Actual power"],
+        "post_hoc": ["Critical z", "Power (1-β err prob)"],
+        "sensitivity": ["Critical z", "Exp(β1)"],
+        "criterion": ["Critical z", "α err prob"],
+        "compromise": ["Critical z", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "30",
+        "pdf_pages": [75, 76, 77, 78, 79],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-160", "DOC-161", "DOC-162", "DOC-163", "DOC-164", "DOC-165", "DOC-166", "DOC-167", "DOC-168", "DOC-169", "DOC-170", "DOC-171", "DOC-172", "DOC-173", "DOC-174", "DOC-175", "DOC-176", "DOC-177", "DOC-178", "DOC-179", "DOC-180", "DOC-181", "DOC-182", "DOC-183", "DOC-184", "DOC-185", "DOC-186", "DOC-187", "DOC-188", "DOC-189", "DOC-190", "DOC-191", "DOC-192", "DOC-193", "DOC-194", "DOC-195", "DOC-196", "DOC-197", "DOC-198", "DOC-199", "DOC-200", "DOC-201", "DOC-202", "DOC-203", "DOC-204", "DOC-205", "DOC-206", "DOC-207", "DOC-208", "DOC-209", "DOC-210", "DOC-211", "DOC-212", "DOC-213", "DOC-214", "DOC-215", "DOC-216", "DOC-217", "DOC-218", "DOC-219", "DOC-220", "DOC-221", "DOC-222", "DOC-223", "DOC-224", "DOC-225", "DOC-226", "DOC-227"],
+      "coverage": {
+        "row_count": 464,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "x_distribution": ["binomial", "exponential", "lognormal", "normal", "poisson", "uniform", "manual"],
+          "procedure": ["enumeration", "large_sample_demidenko", "large_sample_signorini"],
+          "test_statistic": ["wald", "likelihood_ratio"],
+          "effect_direction": ["beta1_le_0", "beta1_ge_0"],
+          "variance_correction": ["off", "on"]
+        },
+        "branches_added": [
+          {
+            "branch_id": "b187",
+            "branch_spec": "tails=one|x_distribution=binomial|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b188",
+            "branch_spec": "tails=one|x_distribution=binomial|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b189",
+            "branch_spec": "tails=one|x_distribution=binomial|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b190",
+            "branch_spec": "tails=one|x_distribution=exponential|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b191",
+            "branch_spec": "tails=one|x_distribution=exponential|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b192",
+            "branch_spec": "tails=one|x_distribution=exponential|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b193",
+            "branch_spec": "tails=one|x_distribution=lognormal|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b194",
+            "branch_spec": "tails=one|x_distribution=lognormal|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b195",
+            "branch_spec": "tails=one|x_distribution=lognormal|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b196",
+            "branch_spec": "tails=one|x_distribution=normal|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b197",
+            "branch_spec": "tails=one|x_distribution=normal|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b198",
+            "branch_spec": "tails=one|x_distribution=normal|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b199",
+            "branch_spec": "tails=one|x_distribution=poisson|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b200",
+            "branch_spec": "tails=one|x_distribution=poisson|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b201",
+            "branch_spec": "tails=one|x_distribution=poisson|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b202",
+            "branch_spec": "tails=one|x_distribution=uniform|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b203",
+            "branch_spec": "tails=one|x_distribution=uniform|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b204",
+            "branch_spec": "tails=one|x_distribution=uniform|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b205",
+            "branch_spec": "tails=one|x_distribution=manual|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b206",
+            "branch_spec": "tails=two|x_distribution=binomial|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b207",
+            "branch_spec": "tails=two|x_distribution=binomial|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b208",
+            "branch_spec": "tails=two|x_distribution=binomial|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b209",
+            "branch_spec": "tails=two|x_distribution=exponential|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b210",
+            "branch_spec": "tails=two|x_distribution=exponential|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b211",
+            "branch_spec": "tails=two|x_distribution=exponential|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b212",
+            "branch_spec": "tails=two|x_distribution=lognormal|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b213",
+            "branch_spec": "tails=two|x_distribution=lognormal|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b214",
+            "branch_spec": "tails=two|x_distribution=lognormal|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b215",
+            "branch_spec": "tails=two|x_distribution=normal|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b216",
+            "branch_spec": "tails=two|x_distribution=normal|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b217",
+            "branch_spec": "tails=two|x_distribution=normal|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b218",
+            "branch_spec": "tails=two|x_distribution=poisson|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b219",
+            "branch_spec": "tails=two|x_distribution=poisson|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b220",
+            "branch_spec": "tails=two|x_distribution=poisson|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b221",
+            "branch_spec": "tails=two|x_distribution=uniform|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b222",
+            "branch_spec": "tails=two|x_distribution=uniform|procedure=large_sample_signorini|effect_direction=beta1_le_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b223",
+            "branch_spec": "tails=two|x_distribution=uniform|procedure=large_sample_signorini|effect_direction=beta1_ge_0|variance_correction=off",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          },
+          {
+            "branch_id": "b224",
+            "branch_spec": "tails=two|x_distribution=manual|procedure=large_sample_signorini|variance_correction=off",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: the 'With variance correction' check box is enabled under Signorini and changes the result"
+          }
+        ],
+        "branches_pruned": [],
+        "branch_note_live": "The Manual X distribution is not offered with the enumeration procedure (live list); no branch combines them."
+      },
+      "owner_phase": "08",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.z_poisson_regression",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["Variance-correction constant a = 0.75 (lognormal), 1 otherwise (manual §30.5.2).", "[completeness review 2026-10-03] Manual §30.5.2 internal inconsistencies: (1) binomial X prints v0·exp(β0) = π/(1-π), but the stated limit v0 = lim_{β1→0} v1 of its own v1 formula gives 1/(π(1-π)); a scratch check (not reference evidence) of the Signorini column of Table 2 for Bin(0.2) reproduces 0.321 and 0.788 only with 1/(π(1-π)). (2) normal X prints v1·exp(β0) = exp(-[β1µ + (β1σ)²/2]) while v0·exp(β0) = 1/σ²; the limit requires a factor 1/σ² (no effect for σ = 1). (3) The exponential density in §30.1 is garbled ('(1/λ)e^(-1/λ)'); the MGF (1 - x/λ)^-1 in §30.5.2 implies a rate parameter λ (mean 1/λ) - verify the X parm λ meaning by capture before using the Exp(3) rows of Table 2.", "[second review pass 2026-10-03] With the §30.5.2 exponential formulas (v0·exp(β0) = λ², v1·exp(β0) = (λ − β1)³/λ) and the Signorini equations (16)-(17), reading 'Exp(3)' as rate λ = 3 reproduces the Table 2 Signorini column (0.649 and 0.952 for β1 = −0.4 and −0.7); reading 3 as the mean (rate 1/3) gives 1.000 (scratch arithmetic in R 4.6.1, not reference evidence). This supports the rate reading of the manual's formulas; the meaning of the UI field 'X parm λ' still has to be captured. The previous review's Bin(0.2) finding (only v0·exp(β0) = 1/(π(1 − π)) reproduces 0.321 and 0.788) was re-checked and holds; N(0,1), β1 = −0.1 also reproduces 0.443.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "z_tetrachoric_correlation",
+      "family": "z",
+      "inventory_index": 41,
+      "label": {
+        "en": "Correlation: Tetrachoric model",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Correlation: Tetrachoric model",
+        "mac_3196": "Correlation: Tetrachoric model",
+        "windows_3197_live": "Correlation: Tetrachoric model"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Correlation and regression > Correlation: Tetrachoric model",
+        "mac_3196": "Tests > Correlation and regression > Correlation: Tetrachoric model"
+      },
+      "aliases": ["Z test: Tetrachoric Correlation [manual ch. 31]"],
+      "hypothesis": {
+        "H0": "rho - rho0 = 0",
+        "H1": "rho - rho0 != 0",
+        "test": "Wald W = (r - rho0)/se0(r)"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["a_priori", "post_hoc"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.z_tetrachoric_correlation.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "computation_of_correlation",
+          "ui_label": "Computation of correlation",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "exact_brown_benedetti",
+              "label": "Use exact computation (Brown and Benedetti, 1977)",
+              "live": {
+                "kind": "radio",
+                "id": 1097,
+                "text": "Use exact computation (Brown and Benedetti, 1977)",
+                "match": "text"
+              }
+            },
+            {
+              "code": "approx_bonett_price",
+              "label": "Use approximation (Bonett and Price, 2005)",
+              "live": {
+                "kind": "radio",
+                "id": 1098,
+                "text": "Use approximation (Bonett and Price, 2005)",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "exact_brown_benedetti",
+          "default_value": null,
+          "default_label": "Use exact computation (Brown and Benedetti, 1977)",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1097,
+                "kind": "radio",
+                "text": "Use exact computation (Brown and Benedetti, 1977)",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1098,
+                "kind": "radio",
+                "text": "Use approximation (Bonett and Price, 2005)",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "effect_direction",
+          "ui_label": "Effect direction (sensitivity)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "rho_h1_le_h0",
+              "label": "ρ H1 <= ρ H0",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "ρ H1 ≤ ρ H0",
+                "match": "text"
+              }
+            },
+            {
+              "code": "rho_h1_ge_h0",
+              "label": "ρ H1 >= ρ H0",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "ρ H1 ≥ ρ H0",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "rho_h1_ge_h0",
+          "default_value": null,
+          "default_label": "ρ H1 ≥ ρ H0",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "sensitivity mode",
+            "condition": {
+              "mode": ["sensitivity"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Effect direction"
+          },
+          "notes": null
+        }
+      ],
+      "effect_size": {
+        "symbol": "H1 corr ρ",
+        "definition": "tetrachoric correlation under H1 with marginal probabilities",
+        "conventions": null,
+        "drawer": {
+          "drawer_id": "drawer_Z_Tetrachoric (Mac) / RT_DIALOG 233 (Windows)",
+          "input_modes": ["From C.I. calculated from observed freq", "From cell probabilities"],
+          "inputs": ["f11", "f12", "f21", "f22", "Rel. pos in CI (0=left, 1=right)", "Confidence level (1-α)", "p11", "p12", "p21", "p22"],
+          "outputs": ["Total sample size", "Correlation r", "Est. marginal prob x", "Est. marginal prob y", "C.I. ρ lwr", "C.I. ρ upr", "Std. error of r", "Correlation ρ", "Approx. correlation ρ*", "Marginal prob x", "Marginal prob y", "H1 corr ρ"]
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "H1 corr ρ", "α err prob", "Power (1-β err prob)", "H0 corr ρ", "Marginal prop x", "Marginal prop y", "β/α ratio", "Total sample size", "Effect direction"],
+      "outputs": ["Critical z", "Total sample size", "Actual power", "H1 corr ρ", "H0 corr ρ", "Critical r lwr", "Critical r upr", "Std err r", "α err prob", "β err prob", "Power (1-β err prob)"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ",
+            "control": "Edit",
+            "default": "0.1",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "H0 corr ρ",
+            "control": "Edit",
+            "default": "-0.1"
+          },
+          {
+            "label": "Marginal prop x",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Marginal prop y",
+            "control": "Edit",
+            "default": "0.3"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ",
+            "control": "Edit",
+            "default": "0.1",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ",
+            "control": "Edit",
+            "default": "-0.1"
+          },
+          {
+            "label": "Marginal prop x",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Marginal prop y",
+            "control": "Edit",
+            "default": "0.3"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect direction",
+            "control": "ComboBox",
+            "default": "ρ H1 ≥ ρ H0",
+            "choices": ["ρ H1 ≤ ρ H0", "ρ H1 ≥ ρ H0"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ",
+            "control": "Edit",
+            "default": "-0.1"
+          },
+          {
+            "label": "Marginal prop x",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Marginal prop y",
+            "control": "Edit",
+            "default": "0.3"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ",
+            "control": "Edit",
+            "default": "0.1",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ",
+            "control": "Edit",
+            "default": "-0.1"
+          },
+          {
+            "label": "Marginal prop x",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Marginal prop y",
+            "control": "Edit",
+            "default": "0.3"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ",
+            "control": "Edit",
+            "default": "0.1",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ",
+            "control": "Edit",
+            "default": "-0.1"
+          },
+          {
+            "label": "Marginal prop x",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Marginal prop y",
+            "control": "Edit",
+            "default": "0.3"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Critical z", "Total sample size", "Actual power", "H1 corr ρ", "H0 corr ρ", "Critical r lwr", "Critical r upr", "Std err r"],
+        "post_hoc": ["Critical z", "Power (1-β err prob)", "H1 corr ρ", "H0 corr ρ", "Critical r lwr", "Critical r upr", "Std err r"],
+        "sensitivity": ["Critical z", "H1 corr ρ", "H0 corr ρ", "Critical r lwr", "Critical r upr", "Std err r"],
+        "criterion": ["Critical z", "α err prob", "H1 corr ρ", "H0 corr ρ", "Critical r lwr", "Critical r upr", "Std err r"],
+        "compromise": ["Critical z", "α err prob", "β err prob", "Power (1-β err prob)", "H1 corr ρ", "H0 corr ρ", "Critical r lwr", "Critical r upr", "Std err r"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "31",
+        "pdf_pages": [80, 81, 82, 83],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-228", "DOC-229", "DOC-230", "DOC-231", "DOC-233", "DOC-235", "DOC-236"],
+      "coverage": {
+        "row_count": 24,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "computation_of_correlation": ["exact_brown_benedetti", "approx_bonett_price"],
+          "effect_direction": ["rho_h1_le_h0", "rho_h1_ge_h0"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "08",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.z_tetrachoric_correlation",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["'Exact' mode uses the model-based asymptotic standard error, not an exact finite-sample standard error (manual §31.5.1).", "Output also usable to perform the observed test (manual §31.3) - an observed-analysis use, separate from planning.", "[completeness review 2026-10-03] Manual uses two different cell-probability estimators: §31.1 (drawer, C.I. from frequencies) p_ij = (f_ij + 0.5)/(N + 2), §31.5.2 (approximation mode) p̂_ij = (f_ij + 0.5)/N. The Fig. 37 drawer values (Est. marginal prob x = 0.6122449 = 60/98 for N = 96) are consistent with (N + 2) in exact mode; the frequency-drawer estimator remains a separate scope from the independently checked forward-power approximation. §31.3 says the C.I. border is used 'as ... ρ under H0' where H1 is meant.", "[second review pass 2026-10-03] Manual §31.5.1 prints the first term of the Pearson standard error as (a + d)(b + d)/4 (frequency form) and (p11 + p22)(p12 + p22)/4 (probability form); the Brown and Benedetti form (a + d)(b + c)/4 reproduces DOC-229 'Std err r' = 0.074465 exactly at ρ = 0, N = 463 and the printed marginals, whereas the printed term gives 0.083673 (scratch arithmetic in R 4.6.1, not reference evidence). The same lines write Φ1, Φ2 with the density symbol ϕ although the normal CDF is required (the reproduction used the CDF). Confirmed on the rendered page 83.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences.", "2026-10-07 clarification: manual rows Y/columns X require the first-term correction (a+d)(b+c)/4 and normal CDFs; the earlier Phi swap reflects transposed orientation. Exact and Bonett-Price modes have independent and captured comparisons (validation/independent/g7 and validation/compare/z_tetrachoric_correlation). Extreme margins, frequency-estimator ambiguity and uncompleted native/reference branches remain separately documented."]
+    },
+    {
+      "method_id": "z_correlations_two_dependent_common_index",
+      "family": "z",
+      "inventory_index": 42,
+      "label": {
+        "en": "Correlations: Two dependent Pearson r's (common index)",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Correlations: Two dependent Pearson r's (common index)",
+        "mac_3196": "Correlations: Two dependent Pearson r's (common index)",
+        "windows_3197_live": "Correlations: Two dependent Pearson r's (common index)"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Correlation and regression > Correlations: Two dependent Pearson r's (common index)",
+        "mac_3196": "Tests > Correlation and regression > Correlations: Two dependent Pearson r's (common index)"
+      },
+      "aliases": ["z test: Correlation - inequality of two dependent Pearson r's [manual ch. 28, common-index case]", "Steiger (1980) Z1* (Dunn & Clark 1969)"],
+      "hypothesis": {
+        "H0": "rho_ab - rho_ac = 0",
+        "H1": "rho_ab - rho_ac != 0 (or one-sided)"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["a_priori", "sensitivity"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.z_correlations_two_dependent_common_index.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "effect_direction",
+          "ui_label": "Effect direction",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "rho_ac_le_rho_ab",
+              "label": "ρ_ac <= ρ_ab",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "ρ_ac ≤ ρ_ab",
+                "match": "text"
+              }
+            },
+            {
+              "code": "rho_ac_ge_rho_ab",
+              "label": "ρ_ac >= ρ_ab",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "ρ_ac ≥ ρ_ab",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "rho_ac_le_rho_ab",
+          "default_value": null,
+          "default_label": "ρ_ac ≤ ρ_ab",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "sensitivity mode",
+            "condition": {
+              "mode": ["sensitivity"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Effect direction"
+          },
+          "notes": "Manual §28.3.3: sensitivity has two solution branches (rho_ac <= rho_ab and >= rho_ab); 'no solution' is signalled by the value 2."
+        }
+      ],
+      "effect_size": {
+        "symbol": "H1 corr ρ_ac (with H0 corr ρ_ab and Corr ρ_bc)",
+        "definition": "correlation under H1; correlation matrix must be positive semi-definite",
+        "conventions": "q conventions usable via drawer: small 0.1, medium 0.3, large 0.5",
+        "drawer": {
+          "drawer_id": "drawer_Z_2DepCorr (Mac) / RT_DIALOG 228 (Windows)",
+          "input_modes": ["from Cohen's q"],
+          "inputs": ["H0 corr ρ_ab", "Cohen's effect size q"],
+          "outputs": ["H1 corr ρ_ac"]
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "H1 corr ρ_ac", "α err prob", "Power (1-β err prob)", "H0 corr ρ_ab", "Corr ρ_bc", "β/α ratio", "Sample size", "Effect direction"],
+      "outputs": ["Critical z", "Sample size", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "H1 corr ρ_ac"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ_ac",
+            "control": "Edit",
+            "default": "-0.1",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "H0 corr ρ_ab",
+            "control": "Edit",
+            "default": "0.1"
+          },
+          {
+            "label": "Corr ρ_bc",
+            "control": "Edit",
+            "default": "-0.1"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ_ac",
+            "control": "Edit",
+            "default": "-0.1",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ_ab",
+            "control": "Edit",
+            "default": "0.1"
+          },
+          {
+            "label": "Corr ρ_bc",
+            "control": "Edit",
+            "default": "-0.1"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect direction",
+            "control": "ComboBox",
+            "default": "ρ_ac ≤ ρ_ab",
+            "choices": ["ρ_ac ≤ ρ_ab", "ρ_ac ≥ ρ_ab"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ_ab",
+            "control": "Edit",
+            "default": "0.1"
+          },
+          {
+            "label": "Corr ρ_bc",
+            "control": "Edit",
+            "default": "-0.1"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ_ac",
+            "control": "Edit",
+            "default": "-0.1",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ_ab",
+            "control": "Edit",
+            "default": "0.1"
+          },
+          {
+            "label": "Corr ρ_bc",
+            "control": "Edit",
+            "default": "-0.1"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ_ac",
+            "control": "Edit",
+            "default": "-0.1",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ_ab",
+            "control": "Edit",
+            "default": "0.1"
+          },
+          {
+            "label": "Corr ρ_bc",
+            "control": "Edit",
+            "default": "-0.1"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Critical z", "Sample size", "Actual power"],
+        "post_hoc": ["Critical z", "Power (1-β err prob)"],
+        "sensitivity": ["Critical z", "H1 corr ρ_ac"],
+        "criterion": ["Critical z", "α err prob"],
+        "compromise": ["Critical z", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "28",
+        "pdf_pages": [66, 67, 68, 69],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-146", "DOC-147", "DOC-148"],
+      "coverage": {
+        "row_count": 12,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "effect_direction": ["rho_ac_le_rho_ab", "rho_ac_ge_rho_ab"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "08",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.z_correlations_two_dependent_common_index",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["Manual example text names the procedure 'Correlations: Two independent Pearson r's (common index)' (manual wording error; menu says 'dependent').", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "z_correlations_two_dependent_no_common_index",
+      "family": "z",
+      "inventory_index": 43,
+      "label": {
+        "en": "Correlations: Two dependent Pearson r's (no common index)",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Correlations: Two dependent Pearson r's (no common index)",
+        "mac_3196": "Correlations: Two dependent Pearson r's (no common index)",
+        "windows_3197_live": "Correlations: Two dependent Pearson r's (no common index)"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Correlation and regression > Correlations: Two dependent Pearson r's (no common index)",
+        "mac_3196": "Tests > Correlation and regression > Correlations: Two dependent Pearson r's (no common index)"
+      },
+      "aliases": ["z test: Correlation - inequality of two dependent Pearson r's [manual ch. 28, general case]", "Steiger (1980) Z2*"],
+      "hypothesis": {
+        "H0": "rho_ab - rho_cd = 0",
+        "H1": "rho_ab - rho_cd != 0 (or one-sided)"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["a_priori"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.z_correlations_two_dependent_no_common_index.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "effect_direction",
+          "ui_label": "Effect direction",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "rho_cd_le_rho_ab",
+              "label": "ρ_cd <= ρ_ab",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "ρ_cd ≤ ρ_ab",
+                "match": "text"
+              }
+            },
+            {
+              "code": "rho_cd_ge_rho_ab",
+              "label": "ρ_cd >= ρ_ab",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "ρ_cd ≥ ρ_ab",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "rho_cd_ge_rho_ab",
+          "default_value": null,
+          "default_label": "ρ_cd ≥ ρ_ab",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "sensitivity mode",
+            "condition": {
+              "mode": ["sensitivity"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Effect direction"
+          },
+          "notes": "Manual §28.3.3: sensitivity has two solution branches (rho_ac <= rho_ab and >= rho_ab); 'no solution' is signalled by the value 2."
+        }
+      ],
+      "effect_size": {
+        "symbol": "H1 corr ρ_cd (with ρ_ab, ρ_ac, ρ_ad, ρ_bc, ρ_bd)",
+        "definition": "correlation under H1; 4x4 matrix must be positive semi-definite",
+        "conventions": "q conventions via drawer",
+        "drawer": {
+          "drawer_id": "drawer_Z_2DepCorr2 (Mac)",
+          "input_modes": ["from Cohen's q"],
+          "inputs": ["H0 corr ρ_ab", "Cohen's effect size q"],
+          "outputs": ["H1 corr ρ_cd (drawer image label 'H1 corr r_cd')"]
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "H1 corr ρ_cd", "α err prob", "Power (1-β err prob)", "H0 corr ρ_ab", "Corr ρ_ac", "Corr ρ_ad", "Corr ρ_bc", "Corr ρ_bd", "β/α ratio", "Sample size", "Effect direction"],
+      "outputs": ["Critical z", "Sample size", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "H1 corr ρ_cd"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ_cd",
+            "control": "Edit",
+            "default": "0.15",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "H0 corr ρ_ab",
+            "control": "Edit",
+            "default": "0.1"
+          },
+          {
+            "label": "Corr ρ_ac",
+            "control": "Edit",
+            "default": "0.7"
+          },
+          {
+            "label": "Corr ρ_ad",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Corr ρ_bc",
+            "control": "Edit",
+            "default": "0.4"
+          },
+          {
+            "label": "Corr ρ_bd",
+            "control": "Edit",
+            "default": "0.41"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ_cd",
+            "control": "Edit",
+            "default": "0.15",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ_ab",
+            "control": "Edit",
+            "default": "0.1"
+          },
+          {
+            "label": "Corr ρ_ac",
+            "control": "Edit",
+            "default": "0.7"
+          },
+          {
+            "label": "Corr ρ_ad",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Corr ρ_bc",
+            "control": "Edit",
+            "default": "0.4"
+          },
+          {
+            "label": "Corr ρ_bd",
+            "control": "Edit",
+            "default": "0.41"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect direction",
+            "control": "ComboBox",
+            "default": "ρ_cd ≥ ρ_ab",
+            "choices": ["ρ_cd ≤ ρ_ab", "ρ_cd ≥ ρ_ab"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ_ab",
+            "control": "Edit",
+            "default": "0.1"
+          },
+          {
+            "label": "Corr ρ_ac",
+            "control": "Edit",
+            "default": "0.7"
+          },
+          {
+            "label": "Corr ρ_ad",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Corr ρ_bc",
+            "control": "Edit",
+            "default": "0.4"
+          },
+          {
+            "label": "Corr ρ_bd",
+            "control": "Edit",
+            "default": "0.41"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ_cd",
+            "control": "Edit",
+            "default": "0.15",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ_ab",
+            "control": "Edit",
+            "default": "0.1"
+          },
+          {
+            "label": "Corr ρ_ac",
+            "control": "Edit",
+            "default": "0.7"
+          },
+          {
+            "label": "Corr ρ_ad",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Corr ρ_bc",
+            "control": "Edit",
+            "default": "0.4"
+          },
+          {
+            "label": "Corr ρ_bd",
+            "control": "Edit",
+            "default": "0.41"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 corr ρ_cd",
+            "control": "Edit",
+            "default": "0.15",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "H0 corr ρ_ab",
+            "control": "Edit",
+            "default": "0.1"
+          },
+          {
+            "label": "Corr ρ_ac",
+            "control": "Edit",
+            "default": "0.7"
+          },
+          {
+            "label": "Corr ρ_ad",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Corr ρ_bc",
+            "control": "Edit",
+            "default": "0.4"
+          },
+          {
+            "label": "Corr ρ_bd",
+            "control": "Edit",
+            "default": "0.41"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Critical z", "Sample size", "Actual power"],
+        "post_hoc": ["Critical z", "Power (1-β err prob)"],
+        "sensitivity": ["Critical z", "H1 corr ρ_cd"],
+        "criterion": ["Critical z", "α err prob"],
+        "compromise": ["Critical z", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "28",
+        "pdf_pages": [66, 67, 68, 69],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-143", "DOC-144", "DOC-145", "DOC-149"],
+      "coverage": {
+        "row_count": 12,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "effect_direction": ["rho_cd_le_rho_ab", "rho_cd_ge_rho_ab"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "08",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.z_correlations_two_dependent_no_common_index",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["2026-10-07: H1 covariance c_ab;cd confirmed by live captures; manual c_ab;ac is a notation error for this test. DOC-143 power 0.800093 differs from live 3.1.9.7 power 0.8001562, which agrees with engine 0.8001561875 at N=886. Retain the documented-example disagreement as a version difference.", "Manual example text names the procedure 'Two independent Pearson r's (no common index)' (wording error).", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "z_correlations_two_independent",
+      "family": "z",
+      "inventory_index": 44,
+      "label": {
+        "en": "Correlations: Two independent Pearson r's",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Correlations: Two independent Pearson r's",
+        "mac_3196": "Correlations: Two independent Pearson r's (Mac Tests-menu item misspelt 'Person r's')",
+        "windows_3197_live": "Correlations: Two independent Pearson r's"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Correlation and regression > Correlations: Two independent Pearson r's",
+        "mac_3196": "Tests > Correlation and regression > Correlations: Two independent Person r's"
+      },
+      "aliases": ["z test: Correlation - inequality of two independent Pearson r's [manual ch. 27]"],
+      "hypothesis": {
+        "H0": "rho1 - rho2 = 0",
+        "H1": "rho1 - rho2 != 0 (or one-sided)"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["a_priori", "post_hoc"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.z_correlations_two_independent.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "allocation_ratio",
+          "ui_label": "Allocation ratio N2/N1",
+          "kind": "main_window_input",
+          "value_type": "continuous",
+          "values": [],
+          "domain": {
+            "text": "(0, inf)",
+            "lower": 0,
+            "lower_inclusive": false,
+            "upper": {
+              "value": null,
+              "nonfinite": "positive_infinity"
+            },
+            "upper_inclusive": false
+          },
+          "default": null,
+          "default_value": 1,
+          "default_label": "1",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "live: field shown in a_priori only",
+            "condition": {
+              "mode": ["a_priori"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "Edit",
+            "label": "Allocation ratio N2/N1",
+            "modes": ["a_priori"]
+          },
+          "notes": null
+        }
+      ],
+      "effect_size": {
+        "symbol": "q",
+        "definition": "q = z1 - z2 (Fisher z); q in [-10, 10]",
+        "conventions": "small 0.1, medium 0.3, large 0.5",
+        "drawer": {
+          "drawer_id": "drawer_Z_2Corr (Mac) / RT_DIALOG 168 (Windows)",
+          "input_modes": ["from two correlations"],
+          "inputs": ["Correlation coefficient r1", "Correlation coefficient r2"],
+          "outputs": ["Effect size q"]
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "Effect size q", "α err prob", "Power (1-β err prob)", "Allocation ratio N2/N1", "β/α ratio", "Sample size group 1", "Sample size group 2"],
+      "outputs": ["Critical z", "Sample size group 1", "Sample size group 2", "Total sample size", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "Effect size q"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size q",
+            "control": "Edit",
+            "default": "0.6",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Allocation ratio N2/N1",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size q",
+            "control": "Edit",
+            "default": "0.6",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size q",
+            "control": "Edit",
+            "default": "0.6",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size q",
+            "control": "Edit",
+            "default": "0.6",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Critical z", "Sample size group 1", "Sample size group 2", "Total sample size", "Actual power"],
+        "post_hoc": ["Critical z", "Power (1-β err prob)"],
+        "sensitivity": ["Critical z", "Effect size q"],
+        "criterion": ["Critical z", "α err prob"],
+        "compromise": ["Critical z", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "27",
+        "pdf_pages": [65],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-139", "DOC-140", "DOC-141", "DOC-142"],
+      "coverage": {
+        "row_count": 10,
+        "branch_dimensions": {
+          "tails": ["one", "two"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "08",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.z_correlations_two_independent",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["Manual example output block prints mislabelled values ('Critical z: 60.391478', 'Upper critical χ2: -1.959964') - apparently copied from ch. 26; see documented examples.", "Manual example text says N1 = 51, N2 = 206 but the input block lists sample sizes 260 and 51 and the total is given as 311 (manual inconsistency).", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "z_proportions_two_independent",
+      "family": "z",
+      "inventory_index": 45,
+      "label": {
+        "en": "Proportions: Difference between two independent proportions",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Proportions: Difference between two independent proportions",
+        "mac_3196": "Proportions: Difference between two independent proportions",
+        "windows_3197_live": "Proportions: Difference between two independent proportions"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Proportions > Two independent groups: Inequality, z-Test",
+        "mac_3196": "Tests > Proportions > Two independent groups: Inequality, z test"
+      },
+      "aliases": [],
+      "hypothesis": {
+        "H0": "p1 = p2 (inferred)",
+        "H1": "p1 != p2 (inferred)",
+        "status": "no manual chapter"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": [],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.z_proportions_two_independent.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": "assumed"
+        },
+        {
+          "option_id": "continuity_correction",
+          "ui_label": "Use continuity correction",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "on",
+              "label": "checked",
+              "live": {
+                "kind": "checkbox",
+                "id": 1019,
+                "text": "Use continuity correction",
+                "state": "checked",
+                "match": "check_box_state"
+              }
+            },
+            {
+              "code": "off",
+              "label": "unchecked",
+              "live": {
+                "kind": "checkbox",
+                "id": 1019,
+                "text": "Use continuity correction",
+                "state": "unchecked",
+                "match": "check_box_state"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "off",
+          "default_value": null,
+          "default_label": "unchecked",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1019,
+                "kind": "checkbox",
+                "text": "Use continuity correction",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "arcsin_transform",
+          "ui_label": "Use arcsin transform",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "on",
+              "label": "checked",
+              "live": {
+                "kind": "checkbox",
+                "id": 1021,
+                "text": "Use arcsin transform",
+                "state": "checked",
+                "match": "check_box_state"
+              }
+            },
+            {
+              "code": "off",
+              "label": "unchecked",
+              "live": {
+                "kind": "checkbox",
+                "id": 1021,
+                "text": "Use arcsin transform",
+                "state": "unchecked",
+                "match": "check_box_state"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "off",
+          "default_value": null,
+          "default_label": "unchecked",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1021,
+                "kind": "checkbox",
+                "text": "Use arcsin transform",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "input",
+          "ui_label": "Input",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "proportions",
+              "label": "Use two proportions p1 / p2",
+              "live": {
+                "kind": "radio",
+                "id": 1039,
+                "text": "Use two proportions p1 / p2",
+                "match": "text"
+              }
+            },
+            {
+              "code": "cohens_h",
+              "label": "Use Cohen's effect size index h",
+              "live": {
+                "kind": "radio",
+                "id": 1099,
+                "text": "Use Cohen's effect size index h",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "proportions",
+          "default_value": null,
+          "default_label": "Use two proportions p1 / p2",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "parameterisation (solved quantity in sensitivity)",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1039,
+                "kind": "radio",
+                "text": "Use two proportions p1 / p2",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1099,
+                "kind": "radio",
+                "text": "Use Cohen's effect size index h",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "distribution_plot",
+          "ui_label": "Plot normal distribution (instead of z)",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "on",
+              "label": "checked",
+              "live": {
+                "kind": "checkbox",
+                "id": 1093,
+                "text": "Plot normal distribution (instead of z)",
+                "state": "checked",
+                "match": "check_box_state"
+              }
+            },
+            {
+              "code": "off",
+              "label": "unchecked",
+              "live": {
+                "kind": "checkbox",
+                "id": 1093,
+                "text": "Plot normal distribution (instead of z)",
+                "state": "unchecked",
+                "match": "check_box_state"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "off",
+          "default_value": null,
+          "default_label": "unchecked",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes (live: changes the reported critical value to the proportion-difference scale; power unchanged)",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1093,
+                "kind": "checkbox",
+                "text": "Plot normal distribution (instead of z)",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "allocation_ratio",
+          "ui_label": "Allocation ratio N2/N1",
+          "kind": "main_window_input",
+          "value_type": "continuous",
+          "values": [],
+          "domain": {
+            "text": "(0, inf)",
+            "lower": 0,
+            "lower_inclusive": false,
+            "upper": {
+              "value": null,
+              "nonfinite": "positive_infinity"
+            },
+            "upper_inclusive": false
+          },
+          "default": null,
+          "default_value": 1,
+          "default_label": "1",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "live: field shown in a_priori only",
+            "condition": {
+              "mode": ["a_priori"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "Edit",
+            "label": "Allocation ratio N2/N1",
+            "modes": ["a_priori"]
+          },
+          "notes": null
+        }
+      ],
+      "effect_size": {
+        "symbol": "p1, p2 or Cohen's h",
+        "definition": "two proportions or h (input option); h conventions small 0.20, medium 0.50, large 0.80 (tooltip strings)",
+        "conventions": "h = .20 small, .50 medium, .80 large",
+        "drawer": {
+          "drawer_id": "unverified",
+          "input_modes": [],
+          "inputs": [],
+          "outputs": []
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "Proportion p2", "Proportion p1", "α err prob", "Power (1-β err prob)", "Allocation ratio N2/N1", "β/α ratio", "Sample size group 1", "Sample size group 2"],
+      "outputs": ["Critical z", "Sample size group 1", "Sample size group 2", "Total sample size", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "Proportion p2"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Allocation ratio N2/N1",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Critical z", "Sample size group 1", "Sample size group 2", "Total sample size", "Actual power"],
+        "post_hoc": ["Critical z", "Power (1-β err prob)"],
+        "sensitivity": ["Critical z", "Proportion p2"],
+        "criterion": ["Critical z", "α err prob"],
+        "compromise": ["Critical z", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": null,
+        "pdf_pages": [],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": [],
+      "coverage": {
+        "row_count": 96,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "continuity_correction": ["on", "off"],
+          "arcsin_transform": ["on", "off"],
+          "sensitivity_target": ["proportions", "cohens_h"],
+          "critical_value_scale": ["normal_difference"]
+        },
+        "branches_added": [
+          {
+            "branch_id": "b025",
+            "branch_spec": "tails=one|continuity_correction=on|arcsin_transform=on|critical_value_scale=normal_difference",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b026",
+            "branch_spec": "tails=one|continuity_correction=on|arcsin_transform=on|sensitivity_target=proportions|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b027",
+            "branch_spec": "tails=one|continuity_correction=on|arcsin_transform=on|sensitivity_target=cohens_h|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b028",
+            "branch_spec": "tails=one|continuity_correction=on|arcsin_transform=off|critical_value_scale=normal_difference",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b029",
+            "branch_spec": "tails=one|continuity_correction=on|arcsin_transform=off|sensitivity_target=proportions|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b030",
+            "branch_spec": "tails=one|continuity_correction=on|arcsin_transform=off|sensitivity_target=cohens_h|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b031",
+            "branch_spec": "tails=one|continuity_correction=off|arcsin_transform=on|critical_value_scale=normal_difference",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b032",
+            "branch_spec": "tails=one|continuity_correction=off|arcsin_transform=on|sensitivity_target=proportions|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b033",
+            "branch_spec": "tails=one|continuity_correction=off|arcsin_transform=on|sensitivity_target=cohens_h|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b034",
+            "branch_spec": "tails=one|continuity_correction=off|arcsin_transform=off|critical_value_scale=normal_difference",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b035",
+            "branch_spec": "tails=one|continuity_correction=off|arcsin_transform=off|sensitivity_target=proportions|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b036",
+            "branch_spec": "tails=one|continuity_correction=off|arcsin_transform=off|sensitivity_target=cohens_h|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b037",
+            "branch_spec": "tails=two|continuity_correction=on|arcsin_transform=on|critical_value_scale=normal_difference",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b038",
+            "branch_spec": "tails=two|continuity_correction=on|arcsin_transform=on|sensitivity_target=proportions|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b039",
+            "branch_spec": "tails=two|continuity_correction=on|arcsin_transform=on|sensitivity_target=cohens_h|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b040",
+            "branch_spec": "tails=two|continuity_correction=on|arcsin_transform=off|critical_value_scale=normal_difference",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b041",
+            "branch_spec": "tails=two|continuity_correction=on|arcsin_transform=off|sensitivity_target=proportions|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b042",
+            "branch_spec": "tails=two|continuity_correction=on|arcsin_transform=off|sensitivity_target=cohens_h|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b043",
+            "branch_spec": "tails=two|continuity_correction=off|arcsin_transform=on|critical_value_scale=normal_difference",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b044",
+            "branch_spec": "tails=two|continuity_correction=off|arcsin_transform=on|sensitivity_target=proportions|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b045",
+            "branch_spec": "tails=two|continuity_correction=off|arcsin_transform=on|sensitivity_target=cohens_h|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b046",
+            "branch_spec": "tails=two|continuity_correction=off|arcsin_transform=off|critical_value_scale=normal_difference",
+            "modes": ["a_priori", "compromise", "criterion", "post_hoc"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b047",
+            "branch_spec": "tails=two|continuity_correction=off|arcsin_transform=off|sensitivity_target=proportions|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          },
+          {
+            "branch_id": "b048",
+            "branch_spec": "tails=two|continuity_correction=off|arcsin_transform=off|sensitivity_target=cohens_h|critical_value_scale=normal_difference",
+            "modes": ["sensitivity"],
+            "added_by_live_capture": "2026-10-05",
+            "notes": "[live capture 2026-10-05] added: 'Plot normal distribution (instead of z)' reports the critical value on the proportion-difference scale"
+          }
+        ],
+        "branches_pruned": []
+      },
+      "owner_phase": "09",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.z_proportions_two_independent",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["APP-ONLY: no manual chapter. Whether continuity correction and arcsin transform may be combined is unverified (enumerated fully).", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "z_generic",
+      "family": "z",
+      "inventory_index": 46,
+      "label": {
+        "en": "Generic z test",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "$\\bullet$ Generic z test",
+        "mac_3196": "$\\bullet$ Generic z test",
+        "windows_3197_live": "• Generic z test"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Generic > Generic z",
+        "mac_3196": "Tests > Generic > Generic z"
+      },
+      "aliases": [],
+      "hypothesis": {
+        "H0": "N(0,1)",
+        "H1": "N(mu, sigma) (inferred from labels 'Noncentrality parameter μ', 'Noncentral dist. SD σ')",
+        "status": "no manual chapter"
+      },
+      "modes": ["post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": [],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 4 types for this test (Compromise: Compute α and β - given β/α ratio, and noncentrality parameter; Criterion: Compute alpha - given β, and noncentrality parameter; Post hoc: Compute power - given α, and noncentrality parameter; Sensitivity: Compute noncentrality parameter - given α, and power). Evidence: specs/gpower-app-capture.json procedures.z_generic.analysis_types_live. Earlier provisional basis: Inferred from the four generic analysis labels in both binaries.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": "assumed"
+        }
+      ],
+      "effect_size": {
+        "symbol": "μ",
+        "definition": "noncentrality (mean of H1 normal); H1 SD may be specified (inferred)",
+        "conventions": null,
+        "drawer": null
+      },
+      "gpower_inputs": ["Tail(s)", "Noncentrality parameter μ", "Noncentral dist. SD σ", "β/α ratio", "Power (1-β err prob)", "α err prob"],
+      "outputs": ["Critical z", "α err prob", "β err prob", "Power (1-β err prob)", "Noncentrality parameter μ"],
+      "inputs_by_mode_live": {
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Noncentrality parameter μ",
+            "control": "Edit",
+            "default": "3"
+          },
+          {
+            "label": "Noncentral dist. SD σ",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Noncentral dist. SD σ",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Noncentrality parameter μ",
+            "control": "Edit",
+            "default": "3"
+          },
+          {
+            "label": "Noncentral dist. SD σ",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Noncentrality parameter μ",
+            "control": "Edit",
+            "default": "3"
+          },
+          {
+            "label": "Noncentral dist. SD σ",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "post_hoc": ["Critical z", "β err prob", "Power (1-β err prob)"],
+        "sensitivity": ["Critical z", "Noncentrality parameter μ"],
+        "criterion": ["Critical z", "α err prob"],
+        "compromise": ["Critical z", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": null,
+        "pdf_pages": [],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": [],
+      "coverage": {
+        "row_count": 8,
+        "branch_dimensions": {
+          "tails": ["one", "two"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "06",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.z_generic",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["APP-ONLY: no manual chapter.", "[completeness review 2026-10-03] The label pool of both binaries contains 'Central value', 'Standard error σ', 'Critical x' and the message 'Standard error σ must be greater or equal ...', which no inventoried procedure claims; the generic z test is one candidate owner (unverified). See feature-parity §5.4.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:inferguidr:schema:analysis_envelope:0.1.0",
+  "title": "inferguidR analysis_envelope",
+  "description": "Discriminated container for one analysis: analysis_kind 'power' (power_spec/power_result), 'classification' (classification_spec/classification_result) or 'observed_test' (observed_test_spec/observed_test_result). analysis_hash is the SHA-256 of the canonical JSON of {analysis_kind, spec_hash, result_hash}; provenance is outside the hash. The classification and observed-test shapes are drafts owned by the classifier (10A) and Boschloo (09A) phases.",
+  "type": "object",
+  "required": [
+    "schema_version", "object_type", "analysis_kind", "spec", "result", "spec_hash",
+    "result_hash", "analysis_hash", "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "inferguidR.analysis_envelope/0.1.0" },
+    "object_type": { "const": "analysis_envelope" },
+    "analysis_kind": { "enum": ["power", "classification", "observed_test"] },
+    "spec": { "type": "object" },
+    "result": { "type": ["object", "null"] },
+    "spec_hash": { "$ref": "common.schema.json#/$defs/sha256" },
+    "result_hash": {
+      "oneOf": [{ "type": "null" }, { "$ref": "common.schema.json#/$defs/sha256" }]
+    },
+    "analysis_hash": { "$ref": "common.schema.json#/$defs/sha256" },
+    "provenance": { "$ref": "common.schema.json#/$defs/runtime" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "analysis_kind": { "const": "power" } } },
+      "then": {
+        "properties": {
+          "spec": { "$ref": "power_spec.schema.json" },
+          "result": { "oneOf": [{ "type": "null" }, { "$ref": "power_result.schema.json" }] }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "analysis_kind": { "const": "classification" } } },
+      "then": {
+        "properties": {
+          "spec": { "$ref": "#/$defs/classification_spec" },
+          "result": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/aux_result" }] }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "analysis_kind": { "const": "observed_test" } } },
+      "then": {
+        "properties": {
+          "spec": { "$ref": "#/$defs/observed_test_spec" },
+          "result": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/aux_result" }] }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "result": { "type": "null" } } },
+      "then": { "properties": { "result_hash": { "type": "null" } } },
+      "else": { "properties": { "result_hash": { "$ref": "common.schema.json#/$defs/sha256" } } }
+    }
+  ],
+  "$defs": {
+    "classification_spec": {
+      "description": "Draft shape of a classifier/cutoff specification (CLASSIFICATION_CUTOFF). score_cutoff is a classifier score threshold, never a significance critical value.",
+      "type": "object",
+      "required": [
+        "schema_version", "object_type", "input_kind", "models", "operating_rule",
+        "prevalence", "counts", "theory", "data_fingerprint", "uncertainty", "spec_hash"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": { "const": "inferguidR.classification_spec/0.1.0-draft" },
+        "object_type": { "const": "classification_spec" },
+        "input_kind": { "enum": ["theoretical_binormal", "scored_data", "counts_2x2"] },
+        "models": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/classifier_model" }
+        },
+        "operating_rule": {
+          "type": "object",
+          "required": ["selection", "selection_data"],
+          "properties": {
+            "score_cutoff": { "type": ["number", "null"] },
+            "selection": {
+              "enum": ["manual", "max_youden", "max_f1", "max_mcc", "constraint", "capacity", "cost_utility"]
+            },
+            "selection_data": { "enum": ["same_data", "held_out_tuning", "predeclared_rule"] },
+            "constraints": { "type": ["object", "null"] },
+            "tie_break": { "type": ["string", "null"] }
+          }
+        },
+        "prevalence": {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {
+            "kind": { "enum": ["observed", "scenario"] },
+            "value": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+            "source": { "type": ["string", "null"] }
+          }
+        },
+        "counts": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["tp", "fn", "fp", "tn"],
+              "properties": {
+                "tp": { "type": "integer", "minimum": 0 },
+                "fn": { "type": "integer", "minimum": 0 },
+                "fp": { "type": "integer", "minimum": 0 },
+                "tn": { "type": "integer", "minimum": 0 }
+              }
+            }
+          ]
+        },
+        "theory": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["auc", "sigma"],
+              "properties": {
+                "auc": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+                "sigma": { "type": "number", "exclusiveMinimum": 0 }
+              }
+            }
+          ]
+        },
+        "data_fingerprint": { "type": ["string", "null"] },
+        "uncertainty": { "type": "object" },
+        "spec_hash": { "$ref": "common.schema.json#/$defs/sha256" }
+      }
+    },
+    "classifier_model": {
+      "type": "object",
+      "required": [
+        "model_id", "name", "score_meaning", "score_scale", "positive_label", "direction",
+        "comparator", "tie_rule", "evaluation_split", "missing_value_policy"
+      ],
+      "properties": {
+        "model_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": ["string", "null"] },
+        "score_meaning": { "type": "string" },
+        "score_scale": { "enum": ["probability", "raw_score"] },
+        "positive_label": { "type": "string" },
+        "direction": { "enum": ["higher_is_positive", "lower_is_positive"] },
+        "comparator": { "enum": [">=", ">", "<=", "<"] },
+        "tie_rule": { "type": "string" },
+        "population": { "type": ["string", "null"] },
+        "unit": { "type": ["string", "null"] },
+        "evaluation_split": {
+          "enum": ["same_data", "held_out_tuning", "held_out_test", "external", "resampling", "not_applicable"]
+        },
+        "source_hash": {
+          "oneOf": [{ "type": "null" }, { "$ref": "common.schema.json#/$defs/sha256" }]
+        },
+        "missing_value_policy": { "type": "string" }
+      }
+    },
+    "observed_test_spec": {
+      "description": "Draft shape of an observed-test specification (for example a Boschloo variant).",
+      "type": "object",
+      "required": [
+        "schema_version", "object_type", "variant_id", "inputs", "options",
+        "data_fingerprint", "spec_hash"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": { "const": "inferguidR.observed_test_spec/0.1.0-draft" },
+        "object_type": { "const": "observed_test_spec" },
+        "variant_id": { "$ref": "common.schema.json#/$defs/identifier" },
+        "inputs": { "type": "object" },
+        "options": { "type": "object" },
+        "data_fingerprint": { "type": ["string", "null"] },
+        "spec_hash": { "$ref": "common.schema.json#/$defs/sha256" }
+      }
+    },
+    "aux_result": {
+      "type": "object",
+      "required": ["object_type", "spec_hash", "status"],
+      "properties": {
+        "object_type": { "enum": ["classification_result", "observed_test_result"] },
+        "spec_hash": { "$ref": "common.schema.json#/$defs/sha256" },
+        "status": { "$ref": "common.schema.json#/$defs/status" }
+      }
+    }
+  }
+}

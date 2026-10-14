@@ -1,0 +1,169 @@
+{
+  "schema_version": "inferguidR.registry/0.1.0",
+  "family": "boschloo",
+  "family_label": "Boschloo's unconditional exact test (inferguidR extension, not a G*Power procedure)",
+  "source": {
+    "path": "specs/engine-decisions-aux.md",
+    "sha256": "4c29f21f49df841d0290a497726d17c4dd9178f53b357cb2b089800d46d535ce",
+    "inventory_status": "provisional",
+    "inventory_date": "2026-10-05",
+    "reference_versions": {
+      "contract": "specs/engine-decisions-aux.md section 2.11 (Boschloo variant contract), decision D12 and specs/method-notes/boschloo.md",
+      "comparator": "Exact 3.3: exact.test, exact.reject.region and power.exact.test with method = \"boschloo\" (Suggests only; same definition, separate code)",
+      "manual": "G*Power 3.1 manual dated 2023-06-01 (85 pp.): no Boschloo chapter",
+      "windows_resources": "G*Power 3.1.9.7 GPowerNT.exe: no Boschloo procedure in the inventory (specs/gpower-capabilities.json)"
+    }
+  },
+  "generated_by": "hand-maintained by phase 09A; the method definition is R/boschloo-method.R",
+  "reference_note": "Boschloo's test is not part of the G*Power inventory, so it has no G*Power reference (reference_status not_applicable) and is outside the G*Power coverage denominator (D10). It is an independently validated extension, checked against an exact-arithmetic enumeration checker and compared with Exact 3.3 (validation/independent/boschloo). The related G*Power procedures exact_proportions_fisher (conditional test) and exact_proportions_unconditional (other ordering statistics) are comparators with a different method; that classification is provisional until their option dialogs are captured in the application.",
+  "methods": [
+    {
+      "method_id": "boschloo_proportions_two_independent",
+      "family": "boschloo",
+      "inventory_index": null,
+      "label": {
+        "en": "Proportions: Inequality, two independent groups (Boschloo's unconditional exact test)",
+        "de": "Anteile: Ungleichheit, zwei unabhängige Gruppen (unbedingter exakter Test nach Boschloo)"
+      },
+      "label_raw": {
+        "windows_3197": "",
+        "mac_3196": ""
+      },
+      "navigation": {
+        "windows_3197": "",
+        "mac_3196": ""
+      },
+      "aliases": [
+        "Boschloo's test",
+        "Fisher-Boschloo test",
+        "unconditional exact test of two independent binomial proportions ordered by the Fisher p-value"
+      ],
+      "hypothesis": {
+        "H0": "p1 = p2",
+        "H1": "p1 != p2 (variants minlike and central), p1 < p2 (variant less) or p1 > p2 (variant greater)",
+        "model": "X1 ~ Bin(n1, p1) for group 1 and X2 ~ Bin(n2, p2) for group 2, independent, with fixed group sizes n1 and n2; x1 and x2 count events",
+        "power_definition": "exact power: double binomial sum over the rejection region {tables whose rigorous upper bound of the Boschloo p-value is at most alpha}"
+      },
+      "modes": [
+        "a_priori",
+        "post_hoc"
+      ],
+      "modes_demonstrated": [],
+      "modes_evidence": "inferguidR offers a priori (smallest design of the declared allocation sequence, every design from the smallest one evaluated) and post hoc (power of a fixed design). Sensitivity, criterion and compromise are not offered: for the two-sided variants power has one branch on each side of p1, and alpha acts only through discrete rejection regions. No G*Power procedure exists whose modes could be demonstrated.",
+      "options": [
+        {
+          "option_id": "variant",
+          "ui_label": "Boschloo variant",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "minlike",
+              "label": "Two-sided, minlike ordering (two-sided Fisher p-value)"
+            },
+            {
+              "code": "central",
+              "label": "Two-sided, central (twice the smaller one-sided p-value)"
+            },
+            {
+              "code": "less",
+              "label": "One-sided, H1: p1 < p2"
+            },
+            {
+              "code": "greater",
+              "label": "One-sided, H1: p1 > p2"
+            }
+          ],
+          "domain": null,
+          "default": null,
+          "default_label": null,
+          "default_evidence": "no default: the variant is always stated explicitly (blueprint BOSCHLOO.md; engine-decisions-aux.md 2.11)",
+          "result_affecting": true,
+          "result_affecting_note": "yes: ordering statistic, sidedness and two-sided construction",
+          "applies_when": null,
+          "notes": "Variant ids boschloo_minlike, boschloo_central, boschloo_lower and boschloo_upper (boschloo_variants()). minlike equals Exact tsmethod 'square'; central doubles the smaller one-sided p-value, whereas Exact doubles the one-sided p-value in the observed direction (the two differ only for equal sample proportions)."
+        },
+        {
+          "option_id": "allocation",
+          "ui_label": "Allocation policy",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "n2_ceiling",
+              "label": "n1 = 1, 2, ...; n2 = max(1, ceiling(r * n1))"
+            },
+            {
+              "code": "total_nearest",
+              "label": "N = 2, 3, ...; n1 = round(N / (1 + r)), n2 = N - n1"
+            }
+          ],
+          "domain": null,
+          "default": "n2_ceiling",
+          "default_label": "n1 = 1, 2, ...; n2 = max(1, ceiling(r * n1))",
+          "default_evidence": "inferguidR default (engine-decisions-aux.md 2.11 item 6)",
+          "result_affecting": true,
+          "result_affecting_note": "yes: defines the admissible designs of the a priori search",
+          "applies_when": {
+            "text": "a priori mode",
+            "condition": {
+              "mode": [
+                "a_priori"
+              ]
+            }
+          },
+          "notes": "r = allocation_ratio = n2 / n1. Both sequences never decrease a group size."
+        }
+      ],
+      "effect_size": {
+        "symbol": "p1, p2",
+        "definition": "the two event probabilities entered directly (group 1 is the reference group); baseline-plus-effect input (difference p2 - p1, ratio p2 / p1, odds ratio) is converted by boschloo_probabilities()",
+        "conventions": null,
+        "drawer": null
+      },
+      "gpower_inputs": [],
+      "outputs": [
+        "Power (1-β err prob)",
+        "Attained size (supremum of the null rejection probability over the common event probability)",
+        "Sample size group 1",
+        "Sample size group 2",
+        "Total sample size",
+        "Number of rejected tables",
+        "Region hash"
+      ],
+      "outputs_mode_dependent": {
+        "a_priori": [
+          "Total sample size and group sizes of the first design of the allocation sequence whose power reaches the target",
+          "Achieved power and attained size of that design",
+          "Enumeration evidence of minimality (every earlier design evaluated)"
+        ],
+        "post_hoc": [
+          "Power and attained size of the given design"
+        ]
+      },
+      "manual": {
+        "section": null,
+        "pdf_pages": [],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.): no Boschloo chapter"
+      },
+      "documented_example_ids": [],
+      "coverage": {
+        "row_count": 0,
+        "branch_dimensions": {}
+      },
+      "owner_phase": "09A",
+      "inventory_status": "provisional",
+      "evidence_level": "independent_enumeration_checker_and_exact_comparator",
+      "implementation_status": "not_implemented",
+      "reference_status": "not_applicable",
+      "notes": [
+        "Not a G*Power procedure; no row of the G*Power coverage denominator (D10). label_raw and navigation are empty because neither binary contains the procedure.",
+        "inventory_index is null: the entry is not part of the 49-procedure reference inventory.",
+        "implementation_status is the static registry field shared by all registry files; list_methods() reports the run-time status from the registered method definition.",
+        "Observed-data analysis: boschloo_test(); planning: boschloo_power(), boschloo_sample_size() and analysis_spec() with this method id; all use one rejection region per design, variant, alpha and numerical settings.",
+        "G*Power comparators (different method): exact_proportions_fisher (conditional test, unconditional power) and exact_proportions_unconditional (z, Mantel-Haenszel, likelihood-ratio, t or score ordering per the option resources). Provisional until the options dialogs are captured.",
+        "exact2x2 1.7.0 boschloo() is rejected as engine and oracle (decision D12: floating-point tie artefact)."
+      ]
+    }
+  ]
+}

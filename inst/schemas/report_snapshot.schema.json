@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:inferguidr:schema:report_snapshot:0.1.0-draft",
+  "title": "inferguidR report_snapshot (draft)",
+  "description": "DRAFT, finalised by the report phase (13A). Frozen input of every exporter: analysis envelopes, an optional recommendation, plot data and texts at one moment. analysis_hash is deterministic (envelope analysis hashes, recommendation hash, report kind); snapshot_id identifies this freeze (content plus created_at); snapshot_hash is the integrity hash of the whole snapshot without snapshot_hash. A report other than 'incomplete_settings' requires completed results with status 'ok'.",
+  "type": "object",
+  "required": [
+    "schema_version", "object_type", "snapshot_id", "analysis_hash", "created_at",
+    "display_timezone", "locale", "report_kind", "completeness", "title", "envelopes",
+    "recommendation", "plot_data", "texts", "runtime", "snapshot_hash"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "inferguidR.report_snapshot/0.1.0-draft" },
+    "object_type": { "const": "report_snapshot" },
+    "snapshot_id": { "type": "string", "pattern": "^snap-[0-9a-f]{24}$" },
+    "analysis_hash": { "$ref": "common.schema.json#/$defs/sha256" },
+    "created_at": { "$ref": "common.schema.json#/$defs/utc_timestamp" },
+    "display_timezone": { "type": "string", "minLength": 1 },
+    "locale": { "enum": ["en", "de"] },
+    "report_kind": {
+      "enum": ["single_analysis", "model_cutoff", "comparison", "session", "incomplete_settings"]
+    },
+    "completeness": { "enum": ["complete", "incomplete"] },
+    "title": { "type": ["string", "null"] },
+    "envelopes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "analysis_envelope.schema.json" }
+    },
+    "recommendation": {
+      "oneOf": [{ "type": "null" }, { "$ref": "recommendation.schema.json" }]
+    },
+    "plot_data": {
+      "description": "Plot-data records (shape defined by the visualisation phase).",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "texts": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "runtime": { "$ref": "common.schema.json#/$defs/runtime" },
+    "snapshot_hash": { "$ref": "common.schema.json#/$defs/sha256" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "report_kind": { "not": { "const": "incomplete_settings" } } } },
+      "then": { "properties": { "completeness": { "const": "complete" } } }
+    },
+    {
+      "if": { "properties": { "report_kind": { "const": "single_analysis" } } },
+      "then": { "properties": { "envelopes": { "maxItems": 1 } } }
+    },
+    {
+      "if": { "properties": { "report_kind": { "const": "comparison" } } },
+      "then": { "properties": { "envelopes": { "minItems": 2 } } }
+    }
+  ]
+}

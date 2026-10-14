@@ -1,0 +1,60 @@
+{
+  "version": "2026-10-13.1",
+  "entries": [
+    {
+      "resource_id": "inferguidR_boschloo_minlike",
+      "title_en": "Two independent binomial groups: Boschloo's test",
+      "title_de": "Zwei unabhängige Binomialgruppen: Boschloo-Test",
+      "match": "exact",
+      "analysis_variant_id": "boschloo_two_sided_minlike",
+      "scope_en": "Original synthetic worked lesson: two-sided minlike Boschloo, independent binomial groups; same-variant prospective planning.",
+      "scope_de": "Eigenständige synthetische Lektion: zweiseitiger Minlike-Boschloo-Test, unabhängige Binomialgruppen; prospektive Planung mit derselben Variante.",
+      "access_en": "learning_lesson(\"boschloo\", \"en\")",
+      "access_de": "learning_lesson(\"boschloo\", \"de\")",
+      "files": [
+        {
+          "name": "boschloo-de.html",
+          "sha256": "643e88681019db7b5195b143be450b8bedf885a6b116e27c5c0103194f4c68a1"
+        },
+        {
+          "name": "boschloo-de.md",
+          "sha256": "de216a9ee7b6e643ad69bdb7f2f6b92b695ea250f30931bbf0929f432abda361"
+        },
+        {
+          "name": "boschloo-en.html",
+          "sha256": "099b6a98ff4063c0902297aac7149baef9c859904d709a978812f83d0d261e68"
+        },
+        {
+          "name": "boschloo-en.md",
+          "sha256": "1bf85cdbc80fefcc0b5ab460db65fce9051b9add8ecf454605a1fa92f2ab9352"
+        },
+        {
+          "name": "boschloo.R",
+          "sha256": "679cac83f4723500e1c6130ec0ea6d892401db91a9b6b2811f0834ec7712bbb4"
+        }
+      ],
+      "references": [
+        {
+          "url": "https://doi.org/10.1111/j.1467-9574.1970.tb00104.x",
+          "role": "methodological_source",
+          "title_en": "Boschloo (1970), original paper",
+          "title_de": "Boschloo (1970), Originalarbeit"
+        },
+        {
+          "url": "https://search.r-project.org/CRAN/refmans/exact2x2/html/boschloo.html",
+          "role": "variant_background",
+          "title_en": "exact2x2: Boschloo test documentation",
+          "title_de": "exact2x2: Dokumentation des Boschloo-Tests"
+        },
+        {
+          "url": "https://github.com/CTTIR/tutorials/blob/7d8d01c4edabd294f88568c4e370ab83dc09d313/tutorials/inference/fisher-exact-test.qmd",
+          "role": "related_only",
+          "title_en": "CTTIR Fisher tutorial (pinned source; related only; SP10 displayed numbers inconsistent with table)",
+          "title_de": "CTTIR-Fisher-Tutorial (festgehaltene Quelle; nur verwandt; SP10: angezeigte Zahlen passen nicht zur Tabelle)"
+        }
+      ],
+      "source_en": "Bundled inferguidR original lesson",
+      "source_de": "Mitgelieferte eigenstaendige inferguidR-Lektion"
+    }
+  ]
+}

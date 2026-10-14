@@ -1,0 +1,28 @@
+test_that("guided UI follows the advisor API and rejects a stale question answer", {
+  skip_if_not_installed("shiny")
+  lang <- shiny::reactiveVal("en")
+  shiny::testServer(.ig_advisor_server, args = list(language = lang), {
+    session$flushReact()
+    expect_identical(advisor_question(state())$question_id, "q.aim")
+    session$setInputs(`answer_q.aim` = "compare", next_answer = 1)
+    expected <- advisor_answer(advisor_session(), "compare")
+    expect_identical(state()$state$pending_question_id, expected$state$pending_question_id)
+    expect_identical(state()$answers, expected$answers)
+    before <- state()$answers
+    session$setInputs(next_answer = 2)
+    expect_identical(state()$answers, before)
+    expect_match(message(), "Choose an answer")
+    lang("de")
+    session$flushReact()
+    expect_identical(state()$answers, before)
+    expect_identical(advisor_question(state())$language, "de")
+    session$setInputs(back = 1)
+    expect_length(state()$answers, 0)
+    expect_identical(advisor_question(state())$question_id, "q.aim")
+  })
+  shiny::testServer(.ig_advisor_server, args = list(language = shiny::reactive("en")), {
+    session$flushReact()
+    expect_length(state()$answers, 0)
+    expect_identical(advisor_question(state())$language, "en")
+  })
+})

@@ -1,0 +1,27 @@
+testthat::test_that('report module freezes its own sweep and preserves failed rows', {
+ spec <- analysis_spec('t_means_one_sample','post_hoc',list(d=.5,alpha=.05,n_total=30),list(tails='two'))
+ envelope <- shiny::reactiveVal(analysis_envelope(spec,calculate_power(spec)))
+ entries <- shiny::reactiveVal(list(list(analysis=1,sweep=sweep_design(spec,'n_total',c(1,10,20)))))
+ eligible <- shiny::reactiveVal(TRUE)
+ shiny::testServer(inferguidR:::`.ig_report_server`,args=list(envelope=envelope,language=shiny::reactive('en'),eligible=eligible,sweeps=entries), {
+  session$flushReact();session$setInputs(freeze=1)
+  testthat::expect_identical(snapshot()$completeness,'incomplete')
+  testthat::expect_length(snapshot()$sweeps,1)
+  testthat::expect_identical(snapshot()$sweeps[[1]]$rows[[1]]$status,'invalid_input')
+  frozen <- snapshot()$snapshot_hash
+  entries(list());session$flushReact()
+  testthat::expect_identical(snapshot()$snapshot_hash,frozen)
+  eligible(FALSE);session$setInputs(freeze=2)
+  testthat::expect_identical(snapshot()$snapshot_hash,frozen)
+  testthat::expect_match(message(),'Calculate the current settings')
+  eligible(TRUE);session$setInputs(freeze=3)
+  testthat::expect_length(snapshot()$sweeps,0)
+  testthat::expect_identical(snapshot()$schema_version,'inferguidR.report_document/0.1.0')
+ })
+ shiny::testServer(inferguidR:::`.ig_report_server`,args=list(envelope=envelope,language=shiny::reactive('de')), {
+  session$flushReact();testthat::expect_null(snapshot())
+  session$setInputs(freeze=1)
+  testthat::expect_length(snapshot()$sweeps,0)
+  testthat::expect_identical(snapshot()$locale,'de')
+ })
+})

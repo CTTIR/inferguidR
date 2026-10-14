@@ -1,0 +1,58 @@
+test_that("sweep inputs use explicit locale-aware semicolon separation", {
+ expect_equal(.ig_power_sweep_values("0.2;0.5;0.8","en"),c(.2,.5,.8))
+ expect_equal(.ig_power_sweep_values("0,2;0,5;0,8","de"),c(.2,.5,.8))
+ for(x in c("","0.5","0.5;", "0.5;;0.8",paste(seq_len(22),collapse=";")))
+  expect_error(.ig_power_sweep_values(x,"en"),class="inferguidR_invalid_input")
+})
+
+test_that("linked sweep previews do not commit until explicit application", {
+ skip_if_not_installed("shiny");skip_if_not_installed("ggplot2")
+ spec <- analysis_spec("t_means_one_sample","post_hoc",list(d=.5,alpha=.05,n_total=30),list(tails="two"))
+ st <- .ig_workbench_new(spec,"test-sweep")
+ st <- .ig_workbench_accept(st,st$pending,calculate_power(spec))
+ shared <- shiny::reactiveVal(st)
+ applied <- NULL
+ shiny::testServer(.ig_power_sweep_server,args=list(state=shared,language=shiny::reactive("en"),research=shiny::reactive(TRUE),
+   apply_value=function(free,value) applied <<- list(free=free,value=value)), {
+  session$flushReact()
+  session$setInputs(free="d",values="0.2;0.5;0.8",run=1)
+  expect_equal(nrow(sweep()),3)
+  expect_no_error(curve_output <- output$curve)
+  expect_true(nzchar(curve_output$src))
+  before <- state()$committed$analysis_hash
+  session$setInputs(row="3",preview=1)
+  expect_identical(state()$committed$analysis_hash,before)
+  expect_equal(state()$preview$spec$inputs$d,.8)
+  expect_no_error(preview_output <- output$preview_plot)
+  expect_true(nzchar(preview_output$src))
+  session$setInputs(row="2",apply=1)
+  expect_identical(state()$committed$analysis_hash,before)
+  expect_match(message(),"selected row has changed",fixed=TRUE)
+  session$setInputs(row="3",apply=2)
+  expect_equal(state()$committed$spec$inputs$d,.8)
+  expect_length(state()$history,2)
+  expect_null(current_sweep())
+ })
+ expect_identical(applied,list(free="d",value=.8))
+})
+
+test_that("dirty designs and failed sweep rows cannot be applied", {
+ skip_if_not_installed("shiny");skip_if_not_installed("ggplot2")
+ spec <- analysis_spec("t_means_one_sample","post_hoc",list(d=.5,alpha=.05,n_total=30),list(tails="two"))
+ st <- .ig_workbench_new(spec,"test-sweep")
+ st <- .ig_workbench_accept(st,st$pending,calculate_power(spec))
+ shared <- shiny::reactiveVal(st)
+ shiny::testServer(.ig_power_sweep_server,args=list(state=shared,language=shiny::reactive("en"),research=shiny::reactive(TRUE),apply_value=function(...) NULL), {
+  session$flushReact()
+  session$setInputs(free="n_total",values="1;10;20",run=1)
+  expect_identical(sweep()$status[1],"invalid_input")
+  session$setInputs(row="1",preview=1)
+  expect_null(state()$preview)
+  session$setInputs(row="2",preview=2)
+  expect_equal(state()$preview$spec$inputs$n_total,10)
+  s <- state();s$dirty <- TRUE;state(s)
+  session$setInputs(apply=1)
+  expect_equal(state()$committed$spec$inputs$n_total,30)
+  expect_match(message(),"Preview a current successful row",fixed=TRUE)
+ })
+})

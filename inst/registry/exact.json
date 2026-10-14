@@ -1,0 +1,4250 @@
+{
+  "schema_version": "inferguidR.registry/0.1.0",
+  "family": "exact",
+  "family_label": "Exact tests",
+  "source": {
+    "path": "specs/gpower-capabilities.json",
+    "sha256": "3a8bfd54327cac2a1adf4c4efb3ec0a9793400ee3db9ca4462eacae4ccfa5f86",
+    "inventory_status": "certified",
+    "inventory_date": "2026-10-03",
+    "live_capture_date": "2026-10-05",
+    "reference_versions": {
+      "manual": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)",
+      "mac_resources": "G*Power 3.1.9.6 Mac bundle (static inspection; not executed)",
+      "windows_resources": "G*Power 3.1.9.7 GPowerNT.exe (static PE-resource and string inspection; not executed)",
+      "windows_live": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+    }
+  },
+  "generated_by": "project/tools/build_registry.R",
+  "reference_note": "Inventory certified against the running G*Power 3.1.9.7 under Wine 10.0 (emulator_capture; decisions D22/D23; specs/gpower-app-capture.json): modes, options, defaults and the live input and output labels per analysis type. Every method stays reference_pending here; agreement with G*Power is reported per method domain by fixture comparisons (validation/compare/).",
+  "methods": [
+    {
+      "method_id": "exact_correlation_bivariate_normal",
+      "family": "exact",
+      "inventory_index": 1,
+      "label": {
+        "en": "Correlation: Bivariate normal model",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Correlation: Bivariate normal model",
+        "mac_3196": "Correlation: Bivariate normal model",
+        "windows_3197_live": "Correlation: Bivariate normal model"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Correlation and regression > Correlation: Bivariate normal model",
+        "mac_3196": "Tests > Correlation and regression > Correlation: Bivariate normal model"
+      },
+      "aliases": ["Exact: Correlation - Difference from constant (one sample case) [manual ch. 3 title]", "Exact test for the difference of one (Pearson) correlation from a constant [manual §16.4]"],
+      "hypothesis": {
+        "H0": "rho - rho0 = 0",
+        "H1": "rho - rho0 != 0 (two-sided) or directional (one-sided)",
+        "model": "bivariate normal (X,Y); rho0 may be non-zero"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["a_priori", "post_hoc"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.exact_correlation_bivariate_normal.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "computation",
+          "ui_label": "Use exact distribution if N < x | Use large sample approximation (Fisher Z)",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "exact",
+              "label": "exact_if_N_below_threshold",
+              "live": {
+                "kind": "radio",
+                "id": 1097,
+                "text": "use exact distribution if  N  <",
+                "match": "position"
+              }
+            },
+            {
+              "code": "fisher_z_approx",
+              "label": "large_sample_fisher_z",
+              "live": {
+                "kind": "radio",
+                "id": 1098,
+                "text": "use large sample approximation (Fisher Z)",
+                "match": "position"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "exact",
+          "default_value": null,
+          "default_label": "use exact distribution if  N  <",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1097,
+                "kind": "radio",
+                "text": "use exact distribution if  N  <",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1098,
+                "kind": "radio",
+                "text": "use large sample approximation (Fisher Z)",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1137,
+                "kind": "edit",
+                "default": "10000",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true,
+            "secondary_controls": [
+              {
+                "kind": "edit",
+                "id": 1137,
+                "default": "10000"
+              }
+            ]
+          },
+          "notes": "Threshold x is a continuous input; the branch is the algorithm. Critical values are labelled r (exact) vs z (approximation)."
+        },
+        {
+          "option_id": "effect_direction",
+          "ui_label": "Effect direction (sensitivity)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "r_le_rho0",
+              "label": "r <= rho",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "r ≤ ρ",
+                "match": "text"
+              }
+            },
+            {
+              "code": "r_ge_rho0",
+              "label": "r >= rho",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "r ≥ ρ",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "r_ge_rho0",
+          "default_value": null,
+          "default_label": "r ≥ ρ",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "sensitivity mode",
+            "condition": {
+              "mode": ["sensitivity"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Effect direction"
+          },
+          "notes": "Direction labels found in both binaries next to this test's strings; exact UI placement unverified."
+        }
+      ],
+      "effect_size": {
+        "symbol": "rho (H1) with rho0 (H0); implicit effect rho - rho0",
+        "definition": "Correlation rho under H1 entered directly; restriction -1+1e-6 < rho < 1-1e-6; |rho-rho0| > 1e-6 in a priori",
+        "conventions": "rho0=0: small 0.1, medium 0.3, large 0.5 (Cohen 1969 p.76)",
+        "drawer": {
+          "drawer_id": "drawer_Exact_Corr (Mac outlet; controller Eff_T_Corr_PBM)",
+          "input_modes": ["from coefficient of determination r²"],
+          "inputs": ["Coefficient of determination r²"],
+          "outputs": ["Correlation ρ H1 (Fig. 5) / Effect size |r| (Mac nib label)"]
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "Correlation ρ H1", "α err prob", "Power (1-β err prob)", "Correlation ρ H0", "β/α ratio", "Total sample size", "Effect direction"],
+      "outputs": ["Lower critical r", "Upper critical r", "Total sample size", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "Correlation ρ H1"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Correlation ρ H1",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Correlation ρ H0",
+            "control": "Edit",
+            "default": "0"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Correlation ρ H1",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Correlation ρ H0",
+            "control": "Edit",
+            "default": "0"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect direction",
+            "control": "ComboBox",
+            "default": "r ≥ ρ",
+            "choices": ["r ≤ ρ", "r ≥ ρ"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Correlation ρ H0",
+            "control": "Edit",
+            "default": "0"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Correlation ρ H1",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Correlation ρ H0",
+            "control": "Edit",
+            "default": "0"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Correlation ρ H1",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Correlation ρ H0",
+            "control": "Edit",
+            "default": "0"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Lower critical r", "Upper critical r", "Total sample size", "Actual power"],
+        "post_hoc": ["Lower critical r", "Upper critical r", "Power (1-β err prob)"],
+        "sensitivity": ["Lower critical r", "Upper critical r", "Correlation ρ H1"],
+        "criterion": ["Lower critical r", "Upper critical r", "α err prob"],
+        "compromise": ["Lower critical r", "Upper critical r", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "3",
+        "pdf_pages": [9, 10],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-028", "DOC-029", "DOC-030", "DOC-031", "DOC-032"],
+      "coverage": {
+        "row_count": 24,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "computation": ["exact", "fisher_z_approx"],
+          "effect_direction": ["r_le_rho0", "r_ge_rho0"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "08",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.exact_correlation_bivariate_normal",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["H0 distribution: exact sample-correlation distribution (Barabesi & Greco 2002 algorithm) or Fisher-z normal approximation (§3.5).", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "exact_proportion_one_sample_binomial",
+      "family": "exact",
+      "inventory_index": 2,
+      "label": {
+        "en": "Proportion: Difference from constant (binomial test, one sample case)",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Proportion: Difference from constant (binomial test, one sample case)",
+        "mac_3196": "Proportion: Difference from constant (binomial test, one sample case)",
+        "windows_3197_live": "Proportion: Difference from constant (binomial test, one sample case)"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Proportions > One group: Difference From Constant",
+        "mac_3196": "Tests > Proportions > One group: Difference from constant"
+      },
+      "aliases": ["Exact: Proportion - difference from constant (one sample case) [manual ch. 4]", "Exact - Proportion: Difference from constant (binomial test, one sample case) [X-Y plot title, Fig. 7]"],
+      "hypothesis": {
+        "H0": "pi - pi0 = 0",
+        "H1": "pi - pi0 != 0 (two-tailed) or directional (one-tailed)"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["a_priori", "post_hoc"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.exact_proportion_one_sample_binomial.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "alpha_balancing",
+          "ui_label": "Alpha balancing in two-sided tests",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "half_each_side",
+              "label": "Assign α/2 to both sides",
+              "live": {
+                "kind": "radio",
+                "id": 1039,
+                "text": "Assing α/2 to both sides",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "minor_tail_half_rest_major",
+              "label": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α1)",
+              "live": {
+                "kind": "radio",
+                "id": 1095,
+                "text": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α2)",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "half_each_side_then_increase",
+              "label": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+              "live": {
+                "kind": "radio",
+                "id": 1096,
+                "text": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "half_each_side",
+          "default_value": null,
+          "default_label": "Assing α/2 to both sides",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "Tail(s)=Two",
+            "condition": {
+              "option": "tails",
+              "in": ["two"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1039,
+                "kind": "radio",
+                "text": "Assing α/2 to both sides",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1095,
+                "kind": "radio",
+                "text": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α2)",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1096,
+                "kind": "radio",
+                "text": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": "Manual text prints the second option as '(α2 = α/2, α1 = α − α2)'; the Mac nib label prints 'α1 = α-α1'."
+        }
+      ],
+      "effect_size": {
+        "symbol": "g",
+        "definition": "g = pi - pi0; eps <= pi0+g <= 1-eps; |g| > eps in a priori; eps = 1e-6",
+        "conventions": "see sign test: small 0.05, medium 0.15, large 0.25 (tooltip strings)",
+        "drawer": {
+          "drawer_id": "drawer_Ex_Prop_Bin (Mac) / RT_DIALOG 193 (Windows)",
+          "input_modes": ["direct P2", "Difference P2-P1", "Ratio P2/P1", "Odds ratio"],
+          "inputs": ["P1 (set from Constant proportion)", "P2 or relation value", "Sync values"],
+          "outputs": ["Effect size g", "transfers Constant proportion=P1 and g"]
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "Effect size g", "α err prob", "Power (1-β err prob)", "Constant proportion", "β/α ratio", "Total sample size"],
+      "outputs": ["Lower critical N", "Upper critical N", "Total sample size", "Actual power", "Actual α", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio", "Effect size g"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size g",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Constant proportion",
+            "control": "Edit",
+            "default": "0.5"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size g",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Constant proportion",
+            "control": "Edit",
+            "default": "0.5"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Constant proportion",
+            "control": "Edit",
+            "default": "0.5"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size g",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Constant proportion",
+            "control": "Edit",
+            "default": "0.5"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size g",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Constant proportion",
+            "control": "Edit",
+            "default": "0.5"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Lower critical N", "Upper critical N", "Total sample size", "Actual power", "Actual α"],
+        "post_hoc": ["Lower critical N", "Upper critical N", "Power (1-β err prob)", "Actual α"],
+        "sensitivity": ["Lower critical N", "Upper critical N", "Actual α", "Effect size g"],
+        "criterion": ["Lower critical N", "Upper critical N", "α err prob", "Actual power"],
+        "compromise": ["Lower critical N", "Upper critical N", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "discrete_test_extra": [
+            "'Actual α' (attained level)",
+            "candidate: 'Actual β/α ratio' (label present in both binaries, owner procedure/mode unverified)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "4",
+        "pdf_pages": [11, 12, 13],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-033", "DOC-034", "DOC-035"],
+      "coverage": {
+        "row_count": 20,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "alpha_balancing": ["n/a_one_tailed", "half_each_side", "minor_tail_half_rest_major", "half_each_side_then_increase"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "09",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.exact_proportion_one_sample_binomial",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["Branch rule: for Tail(s)=One the alpha-balancing option is irrelevant, so it is collapsed to one branch (recorded as half_each_side).", "A priori search returns the lowest N whose power is not below target; power is non-monotone in N (manual §4.3, Fig. 7).", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "exact_proportion_sign_test",
+      "family": "exact",
+      "inventory_index": 3,
+      "label": {
+        "en": "Proportion: Sign test (binomial test)",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Proportion: Sign test (binomial test)",
+        "mac_3196": "Proportion: Sign test (binomial test)",
+        "windows_3197_live": "Proportion: Sign test (binomial test)"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Proportions > One group: Sign Test",
+        "mac_3196": "Tests > Proportions > One group: Sign test (binomial test)"
+      },
+      "aliases": ["Exact: Proportion - sign test [manual ch. 8]", "Proportions: Sign test [G*Power 3.0 name, manual §4.4]"],
+      "hypothesis": {
+        "H0": "pi = 0.5",
+        "H1": "pi != 0.5 (or directional)",
+        "identity": "special case pi0 = 0.5 of exact_proportion_one_sample_binomial (manual ch. 8)"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": [],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.exact_proportion_sign_test.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "alpha_balancing",
+          "ui_label": "Alpha balancing in two-sided tests",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "half_each_side",
+              "label": "Assign α/2 to both sides",
+              "live": {
+                "kind": "radio",
+                "id": 1039,
+                "text": "Assing α/2 to both sides",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "minor_tail_half_rest_major",
+              "label": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α1)",
+              "live": {
+                "kind": "radio",
+                "id": 1095,
+                "text": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α2)",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "half_each_side_then_increase",
+              "label": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+              "live": {
+                "kind": "radio",
+                "id": 1096,
+                "text": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "half_each_side",
+          "default_value": null,
+          "default_label": "Assing α/2 to both sides",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "Tail(s)=Two",
+            "condition": {
+              "option": "tails",
+              "in": ["two"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1039,
+                "kind": "radio",
+                "text": "Assing α/2 to both sides",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1095,
+                "kind": "radio",
+                "text": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α2)",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1096,
+                "kind": "radio",
+                "text": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": "Manual text prints the second option as '(α2 = α/2, α1 = α − α2)'; the Mac nib label prints 'α1 = α-α1'."
+        }
+      ],
+      "effect_size": {
+        "symbol": "g",
+        "definition": "g = pi - 0.5",
+        "conventions": "small 0.05, medium 0.15, large 0.25 (Cohen 1969 p.142)",
+        "drawer": null
+      },
+      "gpower_inputs": ["Tail(s)", "Effect size g", "α err prob", "Power (1-β err prob)", "β/α ratio", "Total sample size"],
+      "outputs": ["Lower critical N", "Upper critical N", "Total sample size", "Actual power", "Actual α", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio", "Effect size g"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size g",
+            "control": "Edit",
+            "default": "0.3"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size g",
+            "control": "Edit",
+            "default": "0.3"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size g",
+            "control": "Edit",
+            "default": "0.3"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect size g",
+            "control": "Edit",
+            "default": "0.3"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Lower critical N", "Upper critical N", "Total sample size", "Actual power", "Actual α"],
+        "post_hoc": ["Lower critical N", "Upper critical N", "Power (1-β err prob)", "Actual α"],
+        "sensitivity": ["Lower critical N", "Upper critical N", "Effect size g", "Actual α"],
+        "criterion": ["Lower critical N", "Upper critical N", "α err prob", "Actual power"],
+        "compromise": ["Lower critical N", "Upper critical N", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "discrete_test_extra": [
+            "'Actual α' (attained level)",
+            "candidate: 'Actual β/α ratio' (label present in both binaries, owner procedure/mode unverified)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "8",
+        "pdf_pages": [22],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": [],
+      "coverage": {
+        "row_count": 20,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "alpha_balancing": ["n/a_one_tailed", "half_each_side", "minor_tail_half_rest_major", "half_each_side_then_increase"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "09",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.exact_proportion_sign_test",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["Manual ch. 8 has no worked example.", "Mathematically an alias of the one-sample binomial test with pi0 = 0.5; kept as a separate method_id because it is a separate menu item with its own input layout (no Constant proportion field expected - unverified).", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "exact_proportions_mcnemar",
+      "family": "exact",
+      "inventory_index": 4,
+      "label": {
+        "en": "Proportions: Inequality, two dependent groups (McNemar)",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Proportions: Inequality, two dependent groups (McNemar) ",
+        "mac_3196": "Proportions: Inequality, two dependent groups (McNemar)",
+        "windows_3197_live": "Proportions: Inequality, two dependent groups (McNemar) "
+      },
+      "navigation": {
+        "windows_3197": "Tests > Proportions > Two dependent groups: Inequality, McNemar test",
+        "mac_3196": "Tests > Proportions > Two dependent groups: Inequality, McNemar test"
+      },
+      "aliases": ["Exact: Proportion - inequality, two dependent groups (McNemar) [manual ch. 5]", "Proportions: difference between two dependent proportions (McNama) [Windows RT_DLGINIT 146 initial combobox text]"],
+      "hypothesis": {
+        "H0": "pi12/pi21 = 1",
+        "H1": "pi12/pi21 != 1",
+        "model": "paired binary 2x2 table; discordant-pair probability piD"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["post_hoc"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.exact_proportions_mcnemar.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "alpha_balancing",
+          "ui_label": "Alpha balancing in two-sided tests",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "half_each_side",
+              "label": "Assign α/2 to both sides",
+              "live": {
+                "kind": "radio",
+                "id": 1039,
+                "text": "Assing α/2 to both sides",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "minor_tail_half_rest_major",
+              "label": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α1)",
+              "live": {
+                "kind": "radio",
+                "id": 1095,
+                "text": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α1)",
+                "match": "text"
+              }
+            },
+            {
+              "code": "half_each_side_then_increase",
+              "label": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+              "live": {
+                "kind": "radio",
+                "id": 1096,
+                "text": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "half_each_side",
+          "default_value": null,
+          "default_label": "Assing α/2 to both sides",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "Tail(s)=Two",
+            "condition": {
+              "option": "tails",
+              "in": ["two"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1039,
+                "kind": "radio",
+                "text": "Assing α/2 to both sides",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1095,
+                "kind": "radio",
+                "text": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α1)",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1096,
+                "kind": "radio",
+                "text": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": "Manual text prints the second option as '(α2 = α/2, α1 = α − α2)'; the Mac nib label prints 'α1 = α-α1'."
+        },
+        {
+          "option_id": "computation",
+          "ui_label": "Computation",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "exact_unconditional",
+              "label": "exact (unconditional) power if N < x",
+              "live": {
+                "kind": "radio",
+                "id": 1097,
+                "text": "exact (unconditional) power if  N  <",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "fast_approx",
+              "label": "faster approximation (assume number of discordant pairs as constant)",
+              "live": {
+                "kind": "radio",
+                "id": 1098,
+                "text": "faster approximation (assume number of discordant pairs as constant)",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "fast_approx",
+          "default_value": null,
+          "default_label": "faster approximation (assume number of discordant pairs as constant)",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1097,
+                "kind": "radio",
+                "text": "exact (unconditional) power if  N  <",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1098,
+                "kind": "radio",
+                "text": "faster approximation (assume number of discordant pairs as constant)",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1137,
+                "kind": "edit",
+                "default": "1000000",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true,
+            "secondary_controls": [
+              {
+                "kind": "edit",
+                "id": 1137,
+                "default": "1000000"
+              }
+            ]
+          },
+          "notes": "No distribution plot for exact computations (manual §5.2.2)."
+        }
+      ],
+      "effect_size": {
+        "symbol": "OR = pi12/pi21",
+        "definition": "Odds ratio in [1e-6, 1e6]; OR=1 not allowed a priori; plus Prop discordant pairs piD in [eps,1-eps]",
+        "conventions": null,
+        "drawer": null
+      },
+      "gpower_inputs": ["Tail(s)", "Odds ratio", "α err prob", "Power (1-β err prob)", "Prop discordant pairs", "β/α ratio", "Total sample size"],
+      "outputs": ["Lower critical N", "Upper critical N", "Total sample size", "Actual power", "Actual α", "Proportion p12", "Proportion p21", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio", "Odds ratio"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Prop discordant pairs",
+            "control": "Edit",
+            "default": "0.3"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Prop discordant pairs",
+            "control": "Edit",
+            "default": "0.3"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Prop discordant pairs",
+            "control": "Edit",
+            "default": "0.3"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.5"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Prop discordant pairs",
+            "control": "Edit",
+            "default": "0.3"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.5"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Prop discordant pairs",
+            "control": "Edit",
+            "default": "0.3"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Lower critical N", "Upper critical N", "Total sample size", "Actual power", "Actual α", "Proportion p12", "Proportion p21"],
+        "post_hoc": ["Lower critical N", "Upper critical N", "Power (1-β err prob)", "Actual α", "Proportion p12", "Proportion p21"],
+        "sensitivity": ["Lower critical N", "Upper critical N", "Odds ratio", "Actual α", "Proportion p12", "Proportion p21"],
+        "criterion": ["Lower critical N", "Upper critical N", "α err prob", "Actual power", "Proportion p12", "Proportion p21"],
+        "compromise": ["Lower critical N", "Upper critical N", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "discrete_test_extra": [
+            "'Actual α' (attained level)",
+            "candidate: 'Actual β/α ratio' (label present in both binaries, owner procedure/mode unverified)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "5",
+        "pdf_pages": [14, 15, 16],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-036", "DOC-037", "DOC-038", "DOC-039", "DOC-040", "DOC-041", "DOC-042", "DOC-043", "DOC-044", "DOC-045", "DOC-046"],
+      "coverage": {
+        "row_count": 40,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "alpha_balancing": ["n/a_one_tailed", "half_each_side", "minor_tail_half_rest_major", "half_each_side_then_increase"],
+          "computation": ["exact_unconditional", "fast_approx"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "09",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.exact_proportions_mcnemar",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["Alpha balancing applies to both computation modes in this enumeration; whether it affects the fast approximation is unverified.", "[completeness review 2026-10-03] Manual §5.5 prints P(N_D) = C(N,N_D)(π11+π22)^N_D (π12+π21)^(N-N_D); for N_D ~ B(N, π_D) the exponents are swapped (should be (π12+π21)^N_D (π11+π22)^(N-N_D)). Implementers must not copy the printed formula.", "[second review pass 2026-10-03] Manual §5.1 prints OR = (d + πD)/(d − πD) for d = π12 − π21. From π12 = (πD + d)/2 and π21 = (πD − d)/2 the ratio is OR = (πD + d)/(πD − d); the printed form is negative whenever |d| < πD (with the §5.3 values πD = 0.4, d = −0.24 it gives −0.25 instead of 0.25). Confirmed on the rendered page 14. Use the corrected form in drawer/conversion code.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "exact_proportions_fisher",
+      "family": "exact",
+      "inventory_index": 5,
+      "label": {
+        "en": "Proportions: Inequality, two independent groups (Fisher's exact test)",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Proportions: Inequality, two independent groups (Fisher's exact test) ",
+        "mac_3196": "Proportions: Inequality, two independent groups (Fisher's exact test)",
+        "windows_3197_live": "Proportions: Inequality, two independent groups (Fisher's exact test) "
+      },
+      "navigation": {
+        "windows_3197": "Tests > Proportions > Two independent groups: Inequality, Fisher's exact test",
+        "mac_3196": "Tests > Proportions > Two independent groups: Inequality, Fisher's exact test"
+      },
+      "aliases": ["Exact: Proportions - inequality of two independent groups (Fisher's exact-test) [manual ch. 6]"],
+      "hypothesis": {
+        "H0": "pi1 - pi2 = 0",
+        "H1": "pi1 - pi2 != 0",
+        "power_definition": "exact unconditional power of the conditional test (manual §6.6.1)"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": [],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.exact_proportions_fisher.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": null
+        },
+        {
+          "option_id": "computation",
+          "ui_label": "Computation",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "exact",
+              "label": "Use exact distribution if N < x",
+              "live": {
+                "kind": "radio",
+                "id": 1097,
+                "text": "Use exact distribution if  N  <",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "large_sample_z",
+              "label": "Use large sample approximation (z-Test)",
+              "live": {
+                "kind": "radio",
+                "id": 1098,
+                "text": "Use large sample approximation (z-Test)",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "exact",
+          "default_value": null,
+          "default_label": "Use exact distribution if  N  <",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1097,
+                "kind": "radio",
+                "text": "Use exact distribution if  N  <",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1098,
+                "kind": "radio",
+                "text": "Use large sample approximation (z-Test)",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1137,
+                "kind": "edit",
+                "default": "10000",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Dialog",
+            "enabled_by_default": true,
+            "secondary_controls": [
+              {
+                "kind": "edit",
+                "id": 1137,
+                "default": "10000"
+              }
+            ]
+          },
+          "notes": null
+        },
+        {
+          "option_id": "two_sided_balancing",
+          "ui_label": "Alpha-balancing in two-sided exact tests",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "symmetric_fisher_statistic",
+              "label": "Symmetrical with respect to the Fisher statistic",
+              "live": {
+                "kind": "radio",
+                "id": 1102,
+                "text": "Symmetrical with respect to the",
+                "combo_id": 1139,
+                "item": "Fisher",
+                "match": "prefix+combo_item"
+              }
+            },
+            {
+              "code": "symmetric_lr_statistic",
+              "label": "Symmetrical with respect to the Likelihood ratio statistic",
+              "live": {
+                "kind": "radio",
+                "id": 1102,
+                "text": "Symmetrical with respect to the",
+                "combo_id": 1139,
+                "item": "Likelihood ratio",
+                "match": "prefix+combo_item"
+              }
+            },
+            {
+              "code": "symmetric_pearson_chi2_statistic",
+              "label": "Symmetrical with respect to the Pearson chi square statistic",
+              "live": {
+                "kind": "radio",
+                "id": 1102,
+                "text": "Symmetrical with respect to the",
+                "combo_id": 1139,
+                "item": "Pearson chi square",
+                "match": "prefix+combo_item"
+              }
+            },
+            {
+              "code": "maximize_alpha",
+              "label": "Maximize alpha",
+              "live": {
+                "kind": "radio",
+                "id": 1103,
+                "text": "Maximize alpha",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "symmetric_fisher_statistic",
+          "default_value": null,
+          "default_label": "Symmetrical with respect to the",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "Tail(s)=Two and exact computation",
+            "condition": {
+              "all": [
+                {
+                  "option": "tails",
+                  "in": ["two"]
+                },
+                {
+                  "option": "computation",
+                  "in": ["exact"]
+                }
+              ]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1102,
+                "kind": "radio",
+                "text": "Symmetrical with respect to the",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1103,
+                "kind": "radio",
+                "text": "Maximize alpha",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1139,
+                "kind": "combo",
+                "items": [
+                  "Fisher",
+                  "Likelihood ratio",
+                  "Pearson chi square"
+                ],
+                "default": "Fisher",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Dialog",
+            "enabled_by_default": true,
+            "secondary_controls": [
+              {
+                "kind": "combo",
+                "id": 1139,
+                "default": "Fisher",
+                "items": ["Fisher", "Likelihood ratio", "Pearson chi square"]
+              }
+            ]
+          },
+          "notes": "Whether the statistic popup also applies under 'Maximize alpha' is unverified; enumerated as 4 branches."
+        },
+        {
+          "option_id": "allocation_ratio",
+          "ui_label": "Allocation ratio N2/N1",
+          "kind": "main_window_input",
+          "value_type": "continuous",
+          "values": [],
+          "domain": {
+            "text": "(0, inf)",
+            "lower": 0,
+            "lower_inclusive": false,
+            "upper": {
+              "value": null,
+              "nonfinite": "positive_infinity"
+            },
+            "upper_inclusive": false
+          },
+          "default": null,
+          "default_value": 1,
+          "default_label": "1",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "live: field shown in a_priori only",
+            "condition": {
+              "mode": ["a_priori"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "Edit",
+            "label": "Allocation ratio N2/N1",
+            "modes": ["a_priori"]
+          },
+          "notes": null
+        },
+        {
+          "option_id": "effect_direction",
+          "ui_label": "Effect direction (sensitivity)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "p1_le_p2",
+              "label": "p1 <= p2",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "p1≤p2",
+                "match": "text"
+              }
+            },
+            {
+              "code": "p1_ge_p2",
+              "label": "p1 >= p2",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "p1≥p2",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "p1_le_p2",
+          "default_value": null,
+          "default_label": "p1≤p2",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "sensitivity mode",
+            "condition": {
+              "mode": ["sensitivity"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Effect direction"
+          },
+          "notes": null
+        }
+      ],
+      "effect_size": {
+        "symbol": "pi1, pi2",
+        "definition": "two proportions entered directly (manual §6.2)",
+        "conventions": null,
+        "drawer": {
+          "drawer_id": "drawer_Ex_Prop_Inequ (Mac; controller Eff_Ex_Fisher) / RT_DIALOG 202 (Windows)",
+          "input_modes": ["direct P1", "difference P1-P2", "ratio P1/P2", "odds ratio"],
+          "inputs": ["P1", "P2", "relation value", "Sync values"],
+          "outputs": ["Proportion P1"]
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "Proportion p1", "Proportion p2", "α err prob", "Power (1-β err prob)", "Allocation ratio N2/N1", "β/α ratio", "Sample size group 1", "Sample size group 2", "Effect direction"],
+      "outputs": ["Sample size group 1", "Sample size group 2", "Total sample size", "Actual power", "Actual α", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio", "Proportion p1"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Allocation ratio N2/N1",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect direction",
+            "control": "ComboBox",
+            "default": "p1≤p2",
+            "choices": ["p1≤p2", "p1≥p2"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.6"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Sample size group 1", "Sample size group 2", "Total sample size", "Actual power", "Actual α"],
+        "post_hoc": ["Power (1-β err prob)", "Actual α"],
+        "sensitivity": ["Proportion p1", "Actual power", "Actual α"],
+        "criterion": ["α err prob", "Actual α", "Actual power"],
+        "compromise": ["α err prob", "Actual α", "β err prob", "Power (1-β err prob)", "Actual β/α ratio"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "discrete_test_extra": [
+            "'Actual α' (attained level)",
+            "candidate: 'Actual β/α ratio' (label present in both binaries, owner procedure/mode unverified)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "6",
+        "pdf_pages": [17],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": [],
+      "coverage": {
+        "row_count": 42,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "computation": ["exact", "large_sample_z"],
+          "effect_direction": ["p1_le_p2", "p1_ge_p2"],
+          "two_sided_balancing": ["symmetric_fisher_statistic", "symmetric_lr_statistic", "symmetric_pearson_chi2_statistic", "maximize_alpha"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "09",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.exact_proportions_fisher",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["DISCREPANCY: manual §6.3 says 'This test has no options' but both application resource sets contain an options dialog (computation + two-sided balancing statistic).", "Manual ch. 6 has no worked example.", "Relevant comparator (not oracle) for phase 09A Boschloo work; not the Boschloo test.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "exact_proportions_unconditional",
+      "family": "exact",
+      "inventory_index": 6,
+      "label": {
+        "en": "Proportions: Inequality, two independent groups (unconditional)",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Proportions: Inequality, two independent groups (unconditional) [also present: '... (unconditional test) ']",
+        "mac_3196": "Proportions: Inequality, two independent groups (unconditional) [also present: '... (unconditional test) ']",
+        "windows_3197_live": "Proportions: Inequality, two independent groups (unconditional) "
+      },
+      "navigation": {
+        "windows_3197": "Tests > Proportions > Two independent groups: Inequality, unconditional exact",
+        "mac_3196": "Tests > Proportions > Two independent groups: Inequality, unconditional exact"
+      },
+      "aliases": ["unconditional exact test of two independent proportions (no manual chapter)"],
+      "hypothesis": {
+        "H0": "p1 = p2 (inferred)",
+        "H1": "p1 != p2 or directional (inferred)",
+        "status": "not documented in the manual; inferred from labels"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": [],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.exact_proportions_unconditional.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": "Tail(s) assumed from shared main-window design; unverified for this test"
+        },
+        {
+          "option_id": "computation",
+          "ui_label": "Computation",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "exact",
+              "label": "Use exact distribution if N < x",
+              "live": {
+                "kind": "radio",
+                "id": 1097,
+                "text": "Use exact distribution if  N  <",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "large_sample",
+              "label": "Use large sample approximation",
+              "live": {
+                "kind": "radio",
+                "id": 1098,
+                "text": "Use large sample approximation",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "exact",
+          "default_value": null,
+          "default_label": "Use exact distribution if  N  <",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1097,
+                "kind": "radio",
+                "text": "Use exact distribution if  N  <",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1098,
+                "kind": "radio",
+                "text": "Use large sample approximation",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1137,
+                "kind": "edit",
+                "default": "10000",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Dialog",
+            "enabled_by_default": true,
+            "secondary_controls": [
+              {
+                "kind": "edit",
+                "id": 1137,
+                "default": "10000"
+              }
+            ]
+          },
+          "notes": null
+        },
+        {
+          "option_id": "statistic",
+          "ui_label": "Statistic",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "z_pooled",
+              "label": "z-test pooled var",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "z-test pooled var",
+                "match": "text"
+              }
+            },
+            {
+              "code": "z_pooled_cc",
+              "label": "z-test pooled var with const. corr.",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "z-test pooled var with cont. corr.",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "z_unpooled",
+              "label": "z-test unpooled var",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "z-test unpooled var",
+                "match": "text"
+              }
+            },
+            {
+              "code": "z_unpooled_cc",
+              "label": "z-test unpooled var with const. corr.",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "z-test unpooled var with cont. corr.",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "mantel_haenszel",
+              "label": "Mantel-Haentszel test",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "Mantel-Haenszel test",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "likelihood_ratio",
+              "label": "Likelihood ratio",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "Likelihood ratio",
+                "match": "text"
+              }
+            },
+            {
+              "code": "t_test",
+              "label": "t-test",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "t-test",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "z_pooled",
+          "default_value": null,
+          "default_label": "z-test pooled var",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1139,
+                "kind": "combo",
+                "items": [
+                  "z-test pooled var",
+                  "z-test pooled var with cont. corr.",
+                  "z-test unpooled var",
+                  "z-test unpooled var with cont. corr.",
+                  "Mantel-Haenszel test",
+                  "Likelihood ratio",
+                  "t-test"
+                ],
+                "default": "z-test pooled var",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Dialog",
+            "enabled_by_default": true
+          },
+          "notes": "Mac nib popup list shown. Windows RT_DLGINIT 203 initial list differs ('z-Test pooled', 'z-Test pooled with CC', 'z-Test unpooled', 'z-Test unpooled with CC', 'Score test: difference (Miettinen & Nurminen)'); runtime lists may be repopulated - verify in application."
+        },
+        {
+          "option_id": "effect_size_index",
+          "ui_label": "Effect size index",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "proportion_p1",
+              "label": "Proportion p1",
+              "live": {
+                "kind": "combo",
+                "id": 1070,
+                "text": "Proportion p1",
+                "match": "text"
+              }
+            },
+            {
+              "code": "difference",
+              "label": "Difference (p1-p2)",
+              "live": {
+                "kind": "combo",
+                "id": 1070,
+                "text": "Difference (p1-p2)",
+                "match": "text"
+              }
+            },
+            {
+              "code": "risk_ratio",
+              "label": "Risk ratio (p1/p2)",
+              "live": {
+                "kind": "combo",
+                "id": 1070,
+                "text": "Risk ratio (p1/p2)",
+                "match": "text"
+              }
+            },
+            {
+              "code": "odds_ratio",
+              "label": "Odds ratio",
+              "live": {
+                "kind": "combo",
+                "id": 1070,
+                "text": "Odds ratio",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "odds_ratio",
+          "default_value": null,
+          "default_label": "Odds ratio",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "parameterisation (changes the solved quantity in sensitivity)",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1070,
+                "kind": "combo",
+                "items": [
+                  "Proportion p1",
+                  "Difference (p1-p2)",
+                  "Risk ratio (p1/p2)",
+                  "Odds ratio"
+                ],
+                "default": "Odds ratio",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Dialog",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "effect_direction",
+          "ui_label": "Effect direction (sensitivity)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "p_h1_le_p_h0",
+              "label": "p1≤p2",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "p1≤p2",
+                "match": "text"
+              }
+            },
+            {
+              "code": "p_h1_ge_p_h0",
+              "label": "p1≥p2",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "p1≥p2",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "p_h1_ge_p_h0",
+          "default_value": null,
+          "default_label": "p1≥p2",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "sensitivity mode",
+            "condition": {
+              "mode": ["sensitivity"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Effect direction"
+          },
+          "notes": null
+        }
+      ],
+      "effect_size": {
+        "symbol": "p1, p2 (index selectable)",
+        "definition": "Effect size index option: Proportion p1 | Difference (p1-p2) | Risk ratio (p1/p2) | Odds ratio",
+        "conventions": null,
+        "drawer": {
+          "drawer_id": "unverified (possibly drawer_Ex_Prop_Inequ)",
+          "input_modes": [],
+          "inputs": [],
+          "outputs": []
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "Odds ratio", "Proportion p2", "α err prob", "Power (1-β err prob)", "Allocation ratio N2/N1", "β/α ratio", "Sample size group 1", "Sample size group 2", "Effect direction"],
+      "outputs": ["Sample size group 1", "Sample size group 2", "Total sample size", "Actual α", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio", "Odds ratio"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.857143"
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Allocation ratio N2/N1",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.857143"
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect direction",
+            "control": "ComboBox",
+            "default": "p1≥p2",
+            "choices": ["p1≤p2", "p1≥p2"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.857143"
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Odds ratio",
+            "control": "Edit",
+            "default": "1.857143"
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Sample size group 1", "Sample size group 2", "Total sample size", "Actual α", "Actual power"],
+        "post_hoc": ["Power (1-β err prob)", "Actual α"],
+        "sensitivity": ["Odds ratio", "Actual α", "Actual power"],
+        "criterion": ["α err prob", "Actual power", "Actual α"],
+        "compromise": ["α err prob", "Actual α", "β err prob", "Power (1-β err prob)", "Actual β/α ratio"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "discrete_test_extra": [
+            "'Actual α' (attained level)",
+            "candidate: 'Actual β/α ratio' (label present in both binaries, owner procedure/mode unverified)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": null,
+        "pdf_pages": [],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": [],
+      "coverage": {
+        "row_count": 336,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "computation": ["exact", "large_sample"],
+          "statistic": ["z_pooled", "z_pooled_cc", "z_unpooled", "z_unpooled_cc", "mantel_haenszel", "likelihood_ratio", "t_test"],
+          "sensitivity_target_index": ["proportion_p1", "difference", "risk_ratio", "odds_ratio"],
+          "effect_direction": ["p_h1_le_p_h0", "p_h1_ge_p_h0"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "09",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.exact_proportions_unconditional",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["APP-ONLY: no manual chapter. Entire specification provisional until application inspection.", "Relevant comparator (not oracle) for phase 09A Boschloo work; G*Power statistic list does not include a Fisher-p-value (Boschloo) ordering.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "exact_proportions_unconditional_offset",
+      "family": "exact",
+      "inventory_index": 7,
+      "label": {
+        "en": "Proportions: Inequality (offset), two independent groups (unconditional)",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Proportions: Inequality (offset), two independent groups (unconditional) ",
+        "mac_3196": "Proportions: Inequality (offset), two independent groups (unconditional)",
+        "windows_3197_live": "Proportions: Inequality (offset), two independent groups (unconditional) "
+      },
+      "navigation": {
+        "windows_3197": "Tests > Proportions > Two independent groups: Inequality with offset, unconditional exact",
+        "mac_3196": "Tests > Proportions > Two independent groups: Inequality with offset, unconditional exact"
+      },
+      "aliases": ["unconditional exact test with non-zero null offset (non-inferiority/superiority style; no manual chapter)"],
+      "hypothesis": {
+        "H0": "index(p1,p2) = offset under H0 (difference, ratio or odds ratio scale; inferred from labels '(p1-p2)|H0', '(p1/p2)|H0', 'Odds ratio|H0', 'p difference under H0')",
+        "H1": "index(p1,p2) = value under H1",
+        "status": "inferred from labels; unverified"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": [],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.exact_proportions_unconditional_offset.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": "assumed; unverified"
+        },
+        {
+          "option_id": "computation",
+          "ui_label": "Computation",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "exact",
+              "label": "Use exact distribution if N < x",
+              "live": {
+                "kind": "radio",
+                "id": 1097,
+                "text": "Use exact distribution if  N  <",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "large_sample",
+              "label": "Use large sample approximation",
+              "live": {
+                "kind": "radio",
+                "id": 1098,
+                "text": "Use large sample approximation",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "exact",
+          "default_value": null,
+          "default_label": "Use exact distribution if  N  <",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1097,
+                "kind": "radio",
+                "text": "Use exact distribution if  N  <",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1098,
+                "kind": "radio",
+                "text": "Use large sample approximation",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1137,
+                "kind": "edit",
+                "default": "10000",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Dialog",
+            "enabled_by_default": true,
+            "secondary_controls": [
+              {
+                "kind": "edit",
+                "id": 1137,
+                "default": "10000"
+              }
+            ]
+          },
+          "notes": null
+        },
+        {
+          "option_id": "statistic",
+          "ui_label": "Statistic",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "z_pooled",
+              "label": "z-test pooled var",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "z-test pooled var",
+                "match": "text"
+              }
+            },
+            {
+              "code": "z_pooled_cc",
+              "label": "z-test pooled var with const. corr.",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "z-test pooled var with cont. corr.",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "z_unpooled",
+              "label": "z-test unpooled var",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "z-test unpooled var",
+                "match": "text"
+              }
+            },
+            {
+              "code": "z_unpooled_cc",
+              "label": "z-test unpooled var with const. corr.",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "z-test unpooled var with cont. corr.",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "t_test",
+              "label": "t-test",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "t-test",
+                "match": "text"
+              }
+            },
+            {
+              "code": "score_gart_nam",
+              "label": "Likelihood score: (Gart & Nam)",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "Likelihood score: (Gart & Nam)",
+                "match": "text"
+              }
+            },
+            {
+              "code": "score_farrington_manning",
+              "label": "Likelihood score: (Farrington & Manning)",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "Likelihood score: (Farrington & Manning)",
+                "match": "text"
+              }
+            },
+            {
+              "code": "score_miettinen_nurminen",
+              "label": "Likelihood score: (Miettinen & Nurminen)",
+              "live": {
+                "kind": "combo",
+                "id": 1139,
+                "text": "Likelihood score: (Miettinen & Nurminen)",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "z_pooled",
+          "default_value": null,
+          "default_label": "z-test pooled var",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1139,
+                "kind": "combo",
+                "items": [
+                  "z-test pooled var",
+                  "z-test pooled var with cont. corr.",
+                  "z-test unpooled var",
+                  "z-test unpooled var with cont. corr.",
+                  "t-test",
+                  "Likelihood score: (Gart & Nam)",
+                  "Likelihood score: (Farrington & Manning)",
+                  "Likelihood score: (Miettinen & Nurminen)"
+                ],
+                "default": "z-test pooled var",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Dialog",
+            "enabled_by_default": true
+          },
+          "notes": "Windows uses the shared RT_DIALOG 203 template; its runtime list is unverified."
+        },
+        {
+          "option_id": "effect_size_index",
+          "ui_label": "Effect size index",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "proportion_p1",
+              "label": "Proportion p1",
+              "live": {
+                "kind": "combo",
+                "id": 1070,
+                "text": "Proportion p1",
+                "match": "text"
+              }
+            },
+            {
+              "code": "difference",
+              "label": "Difference (p1-p2)",
+              "live": {
+                "kind": "combo",
+                "id": 1070,
+                "text": "Difference (p1-p2)",
+                "match": "text"
+              }
+            },
+            {
+              "code": "risk_ratio",
+              "label": "Risk ratio (p1/p2)",
+              "live": {
+                "kind": "combo",
+                "id": 1070,
+                "text": "Risk ratio (p1/p2)",
+                "match": "text"
+              }
+            },
+            {
+              "code": "odds_ratio",
+              "label": "Odds ratio",
+              "live": {
+                "kind": "combo",
+                "id": 1070,
+                "text": "Odds ratio",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "proportion_p1",
+          "default_value": null,
+          "default_label": "Proportion p1",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes (selects the scale of the null offset)",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1070,
+                "kind": "combo",
+                "items": [
+                  "Proportion p1",
+                  "Difference (p1-p2)",
+                  "Risk ratio (p1/p2)",
+                  "Odds ratio"
+                ],
+                "default": "Proportion p1",
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Dialog",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "effect_direction",
+          "ui_label": "Effect direction (sensitivity)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "p_h1_le_p_h0",
+              "label": "p|H1 <= p|H0",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "p|H1≤p|H0",
+                "match": "text"
+              }
+            },
+            {
+              "code": "p_h1_ge_p_h0",
+              "label": "p|H1 >= p|H0",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "p|H1≥p|H0",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "p_h1_ge_p_h0",
+          "default_value": null,
+          "default_label": "p|H1≥p|H0",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "sensitivity mode (association assumed from the non-offset test)",
+            "condition": {
+              "mode": ["sensitivity"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Effect direction"
+          },
+          "notes": null
+        }
+      ],
+      "effect_size": {
+        "symbol": "index|H1 vs index|H0",
+        "definition": "Effect size index option selects scale: Proportion p1 | Difference | Risk ratio | Odds ratio",
+        "conventions": null,
+        "drawer": null
+      },
+      "gpower_inputs": ["Tail(s)", "Prop. p1|H1", "Prop. p1|H0", "Proportion p2", "α err prob", "Power (1-β err prob)", "Allocation ratio N2/N1", "β/α ratio", "Sample size group 1", "Sample size group 2", "Effect direction"],
+      "outputs": ["Sample size group 1", "Sample size group 2", "Total sample size", "Actual α", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio", "Prop. p1|H1"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Prop. p1|H1",
+            "control": "Edit",
+            "default": "0.65"
+          },
+          {
+            "label": "Prop. p1|H0",
+            "control": "Edit",
+            "default": "0.55"
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Allocation ratio N2/N1",
+            "control": "Edit",
+            "default": "1"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Prop. p1|H1",
+            "control": "Edit",
+            "default": "0.65"
+          },
+          {
+            "label": "Prop. p1|H0",
+            "control": "Edit",
+            "default": "0.55"
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect direction",
+            "control": "ComboBox",
+            "default": "p|H1≥p|H0",
+            "choices": ["p|H1≤p|H0", "p|H1≥p|H0"]
+          },
+          {
+            "label": "Prop. p1|H0",
+            "control": "Edit",
+            "default": "0.55"
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Prop. p1|H1",
+            "control": "Edit",
+            "default": "0.65"
+          },
+          {
+            "label": "Prop. p1|H0",
+            "control": "Edit",
+            "default": "0.55"
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Prop. p1|H1",
+            "control": "Edit",
+            "default": "0.65"
+          },
+          {
+            "label": "Prop. p1|H0",
+            "control": "Edit",
+            "default": "0.55"
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.5"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Sample size group 1",
+            "control": "Edit",
+            "default": "50"
+          },
+          {
+            "label": "Sample size group 2",
+            "control": "Edit",
+            "default": "50"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Sample size group 1", "Sample size group 2", "Total sample size", "Actual α", "Actual power"],
+        "post_hoc": ["Power (1-β err prob)", "Actual α"],
+        "sensitivity": ["Prop. p1|H1", "Actual α", "Actual power"],
+        "criterion": ["α err prob", "Actual power", "Actual α"],
+        "compromise": ["α err prob", "Actual α", "β err prob", "Power (1-β err prob)", "Actual β/α ratio"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "discrete_test_extra": [
+            "'Actual α' (attained level)",
+            "candidate: 'Actual β/α ratio' (label present in both binaries, owner procedure/mode unverified)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": null,
+        "pdf_pages": [],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": [],
+      "coverage": {
+        "row_count": 768,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "computation": ["exact", "large_sample"],
+          "statistic": ["z_pooled", "z_pooled_cc", "z_unpooled", "z_unpooled_cc", "t_test", "score_gart_nam", "score_farrington_manning", "score_miettinen_nurminen"],
+          "effect_size_index": ["proportion_p1", "difference", "risk_ratio", "odds_ratio"],
+          "effect_direction": ["p_h1_le_p_h0", "p_h1_ge_p_h0"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "09",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.exact_proportions_unconditional_offset",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["APP-ONLY: no manual chapter; all fields provisional.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "exact_mrc_random_model",
+      "family": "exact",
+      "inventory_index": 8,
+      "label": {
+        "en": "Linear multiple regression: Random model",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "Linear multiple regression: Random model",
+        "mac_3196": "Linear multiple regression: Random model",
+        "windows_3197_live": "Linear multiple regression: Random model"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Correlation and regression > Linear multiple regression: Random model",
+        "mac_3196": "Tests > Correlation and regression > Linear multiple regression: Random model"
+      },
+      "aliases": ["Exact test: Multiple Regression - random model [manual ch. 7]", "unconditional / random-factors model (Gatsonis & Sampson 1989)"],
+      "hypothesis": {
+        "H0": "rho²_YX = rho0²",
+        "H1": "rho²_YX != rho0² (examples use one-sided tests)"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": ["a_priori", "post_hoc"],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.exact_mrc_random_model.analysis_types_live. Earlier provisional basis: Five analysis types are documented generally (manual §1.1, p. 2; Fig. 1 dropdown, p. 3) and the five analysis-type labels exist in both binaries; availability for this specific procedure has not been verified in a running application, so all five are listed provisionally.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": "Availability of Tail(s)=Two not demonstrated in the manual; included provisionally."
+        },
+        {
+          "option_id": "distribution",
+          "ui_label": "Distribution",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "exact",
+              "label": "Exact distribution",
+              "live": {
+                "kind": "radio",
+                "id": 1159,
+                "text": "Exact distribution",
+                "match": "text"
+              }
+            },
+            {
+              "code": "three_moment_f",
+              "label": "3-Moment F-Approximation",
+              "live": {
+                "kind": "radio",
+                "id": 1040,
+                "text": "3-Moment F-Approximation",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "exact",
+          "default_value": null,
+          "default_label": "Exact distribution",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1159,
+                "kind": "radio",
+                "text": "Exact distribution",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1040,
+                "kind": "radio",
+                "text": "3-Moment F-Approximation",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": null
+        },
+        {
+          "option_id": "effect_direction",
+          "ui_label": "Effect direction (sensitivity)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "rho2_h1_le_h0",
+              "label": "ρ² H1 <= H0",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "ρ² H1≤H0",
+                "match": "text"
+              }
+            },
+            {
+              "code": "rho2_h1_ge_h0",
+              "label": "ρ² H1 >= H0",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Effect direction",
+                "text": "ρ² H1≥H0",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "rho2_h1_ge_h0",
+          "default_value": null,
+          "default_label": "ρ² H1≥H0",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "sensitivity mode",
+            "condition": {
+              "mode": ["sensitivity"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Effect direction"
+          },
+          "notes": null
+        }
+      ],
+      "effect_size": {
+        "symbol": "H1 rho² (with H0 rho²)",
+        "definition": "population squared multiple correlation under H1; f² = rho²/(1-rho²)",
+        "conventions": "f² small 0.02, medium 0.15, large 0.35 -> rho² 0.02, 0.13, 0.26",
+        "drawer": {
+          "drawer_id": "drawer_Exact_MRC_Random (Mac) / RT_DIALOG 237 (Windows)",
+          "input_modes": ["From confidence interval", "From predictor correlations"],
+          "inputs": ["Total sample size", "Number of predictors", "Observed R²", "Confidence level (1-α)", "Rel C.I. pos to use (0=left,1=right)", "Number of predictors + matrices (corr between predictors and outcome; corr between predictors)"],
+          "outputs": ["C.I. lower ρ²", "C.I. upper ρ²", "Statistical lower bound", "Statistical upper bound", "H1 ρ²", "Coefficient ρ² (matrix window, Calc ρ²)"]
+        }
+      },
+      "gpower_inputs": ["Tail(s)", "H1 ρ²", "H0 ρ²", "α err prob", "Power (1-β err prob)", "Number of predictors", "β/α ratio", "Total sample size", "Effect direction"],
+      "outputs": ["Lower critical R²", "Upper critical R²", "Total sample size", "Actual power", "α err prob", "β err prob", "Power (1-β err prob)", "H1 ρ²"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 ρ²",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "H0 ρ²",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Number of predictors",
+            "control": "Edit",
+            "default": "3"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 ρ²",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "H0 ρ²",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Number of predictors",
+            "control": "Edit",
+            "default": "3"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Effect direction",
+            "control": "ComboBox",
+            "default": "ρ² H1≥H0",
+            "choices": ["ρ² H1≤H0", "ρ² H1≥H0"]
+          },
+          {
+            "label": "H0 ρ²",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Number of predictors",
+            "control": "Edit",
+            "default": "3"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 ρ²",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "H0 ρ²",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Number of predictors",
+            "control": "Edit",
+            "default": "3"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "H1 ρ²",
+            "control": "Edit",
+            "default": "0.3",
+            "buttons": ["Determine =>"]
+          },
+          {
+            "label": "H0 ρ²",
+            "control": "Edit",
+            "default": "0"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Number of predictors",
+            "control": "Edit",
+            "default": "3"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Lower critical R²", "Upper critical R²", "Total sample size", "Actual power"],
+        "post_hoc": ["Lower critical R²", "Upper critical R²", "Power (1-β err prob)"],
+        "sensitivity": ["Lower critical R²", "Upper critical R²", "H1 ρ²"],
+        "criterion": ["Lower critical R²", "Upper critical R²", "α err prob"],
+        "compromise": ["Lower critical R²", "Upper critical R²", "α err prob", "β err prob", "Power (1-β err prob)"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "7",
+        "pdf_pages": [18, 19, 20, 21],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": ["DOC-047", "DOC-048", "DOC-050", "DOC-051", "DOC-052", "DOC-053", "DOC-054"],
+      "coverage": {
+        "row_count": 24,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "distribution": ["exact", "three_moment_f"],
+          "effect_direction": ["rho2_h1_le_h0", "rho2_h1_ge_h0"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "08",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.exact_mrc_random_model",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["Figure/text discrepancies in the effect-size drawer examples are recorded in validation/documented-examples.csv.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    },
+    {
+      "method_id": "exact_generic_binomial",
+      "family": "exact",
+      "inventory_index": 9,
+      "label": {
+        "en": "Generic binomial test",
+        "de": null
+      },
+      "label_raw": {
+        "windows_3197": "$\\bullet$ Generic binomial test",
+        "mac_3196": "$\\bullet$ Generic binomial test",
+        "windows_3197_live": "• Generic binomial test"
+      },
+      "navigation": {
+        "windows_3197": "Tests > Generic > Generic binomial test",
+        "mac_3196": "Tests > Generic > Generic binomial test"
+      },
+      "aliases": ["Exact: Generic binomial test [manual ch. 9]"],
+      "hypothesis": {
+        "H0": "binomial parameter equals a value (unverified)",
+        "H1": "different value (unverified)",
+        "status": "manual ch. 9 effect-size section empty"
+      },
+      "modes": ["a_priori", "post_hoc", "sensitivity", "criterion", "compromise"],
+      "modes_demonstrated": [],
+      "modes_evidence": "Confirmed live 2026-10-05: the 'Type of power analysis' list offers exactly 5 types for this test (A priori: Compute required sample size - given α, power, and effect size; Compromise: Compute implied α & power - given β/α ratio, sample size, and effect size; Criterion: Compute required α - given power, effect size, and sample size; Post hoc: Compute achieved power - given α, sample size, and effect size; Sensitivity: Compute required effect size - given α, power, and sample size). Evidence: specs/gpower-app-capture.json procedures.exact_generic_binomial.analysis_types_live. Earlier provisional basis: Manual ch. 9 does not state the analysis types; the binaries' generic-test analysis labels refer to a noncentrality parameter (t/F/chi2/z). All five types listed provisionally pending application inspection.",
+      "options": [
+        {
+          "option_id": "tails",
+          "ui_label": "Tail(s)",
+          "kind": "main_window_input",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "one",
+              "label": "One",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "One",
+                "match": "text"
+              }
+            },
+            {
+              "code": "two",
+              "label": "Two",
+              "live": {
+                "kind": "ComboBox",
+                "label": "Tail(s)",
+                "text": "Two",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "one",
+          "default_value": null,
+          "default_label": "One",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": null,
+          "live": {
+            "present": true,
+            "where": "main window",
+            "control": "ComboBox",
+            "label": "Tail(s)"
+          },
+          "notes": "assumed"
+        },
+        {
+          "option_id": "alpha_balancing",
+          "ui_label": "Alpha balancing in two-sided tests",
+          "kind": "options_dialog",
+          "value_type": "choice",
+          "values": [
+            {
+              "code": "half_each_side",
+              "label": "Assign α/2 to both sides",
+              "live": {
+                "kind": "radio",
+                "id": 1039,
+                "text": "Assing α/2 to both sides",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "minor_tail_half_rest_major",
+              "label": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α1)",
+              "live": {
+                "kind": "radio",
+                "id": 1095,
+                "text": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α2)",
+                "match": "near_text"
+              }
+            },
+            {
+              "code": "half_each_side_then_increase",
+              "label": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+              "live": {
+                "kind": "radio",
+                "id": 1096,
+                "text": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+                "match": "text"
+              }
+            }
+          ],
+          "domain": null,
+          "default": "half_each_side",
+          "default_value": null,
+          "default_label": "Assing α/2 to both sides",
+          "default_evidence": "live capture 2026-10-05 (specs/gpower-app-capture.json)",
+          "result_affecting": true,
+          "result_affecting_note": "yes",
+          "applies_when": {
+            "text": "Tail(s)=Two",
+            "condition": {
+              "option": "tails",
+              "in": ["two"]
+            }
+          },
+          "live": {
+            "present": true,
+            "where": "Options dialog",
+            "control": [
+              {
+                "id": 1039,
+                "kind": "radio",
+                "text": "Assing α/2 to both sides",
+                "checked_by_default": true,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1095,
+                "kind": "radio",
+                "text": "Assign to minor tail α/2, then rest to major tail (α2 = α/2, α1 = α-α2)",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              },
+              {
+                "id": 1096,
+                "kind": "radio",
+                "text": "Assign α/2 to both sides, then increase to minimize the difference of α1 + α2 < α to α",
+                "checked_by_default": false,
+                "enabled_by_default": true
+              }
+            ],
+            "dialog_title": "Choose Options",
+            "enabled_by_default": true
+          },
+          "notes": "Manual text prints the second option as '(α2 = α/2, α1 = α − α2)'; the Mac nib label prints 'α1 = α-α1'."
+        }
+      ],
+      "effect_size": {
+        "symbol": "unverified",
+        "definition": "not documented (manual §9.1 empty)",
+        "conventions": null,
+        "drawer": null
+      },
+      "gpower_inputs": ["Tail(s)", "Proportion p2", "α err prob", "Power (1-β err prob)", "Proportion p1", "β/α ratio", "Total sample size"],
+      "outputs": ["Lower critical N", "Upper critical N", "Total sample size", "Actual power", "Actual α", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio", "Proportion p2"],
+      "inputs_by_mode_live": {
+        "a_priori": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.8"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5"
+          }
+        ],
+        "post_hoc": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.8"
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5"
+          }
+        ],
+        "sensitivity": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "α err prob",
+            "control": "Edit",
+            "default": "0.05"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5"
+          }
+        ],
+        "criterion": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.8"
+          },
+          {
+            "label": "Power (1-β err prob)",
+            "control": "Edit",
+            "default": "0.95"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5"
+          }
+        ],
+        "compromise": [
+          {
+            "label": "Tail(s)",
+            "control": "ComboBox",
+            "default": "One",
+            "choices": ["One", "Two"]
+          },
+          {
+            "label": "Proportion p2",
+            "control": "Edit",
+            "default": "0.8"
+          },
+          {
+            "label": "β/α ratio",
+            "control": "Edit",
+            "default": "1"
+          },
+          {
+            "label": "Total sample size",
+            "control": "Edit",
+            "default": "100"
+          },
+          {
+            "label": "Proportion p1",
+            "control": "Edit",
+            "default": "0.5"
+          }
+        ]
+      },
+      "outputs_by_mode_live": {
+        "a_priori": ["Lower critical N", "Upper critical N", "Total sample size", "Actual power", "Actual α"],
+        "post_hoc": ["Lower critical N", "Upper critical N", "Power (1-β err prob)", "Actual α"],
+        "sensitivity": ["Lower critical N", "Upper critical N", "Actual α", "Proportion p2"],
+        "criterion": ["Lower critical N", "Upper critical N", "α err prob", "Actual power"],
+        "compromise": ["Lower critical N", "Upper critical N", "α err prob", "β err prob", "Power (1-β err prob)", "Actual β/α ratio"]
+      },
+      "outputs_mode_dependent": {
+        "superseded_by": "outputs_by_mode_live",
+        "provisional": {
+          "compromise": [
+            "α err prob",
+            "β err prob",
+            "Power (1-β err prob)",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "criterion": [
+            "α err prob",
+            "critical value(s) with the test-specific labels listed under outputs"
+          ],
+          "sensitivity": [
+            "solved effect-size field (test-specific label; see inputs)",
+            "critical value(s)"
+          ],
+          "discrete_test_extra": [
+            "'Actual α' (attained level)",
+            "candidate: 'Actual β/α ratio' (label present in both binaries, owner procedure/mode unverified)"
+          ],
+          "evidence": "Provisional, from the general definitions in manual §1.1 and §1.2.2 and the compromise output block of §10.3 (f_anova_oneway); per-test labels and presence unverified until application capture."
+        }
+      },
+      "manual": {
+        "section": "9",
+        "pdf_pages": [23],
+        "version": "G*Power 3.1 manual dated 2023-06-01 (85 pp.)"
+      },
+      "documented_example_ids": [],
+      "coverage": {
+        "row_count": 20,
+        "branch_dimensions": {
+          "tails": ["one", "two"],
+          "alpha_balancing": ["n/a_one_tailed", "half_each_side", "minor_tail_half_rest_major", "half_each_side_then_increase"]
+        },
+        "branches_added": [],
+        "branches_pruned": []
+      },
+      "owner_phase": "09",
+      "inventory_status": "certified",
+      "evidence_level": "live_app_capture_emulator + manual_and_app_resources",
+      "live_capture": {
+        "status": "certified_live",
+        "date": "2026-10-05",
+        "evidence_kind": "emulator_capture",
+        "capture": "specs/gpower-app-capture.json#procedures.exact_generic_binomial",
+        "reference_version": "G*Power 3.1.9.7 GPowerNT.exe (sha256 c63e6a13...efc812) executed under Wine 10.0 (Ubuntu 10.0~repack-12ubuntu1, WoW64, VC++ x86 runtime, Xvfb); emulator_capture 2026-10-05"
+      },
+      "implementation_status": "not_implemented",
+      "reference_status": "reference_pending",
+      "notes": ["Manual chapter is a stub (only options); inputs/outputs must be captured from the application.", "[live capture 2026-10-05] Inventory certified against the running G*Power 3.1.9.7 (Wine emulator_capture); differences from the provisional entry are listed in live_capture.differences."]
+    }
+  ]
+}

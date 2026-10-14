@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:inferguidr:schema:power_result:0.1.0",
+  "title": "inferguidR power_result",
+  "description": "Result of one power analysis. It embeds the canonical input (the full power_spec), a typed status, solved and achieved quantities, group sizes, quantities such as df, ncp, critical values and nominal/attained error rates, reasons for undefined quantities, diagnostics, provenance, the validation state of the method and a reproducible R call. A result whose status is not 'ok' contains no finite number in solved, achieved, quantities, group_sizes or method_outputs. result_hash is the SHA-256 of the canonical JSON of the result without result_hash and runtime.",
+  "type": "object",
+  "required": [
+    "schema_version", "object_type", "status", "method_id", "mode", "target", "spec",
+    "spec_hash", "solved", "achieved", "group_sizes", "quantities", "undefined",
+    "method_outputs", "diagnostics", "provenance", "validation", "assumptions",
+    "warnings", "r_call", "runtime", "result_hash"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "inferguidR.power_result/0.1.0" },
+    "object_type": { "const": "power_result" },
+    "status": { "$ref": "common.schema.json#/$defs/status" },
+    "method_id": { "$ref": "common.schema.json#/$defs/identifier" },
+    "mode": { "$ref": "common.schema.json#/$defs/mode" },
+    "target": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/name" },
+      "minItems": 1,
+      "maxItems": 2
+    },
+    "spec": { "$ref": "power_spec.schema.json" },
+    "spec_hash": { "$ref": "common.schema.json#/$defs/sha256" },
+    "solved": { "$ref": "#/$defs/quantity_map" },
+    "achieved": { "$ref": "#/$defs/quantity_map" },
+    "group_sizes": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }]
+          }
+        }
+      ]
+    },
+    "quantities": { "$ref": "#/$defs/quantity_map" },
+    "undefined": {
+      "description": "Reason for every quantity that is NA (undefined is never reported as 0).",
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "method_outputs": { "type": "object" },
+    "diagnostics": { "type": "object" },
+    "provenance": { "type": "object" },
+    "validation": {
+      "type": "object",
+      "required": [
+        "method_validation_status", "gpower_reference_status", "independent_checker",
+        "documented_example_ids", "fixture_ids"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "method_validation_status": {
+          "enum": ["development", "independently_checked", "reference_pending", "gpower_validated", "not_applicable"]
+        },
+        "gpower_reference_status": { "enum": ["reference_pending", "validated", "not_applicable"] },
+        "independent_checker": { "type": ["string", "null"] },
+        "documented_example_ids": { "$ref": "common.schema.json#/$defs/string_array" },
+        "fixture_ids": { "$ref": "common.schema.json#/$defs/string_array" }
+      }
+    },
+    "assumptions": { "$ref": "common.schema.json#/$defs/string_array" },
+    "warnings": { "$ref": "common.schema.json#/$defs/string_array" },
+    "r_call": { "type": "string" },
+    "runtime": { "$ref": "common.schema.json#/$defs/runtime" },
+    "result_hash": { "$ref": "common.schema.json#/$defs/sha256" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "properties": { "code": { "not": { "const": "ok" } } } } }
+      },
+      "then": {
+        "properties": {
+          "solved": { "$ref": "#/$defs/no_number_map" },
+          "achieved": { "$ref": "#/$defs/no_number_map" },
+          "quantities": { "$ref": "#/$defs/no_number_map" },
+          "method_outputs": { "$ref": "#/$defs/no_number_map" },
+          "group_sizes": {
+            "oneOf": [
+              { "type": "null" },
+              { "type": "object", "additionalProperties": { "type": "null" } }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "validation": { "properties": { "gpower_reference_status": { "const": "validated" } } } }
+      },
+      "then": {
+        "properties": {
+          "validation": {
+            "properties": {
+              "method_validation_status": { "const": "gpower_validated" },
+              "fixture_ids": { "minItems": 1 }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "quantity_map": {
+      "type": "object",
+      "propertyNames": { "$ref": "common.schema.json#/$defs/name" },
+      "additionalProperties": { "$ref": "common.schema.json#/$defs/numeric_quantity" }
+    },
+    "no_number_map": {
+      "type": "object",
+      "additionalProperties": { "$ref": "common.schema.json#/$defs/no_finite_number" }
+    }
+  }
+}
