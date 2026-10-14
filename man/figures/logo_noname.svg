@@ -1,0 +1,121 @@
+<svg width="500" height="580" viewBox="0 0 500 580" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bginf" x1="0" y1="0" x2="0.15" y2="1">
+      <stop offset="0%"  stop-color="#1a1340"/>
+      <stop offset="100%" stop-color="#0c0820"/>
+    </linearGradient>
+    <linearGradient id="powerFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#7C3AED" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0.03"/>
+    </linearGradient>
+    <clipPath id="hexinf">
+      <polygon points="250,30 455,145 455,375 250,490 45,375 45,145"/>
+    </clipPath>
+  </defs>
+
+  <polygon points="250,30 455,145 455,375 250,490 45,375 45,145" fill="url(#bginf)"/>
+
+  <g clip-path="url(#hexinf)">
+
+    <!-- faint grid -->
+    <line x1="45" y1="210" x2="455" y2="210" stroke="#2a2060" stroke-width="0.4" opacity="0.4"/>
+    <line x1="45" y1="270" x2="455" y2="270" stroke="#2a2060" stroke-width="0.4" opacity="0.4"/>
+    <line x1="45" y1="330" x2="455" y2="330" stroke="#2a2060" stroke-width="0.4" opacity="0.4"/>
+    <line x1="150" y1="145" x2="150" y2="490" stroke="#2a2060" stroke-width="0.4" opacity="0.3"/>
+    <line x1="250" y1="145" x2="250" y2="490" stroke="#2a2060" stroke-width="0.4" opacity="0.3"/>
+    <line x1="350" y1="145" x2="350" y2="490" stroke="#2a2060" stroke-width="0.4" opacity="0.3"/>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- POWER CURVE — sigmoidal power vs. sample size            -->
+    <!-- The statistical foundation, rising to the 0.8 plateau    -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- axes -->
+    <line x1="92" y1="352" x2="408" y2="352" stroke="#4a3a8a" stroke-width="1.2" opacity="0.7"/>
+    <line x1="92" y1="352" x2="92" y2="212" stroke="#4a3a8a" stroke-width="1.2" opacity="0.7"/>
+
+    <!-- power = 0.8 target line -->
+    <line x1="92" y1="250" x2="408" y2="250" stroke="#9F8CF5" stroke-width="1" stroke-dasharray="5 4" opacity="0.5"/>
+    <text font-family="monospace" font-size="7.5" fill="#9F8CF5" opacity="0.7" text-anchor="start" x="96" y="245">0.8</text>
+
+    <!-- power curve fill -->
+    <path d="M 92,348 C 150,344 180,330 220,300 C 255,274 285,252 330,244 C 360,240 388,238 408,238
+             L 408,352 L 92,352 Z" fill="url(#powerFill)"/>
+    <!-- power curve stroke -->
+    <path d="M 92,348 C 150,344 180,330 220,300 C 255,274 285,252 330,244 C 360,240 388,238 408,238"
+      fill="none" stroke="#B9A6FF" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- validated checkpoints along the curve (validated specs) -->
+    <circle cx="220" cy="300" r="4.5" fill="#0c0820" stroke="#9F8CF5" stroke-width="2"/>
+    <circle cx="300" cy="252" r="4.5" fill="#0c0820" stroke="#9F8CF5" stroke-width="2"/>
+    <!-- the validated target point where curve crosses 0.8 -->
+    <circle cx="330" cy="244" r="6" fill="#B9A6FF"/>
+    <path d="M 327,244 l 2.4,3 l 4.5,-6" fill="none" stroke="#1a1340" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- axis labels -->
+    <text font-family="monospace" font-size="7" fill="#7C6BC0" opacity="0.7" text-anchor="middle" x="250" y="368">sample size</text>
+    <text font-family="monospace" font-size="7" fill="#7C6BC0" opacity="0.7" text-anchor="middle" x="82" y="285" transform="rotate(-90 82 285)">power</text>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- GUIDANCE COMPASS — guided inference, top-centre          -->
+    <!-- compass needle pointing to the validated path            -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <g transform="translate(250,180)">
+      <!-- outer ring -->
+      <circle cx="0" cy="0" r="46" fill="#140e30" stroke="#534AB7" stroke-width="2.4" opacity="0.95"/>
+      <circle cx="0" cy="0" r="38" fill="none" stroke="#7C3AED" stroke-width="1" opacity="0.5"/>
+      <!-- cardinal ticks -->
+      <line x1="0" y1="-46" x2="0" y2="-38" stroke="#9F8CF5" stroke-width="2" opacity="0.8"/>
+      <line x1="0" y1="46" x2="0" y2="38" stroke="#9F8CF5" stroke-width="2" opacity="0.6"/>
+      <line x1="-46" y1="0" x2="-38" y2="0" stroke="#9F8CF5" stroke-width="2" opacity="0.6"/>
+      <line x1="46" y1="0" x2="38" y2="0" stroke="#9F8CF5" stroke-width="2" opacity="0.6"/>
+      <!-- minor ticks -->
+      <g stroke="#7C3AED" stroke-width="1" opacity="0.4">
+        <line x1="26.9" y1="-26.9" x2="22.3" y2="-22.3"/>
+        <line x1="-26.9" y1="-26.9" x2="-22.3" y2="-22.3"/>
+        <line x1="26.9" y1="26.9" x2="22.3" y2="22.3"/>
+        <line x1="-26.9" y1="26.9" x2="-22.3" y2="22.3"/>
+      </g>
+      <!-- needle — points up-right toward the validated inference path -->
+      <g transform="rotate(38)">
+        <polygon points="0,-34 7,0 0,8 -7,0" fill="#B9A6FF"/>
+        <polygon points="0,34 7,0 0,-8 -7,0" fill="#5B4A9E"/>
+      </g>
+      <!-- hub -->
+      <circle cx="0" cy="0" r="4.5" fill="#E9E2FF"/>
+      <circle cx="0" cy="0" r="2" fill="#7C3AED"/>
+    </g>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- ROC CURVE — diagnostic accuracy, small inset top-left    -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <g transform="translate(110,150)">
+      <rect x="-2" y="-2" width="48" height="48" rx="3" fill="#140e30" stroke="#3a2f7a" stroke-width="1" opacity="0.7"/>
+      <!-- diagonal chance line -->
+      <line x1="0" y1="44" x2="44" y2="0" stroke="#5B4A9E" stroke-width="0.8" stroke-dasharray="3 2" opacity="0.6"/>
+      <!-- ROC arc -->
+      <path d="M 0,44 C 4,18 18,4 44,0" fill="none" stroke="#9FE8C0" stroke-width="2" stroke-linecap="round"/>
+      <text font-family="monospace" font-size="5.5" fill="#7CC9A0" opacity="0.8" text-anchor="middle" x="22" y="54">AUC</text>
+    </g>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- STATUS BADGE — "validated" status reporting, top-right   -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <g transform="translate(366,150)">
+      <rect x="-2" y="-2" width="48" height="26" rx="4" fill="#140e30" stroke="#534AB7" stroke-width="1" opacity="0.85"/>
+      <circle cx="9" cy="11" r="5" fill="none" stroke="#9FE8C0" stroke-width="1.6"/>
+      <path d="M 6.5,11 l 2,2.4 l 4,-5" fill="none" stroke="#9FE8C0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <text font-family="monospace" font-size="6" fill="#9F8CF5" opacity="0.85" text-anchor="start" x="18" y="13">valid</text>
+    </g>
+
+    <!-- guidance annotation -->
+    <text font-family="monospace" font-size="8" fill="#9F8CF5" opacity="0.55"
+      text-anchor="middle" x="250" y="408">guided · power · accuracy</text>
+
+  </g>
+
+  <!-- Hex border — statistics group purple -->
+  <polygon points="250,30 455,145 455,375 250,490 45,375 45,145"
+    fill="none" stroke="#534AB7" stroke-width="11" stroke-linejoin="round"/>
+  <polygon points="250,44 441,153 441,367 250,476 59,367 59,153"
+    fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round" opacity="0.6"/>
+</svg>

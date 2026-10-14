@@ -1,0 +1,129 @@
+template:
+  package: themakR
+  math-rendering: mathml
+  bslib:
+    base_font: system-ui
+    heading_font: system-ui
+    code_font: monospace
+destination: docs
+development:
+  mode: auto
+home:
+  sidebar:
+    structure:
+    - links
+    - license
+    - citation
+    - authors
+  title: inferguidR
+  description: Guided inference, power analysis and diagnostic accuracy with explicit
+    assumptions and reproducible results.
+articles:
+- title: Learn inferguidR
+  navbar: null
+  contents:
+  - getting-started
+  - classification
+reference:
+- title: Power and study design
+  contents:
+  - analysis_spec
+  - boschloo_compare_fisher
+  - boschloo_control
+  - boschloo_plotdata_allocation
+  - boschloo_plotdata_lattice
+  - boschloo_plotdata_nuisance
+  - boschloo_plotdata_power_effect
+  - boschloo_plotdata_power_n
+  - boschloo_power
+  - boschloo_probabilities
+  - boschloo_region
+  - boschloo_sample_size
+  - boschloo_test
+  - boschloo_variants
+  - calculate_power
+  - compare_designs
+  - effect_size
+  - plot_design_sweep
+  - plot_power
+  - power_plot_data
+  - solve_design
+  - sweep_design
+  - xy_plot_data
+- title: Classification and operating points
+  contents:
+  - attach_classification_data
+  - binormal_model
+  - binormal_rates
+  - calibration_summary
+  - classification_auc
+  - classification_evaluated_spec
+  - classification_examples
+  - classification_metrics
+  - classification_plot_data
+  - classification_spec
+  - classification_table
+  - classification_uncertainty
+  - classifier_model
+  - compare_classifiers
+  - cutoff_rule
+  - cutoff_sweep
+  - evaluate_cutoff
+  - metric_dictionary
+  - net_benefit
+  - plot_classification
+  - ppv_gap_max_prevalence
+  - pr_summary
+  - predictive_values_at_prevalence
+  - prevalence_for_ppv_target
+  - prevalence_scenario
+  - select_cutoff
+- title: Method advisor
+  contents:
+  - advisor_answer
+  - advisor_override
+  - advisor_question
+  - advisor_r_code
+  - advisor_recommendation
+  - advisor_replay
+  - advisor_rules
+  - advisor_save
+  - advisor_session
+  - advisor_set_language
+  - advisor_validate_rules
+- title: Reproducibility and interfaces
+  contents:
+  - analysis_envelope
+  - calculator_functions
+  - create_report_snapshot
+  - distribution_calculator
+  - export_report
+  - format_metric_values
+  - ig_config
+  - ig_domain
+  - ig_from_json
+  - ig_hash
+  - ig_immutable
+  - ig_method
+  - ig_option
+  - ig_options
+  - ig_param
+  - ig_params
+  - ig_standard_params
+  - ig_status
+  - ig_status_codes
+  - ig_to_json
+  - inferguidR-package
+  - is_ig_status
+  - launch_app
+  - learning_lesson
+  - list_methods
+  - protocol_record
+  - protocol_text
+  - report_pdf_capabilities
+  - update.classification_spec
+  - update.power_spec
+  - validation_status
+  - workbench_app
+
+llm-docs: false

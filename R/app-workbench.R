@@ -13,6 +13,7 @@
 workbench_app <- function() {
   for (package in c("shiny", "ggplot2")) if (!requireNamespace(package, quietly = TRUE))
     .ig_abort("unsupported", sprintf("The workbench requires the suggested package '%s'.", package))
+  shiny::addResourcePath("inferguidr-assets", system.file("www", package = "inferguidR"))
   ui <- shiny::fluidPage(
     shiny::tags$head(shiny::tags$style(shiny::HTML(paste(
       "body{font-family:'DejaVu Sans',Arial,sans-serif;color:#152330;background:#fff;font-size:16px}",
@@ -26,7 +27,10 @@ workbench_app <- function() {
       "@media(max-width:1100px){.ig-study{grid-template-columns:240px 1fr}.ig-inspector{grid-column:1/-1;border-left:0;border-top:1px solid #DCE4EA;padding:16px 0}}",
       "@media(max-width:720px){.ig-study{display:block}.ig-controls{border-right:0;border-bottom:1px solid #DCE4EA;padding:0 0 20px}.ig-header{display:block}.ig-figure{padding-top:16px}}"
     )))),
-    shiny::tags$header(class = "ig-header", shiny::tags$div(shiny::tags$h1("inferguidR"),
+    shiny::tags$header(class = "ig-header", shiny::tags$div(shiny::tags$h1(
+      shiny::tags$img(src = "inferguidr-assets/logo.svg", alt = "",
+                      height = "58", style = "margin-right:12px;vertical-align:middle"),
+      "inferguidR"),
       shiny::tags$p("Study design, evidence and decisions / Studiendesign, Evidenz und Entscheidungen")),
       shiny::selectInput("language", "Language / Sprache", c("English" = "en", "Deutsch" = "de"), width = "180px")),
     shiny::tabsetPanel(id = "workspace",

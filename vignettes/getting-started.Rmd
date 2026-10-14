@@ -1,0 +1,125 @@
+---
+title: "Guided analysis and reproducible power calculations"
+author: "Raban Heller"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Guided analysis and reproducible power calculations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(inferguidR)
+```
+
+This tutorial moves from an explicit question to a saved power specification.
+It runs offline with the installed package. All design values are hypothetical;
+a subject-matter justification of the effect and sampling design remains necessary.
+
+## Describe the question
+
+The advisor records explicit choices. It does not infer a study design from data.
+At each step, inspect the available option identifiers before answering.
+
+```{r advisor}
+session <- advisor_session()
+advisor_question(session)
+session <- advisor_answer(session, "compare")
+advisor_question(session)
+```
+
+The returned session is a new object. Keep it if you want to continue or return
+to an earlier answer. A partially answered session is not a completed analysis
+recommendation. `advisor_save()` and `advisor_restore()` support a longer session;
+review any script from `advisor_r_code()` before executing it.
+
+## Make the assumptions explicit
+
+For the calculation below, assume two independent normal populations with equal
+variances, equal allocation, and a prespecified standardised mean difference of
+0.5. These assumptions select the pooled-variance two-sample t procedure. They
+do not describe paired, clustered or unequal-variance observations.
+
+```{r specification}
+spec <- analysis_spec(
+  "t_means_two_independent", "a_priori",
+  inputs = list(alpha = 0.05, power = 0.80, d = 0.5),
+  options = list(tails = "two")
+)
+spec
+```
+
+`alpha` is the two-sided type-I error probability; `power` is the target rejection
+probability under the specified alternative. The effect size is the difference
+in population means divided by their common standard deviation. An a priori
+specification asks the solver for sample size, so do not also supply `n_total`.
+
+## Inspect the result before using it
+
+```{r solve}
+result <- solve_design(spec)
+result
+stopifnot(result$status$code == "ok")
+result$group_sizes
+result$assumptions
+result$warnings
+result$validation
+```
+
+`solved$n_total` is the combined sample size; `group_sizes` gives the allocation.
+`achieved$power` can exceed the target because only admissible integer designs
+are considered. The `ok` calculation status and the method's reference-validation
+status answer different questions. Neither establishes clinical utility or
+correct study assumptions.
+
+## Check an invalid request
+
+Constructor errors and numerical outcomes are distinct. Here the error is
+expected because a probability is outside its domain.
+
+```{r invalid-input}
+problem <- tryCatch(
+  analysis_spec("t_means_two_independent", "a_priori",
+    inputs = list(alpha = 1.5, power = 0.8, d = 0.5)),
+  error = function(e) conditionMessage(e)
+)
+problem
+stopifnot(is.character(problem))
+```
+
+For other analysis modes use `calculate_power()`. Inspect `?analysis_spec` for
+mode-specific targets and `list_methods()` for available procedures; a registry
+entry alone does not establish that a numerical engine is implemented.
+
+## Save a specification and verify its round trip
+
+```{r round-trip}
+path <- tempfile(fileext = ".json")
+writeLines(ig_to_json(spec), path)
+restored <- ig_from_json(file = path)
+stopifnot(identical(ig_hash(spec), ig_hash(restored)))
+replayed <- solve_design(restored)
+stopifnot(identical(result$solved, replayed$solved))
+```
+
+Save the result as well as its specification when archiving an analysis. Record
+the package revision and execution environment: a matching content hash proves
+identity of that content, not scientific validation across software versions.
+
+## Continue
+
+The [classification tutorial](classification.html) introduces denominators and
+explicit operating points. To explore the same public functions interactively:
+
+```{r workbench, eval=FALSE}
+install.packages(c("shiny", "ggplot2"))
+launch_app()
+```
+
+The launch chunk is not evaluated during a documentation build because it starts
+an interactive server. No external reference application is required.
+
+```{r session-information}
+sessionInfo()
+```

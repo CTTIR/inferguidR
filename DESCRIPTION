@@ -62,3 +62,5 @@ Config/testthat/edition: 3
 Config/testthat/parallel: true
 URL: https://github.com/CTTIR/inferguidR
 BugReports: https://github.com/CTTIR/inferguidR/issues
+VignetteBuilder: knitr
+Config/Needs/website: CTTIR/themakR

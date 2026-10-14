@@ -39,3 +39,8 @@ Rplots.pdf
 /project/
 /validation/
 testthat-problems.rds
+
+/docs/
+/inst/doc/
+/vignettes/*.html
+/vignettes/*.R

@@ -1,0 +1,108 @@
+---
+title: "Classification metrics and explicit operating points"
+author: "Raban Heller"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Classification metrics and explicit operating points}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(inferguidR)
+```
+
+This tutorial evaluates one operating point from synthetic counts and then
+from scored observations. It runs offline and does not train a model. Define
+the positive class, score direction, comparator and evaluation sample before
+interpreting performance.
+
+## Start with the four counts
+
+```{r counts}
+spec <- classification_spec(
+  counts = c(tp = 40, fn = 10, fp = 20, tn = 130), cutoff = 0.5
+)
+result <- evaluate_cutoff(spec)
+metrics <- classification_metrics(result)
+metrics[metrics$metric_id %in% c("tpr", "tnr", "ppv", "npv"),
+        c("metric_id", "value", "status", "denominator_value")]
+```
+
+Sensitivity (`tpr`) divides true positives by all events; specificity (`tnr`)
+divides true negatives by all non-events. Positive predictive value (`ppv`)
+divides true positives by all positive calls. These denominators differ.
+A missing denominator produces an explicit undefined result, not a zero.
+Aggregate counts identify one operating point; they cannot reconstruct a ROC
+curve or a cutoff sweep.
+
+## State how scored observations are evaluated
+
+The following small data frame is entirely synthetic. The scores are declared
+as probabilities of the positive class; the comparator includes observations
+whose score is exactly 0.5. These are demonstration observations, not a held-out
+validation set.
+
+```{r scored-data}
+d <- data.frame(
+  id = seq_len(8),
+  event = c(1, 1, 1, 0, 0, 0, 0, 0),
+  risk = c(0.9, 0.8, 0.4, 0.7, 0.5, 0.2, 0.2, 0.1)
+)
+scored <- classification_spec(
+  data = d, truth = "event", positive_label = 1, negative_label = 0,
+  scores = "risk", id = "id", cutoff = 0.5,
+  direction = "higher_is_positive", comparator = ">=",
+  score_scale = "probability", evaluation_split = "same_data",
+  sampling = "unknown"
+)
+evaluated <- evaluate_cutoff(scored)
+tab <- classification_metrics(evaluated)
+tab[tab$metric_id %in% c("tp", "fn", "fp", "tn", "tpr", "ppv"),
+    c("metric_id", "value", "status")]
+```
+
+A score's numeric range alone does not establish probability calibration. The
+`score_scale` and `sampling` settings document assumptions; they do not validate
+them. Predictive values depend on prevalence, and the event proportion in an
+outcome-selected sample need not equal population prevalence. A prevalence
+scenario is a separate modelling assumption, not an observed population rate.
+
+## Missingness and uncertainty
+
+The default missing-data policy is `error`. Choosing `missing = "exclude"`
+changes the evaluated sample and must be reported. Repeated observations from
+the same unit need an explicit cluster definition; treating them as independent
+can give misleading uncertainty estimates. Consult `?classification_uncertainty`
+for supported interval and resampling settings.
+
+```{r result-details}
+evaluated$status
+evaluated$limitations
+evaluated$uncertainty
+```
+
+A cutoff selected and evaluated on the same data can overstate performance.
+Prespecify a cutoff or separate tuning and evaluation samples. Small synthetic
+examples cannot establish transportability, clinical utility or a recommended
+operating threshold.
+
+## Keep the analysis record
+
+```{r export}
+path <- tempfile(fileext = ".rds")
+saveRDS(spec, path)
+restored <- readRDS(path)
+stopifnot(identical(ig_hash(spec), ig_hash(restored)))
+```
+
+Use RDS for the classification specification: `ig_from_json()` currently
+imports power and report objects, not classification specifications.
+Retain the input definition, data provenance, result and software revision
+alongside the exported record. The [getting-started tutorial](getting-started.html)
+explains the package's typed outcomes and reproducibility workflow.
+
+```{r session-information}
+sessionInfo()
+```
