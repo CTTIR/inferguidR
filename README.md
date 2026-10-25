@@ -1,4 +1,4 @@
-# inferguidR <img src="man/figures/logo.svg" align="right" height="139" alt="inferguidR hex logo" />
+# inferguidR <img src="man/figures/logo.png" align="right" width="120" height="139" alt="inferguidR hex logo" />
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -134,3 +134,7 @@ must be reviewed and revised before inclusion, and references must be verified
 against their DOI, arXiv ID or ISBN.
 
 Local software setup: vLLM with Python/PyTorch, plus R and RStudio.
+
+## Branding
+
+Editable R artwork and regeneration instructions are in [tools/branding](https://github.com/CTTIR/inferguidR/blob/main/tools/branding/README.md).

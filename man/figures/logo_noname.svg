@@ -1,121 +1,21 @@
-<svg width="500" height="580" viewBox="0 0 500 580" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="bginf" x1="0" y1="0" x2="0.15" y2="1">
-      <stop offset="0%"  stop-color="#1a1340"/>
-      <stop offset="100%" stop-color="#0c0820"/>
-    </linearGradient>
-    <linearGradient id="powerFill" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"  stop-color="#7C3AED" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0.03"/>
-    </linearGradient>
-    <clipPath id="hexinf">
-      <polygon points="250,30 455,145 455,375 250,490 45,375 45,145"/>
-    </clipPath>
-  </defs>
-
-  <polygon points="250,30 455,145 455,375 250,490 45,375 45,145" fill="url(#bginf)"/>
-
-  <g clip-path="url(#hexinf)">
-
-    <!-- faint grid -->
-    <line x1="45" y1="210" x2="455" y2="210" stroke="#2a2060" stroke-width="0.4" opacity="0.4"/>
-    <line x1="45" y1="270" x2="455" y2="270" stroke="#2a2060" stroke-width="0.4" opacity="0.4"/>
-    <line x1="45" y1="330" x2="455" y2="330" stroke="#2a2060" stroke-width="0.4" opacity="0.4"/>
-    <line x1="150" y1="145" x2="150" y2="490" stroke="#2a2060" stroke-width="0.4" opacity="0.3"/>
-    <line x1="250" y1="145" x2="250" y2="490" stroke="#2a2060" stroke-width="0.4" opacity="0.3"/>
-    <line x1="350" y1="145" x2="350" y2="490" stroke="#2a2060" stroke-width="0.4" opacity="0.3"/>
-
-    <!-- ══════════════════════════════════════════════════════ -->
-    <!-- POWER CURVE — sigmoidal power vs. sample size            -->
-    <!-- The statistical foundation, rising to the 0.8 plateau    -->
-    <!-- ══════════════════════════════════════════════════════ -->
-    <!-- axes -->
-    <line x1="92" y1="352" x2="408" y2="352" stroke="#4a3a8a" stroke-width="1.2" opacity="0.7"/>
-    <line x1="92" y1="352" x2="92" y2="212" stroke="#4a3a8a" stroke-width="1.2" opacity="0.7"/>
-
-    <!-- power = 0.8 target line -->
-    <line x1="92" y1="250" x2="408" y2="250" stroke="#9F8CF5" stroke-width="1" stroke-dasharray="5 4" opacity="0.5"/>
-    <text font-family="monospace" font-size="7.5" fill="#9F8CF5" opacity="0.7" text-anchor="start" x="96" y="245">0.8</text>
-
-    <!-- power curve fill -->
-    <path d="M 92,348 C 150,344 180,330 220,300 C 255,274 285,252 330,244 C 360,240 388,238 408,238
-             L 408,352 L 92,352 Z" fill="url(#powerFill)"/>
-    <!-- power curve stroke -->
-    <path d="M 92,348 C 150,344 180,330 220,300 C 255,274 285,252 330,244 C 360,240 388,238 408,238"
-      fill="none" stroke="#B9A6FF" stroke-width="3" stroke-linecap="round"/>
-
-    <!-- validated checkpoints along the curve (validated specs) -->
-    <circle cx="220" cy="300" r="4.5" fill="#0c0820" stroke="#9F8CF5" stroke-width="2"/>
-    <circle cx="300" cy="252" r="4.5" fill="#0c0820" stroke="#9F8CF5" stroke-width="2"/>
-    <!-- the validated target point where curve crosses 0.8 -->
-    <circle cx="330" cy="244" r="6" fill="#B9A6FF"/>
-    <path d="M 327,244 l 2.4,3 l 4.5,-6" fill="none" stroke="#1a1340" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <!-- axis labels -->
-    <text font-family="monospace" font-size="7" fill="#7C6BC0" opacity="0.7" text-anchor="middle" x="250" y="368">sample size</text>
-    <text font-family="monospace" font-size="7" fill="#7C6BC0" opacity="0.7" text-anchor="middle" x="82" y="285" transform="rotate(-90 82 285)">power</text>
-
-    <!-- ══════════════════════════════════════════════════════ -->
-    <!-- GUIDANCE COMPASS — guided inference, top-centre          -->
-    <!-- compass needle pointing to the validated path            -->
-    <!-- ══════════════════════════════════════════════════════ -->
-    <g transform="translate(250,180)">
-      <!-- outer ring -->
-      <circle cx="0" cy="0" r="46" fill="#140e30" stroke="#534AB7" stroke-width="2.4" opacity="0.95"/>
-      <circle cx="0" cy="0" r="38" fill="none" stroke="#7C3AED" stroke-width="1" opacity="0.5"/>
-      <!-- cardinal ticks -->
-      <line x1="0" y1="-46" x2="0" y2="-38" stroke="#9F8CF5" stroke-width="2" opacity="0.8"/>
-      <line x1="0" y1="46" x2="0" y2="38" stroke="#9F8CF5" stroke-width="2" opacity="0.6"/>
-      <line x1="-46" y1="0" x2="-38" y2="0" stroke="#9F8CF5" stroke-width="2" opacity="0.6"/>
-      <line x1="46" y1="0" x2="38" y2="0" stroke="#9F8CF5" stroke-width="2" opacity="0.6"/>
-      <!-- minor ticks -->
-      <g stroke="#7C3AED" stroke-width="1" opacity="0.4">
-        <line x1="26.9" y1="-26.9" x2="22.3" y2="-22.3"/>
-        <line x1="-26.9" y1="-26.9" x2="-22.3" y2="-22.3"/>
-        <line x1="26.9" y1="26.9" x2="22.3" y2="22.3"/>
-        <line x1="-26.9" y1="26.9" x2="-22.3" y2="22.3"/>
-      </g>
-      <!-- needle — points up-right toward the validated inference path -->
-      <g transform="rotate(38)">
-        <polygon points="0,-34 7,0 0,8 -7,0" fill="#B9A6FF"/>
-        <polygon points="0,34 7,0 0,-8 -7,0" fill="#5B4A9E"/>
-      </g>
-      <!-- hub -->
-      <circle cx="0" cy="0" r="4.5" fill="#E9E2FF"/>
-      <circle cx="0" cy="0" r="2" fill="#7C3AED"/>
-    </g>
-
-    <!-- ══════════════════════════════════════════════════════ -->
-    <!-- ROC CURVE — diagnostic accuracy, small inset top-left    -->
-    <!-- ══════════════════════════════════════════════════════ -->
-    <g transform="translate(110,150)">
-      <rect x="-2" y="-2" width="48" height="48" rx="3" fill="#140e30" stroke="#3a2f7a" stroke-width="1" opacity="0.7"/>
-      <!-- diagonal chance line -->
-      <line x1="0" y1="44" x2="44" y2="0" stroke="#5B4A9E" stroke-width="0.8" stroke-dasharray="3 2" opacity="0.6"/>
-      <!-- ROC arc -->
-      <path d="M 0,44 C 4,18 18,4 44,0" fill="none" stroke="#9FE8C0" stroke-width="2" stroke-linecap="round"/>
-      <text font-family="monospace" font-size="5.5" fill="#7CC9A0" opacity="0.8" text-anchor="middle" x="22" y="54">AUC</text>
-    </g>
-
-    <!-- ══════════════════════════════════════════════════════ -->
-    <!-- STATUS BADGE — "validated" status reporting, top-right   -->
-    <!-- ══════════════════════════════════════════════════════ -->
-    <g transform="translate(366,150)">
-      <rect x="-2" y="-2" width="48" height="26" rx="4" fill="#140e30" stroke="#534AB7" stroke-width="1" opacity="0.85"/>
-      <circle cx="9" cy="11" r="5" fill="none" stroke="#9FE8C0" stroke-width="1.6"/>
-      <path d="M 6.5,11 l 2,2.4 l 4,-5" fill="none" stroke="#9FE8C0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      <text font-family="monospace" font-size="6" fill="#9F8CF5" opacity="0.85" text-anchor="start" x="18" y="13">valid</text>
-    </g>
-
-    <!-- guidance annotation -->
-    <text font-family="monospace" font-size="8" fill="#9F8CF5" opacity="0.55"
-      text-anchor="middle" x="250" y="408">guided · power · accuracy</text>
-
-  </g>
-
-  <!-- Hex border — statistics group purple -->
-  <polygon points="250,30 455,145 455,375 250,490 45,375 45,145"
-    fill="none" stroke="#534AB7" stroke-width="11" stroke-linejoin="round"/>
-  <polygon points="250,44 441,153 441,367 250,476 59,367 59,153"
-    fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round" opacity="0.6"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="432" height="498" viewBox="0 0 432 498">
+<path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" d="M 216 4.980469 L 427.679688 126.988281 L 427.679688 371.011719 L 216 493.019531 L 4.320312 371.011719 L 4.320312 126.988281 Z M 216 4.980469 "/>
+<path fill-rule="nonzero" fill="rgb(56.862745%, 80.784314%, 94.117647%)" fill-opacity="1" d="M 216 10.957031 L 422.496094 129.976562 L 422.496094 368.023438 L 216 487.042969 L 9.503906 368.023438 L 9.503906 129.976562 Z M 216 10.957031 "/>
+<path fill-rule="nonzero" fill="rgb(9.803922%, 20%, 28.627451%)" fill-opacity="1" d="M 216 14.941406 L 419.039062 131.96875 L 419.039062 366.03125 L 216 483.058594 L 12.960938 366.03125 L 12.960938 131.96875 Z M 216 14.941406 "/>
+<path fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(80%, 90.980392%, 97.254902%)" stroke-opacity="1" stroke-miterlimit="10" d="M 327.457031 245.289062 L 327.09375 236.15625 L 326.003906 227.078125 L 324.191406 218.117188 L 321.675781 209.324219 L 318.46875 200.761719 L 314.589844 192.480469 L 310.0625 184.535156 L 304.917969 176.96875 L 299.1875 169.839844 L 292.910156 163.183594 L 286.121094 157.046875 L 278.863281 151.472656 L 271.1875 146.488281 L 263.136719 142.128906 L 254.765625 138.417969 L 246.128906 135.386719 L 237.273438 133.050781 L 228.261719 131.421875 L 219.152344 130.515625 L 209.996094 130.335938 L 200.855469 130.878906 L 191.785156 132.148438 L 182.84375 134.132812 L 174.09375 136.816406 L 165.578125 140.191406 L 157.363281 144.226562 L 149.492188 148.902344 L 142.023438 154.1875 L 134.992188 160.050781 L 128.453125 166.449219 L 122.445312 173.347656 L 117.003906 180.699219 L 112.164062 188.460938 L 107.957031 196.582031 L 104.410156 205.011719 L 101.546875 213.695312 L 99.382812 222.578125 L 97.933594 231.605469 L 97.203125 240.71875 L 97.203125 249.863281 L 97.933594 258.976562 L 99.382812 268.003906 L 101.546875 276.886719 L 104.410156 285.570312 L 107.957031 294 L 112.164062 302.121094 L 117.003906 309.882812 L 122.445312 317.234375 L 128.453125 324.132812 L 134.992188 330.53125 L 142.023438 336.394531 L 149.492188 341.679688 L 157.363281 346.355469 L 165.578125 350.390625 L 174.09375 353.765625 L 182.84375 356.449219 L 191.785156 358.433594 L 200.855469 359.703125 L 209.996094 360.246094 L 219.152344 360.066406 L 228.261719 359.160156 L 237.273438 357.53125 L 246.128906 355.195312 L 254.765625 352.164062 L 263.136719 348.453125 L 271.1875 344.09375 L 278.863281 339.109375 L 286.121094 333.535156 L 292.910156 327.398438 L 299.1875 320.742188 L 304.917969 313.613281 L 310.0625 306.046875 L 314.589844 298.101562 L 318.46875 289.820312 L 321.675781 281.257812 L 324.191406 272.464844 L 326.003906 263.503906 L 327.09375 254.425781 L 327.457031 245.289062 "/>
+<path fill="none" stroke-width="6.75" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(48.235294%, 76.862745%, 92.941176%)" stroke-opacity="1" stroke-miterlimit="10" d="M 130.238281 292.582031 L 131.742188 295.089844 L 133.324219 297.554688 L 134.980469 299.96875 L 136.710938 302.328125 L 138.515625 304.632812 L 140.390625 306.882812 L 142.332031 309.074219 L 144.339844 311.203125 L 146.414062 313.269531 L 148.550781 315.269531 L 150.75 317.203125 L 153.007812 319.070312 L 155.320312 320.863281 L 157.6875 322.585938 L 160.109375 324.234375 L 162.578125 325.808594 L 165.097656 327.304688 L 167.660156 328.722656 L 170.265625 330.058594 L 172.910156 331.316406 L 175.59375 332.492188 L 178.3125 333.582031 L 181.066406 334.589844 L 183.847656 335.507812 L 186.65625 336.34375 L 189.488281 337.089844 L 192.34375 337.75 L 195.214844 338.324219 L 198.105469 338.804688 L 201.007812 339.199219 L 203.921875 339.5 L 206.847656 339.714844 L 209.773438 339.835938 L 212.703125 339.871094 L 215.632812 339.8125 L 218.558594 339.664062 L 221.480469 339.425781 L 224.390625 339.09375 L 227.292969 338.675781 L 230.175781 338.167969 L 233.046875 337.570312 L 235.894531 336.886719 L 238.71875 336.113281 L 241.519531 335.253906 L 244.292969 334.308594 L 247.035156 333.277344 L 249.746094 332.164062 L 252.417969 330.964844 L 255.050781 329.683594 L 257.644531 328.324219 L 260.195312 326.882812 L 262.699219 325.367188 L 265.15625 323.769531 L 267.5625 322.101562 L 269.914062 320.359375 L 272.214844 318.542969 L 274.453125 316.65625 L 276.636719 314.703125 L 278.753906 312.683594 L 280.808594 310.601562 L 282.800781 308.453125 L 284.722656 306.246094 L 286.578125 303.980469 L 288.359375 301.660156 L 290.070312 299.28125 L 291.703125 296.855469 L 293.261719 294.378906 L 294.746094 291.855469 L 296.148438 289.289062 L 297.472656 286.675781 L 298.710938 284.027344 L 299.871094 281.339844 L 300.945312 278.617188 L 301.9375 275.867188 L 302.839844 273.082031 L 303.65625 270.273438 L 304.386719 267.441406 L 305.03125 264.585938 L 305.582031 261.714844 "/>
+<path fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(95.686275%, 97.254902%, 98.823529%)" stroke-opacity="1" stroke-miterlimit="10" d="M 333.027344 245.289062 L 344.175781 245.289062 "/>
+<path fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(95.686275%, 97.254902%, 98.823529%)" stroke-opacity="1" stroke-miterlimit="10" d="M 297.664062 160.054688 L 305.542969 152.1875 "/>
+<path fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(95.686275%, 97.254902%, 98.823529%)" stroke-opacity="1" stroke-miterlimit="10" d="M 212.285156 124.746094 L 212.285156 113.621094 "/>
+<path fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(95.686275%, 97.254902%, 98.823529%)" stroke-opacity="1" stroke-miterlimit="10" d="M 126.90625 160.054688 L 119.023438 152.1875 "/>
+<path fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(95.686275%, 97.254902%, 98.823529%)" stroke-opacity="1" stroke-miterlimit="10" d="M 91.539062 245.289062 L 80.394531 245.289062 "/>
+<path fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(95.686275%, 97.254902%, 98.823529%)" stroke-opacity="1" stroke-miterlimit="10" d="M 126.90625 330.527344 L 119.023438 338.394531 "/>
+<path fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(95.686275%, 97.254902%, 98.823529%)" stroke-opacity="1" stroke-miterlimit="10" d="M 212.285156 365.832031 L 212.285156 376.960938 "/>
+<path fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(95.686275%, 97.254902%, 98.823529%)" stroke-opacity="1" stroke-miterlimit="10" d="M 297.664062 330.527344 L 305.542969 338.394531 "/>
+<path fill-rule="nonzero" fill="rgb(1.176471%, 3.921569%, 7.058824%)" fill-opacity="0.25098" d="M 142.4375 345.804688 L 231.605469 267.914062 L 298.476562 149.226562 L 209.3125 238.242188 Z M 142.4375 345.804688 "/>
+<path fill-rule="nonzero" fill="rgb(48.235294%, 76.862745%, 92.941176%)" fill-opacity="1" d="M 137.980469 338.015625 L 227.144531 260.128906 L 294.019531 141.4375 L 204.855469 230.453125 Z M 137.980469 338.015625 "/>
+<path fill-rule="nonzero" fill="rgb(95.686275%, 97.254902%, 98.823529%)" fill-opacity="1" d="M 204.855469 230.453125 L 227.144531 260.128906 L 294.019531 141.4375 Z M 204.855469 230.453125 "/>
+<path fill-rule="nonzero" fill="rgb(16.862745%, 33.72549%, 45.882353%)" fill-opacity="1" d="M 228.976562 245.289062 C 228.976562 254.507812 221.503906 261.980469 212.285156 261.980469 C 203.066406 261.980469 195.59375 254.507812 195.59375 245.289062 C 195.59375 236.074219 203.066406 228.601562 212.285156 228.601562 C 221.503906 228.601562 228.976562 236.074219 228.976562 245.289062 "/>
+<path fill-rule="nonzero" fill="rgb(95.686275%, 97.254902%, 98.823529%)" fill-opacity="1" d="M 220.074219 245.289062 C 220.074219 249.59375 216.585938 253.078125 212.285156 253.078125 C 207.984375 253.078125 204.496094 249.59375 204.496094 245.289062 C 204.496094 240.988281 207.984375 237.503906 212.285156 237.503906 C 216.585938 237.503906 220.074219 240.988281 220.074219 245.289062 "/>
 </svg>
