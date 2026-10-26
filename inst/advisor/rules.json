@@ -1,9 +1,9 @@
 {
  "schema_version": "inferguidR.advisor-rules/0.1.0",
  "rules_id": "advisor_rules",
- "rules_version": "2026-10-26.1",
+ "rules_version": "2026-10-26.2",
  "status": "provisional",
- "status_note": "Provisional statistical rule graph. Structural, route, mutation and serialization tests are included in the package; full semantic review of the analysis variants and advisor-to-planner mappings remains incomplete. Historical draft checks and earlier decisions are retained below. Revision 2026-10-26.1 clarifies standalone Boschloo engine validation versus pending advisor planning integration without changing routing, estimands or compatibility states.",
+ "status_note": "Provisional statistical rule graph. Structural, route, mutation and serialization tests are included. Revision 2026-10-26.2 adds explicit same-test Boschloo planning mappings; full semantic review of all analysis variants and exhaustive numerical certification remain incomplete. Earlier saved sessions require explicit replay under the new rules.",
  "created_date": "2026-10-03",
  "requirement_ids": [
   "R05",
@@ -106,18 +106,19 @@
    "outside_supported_scope": "the design or aim is outside what inferguidR supports; no method or planning is offered"
   },
   "planning_compatibility": {
-   "exact_gpower_match": "same-test planning with G*Power parity proven by authentic captures (none exist yet; blocker B01)",
+   "exact_gpower_match": "same-test planning with G*Power parity supported by matching authentic captures; no advisor route currently claims this status",
    "gpower_comparator_different_method": "G*Power documents only a different method for this design; it may be shown only as a labelled comparator",
-   "independently_validated_extension": "no G*Power same-test procedure; inferguidR planning validated independently (none validated yet)",
+   "independently_validated_extension": "no G*Power same-test procedure; a named mapping to the standalone engine has scoped independent checks. This does not claim exhaustive numerical certification",
    "not_yet_validated": "same-test planning intended or candidate, without validation evidence yet",
    "not_applicable": "conventional hypothesis-test planning does not apply (or the outcome has no method)"
   },
   "planning_compatibility_target": "expected classification once evidence exists; 'undetermined' where phase 01/03/09A must decide; never a claim of current status",
   "planning_availability": {
+   "available": "an explicit same-test conversion is implemented for the named selected variant, with required inputs, allocation and numerical controls; missing answers still prevent conversion",
    "planned_with_gpower_reference_candidate": "a same-test planning engine is planned and a G*Power procedure documented in the June 2023 manual is a candidate reference",
-   "planned_independent_validation": "a same-test planning engine is planned and must be validated independently (e.g. Welch, Boschloo)",
+   "planned_independent_validation": "same-test advisor planning remains pending an explicit mapping and independent validation; a separate standalone engine may exist",
    "simulation_only_if_implemented": "planning only through simulation or approximation once implemented and validated; until then the planning action explains the gap",
-   "unavailable": "no planning route planned; the planning action explains the gap",
+   "unavailable": "no currently usable planning conversion, including unsupported overrides or unresolved required answers; the planning action explains the gap",
    "not_applicable": "conventional planning does not apply"
   },
   "crosswalk_relationship": {
@@ -8134,8 +8135,8 @@
    "analysis_variant_id": "boschloo_two_sided_central",
    "title_en": "Boschloo test, two-sided central variant",
    "title_de": "Boschloo-Test, zweiseitige zentrale Variante",
-   "estimand_en": "Equality of the two event probabilities (p1 = p2); effect reported as risk difference with a separately labelled interval.",
-   "estimand_de": "Gleichheit der beiden Ereigniswahrscheinlichkeiten (p1 = p2); Effekt als Risikodifferenz mit gesondert gekennzeichnetem Intervall.",
+   "estimand_en": "Equality of the two event probabilities (p1 = p2); the bundled example reports the observed risk difference but does not compute a sampling confidence interval. Numerical p-value bounds are not sampling intervals.",
+   "estimand_de": "Gleichheit der beiden Ereigniswahrscheinlichkeiten (p1 = p2); das enthaltene Beispiel berichtet die beobachtete Risikodifferenz, berechnet aber kein Stichproben-Konfidenzintervall. Numerische Grenzen des p-Werts sind keine Stichprobenintervalle.",
    "rationale_en": "Two independent groups, a binary outcome and fixed group sizes form two independent binomial samples. Boschloo's unconditional exact test keeps the type I error at or below alpha without conditioning on the total number of events, and for the same sidedness convention (one-sided, or two-sided central) its p-value never exceeds the corresponding Fisher p-value, so it rejects whenever that Fisher test rejects. This does not extend to the default two-sided p-value of stats::fisher.test (probability ordering), which was smaller than the central Boschloo p-value for some tables in a check on 2026-10-03. Variant: two-sided central p-value (twice the smaller one-sided p, each maximised over the common nuisance probability), as in exact2x2::boschloo with tsmethod = 'central' and midp = FALSE. It is used at every sample size; it is not replaced by Fisher's test above a threshold.",
    "rationale_de": "Zwei unabhängige Gruppen, eine binäre Zielgröße und feste Gruppengrößen bilden zwei unabhängige Binomialstichproben. Boschloos unbedingter exakter Test hält den Fehler 1. Art bei höchstens Alpha, ohne auf die Gesamtzahl der Ereignisse zu bedingen; bei gleicher Seitigkeitskonvention (einseitig oder zweiseitig zentral) ist sein p-Wert nie größer als der entsprechende Fisher-p-Wert, er lehnt also immer ab, wenn dieser Fisher-Test ablehnt. Das gilt nicht gegenüber dem voreingestellten zweiseitigen p-Wert von stats::fisher.test (Wahrscheinlichkeitsordnung), der in einer Prüfung am 2026-10-03 für einige Tafeln kleiner war als der zentrale Boschloo-p-Wert. Variante: zweiseitiger zentraler p-Wert (das Doppelte des kleineren einseitigen p, jeweils über die gemeinsame Störwahrscheinlichkeit maximiert), wie in exact2x2::boschloo mit tsmethod = 'central' und midp = FALSE. Er wird bei jeder Stichprobengröße verwendet und nicht oberhalb einer Schwelle durch Fishers Test ersetzt.",
    "assumptions": [
@@ -8213,20 +8214,17 @@
     }
    ],
    "planning": {
-    "planning_compatibility": "not_yet_validated",
-    "planning_compatibility_target": "undetermined",
-    "planning_availability": "planned_independent_validation",
-    "note_en": "The standalone inferguidR Boschloo engine and its same-test power and sample-size functions have independent numerical checks. The advisor-to-planner mapping is not yet independently validated, so this recommendation does not create a planning specification. Use boschloo_power() or boschloo_sample_size() with explicit variant, direction and allocation after reviewing their documented limits. G*Power comparison is not applicable to Boschloo itself; Fisher and asymptotic two-proportion tests are different procedures.",
-    "note_de": "Für die eigenständigen Boschloo-Funktionen von inferguidR einschließlich Power- und Stichprobenumfangsberechnung liegen unabhängige numerische Prüfungen vor. Die Zuordnung vom Methodenberater zur Studienplanung ist noch nicht unabhängig validiert; diese Empfehlung erzeugt daher keine Planungsspezifikation. Verwenden Sie boschloo_power() oder boschloo_sample_size() mit ausdrücklich festgelegter Variante, Richtung und Gruppenzuteilung unter Beachtung der dokumentierten Grenzen. Ein G*Power-Vergleich ist für Boschloo selbst nicht anwendbar; Fisher- und asymptotische Zwei-Anteile-Tests sind andere Verfahren.",
+    "planning_compatibility": "independently_validated_extension",
+    "planning_compatibility_target": "independently_validated_extension",
+    "planning_availability": "available",
+    "note_en": "A checked same-test mapping is available through advisor_power_spec(). The selected central, minlike or prespecified directional Boschloo variant is preserved. Supply p1 and p2 for the same groups as in the analysis example, alpha, target power and allocation explicitly. Numerical controls and allocation policy are retained in the specification. Resolve missing information first. No G*Power parity or complete numerical certification is claimed.",
+    "note_de": "Eine gepruefte Zuordnung zum selben Test ist ueber advisor_power_spec() verfuegbar. Die ausgewaehlte zentrale, Minlike- oder vorab gerichtete Boschloo-Variante bleibt erhalten. Geben Sie p1 und p2 fuer dieselben Gruppen wie im Analysebeispiel sowie Alpha, Zielpower und Allokation ausdruecklich an. Numerische Kontrollen und Allokationsregel bleiben in der Spezifikation erhalten. Klaeren Sie offene Angaben zuerst. Keine G*Power-Paritaet oder vollstaendige numerische Zertifizierung wird behauptet.",
     "planning_inputs": [
-     "reference-group probability p1",
-     "comparison-group probability p2 or effect (risk difference, risk ratio or odds ratio) with feasibility check",
+     "p1 and p2 for groups 1 and 2 of the analysis",
      "alpha",
-     "target power",
-     "allocation ratio n2/n1",
-     "two-sided convention or one-sided direction",
-     "nuisance-grid and precision settings",
-     "expected loss proportion"
+     "target power and explicit allocation ratio/policy (a priori), or n1 and n2 (post hoc)",
+     "prespecified direction for a one-sided recommendation",
+     "Boschloo numerical controls"
     ]
    },
    "analysis_inputs": [
@@ -8353,20 +8351,17 @@
     }
    ],
    "planning": {
-    "planning_compatibility": "not_yet_validated",
-    "planning_compatibility_target": "undetermined",
-    "planning_availability": "planned_independent_validation",
-    "note_en": "The standalone inferguidR Boschloo engine and its same-test power and sample-size functions have independent numerical checks. The advisor-to-planner mapping is not yet independently validated, so this recommendation does not create a planning specification. Use boschloo_power() or boschloo_sample_size() with explicit variant, direction and allocation after reviewing their documented limits. G*Power comparison is not applicable to Boschloo itself; Fisher and asymptotic two-proportion tests are different procedures.",
-    "note_de": "Für die eigenständigen Boschloo-Funktionen von inferguidR einschließlich Power- und Stichprobenumfangsberechnung liegen unabhängige numerische Prüfungen vor. Die Zuordnung vom Methodenberater zur Studienplanung ist noch nicht unabhängig validiert; diese Empfehlung erzeugt daher keine Planungsspezifikation. Verwenden Sie boschloo_power() oder boschloo_sample_size() mit ausdrücklich festgelegter Variante, Richtung und Gruppenzuteilung unter Beachtung der dokumentierten Grenzen. Ein G*Power-Vergleich ist für Boschloo selbst nicht anwendbar; Fisher- und asymptotische Zwei-Anteile-Tests sind andere Verfahren.",
+    "planning_compatibility": "independently_validated_extension",
+    "planning_compatibility_target": "independently_validated_extension",
+    "planning_availability": "available",
+    "note_en": "A checked same-test mapping is available through advisor_power_spec(). The selected central, minlike or prespecified directional Boschloo variant is preserved. Supply p1 and p2 for the same groups as in the analysis example, alpha, target power and allocation explicitly. Numerical controls and allocation policy are retained in the specification. Resolve missing information first. No G*Power parity or complete numerical certification is claimed.",
+    "note_de": "Eine gepruefte Zuordnung zum selben Test ist ueber advisor_power_spec() verfuegbar. Die ausgewaehlte zentrale, Minlike- oder vorab gerichtete Boschloo-Variante bleibt erhalten. Geben Sie p1 und p2 fuer dieselben Gruppen wie im Analysebeispiel sowie Alpha, Zielpower und Allokation ausdruecklich an. Numerische Kontrollen und Allokationsregel bleiben in der Spezifikation erhalten. Klaeren Sie offene Angaben zuerst. Keine G*Power-Paritaet oder vollstaendige numerische Zertifizierung wird behauptet.",
     "planning_inputs": [
-     "reference-group probability p1",
-     "comparison-group probability p2 or effect (risk difference, risk ratio or odds ratio) with feasibility check",
+     "p1 and p2 for groups 1 and 2 of the analysis",
      "alpha",
-     "target power",
-     "allocation ratio n2/n1",
-     "two-sided convention or one-sided direction",
-     "nuisance-grid and precision settings",
-     "expected loss proportion"
+     "target power and explicit allocation ratio/policy (a priori), or n1 and n2 (post hoc)",
+     "prespecified direction for a one-sided recommendation",
+     "Boschloo numerical controls"
     ]
    },
    "analysis_inputs": [
@@ -11202,8 +11197,8 @@
     },
     {
      "assumption_id": "a.missing_cluster",
-     "text_en": "Missing values: complete cases or multiple imputation, not mean imputation.",
-     "text_de": "Fehlende Werte: Complete Cases oder multiple Imputation, keine Mittelwertimputation."
+     "text_en": "The example rejects missing values by default. An explicit pairwise choice compares each pair on available variables; this changes effective information across pairs and requires justified missingness and stability checks. No imputation is performed.",
+     "text_de": "Das Beispiel weist fehlende Werte standardmäßig zurück. Eine ausdrückliche paarweise Auswahl vergleicht jedes Paar anhand verfügbarer Variablen; die Informationsbasis variiert zwischen Paaren und erfordert begründete Annahmen zu fehlenden Werten sowie Stabilitätsprüfungen. Es erfolgt keine Imputation."
     }
    ],
    "alternatives": [
@@ -12612,6 +12607,12 @@
    "date": "2026-10-26",
    "summary_en": "Clarify independently checked standalone Boschloo calculations versus the advisor-to-planner mapping that remains unvalidated. Update the overall status note to reflect existing package tests. No routing, estimand, option, compatibility or availability state changes.",
    "migration_en": "Saved sessions retain their original version and require explicit migration. Existing answer traces can be replayed unchanged; review the updated planning explanations before saving a new session."
+  },
+  {
+   "rules_version": "2026-10-26.2",
+   "date": "2026-10-26",
+   "summary_en": "Add explicit same-test power specifications for central, minlike override and prespecified one-sided Boschloo analysis variants. Only mapped routes with no missing information are available. Existing planning availability values remain valid; available is an additive vocabulary value. No routing or numerical engine changes. Companion analysis-variants version 2026-10-26.1 reconciles the paired-t missing-data policy; the one-sample signed-rank teaching example requires an explicit reference. The central Boschloo recommendation no longer promises an unimplemented sampling interval. The mixed-clustering assumption now describes the explicit pairwise missingness option. Three regression templates refuse unrepresentable exponentiated slopes or finite interval limits, and count-regression intercepts retain log-scale inference without a ratio label.",
+   "migration_en": "Saved sessions keep their previous rules version and require explicit replay. Answer traces and selected variants are unchanged; inspect the new availability and planning contract before saving under this version. Existing recommendation documents retain their hashes and remain readable; older readers may reject the new available vocabulary value."
   }
  ]
 }

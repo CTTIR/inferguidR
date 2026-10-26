@@ -59,7 +59,11 @@
 #' @examples
 #' classifier_model("logit_v2", name = "Logistic model", version = "2.0",
 #'                  score_meaning = "predicted probability of readmission")
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 classifier_model <- function(model_id, name = model_id, version = NULL, score_meaning = NULL,
                              population = NULL, unit = NULL, source_hash = NULL) {
@@ -125,7 +129,11 @@ classifier_model <- function(model_id, name = model_id, version = NULL, score_me
 #' cutoff_rule(selection = "constraint", constraints = list(tpr_min = 0.9))
 #' cutoff_rule(selection = "max_youden", constraints = list(fpr_max = 0.2))
 #' cutoff_rule(selection = "cost_utility", costs = c(fn = 10, fp = 1))
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 cutoff_rule <- function(cutoff = NULL, selection = NULL, selection_data = NULL,
                         constraints = NULL, optimise = NULL, capacity = NULL,
@@ -294,6 +302,17 @@ cutoff_rule <- function(cutoff = NULL, selection = NULL, selection_data = NULL,
 #' on the fixed cutoff. They do not include the uncertainty of a data-driven
 #' cutoff selection.
 #'
+#' Bootstrap limits use type-7 empirical quantiles. Undefined replicates are
+#' excluded only when at most 10 percent are undefined; otherwise the interval
+#' is explicitly unavailable. Class stratification conditions on the observed
+#' class totals, so it does not estimate population-prevalence uncertainty.
+#' Frequency weights represent replicated units; declared clusters are sampled
+#' as whole clusters. These are percentile intervals, without bias correction
+#' or studentisation. Their nominal level is not a coverage guarantee: small
+#' samples and boundary estimates can have severe undercoverage. Independent
+#' arithmetic checks and a binomial coverage diagnostic are provided in
+#' `tools/product/check-bootstrap.R`; bootstrap validation remains development.
+#'
 #' @param level Confidence level in (0, 1).
 #' @param proportion_methods Binomial interval methods for proportions:
 #'   any of `"wilson"` and `"clopper_pearson"`, or `character(0)` for none.
@@ -313,7 +332,11 @@ cutoff_rule <- function(cutoff = NULL, selection = NULL, selection_data = NULL,
 #' @return A list of class `ig_cls_uncertainty`.
 #' @examples
 #' classification_uncertainty(level = 0.9, bootstrap_replicates = 500, seed = 1)
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 classification_uncertainty <- function(level = 0.95, proportion_methods = c("wilson", "clopper_pearson"),
                                        auc_method = c("delong", "none"), bootstrap_replicates = 0,
@@ -457,7 +480,10 @@ classification_uncertainty <- function(level = 0.95, proportion_methods = c("wil
 #' classification_spec(theory = list(auc = 0.8, sigma = 1.5, n_total = 1000),
 #'                     cutoff = 1, prevalence = 0.1)
 #' @seealso [evaluate_cutoff()], [select_cutoff()], [cutoff_sweep()]
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 classification_spec <- function(data = NULL, truth = NULL, positive_label = NULL, scores = NULL,
                                 counts = NULL, theory = NULL, rule = NULL, cutoff = NULL,
@@ -905,7 +931,11 @@ classification_spec <- function(data = NULL, truth = NULL, positive_label = NULL
 #' back <- ig_from_json(ig_to_json(analysis_envelope(spec)))$spec
 #' spec2 <- attach_classification_data(back, d)
 #' identical(spec2$spec_hash, spec$spec_hash)
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 attach_classification_data <- function(spec, data) {
   .ig_cls_check_spec(spec)
@@ -957,7 +987,11 @@ attach_classification_data <- function(spec, data) {
 #' th <- classification_spec(theory = list(auc = 0.8, sigma = 1), cutoff = 1.2, prevalence = 0.1)
 #' th2 <- update(th, theory = list(auc = 0.9))
 #' th2$operating_rule$score_cutoff
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 update.classification_spec <- function(object, ..., rule = NULL, cutoff = NULL, prevalence = NULL,
                                        prevalence_source = NULL, sampling = NULL, theory = NULL,

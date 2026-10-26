@@ -11,6 +11,7 @@
         "Enter theory / Modellparameter eingeben" = "custom_theory")),
       .ig_classifier_custom_ui(id),
       .ig_classifier_uncertainty_ui(ns),
+      .ig_classifier_probability_ui(ns),
       shiny::uiOutput(ns("cutoff_field")),
       shiny::uiOutput(ns("scenario_controls")),
       shiny::actionButton(ns("evaluate"), "Evaluate / Auswerten")),
@@ -31,7 +32,8 @@
         "Prevalence / Praevalenz" = "prevalence_curve", "Model comparison / Modellvergleich" = "model_comparison",
         "Metrics by cutoff / Kennzahlen nach Schwellenwert" = "metric_vs_cutoff",
         "Metric pair / Kennzahlenpaar" = "metric_pair", "Dependencies / Abhaengigkeiten" = "metric_network", "All metrics / Alle Kennzahlen" = "current_table",
-        "Cutoff sweep / Schwellendurchlauf" = "sweep_table")),
+        "Cutoff sweep / Schwellendurchlauf" = "sweep_table",
+        "Calibration / Kalibrierung" = "calibration", "Decision net benefit / Entscheidungsnettonutzen" = "net_benefit")),
       shiny::conditionalPanel(sprintf("['roc','pr'].includes(input['%s'])",ns("curve_panel")),
         shiny::selectInput(ns("interval_overlay"),"Marginal point intervals / Marginale Punktintervalle",
           c("None / Keine"="none","Wilson"="wilson","Clopper-Pearson"="clopper_pearson","Percentile bootstrap / Perzentil-Bootstrap"="bootstrap_percentile"))),
@@ -84,7 +86,7 @@
     shiny::observeEvent(language(), {
       lang <- language()
       for (nm in c("tp", "fn", "fp", "tn", "auc", "sigma", "theory_n", "theory_prevalence",
-                   "tpr_min", "tnr_min", "npv_min", "fnr_max", "fdr_max", "fpr_max", "ppv_min", "alert_rate_max", "max_alerts", "max_alert_rate", "cost_fn", "cost_fp", "cost_tp", "cost_tn", "confidence_level", "bootstrap_replicates", "bootstrap_seed")) {
+                   "tpr_min", "tnr_min", "npv_min", "fnr_max", "fdr_max", "fpr_max", "ppv_min", "alert_rate_max", "max_alerts", "max_alert_rate", "cost_fn", "cost_fp", "cost_tp", "cost_tn", "confidence_level", "bootstrap_replicates", "bootstrap_seed", "calibration_bins", "partial_auc_low", "partial_auc_high")) {
         value <- input[[nm]]
         if (is.null(value) || !nzchar(trimws(value))) next
         numeric <- tryCatch(.ig_workbench_parse_number(value, custom_input_language), error = function(e) NULL)
@@ -92,6 +94,13 @@
         shown <- .ig_format_double(numeric)
         if (lang == "de") shown <- sub(".", ",", shown, fixed = TRUE)
         shiny::updateTextInput(session, nm, value = shown)
+      }
+      thresholds <- tryCatch(.ig_classifier_probability_thresholds(input$threshold_probability,
+        custom_input_language), error = function(e) NULL)
+      if (!is.null(thresholds)) {
+        shown <- vapply(thresholds, .ig_format_double, "")
+        if (lang == "de") shown <- sub(".", ",", shown, fixed = TRUE)
+        shiny::updateTextInput(session, "threshold_probability", value = paste(shown, collapse = "; "))
       }
       custom_input_language <<- lang
     }, ignoreInit = TRUE)
@@ -127,11 +136,17 @@
         spec <- update(spec, prevalence = .ig_workbench_parse_number(input$prevalence, language()))
       update(spec,uncertainty=.ig_classifier_uncertainty_input(input,language()))
     })
+    evaluation_settings <- shiny::reactive(.ig_classifier_evaluation_settings(input, language()))
+    evaluation_current <- shiny::reactive({
+      s <- tryCatch(candidate(), error = function(e) NULL)
+      settings <- tryCatch(evaluation_settings(), error = function(e) NULL)
+      !is.null(settings) && .ig_classifier_evaluation_current(s, result(), settings)
+    })
     shiny::observeEvent(input$evaluate, {
       tryCatch({
         example <- if (custom()) list(description = "User-provided inputs / Eigene Eingaben") else classification_examples(input$example)
         spec <- candidate()
-        value <- evaluate_cutoff(spec)
+        value <- do.call(evaluate_cutoff, c(list(spec = spec), evaluation_settings()))
         result(value)
         description(example$description)
         message(if (input$example %in% c("counts_fixed", "custom_counts")) {
@@ -203,7 +218,7 @@
       pd
     })
     output$curve_container <- shiny::renderUI({
-      height <- 420
+      height <- 620
       if (identical(input$curve_panel, "metric_network")) {
         pd <- curve_data()
         focus <- input$metric_focus %||% "ppv"
@@ -215,12 +230,13 @@
     output$curve <- shiny::renderPlot({
       pd <- curve_data()
       if (pd$panel %in% c("current_table", "sweep_table")) return(NULL)
-      plot_classification(result(), pd$panel, selected_model(), basis = pd$basis, lang = language(),
+      plot <- plot_classification(result(), pd$panel, selected_model(), basis = pd$basis, lang = language(),
                           mosaic_mode = input$mosaic_mode %||% "joint",
                           metric_family = input$metric_family %||% "within_truth",
                           metric_x = input$metric_x %||% "fpr", metric_y = input$metric_y %||% "tpr",
                           log_x = isTRUE(input$log_x), log_y = isTRUE(input$log_y), metric_focus = input$metric_focus %||% "ppv",
                           interval_method=if(pd$panel %in% c("roc","pr") && !is.null(input$interval_overlay) && input$interval_overlay!="none") input$interval_overlay else NULL)
+      .ig_workbench_plot_labels(plot,session$clientData[[paste0("output_",session$ns("curve"),"_width")]])
     }, res = 110)
     output$data_selector <- shiny::renderUI({
       pd <- curve_data()
@@ -244,8 +260,7 @@
     output$primary_table <- shiny::renderTable(displayed_table())
     output$message <- shiny::renderText({
       if (!is.null(result())) {
-        hash <- tryCatch(candidate()$spec_hash, error = function(e) NULL)
-        if (!identical(hash, result()$spec_hash)) return(paste(message(), if (language() == "de")
+        if (!evaluation_current()) return(paste(message(), if (language() == "de")
           "Entwurf ge\u00e4ndert; angezeigt wird die vorherige Auswertung." else
           "Draft changed; the previous evaluation remains displayed."))
       }
@@ -281,10 +296,7 @@
     },digits=6)
     report_module <- .ig_report_server("report", shiny::reactive({
       analysis_envelope(candidate(), result())
-    }), language, eligible = shiny::reactive({
-      s <- tryCatch(candidate(), error = function(e) NULL)
-      !is.null(s) && !is.null(result()) && identical(s$spec_hash, result()$spec_hash)
-    }))
+    }), language, eligible = evaluation_current)
     list(result = shiny::reactive(result()), report = report_module)
   })
 }

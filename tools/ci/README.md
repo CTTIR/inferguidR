@@ -3,14 +3,22 @@
 `R-CMD-check.yaml` checks Linux release/devel, Windows release and macOS release
 with all declared suggested packages required. A source-build job creates one
 archive with a SHA-256 manifest and source commit. Every platform downloads and
-verifies that same archive before checking it. Each full-check job retains its
-logs, installs the checked archive, and runs
-`tools/validation/check-public.R` against the installed package. A failure in the
-public checker fails the job. Numerical libraries use one thread and package
-tests use at most two workers.
+verifies that same archive before checking it. Before distribution,
+`tools/release/audit-source.py` checks the archive's inventory and distribution
+hygiene; its receipt is retained even on failure. Each full-check job retains
+its logs, installs the checked archive, and runs `tools/validation/check-public.R`,
+`tools/validation/check-numerics.R`, `tools/validation/check-coverage.R`,
+`tools/product/check-bootstrap.R` and `tools/release/check-package.R` against the
+installed package. The method campaign samples every registered numerical
+method; it does not exhaust every input or option combination. The bootstrap
+campaign checks bounded classifier resamples against independent calculations.
+A failure in any checker fails the job. Their result directories remain under
+`check/` for the always-run evidence upload. Numerical libraries
+use one thread and package tests use at most two workers.
 
-The public checker receives the verified archive SHA-256 through
-`INFERGUIDR_SOURCE_SHA256`. Its exact-rational oracle uses Python 3.12 installed
+The checkers receive the verified archive SHA-256 and commit through
+`INFERGUIDR_SOURCE_SHA256` and `INFERGUIDR_SOURCE_COMMIT`. The public checker's
+exact-rational oracle uses Python 3.12 installed
 by the pinned setup action; `PYTHON` points to that interpreter explicitly,
 including on Windows.
 
@@ -27,9 +35,14 @@ They are regression and packaging evidence, not CRAN acceptance or complete
 G*Power agreement. Platform jobs share one immutable source archive; their
 interpreter and dependency environments are recorded separately in check logs.
 
-The separate minimum-R job uses exactly R 4.1.0 and only the required `digest`
-and `jsonlite` packages. It verifies and installs the same source archive as the
-full-check jobs, then exercises the core API. For a local source installation:
+The separate minimum-R job uses exactly R 4.1.0. Its dependency installer creates
+a fresh library containing only `digest` and `jsonlite`, and hides ordinary site
+and user libraries from subsequent R processes. It verifies and installs the
+same source archive as the full-check jobs, exercises the core API, then runs
+the installed release preflight with `--minimal`. That preflight requires its
+selected optional packages to be absent and checks portable report exports and
+typed refusals for unavailable display functions. Recommended packages shipped
+with R remain available. For a local source installation:
 
 ```sh
 R CMD INSTALL .

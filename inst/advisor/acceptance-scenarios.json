@@ -1,6 +1,6 @@
 {
  "schema_version": "inferguidR.advisor-acceptance/0.1.0",
- "rules_version": "2026-10-26.1",
+ "rules_version": "2026-10-26.2",
  "created_date": "2026-10-03",
  "status": "provisional",
  "note": "Encodes every acceptance scenario of DIGITAL_ADVISOR.md as an answer sequence plus expected outcome, for testthat tests in phase 12A. Operations: change_answer (backtracking), override, language, save_restore, code_export, deep_link, planning_action. test_level 'engine' can be checked against rules.json alone; 'engine_and_ui' additionally needs the Shiny modules or templates (pending); 'static' checks the rule file itself. Review 2026-10-03.2: AS06 and AS23 answer q.records_per_individual; AS01d also checks the Brunner-Munzel alternative and the assumption a.rank_null_identical (expected key assumption_ids_include: every listed id is among the outcome's assumption ids); AS25-AS29 added. Rules 2026-10-05.1 (Boschloo variant settings and tie assumption text, decision D12) change no routing, so every scenario is unchanged; rules_version updated to match.",
@@ -407,11 +407,12 @@
     "outcome_id": "out.two_group.boschloo_central",
     "status": "recommended",
     "analysis_variant_id": "boschloo_two_sided_central",
-    "planning_compatibility": "not_yet_validated",
+    "planning_compatibility": "independently_validated_extension",
     "alternatives_include": [
      "boschloo_two_sided_minlike",
      "fisher_exact_2x2"
-    ]
+    ],
+    "planning_availability": "available"
    }
   },
   {

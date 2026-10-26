@@ -361,11 +361,12 @@ print.boschloo_control <- function(x, ...) {
 #' randomisation, Berger-Boos confidence-set restrictions and non-zero null
 #' margins are not part of any variant.
 #'
-#' @return A data frame with one row per variant: `variant` (the value of the
-#'   `variant` argument), `variant_id`, `advisor_variant_id`, `alternative`,
-#'   `label`, `ordering_statistic`, `construction`, `exact_call`,
-#'   `exact2x2_call`, `validation_status`, `planning_compatibility`,
-#'   `gpower_relation` and `gpower_classification_status`.
+#' @return A data frame with one row per variant and these columns:
+#' * `variant`, `variant_id`, `advisor_variant_id`: variant identifiers.
+#' * `alternative`, `label`, `ordering_statistic`, `construction`: test definition.
+#' * `exact_call`, `exact2x2_call`: comparator calls.
+#' * `validation_status`, `planning_compatibility`: evidence status.
+#' * `gpower_relation`, `gpower_classification_status`: reference relationship.
 #' @examples
 #' boschloo_variants()[, c("variant", "variant_id", "alternative")]
 #' @family Boschloo

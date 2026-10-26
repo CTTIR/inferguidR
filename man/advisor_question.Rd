@@ -35,6 +35,7 @@ q$options[[length(q$options)]]$explanation
 Other advisor:
 \code{\link[=advisor_answer]{advisor_answer()}},
 \code{\link[=advisor_override]{advisor_override()}},
+\code{\link[=advisor_power_spec]{advisor_power_spec()}},
 \code{\link[=advisor_r_code]{advisor_r_code()}},
 \code{\link[=advisor_recommendation]{advisor_recommendation()}},
 \code{\link[=advisor_replay]{advisor_replay()}},

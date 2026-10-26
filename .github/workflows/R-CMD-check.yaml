@@ -31,6 +31,10 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        id: python
+        with:
+          python-version: '3.12'
       - uses: r-lib/actions/setup-pandoc@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
       - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
         with:
@@ -50,6 +54,24 @@ jobs:
           writeLines(paste(digest::digest(file = archive, algo = "sha256"), basename(archive)),
                      file.path(bundle, "SOURCE-SHA256.txt"))
           writeLines(Sys.getenv("GITHUB_SHA"), file.path(bundle, "SOURCE-COMMIT.txt"))
+      - name: Audit the source archive before distribution
+        env:
+          PYTHON: ${{ steps.python.outputs.python-path }}
+        shell: Rscript {0}
+        run: |
+          archive <- list.files(file.path(Sys.getenv("RUNNER_TEMP"), "source-candidate"),
+                                pattern = "^inferguidR_.*[.]tar[.]gz$", full.names = TRUE)
+          stopifnot(length(archive) == 1L)
+          status <- system2(Sys.getenv("PYTHON"), c("tools/release/audit-source.py",
+                            shQuote(archive), "source-audit"))
+          stopifnot(status == 0L)
+      - name: Retain source audit evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-audit
+          path: source-audit/
+          if-no-files-found: ignore
       - name: Retain the immutable source candidate
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
@@ -122,6 +144,14 @@ jobs:
         env:
           PYTHON: ${{ steps.python.outputs.python-path }}
         run: Rscript tools/validation/check-public.R check/public-validation
+      - name: Run independent numerical checks on the installed candidate
+        run: Rscript --vanilla tools/validation/check-numerics.R check/numerical-validation
+      - name: Check every registered numerical method on the installed candidate
+        run: Rscript --vanilla tools/validation/check-coverage.R check/method-coverage
+      - name: Check bounded classifier bootstrap calculations
+        run: Rscript --vanilla tools/product/check-bootstrap.R check/bootstrap-validation
+      - name: Check installed APIs, startup and reports
+        run: Rscript --vanilla tools/release/check-package.R check/release-preflight
       - name: Retain candidate and validation evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -148,11 +178,8 @@ jobs:
         with:
           name: source-candidate
           path: source/
-      - name: Install core dependencies
-        shell: Rscript {0}
-        run: |
-          stopifnot(getRversion() == "4.1.0")
-          install.packages(c("digest", "jsonlite"))
+      - name: Install core dependencies in an isolated library
+        run: Rscript --vanilla tools/ci/install-minimal-dependencies.R
       - name: Install the source candidate
         run: Rscript tools/ci/install-candidate.R source minimum-r-install.log
       - name: Verify candidate library in a fresh R process
@@ -165,6 +192,8 @@ jobs:
           stopifnot(identical(actual, expected))
       - name: Exercise installed core interfaces
         run: Rscript tools/ci/minimum-r-smoke.R minimum-r-results
+      - name: Verify optional-package absence and portable reports
+        run: Rscript --vanilla tools/release/check-package.R minimum-r-preflight --minimal
       - name: Retain minimum-R evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -172,6 +201,7 @@ jobs:
           name: minimum-r-4.1.0-core
           path: |
             minimum-r-results/
+            minimum-r-preflight/
             minimum-r-install.log
             minimum-r-install.log.json
             source/SOURCE-SHA256.txt

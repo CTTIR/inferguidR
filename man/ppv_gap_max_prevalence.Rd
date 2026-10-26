@@ -37,33 +37,10 @@ minimiser (\code{not_applicable}, \code{tpr_below_fpr}).
 ppv_gap_max_prevalence(tpr = c(0.8, 0.5, 0.3, 0.6), fpr = c(0.1, 0.5, 0.4, 0))
 }
 \seealso{
-Other classification:
-\code{\link[=attach_classification_data]{attach_classification_data()}},
-\code{\link[=binormal_model]{binormal_model()}},
-\code{\link[=binormal_rates]{binormal_rates()}},
-\code{\link[=calibration_summary]{calibration_summary()}},
-\code{\link[=classification_auc]{classification_auc()}},
-\code{\link[=classification_evaluated_spec]{classification_evaluated_spec()}},
-\code{\link[=classification_examples]{classification_examples()}},
-\code{\link[=classification_metrics]{classification_metrics()}},
-\code{\link[=classification_plot_data]{classification_plot_data()}},
-\code{\link[=classification_spec]{classification_spec()}},
-\code{\link[=classification_table]{classification_table()}},
-\code{\link[=classification_uncertainty]{classification_uncertainty()}},
-\code{\link[=classifier_model]{classifier_model()}},
-\code{\link[=compare_classifiers]{compare_classifiers()}},
-\code{\link[=cutoff_rule]{cutoff_rule()}},
-\code{\link[=cutoff_sweep]{cutoff_sweep()}},
-\code{\link[=evaluate_cutoff]{evaluate_cutoff()}},
-\code{\link[=format_metric_values]{format_metric_values()}},
-\code{\link[=metric_dictionary]{metric_dictionary()}},
-\code{\link[=net_benefit]{net_benefit()}},
-\code{\link[=plot_classification]{plot_classification()}},
-\code{\link[=pr_summary]{pr_summary()}},
-\code{\link[=predictive_values_at_prevalence]{predictive_values_at_prevalence()}},
-\code{\link[=prevalence_for_ppv_target]{prevalence_for_ppv_target()}},
-\code{\link[=prevalence_scenario]{prevalence_scenario()}},
-\code{\link[=select_cutoff]{select_cutoff()}},
-\code{\link[=update.classification_spec]{update.classification_spec()}}
+\itemize{
+\item \code{\link[=classification_spec]{classification_spec()}}
+\item \code{\link[=evaluate_cutoff]{evaluate_cutoff()}}
+\item \code{\link[=plot_classification]{plot_classification()}}
+}
 }
 \concept{classification}

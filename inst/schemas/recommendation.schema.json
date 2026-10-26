@@ -118,7 +118,7 @@
         },
         "planning_availability": {
           "enum": [
-            "planned_with_gpower_reference_candidate", "planned_independent_validation",
+            "available", "planned_with_gpower_reference_candidate", "planned_independent_validation",
             "simulation_only_if_implemented", "unavailable", "not_applicable"
           ]
         },

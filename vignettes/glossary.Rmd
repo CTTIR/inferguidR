@@ -1,0 +1,82 @@
+---
+title: "Statistical glossary / Statistisches Glossar"
+author: "Raban Heller"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Statistical glossary / Statistisches Glossar}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(inferguidR)
+```
+
+The same numerical result must have the same meaning in either interface
+language. These definitions explain distinctions used by the planner,
+classifier and advisor. Method-specific assumptions still apply.
+
+Dasselbe numerische Ergebnis muss in beiden Oberflächensprachen dieselbe
+Bedeutung haben. Die Definitionen erläutern Begriffe aus Studienplanung,
+Klassifikation und Methodenberatung. Methodenspezifische Annahmen gelten weiter.
+
+## Inference and study design / Inferenz und Studienplanung
+
+| Term / Begriff | English | Deutsch |
+|---|---|---|
+| Estimand / Zielgröße | The population quantity a study aims to estimate, defined before choosing an estimator or test. | Die Populationsgröße, die eine Studie schätzen soll; sie wird vor dem Schätzer oder Test festgelegt. |
+| Effect size / Effektgröße | A numerical contrast on a stated scale. A standardized effect also depends on its chosen denominator. | Ein numerischer Unterschied auf einer angegebenen Skala. Ein standardisierter Effekt hängt zusätzlich vom gewählten Nenner ab. |
+| Null hypothesis / Nullhypothese | The parameter values or distributions against which a test controls its rejection probability. | Die Parameterwerte oder Verteilungen, gegenüber denen ein Test seine Ablehnungswahrscheinlichkeit kontrolliert. |
+| p-value / p-Wert | Under the stated null model, the probability of a statistic at least as extreme according to the chosen ordering. It is not the probability that the null hypothesis is true. | Unter dem angegebenen Nullmodell die Wahrscheinlichkeit eines gemäß der gewählten Ordnung mindestens so extremen Testwerts. Er ist nicht die Wahrscheinlichkeit, dass die Nullhypothese wahr ist. |
+| Nominal alpha / Nominales Alpha | The requested significance level. A discrete rejection region can attain a smaller null rejection probability. | Das vorgegebene Signifikanzniveau. Ein diskreter Ablehnungsbereich kann eine kleinere Ablehnungswahrscheinlichkeit unter der Nullhypothese erreichen. |
+| Attained size / Tatsächliches Testniveau | The null rejection probability, or its supremum over nuisance parameters for a composite null. Numerical bounds require their own interpretation. | Die Ablehnungswahrscheinlichkeit unter der Nullhypothese beziehungsweise ihr Supremum über Störparameter bei einer zusammengesetzten Nullhypothese. Numerische Schranken sind gesondert zu interpretieren. |
+| Power / Teststärke | The rejection probability at a specified alternative, design and decision rule. It changes when these assumptions change. | Die Ablehnungswahrscheinlichkeit bei einer festgelegten Alternative, einem Design und einer Entscheidungsregel. Sie ändert sich mit diesen Annahmen. |
+| Beta / Fehler zweiter Art | The non-rejection probability at the stated alternative: one minus power. | Die Wahrscheinlichkeit, bei der angegebenen Alternative nicht abzulehnen: eins minus Teststärke. |
+| Error ratio / Fehlerverhältnis | A ratio of beta to a specified alpha quantity. Nominal and attained alpha are different contracts; discrete tests may not achieve an exact requested ratio. | Das Verhältnis von Beta zu einer festgelegten Alpha-Größe. Nominales und tatsächliches Alpha ergeben unterschiedliche Zielbedingungen; diskrete Tests können ein verlangtes Verhältnis unter Umständen nicht exakt erreichen. |
+| Confidence interval / Konfidenzintervall | An interval-producing procedure whose coverage is defined over repeated data sets under its assumptions. Nominal coverage need not equal actual finite-sample coverage. | Ein Verfahren zur Intervallbildung, dessen Überdeckungswahrscheinlichkeit über wiederholte Datensätze unter seinen Annahmen definiert ist. Nominale und tatsächliche Überdeckung bei endlichem Stichprobenumfang können abweichen. |
+| Nuisance parameter / Störparameter | A model parameter needed for the sampling distribution but not the primary target of inference. | Ein für die Stichprobenverteilung benötigter Modellparameter, der nicht die primäre Zielgröße der Inferenz ist. |
+| Exact test / Exakter Test | Uses a finite-sample distribution under stated assumptions. Numerical optimization and discrete conventions still need checking; exact does not mean assumption-free. | Verwendet eine Verteilung für endliche Stichproben unter festgelegten Annahmen. Numerische Optimierung und diskrete Konventionen müssen dennoch geprüft werden; exakt bedeutet nicht voraussetzungsfrei. |
+| Tetrachoric correlation / Tetrachorische Korrelation | A correlation between latent normal variables whose thresholding produces two observed binary variables. Its interpretation depends on the latent-normal model. | Eine Korrelation latenter normalverteilter Variablen, deren Schwellenbildung zwei beobachtete binäre Variablen erzeugt. Die Interpretation hängt vom latent-normalen Modell ab. |
+
+## Classifiers and validation / Klassifikatoren und Validierung
+
+| Term / Begriff | English | Deutsch |
+|---|---|---|
+| Sensitivity / Sensitivität | The probability of a positive classifier decision conditional on the positive truth class. | Die Wahrscheinlichkeit einer positiven Klassifikatorentscheidung, bedingt auf die positive Wahrheitsklasse. |
+| Specificity / Spezifität | The probability of a negative decision conditional on the negative truth class. | Die Wahrscheinlichkeit einer negativen Entscheidung, bedingt auf die negative Wahrheitsklasse. |
+| Positive predictive value / Positiver Vorhersagewert | The positive-class probability among positive decisions. It depends on prevalence as well as class-conditional performance. | Die Wahrscheinlichkeit der positiven Klasse unter den positiven Entscheidungen. Sie hängt sowohl von der Prävalenz als auch von der klassenbedingten Leistung ab. |
+| Prevalence scenario / Prävalenzszenario | A calculation at an explicitly supplied prevalence, holding class-conditional rates fixed. It is a modelled scenario, not newly observed data. | Eine Berechnung bei einer ausdrücklich vorgegebenen Prävalenz und konstant gehaltenen klassenbedingten Raten. Sie ist ein modelliertes Szenario und keine neue Beobachtung. |
+| ROC AUC / ROC-AUC | For oriented scores, the probability that a randomly chosen positive case scores above a negative case, counting ties by one half. It summarizes ranking, not probability calibration. | Bei entsprechend gerichteten Scores die Wahrscheinlichkeit, dass ein zufälliger positiver Fall einen höheren Score als ein negativer Fall erhält; Gleichstände zählen zur Hälfte. Sie beschreibt Rangordnung, nicht die Kalibrierung von Wahrscheinlichkeiten. |
+| Partial AUC / Partielle AUC | Area over a specified part of the ROC domain. State the domain, interpolation rule and any normalization before comparing values. | Fläche über einem festgelegten Teil des ROC-Bereichs. Vor einem Vergleich sind Bereich, Interpolationsregel und mögliche Normierung anzugeben. |
+| Calibration / Kalibrierung | Agreement between predicted probabilities and observed event frequencies. Binned displays depend on bin definitions and sample size. | Übereinstimmung vorhergesagter Wahrscheinlichkeiten mit beobachteten Ereignishäufigkeiten. Gruppierte Darstellungen hängen von Gruppengrenzen und Stichprobenumfang ab. |
+| Net benefit / Nettonutzen | At threshold probability 0 < t < 1, TP/n minus FP/n times t/(1-t). Its interpretation requires an explicit decision threshold and the associated trade-off. | Bei der Schwellenwahrscheinlichkeit 0 < t < 1: TP/n minus FP/n mal t/(1-t). Die Interpretation setzt eine explizite Entscheidungsschwelle und die zugehörige Gewichtung voraus. |
+| Fixed cutoff / Fester Schwellenwert | A cutoff fixed independently of the evaluation outcomes. Re-selecting it on evaluation data changes the uncertainty problem. | Ein unabhängig von den Auswertungsergebnissen festgelegter Schwellenwert. Eine erneute Auswahl anhand der Auswertungsdaten verändert die Unsicherheitsfrage. |
+| Bootstrap percentile interval / Bootstrap-Perzentilintervall | Quantiles of a stated resampling distribution. The sampling unit, stratification, fixed or retuned cutoff and failed replicates must be specified. It does not guarantee nominal coverage in every finite sample. | Quantile einer angegebenen Resampling-Verteilung. Stichprobeneinheit, Schichtung, fester oder erneut optimierter Schwellenwert und fehlgeschlagene Wiederholungen müssen festgelegt sein. Nominale Überdeckung ist nicht in jeder endlichen Stichprobe garantiert. |
+| Numerical bound / Numerische Schranke | A bound describing numerical computation error. It is not a sampling confidence interval. | Eine Schranke für numerischen Berechnungsfehler. Sie ist kein Konfidenzintervall für Stichprobenunsicherheit. |
+
+## One set of counts, two languages / Ein Datensatz, zwei Sprachen
+
+The following synthetic counts give sensitivity 8/10, specificity 9/10 and
+positive predictive value 8/9. No prevalence transport or threshold selection
+is implied.
+
+Die folgenden synthetischen Häufigkeiten ergeben Sensitivität 8/10,
+Spezifität 9/10 und positiven Vorhersagewert 8/9. Eine Übertragung auf andere
+Prävalenzen oder eine Schwellenwertauswahl wird damit nicht unterstellt.
+
+```{r arithmetic}
+result <- evaluate_cutoff(classification_spec(counts = c(tp = 8, fn = 2, fp = 1, tn = 9)))
+metrics <- classification_table(result, "metrics")
+metrics[metrics$metric_id %in% c("tpr", "tnr", "ppv"), c("metric_id", "value", "status")]
+stopifnot(
+  abs(metrics$value[metrics$metric_id == "tpr"] - 8/10) < 1e-14,
+  abs(metrics$value[metrics$metric_id == "tnr"] - 9/10) < 1e-14,
+  abs(metrics$value[metrics$metric_id == "ppv"] - 8/9) < 1e-14
+)
+```
+
+See the [classification guide](classification.html) for the data contracts and
+the [validation guide](validation.html) for the scope of available evidence.
+Die [Klassifikationsanleitung](classification.html) erläutert die Datenverträge;
+die [Validierungsanleitung](validation.html) beschreibt die verfügbare Evidenz.

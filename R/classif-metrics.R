@@ -94,7 +94,11 @@
 #' @examples
 #' d <- metric_dictionary()
 #' d[d$id %in% c("ppv", "lr_pos"), c("id", "formula", "undefined_statuses")]
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 metric_dictionary <- function(lang = c("en", "de"), scope = NULL) {
   lang <- match.arg(lang)
@@ -416,7 +420,11 @@ metric_dictionary <- function(lang = c("en", "de"), scope = NULL) {
 #' # Zero alerts: PPV is undefined, not 1
 #' z <- classification_metrics(c(tp = 0, fn = 5, fp = 0, tn = 95))
 #' z[z$metric_id == "ppv", c("value", "status", "reason")]
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 classification_metrics <- function(x, count_kind = c("observed", "frequency_weighted", "expected"),
                                    lang = c("en", "de")) {
@@ -466,7 +474,11 @@ classification_metrics <- function(x, count_kind = c("observed", "frequency_weig
 #'   and `reason`.
 #' @examples
 #' ppv_gap_max_prevalence(tpr = c(0.8, 0.5, 0.3, 0.6), fpr = c(0.1, 0.5, 0.4, 0))
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 ppv_gap_max_prevalence <- function(tpr, fpr) {
   tpr <- .ig_cls_check_rate(tpr, "tpr")
@@ -496,7 +508,11 @@ ppv_gap_max_prevalence <- function(tpr, fpr) {
 #' @examples
 #' # Worked example: TPR 20 %, FPR 1 %
 #' predictive_values_at_prevalence(0.2, 0.01, c(0.1, 0.2, 0.31))
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 predictive_values_at_prevalence <- function(tpr, fpr, prevalence) {
   tpr <- .ig_cls_check_rate(tpr, "tpr")
@@ -533,7 +549,11 @@ predictive_values_at_prevalence <- function(tpr, fpr, prevalence) {
 #'   `status`, `reason_code` and `reason`.
 #' @examples
 #' prevalence_for_ppv_target(tpr = c(0.2, 0.04, 0), fpr = c(0.01, 0.10, 0.1), target = 0.9)
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 prevalence_for_ppv_target <- function(tpr, fpr, target) {
   tpr <- .ig_cls_check_rate(tpr, "tpr")

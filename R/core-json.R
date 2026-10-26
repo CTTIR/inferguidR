@@ -76,9 +76,7 @@
     x <- enc2utf8(x)
     # Printable ASCII needs no escaping except quotes, backslashes and HTML
     # closing-tag prefixes. Keep all other strings on the established encoder.
-    safe <- !is.na(x) & grepl("^[ -~]*$",x,useBytes=TRUE) &
-      !grepl('"',x,fixed=TRUE,useBytes=TRUE) &
-      !grepl("\\",x,fixed=TRUE,useBytes=TRUE) & !grepl("<",x,fixed=TRUE,useBytes=TRUE)
+    safe <- !is.na(x) & !grepl('[^ -~]|["\\\\<]', x, useBytes = TRUE)
     out <- rep("null",length(x))
     if(any(safe)) out[safe] <- paste0('"',x[safe],'"')
     escaped <- which(!is.na(x) & !safe)
@@ -354,7 +352,7 @@ ig_to_json <- function(x, pretty = FALSE) {
 #'   `"power_result"`, `"analysis_envelope"`, `"report_snapshot"`,
 #'   `"recommendation"`).
 #' @param validate Validate against the JSON Schema when possible. Defaults
-#'   to the option `inferguidR.validate_json_schema`.
+#'   to the JSON-schema validation option described in [ig_config()].
 #' @return The rebuilt object. Errors are conditions of class
 #'   `inferguidR_invalid_input` carrying an [ig_status()] in `$status`.
 #' @examples
@@ -398,7 +396,7 @@ ig_from_json <- function(json = NULL, file = NULL, type = NULL,
               sprintf("expected a %s but the document is a %s", type, object_type))
   }
   info <- .ig_object_types()[[object_type]]
-  if (!identical(parsed$schema_version, info$schema_version) && !(identical(object_type,"report_document") && parsed$schema_version %in% c("inferguidR.report_document/0.2.0","inferguidR.report_document/0.3.0"))) {
+  if (!identical(parsed$schema_version, info$schema_version) && !(identical(object_type,"report_document") && parsed$schema_version %in% c("inferguidR.report_document/0.2.0","inferguidR.report_document/0.3.0","inferguidR.report_document/0.4.0"))) {
     .ig_abort("invalid_input",
               sprintf("unsupported schema_version '%s' for %s; this version of inferguidR reads '%s'",
                       paste(format(parsed$schema_version), collapse = ""),

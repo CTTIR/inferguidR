@@ -1,4 +1,25 @@
 .glm_env<-function(kind){e<-new.env(parent=baseenv());e$alternative<-'two.sided';e$confidence_level<-.95;invisible(capture.output(sys.source(system.file("advisor","templates",paste0("tpl.regression_",kind,".v1.R"),package="inferguidR"),e)));e}
+test_that('finite log-scale regression fits do not report overflowing or underflowing ratios',{
+ for(kind in c('logistic_binary','poisson','negative_binomial')) {
+  e<-.glm_env(kind);d<-e$example_data
+  base<-e$analyse(d,c('x1','x2'),TRUE)
+  expect_identical(base$status,'ok')
+  expect_true(all(is.na(base$coefficient_table[1,c('ratio','ratio_lower','ratio_upper')])))
+  expect_true(is.finite(base$coefficient_table$estimate[1]))
+  for(direction in c(-1,1)) {
+   tiny<-d;tiny$x1<-d$x1*direction*1e-9
+   r<-e$analyse(tiny,c('x1','x2'),TRUE)
+   expect_identical(r$status,'not_applicable')
+   expect_match(r$reason,'outside the numerical range',fixed=TRUE)
+   expect_null(r$p_value);expect_null(r$coefficient_table)
+  }
+  rescaled<-d;rescaled$x1<-d$x1*10
+  r<-e$analyse(rescaled,c('x1','x2'),TRUE)
+  expect_identical(r$status,'ok')
+  expect_equal(r$coefficient_table$estimate[2],base$coefficient_table$estimate[2]/10,tolerance=1e-9)
+  expect_equal(r$p_value,base$p_value,tolerance=1e-9)
+ }
+})
 test_that('GLM coefficients and likelihood tests agree with independent 70-digit references',{
  refs<-jsonlite::read_json(test_path("fixtures","glm-oracle.json"))$cases
  for(ref in refs){

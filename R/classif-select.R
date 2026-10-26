@@ -485,7 +485,11 @@
 #' th <- classification_spec(theory = list(auc = 0.8, sigma = 1.5), cutoff = 0, prevalence = 0.1)
 #' select_cutoff(th, "max_youden")$models[[1]]$operating_point$cutoff
 #' @seealso [evaluate_cutoff()], [cutoff_rule()]
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 select_cutoff <- function(spec, objective = NULL, constraints = NULL, optimise = NULL,
                           capacity = NULL, costs = NULL, tie_break = NULL,

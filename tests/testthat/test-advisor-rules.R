@@ -100,9 +100,9 @@ test_that("the bundled rule set loads with its versions and provenance", {
   expect_s3_class(rs, "advisor_rules")
   v <- rs$versions
   expect_identical(v$rules_id, "advisor_rules")
-  expect_identical(v$rules_version, "2026-10-26.1")
+  expect_identical(v$rules_version, "2026-10-26.2")
   expect_identical(v$uzh_tree_version, "2026-10-03.1")
-  expect_identical(v$analysis_variants_version, "2026-10-13.1")
+  expect_identical(v$analysis_variants_version, "2026-10-26.1")
   expect_match(v$descrtab2_tree_version, "2026-10-03")
   expect_match(v$learning_resources_version, "^sha256:[0-9a-f]{64}$")
   expect_named(v$data_sha256, c("rules", "analysis_variants", "uzh_tree", "descrtab2_tree",
@@ -202,8 +202,9 @@ test_that("every enumerated outcome-status combination gives a consistent recomm
     expect_identical(s$state$outcome_id, parts[1], info = combo)
     rec <- advisor_recommendation(s)
     expect_identical(rec$status, parts[2], info = combo)
-    expect_false(rec$planning$planning_compatibility %in%
-                   c("exact_gpower_match", "independently_validated_extension"), info = combo)
+    expect_false(rec$planning$planning_compatibility == "exact_gpower_match", info = combo)
+    if (rec$planning$planning_compatibility == "independently_validated_extension")
+      expect_true(parts[1] %in% c("out.two_group.boschloo_central", "out.two_group.boschloo_one_sided"), info = combo)
     expect_length(rec$planning$spec_refs, 0L)
     expect_true(nzchar(rec$rationale$en) && nzchar(rec$rationale$de), info = combo)
     o <- rs$outcomes[[parts[1]]]
@@ -269,7 +270,9 @@ test_that("every question and outcome has English and German texts", {
 test_that("no outcome claims exact_gpower_match or an unvalidated extension", {
   rs <- advisor_rules()
   compat <- vapply(rs$outcomes, function(o) o$planning$planning_compatibility, "")
-  expect_false(any(compat %in% c("exact_gpower_match", "independently_validated_extension")))
+  expect_false(any(compat == "exact_gpower_match"))
+  expect_setequal(names(compat)[compat == "independently_validated_extension"],
+    c("out.two_group.boschloo_central", "out.two_group.boschloo_one_sided"))
   expect_true(all(compat %in% .ig_recommendation_vocab$planning_compatibility))
   avail <- vapply(rs$outcomes, function(o) o$planning$planning_availability, "")
   expect_true(all(avail %in% .ig_recommendation_vocab$planning_availability))

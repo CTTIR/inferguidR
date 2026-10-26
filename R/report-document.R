@@ -1,5 +1,6 @@
 # Portable reports contain explicit aggregates, never attached classifier rows.
 .ig_report_plain <- function(x) {
+  if (is.null(x)) return(NULL)
   if (is.data.frame(x)) return(lapply(seq_len(nrow(x)), function(i) .ig_report_plain(as.list(x[i, , drop = FALSE]))))
   if (is.list(x)) return(lapply(x, .ig_report_plain))
   if (is.numeric(x)) {
@@ -33,6 +34,11 @@
 #' undefined denominators remain unavailable. Prevalence-scenario precision is
 #' labelled separately and is not a new observed measurement. These selected
 #' points do not reconstruct full curves or imply an AUC from one cutoff.
+#' Completed Boschloo power reports retain the full possible-table lattice
+#' when it fits the 5000-table display limit, separately for H0 and H1.
+#' The frozen rejection set is checked against the result's region hash;
+#' import and rendering do not rerun the region solver. Lattice reports use
+#' schema 0.4 and retain an explicit unavailable display above the limit.
 #' Original private scored data must be reattached for recomputation.
 #' User-supplied titles and metadata are included as literal text.
 #' Observed Boschloo reports retain independent-group counts and numerical
@@ -52,12 +58,21 @@
 #' @param display_timezone Display timezone recorded with the UTC timestamp.
 #' @param sweeps Optional list of entries with analysis (one-based envelope index) and sweep (a sweep_design() result). At most20sweeps and1000rows per sweep are retained; requested values must be finite. Each sweep must match its completed frozen base. Failed rows require report_kind = "incomplete_settings". Specifications, results, failures and individually evaluated points are retained without interpolation. Documents with sweeps use schema0.2; existing schema0.1 documents remain readable.
 #' @param resources Optional list of entries with analysis (one-based index) and resource_id. Currently inferguidR_boschloo_minlike is available only for the exact minlike observed test or power variant. Frozen titles, scope, file hashes and source references use a versioned bundled catalog. No resource code is executed and no website is requested. Attached resources use report schema0.3.
+#' @param include_probability_summaries Logical, FALSE by default. Explicitly
+#'   include frozen calibration-bin counts and means, and aggregates at the
+#'   explicitly requested net-benefit thresholds, with point figures. Small
+#'   groups may disclose sensitive information; review before sharing. No
+#'   individual rows, score ranges, full ROC/PR curves or density tables are
+#'   included. Opted-in documents use schema 0.4; older documents remain readable.
 #' @return A report_document inheriting from report_snapshot, suitable for
 #'   export_report() and safe ig_to_json()/ig_from_json() round trips.
 #' @export
 create_report_snapshot <- function(envelopes, recommendation = NULL,
                                    report_kind = "single_analysis", title = NULL,
-                                   locale = "en", display_timezone = "UTC", sweeps = list(), resources = list()) {
+                                   locale = "en", display_timezone = "UTC", sweeps = list(), resources = list(),
+                                   include_probability_summaries = FALSE) {
+  if (!is.logical(include_probability_summaries) || length(include_probability_summaries) != 1L ||
+      is.na(include_probability_summaries)) .ig_abort("invalid_input", "include_probability_summaries must be TRUE or FALSE")
   if (inherits(envelopes, "analysis_envelope")) envelopes <- list(envelopes)
   if (!is.list(envelopes) || !length(envelopes) ||
       !all(vapply(envelopes, inherits, logical(1), "analysis_envelope")))
@@ -85,7 +100,9 @@ create_report_snapshot <- function(envelopes, recommendation = NULL,
       validation[[i]] <- list(analysis = i, status = "research_preview", reason = "Complete numerical release certification remains pending.", evidence = r$validation)
       reproduction[[i]] <- list(analysis = i, r_code = if (is.null(r)) .ig_spec_call(e$spec) else r$r_call,
         private_data_required = FALSE)
-      if (!is.null(r) && r$status$code == "ok") {
+      if (!is.null(r) && r$status$code == "ok" && identical(r$method_id,.bl_method_id)) {
+        visualisations <- c(visualisations,.ig_report_lattice_figures(r,i,locale))
+      } else if (!is.null(r) && r$status$code == "ok") {
         pd <- power_plot_data(r)
         visualisations[[length(visualisations) + 1L]] <- list(analysis = i, plot_type = "distribution",
           status = pd$status, reason = pd$reason, axes = list(x = "test statistic", y = pd$ordinate),
@@ -147,7 +164,10 @@ create_report_snapshot <- function(envelopes, recommendation = NULL,
   if(!sweeps_complete && report_kind!="incomplete_settings") .ig_abort("invalid_input","Sweeps contain failed rows; use report_kind = incomplete_settings to retain them explicitly.")
   visualisations <- c(visualisations,.ig_report_sweep_figures(portable_sweeps,locale))
   portable_resources <- .ig_report_resources(resources, specs, locale)
-  doc <- list(schema_version = if(length(resources)) "inferguidR.report_document/0.3.0" else if(length(portable_sweeps)) "inferguidR.report_document/0.2.0" else "inferguidR.report_document/0.1.0", object_type = "report_document",
+  probability <- if (include_probability_summaries) .ig_report_probability(envelopes) else list()
+  visualisations <- c(visualisations, .ig_report_probability_figures(probability,locale))
+  new_schema <- include_probability_summaries || any(vapply(visualisations,function(v) identical(v$plot_type,"power_lattice"),TRUE))
+  doc <- list(schema_version = if(new_schema) "inferguidR.report_document/0.4.0" else if(length(resources)) "inferguidR.report_document/0.3.0" else if(length(portable_sweeps)) "inferguidR.report_document/0.2.0" else "inferguidR.report_document/0.1.0", object_type = "report_document",
     snapshot_id = frozen$snapshot_id, analysis_hash = frozen$analysis_hash, created_at = frozen$created_at,
     display_timezone = display_timezone, locale = locale, report_kind = report_kind,
     completeness = if(sweeps_complete) frozen$completeness else "incomplete", title = title,
@@ -159,6 +179,10 @@ create_report_snapshot <- function(envelopes, recommendation = NULL,
     resources = portable_resources,
     privacy = list(raw_rows_included = FALSE, score_curve_tables_included = FALSE,
       note = "Explicit titles, model metadata and selected cutoffs are included. Review these before sharing."))
+  if (new_schema) {
+    doc$probability_summaries <- probability
+    doc$privacy$probability_aggregates_included <- include_probability_summaries
+  }
   doc <- .ig_json_parse(.ig_canonical_json(.ig_report_plain(doc)))
   doc$snapshot_hash <- .ig_hash_value(doc)
   structure(doc, class = c("report_document", "report_snapshot", "ig_frozen"))
@@ -168,12 +192,13 @@ create_report_snapshot <- function(envelopes, recommendation = NULL,
 
 .ig_report_document_from_list <- function(x) {
   if (!identical(x$object_type, "report_document") ||
-      (!.ig_is_string(x$schema_version) || !x$schema_version %in% c("inferguidR.report_document/0.1.0","inferguidR.report_document/0.2.0","inferguidR.report_document/0.3.0")))
+      (!.ig_is_string(x$schema_version) || !x$schema_version %in% c("inferguidR.report_document/0.1.0","inferguidR.report_document/0.2.0","inferguidR.report_document/0.3.0","inferguidR.report_document/0.4.0")))
     .ig_abort("invalid_input", "unsupported report document version")
   required <- c("schema_version", "object_type", "snapshot_id", "snapshot_hash", "analysis_hash",
     "created_at", "display_timezone", "locale", "report_kind", "completeness", "title", "recommendation",
     "specifications", "results", "metrics", "uncertainty", "comparisons", "sweeps", "visualisations",
     "validation", "provenance", "reproducibility", "resources", "privacy")
+  if (identical(x$schema_version,"inferguidR.report_document/0.4.0")) required <- c(required,"probability_summaries")
   if (!setequal(names(x), required) || anyDuplicated(names(x)))
     .ig_abort("invalid_input", "missing or unexpected report fields")
   scan <- function(value) {

@@ -29,5 +29,7 @@
 ^tools/branding$
 ^tools/validation$
 ^tools/ci$
+^tools/release$
+^tools/product$
 ^ROADMAP\.md$
 ^VALIDATION\.md$

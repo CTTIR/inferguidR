@@ -400,7 +400,11 @@
 #' @examples
 #' res <- evaluate_cutoff(classification_spec(counts = c(tp = 40, fn = 10, fp = 20, tn = 130)))
 #' classification_table(res, "intervals")[1:4, c("metric_id", "method", "lower", "upper")]
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 classification_table <- function(x, table = c("metrics", "intervals", "summaries", "operating_point",
                                               "curve", "selection", "bounds", "tied", "scenario",

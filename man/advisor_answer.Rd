@@ -51,6 +51,7 @@ s$invalidated$question_ids
 \seealso{
 Other advisor:
 \code{\link[=advisor_override]{advisor_override()}},
+\code{\link[=advisor_power_spec]{advisor_power_spec()}},
 \code{\link[=advisor_question]{advisor_question()}},
 \code{\link[=advisor_r_code]{advisor_r_code()}},
 \code{\link[=advisor_recommendation]{advisor_recommendation()}},

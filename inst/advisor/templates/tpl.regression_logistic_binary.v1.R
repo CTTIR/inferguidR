@@ -1,5 +1,6 @@
 # Prespecified numeric predictors, independent observations and explicit event/exposure coding.
-# Asymptotic likelihood-ratio omnibus test and marginal Wald coefficient intervals.
+# Asymptotic likelihood-ratio omnibus test and marginal profile-likelihood slope intervals.
+# Marginal Wald coefficient intervals are retained separately on the link scale.
 # No automatic selection, robust/penalized fallback, or causal interpretation.
 analyse <- function(data,predictors,independent_units=FALSE,alternative="two.sided",conf.level=.95,complete_cases=FALSE) {
  stopifnot(isTRUE(independent_units),identical(alternative,"two.sided"),is.data.frame(data),
@@ -78,6 +79,12 @@ analyse <- function(data,predictors,independent_units=FALSE,alternative="two.sid
  tab$wald_lower<-tab$lower;tab$wald_upper<-tab$upper
  tab$lower<-c(NA_real_,profile_limits[1,]);tab$upper<-c(NA_real_,profile_limits[2,])
  tab$ratio[1]<-NA_real_;tab$ratio_lower<-exp(tab$lower);tab$ratio_upper<-exp(tab$upper)
+ # Finite link-scale profile limits that overflow or underflow on exponentiation
+ # are numerical failures, not unbounded confidence intervals.
+ ratios<-as.matrix(tab[-1,c('ratio','ratio_lower','ratio_upper'),drop=FALSE])
+ if(any(!is.finite(profile_limits))||any(!is.finite(lo))||any(!is.finite(hi))||
+    any(!is.finite(ratios))||any(ratios<=0))
+  return(unavailable('Exponentiated slope estimates or finite interval limits are outside the numerical range; rescale the predictor units explicitly.'))
  LR<-null$deviance-f$deviance
  if(LR<0&&abs(LR)<=64*.Machine$double.eps*max(1,null$deviance,f$deviance))LR<-0
  if(!is.finite(LR)||LR<0)return(unavailable('Nested-model likelihood difference is unresolved.'))

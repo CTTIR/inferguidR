@@ -33,6 +33,6 @@ rendered literally; report content is never evaluated as R or markup.
 PDF and TXT begin with a readable summary rounded to six significant
 digits; stored decisions and the technical appendix retain full precision.
 PDF figures precede the appendix and have adjacent captions. Very long
-plot labels may be abbreviated with [...] while full labels remain in
+plot labels may be abbreviated with \verb{[...]} while full labels remain in
 the appendix. PDF text wrapping uses measured font widths.
 }

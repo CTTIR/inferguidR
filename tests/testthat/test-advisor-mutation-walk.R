@@ -188,7 +188,7 @@ test_that("restoring under a different rules version requires an explicit migrat
   expect_s3_class(e, "inferguidR_migration_required")
   expect_s3_class(e, "inferguidR_invalid_input")
   expect_identical(e$status$details$reason_code, "migration_required")
-  expect_identical(e$status$details$saved_rules_version, "2026-10-26.1")
+  expect_identical(e$status$details$saved_rules_version, "2026-10-26.2")
   expect_identical(e$status$details$current_rules_version, "2026-10-27.1")
   versions <- vapply(e$status$details$change_log, `[[`, "", "rules_version")
   expect_true("2026-10-27.1" %in% versions)

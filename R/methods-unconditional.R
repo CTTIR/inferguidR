@@ -170,6 +170,45 @@
   z
 }
 
+.ig_unc_count_square <- function(numerator, denominator, multiplier) {
+  # Reducing the fraction before multiplying by N or N-1 gives identical
+  # floating-point operands for equal rational statistics. This also avoids
+  # rounding a large product before a cancellation (notably for Mantel).
+  a <- numerator^2
+  if (any(a > 2^53 | denominator > 2^53)) {
+    .ig_abort("numerical_failure", paste(
+      "exact pooled count products exceed the exactly representable integer range;",
+      "reduce the design or explicitly select the large_sample computation"))
+  }
+  # Corrected numerators may be half integers; multiplying numerator and
+  # denominator by four would exceed the exact range earlier. Instead scale
+  # the numerator itself by two for the gcd, retaining its fractional part.
+  half <- numerator != floor(numerator)
+  a[half] <- (2 * numerator[half])^2
+  denominator[half] <- 4 * denominator[half]
+  if (any(a > 2^53 | denominator > 2^53)) {
+    .ig_abort("numerical_failure", "exact corrected pooled count products exceed the exactly representable integer range")
+  }
+  gcd <- function(a, b) {
+    repeat {
+      open <- b != 0
+      if (!any(open)) break
+      remainder <- a[open] %% b[open]
+      a[open] <- b[open]
+      b[open] <- remainder
+    }
+    a
+  }
+  zero <- a == 0
+  denominator[zero] <- 1
+  divisor <- gcd(a, denominator)
+  a <- a / divisor; b <- denominator / divisor
+  factor <- gcd(rep(multiplier, length(b)), b)
+  out <- (a * (multiplier / factor)) / (b / factor)
+  out[zero] <- 0
+  out
+}
+
 .ig_unc_stat <- function(code, x1, x2, n1, n2, h0) {
   n1 <- as.double(n1)
   n2 <- as.double(n2)
@@ -182,6 +221,17 @@
   scale <- h0$scale
   h <- h0$value
   if (scale == "difference") {
+    if (h == 0 && code %in% c("z_pooled", "z_pooled_cc", "mantel_haenszel")) {
+      # Keep algebraically tied tables tied at a discrete critical boundary.
+      # Forming proportions and their standard errors separately can split
+      # one equality class by several ulps, including only some tied tables.
+      cross <- x1 * n2 - x2 * n1
+      total <- x1 + x2
+      numerator <- if (code == "z_pooled_cc") pmax(abs(cross) - N / 2, 0) else abs(cross)
+      multiplier <- if (code == "mantel_haenszel") N - 1 else N
+      squared <- .ig_unc_count_square(numerator, n1 * n2 * total * (N - total), multiplier)
+      return(sign(cross) * sqrt(squared))
+    }
     # The difference is formed in integer arithmetic so that equal proportions
     # give an exact 0 (x1 n2 - x2 n1 is an exact integer in double precision).
     num <- (x1 * n2 - x2 * n1) / (n1 * n2)
@@ -968,9 +1018,10 @@
   if (exact && !is.null(p$error_ratio)) {
     # Compromise mode (the only mode with an error ratio).
     .ig_abort("reference_pending", paste(
-      "compromise mode with the exact computation is reference_pending: G*Power solves beta = q * actual alpha",
-      "(the attained size), while the generic compromise solver solves beta = q * nominal alpha; a solver",
-      "option for discrete tests is requested (specs/method-notes/exact_proportions_unconditional.md)"))
+      "compromise mode with the exact computation is reference_pending: the target is beta = q * actual alpha",
+      "(the attained size), while the generic compromise solver uses nominal alpha. Deterministic rejection",
+      "regions give discrete attained sizes, so the requested equality may have no solution. A qualified",
+      "attained-size solver and an explicit rule for unattainable ratios are still required."))
   }
   crit <- .ig_unc_critical(code, alpha, tails, N)
   if (exact) {

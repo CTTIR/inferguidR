@@ -25,6 +25,7 @@ articles:
   contents:
   - getting-started
   - classification
+  - glossary
   - validation
 reference:
 - title: Power and study design
@@ -84,6 +85,7 @@ reference:
   contents:
   - advisor_answer
   - advisor_override
+  - advisor_power_spec
   - advisor_question
   - advisor_r_code
   - advisor_recommendation

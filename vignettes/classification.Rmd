@@ -69,6 +69,26 @@ them. Predictive values depend on prevalence, and the event proportion in an
 outcome-selected sample need not equal population prevalence. A prevalence
 scenario is a separate modelling assumption, not an observed population rate.
 
+## Inspect probability diagnostics at explicit thresholds
+
+Calibration compares predicted probabilities with observed event frequencies.
+Net benefit uses a declared decision probability and its relative harm weight
+`p / (1 - p)`. These displays require positive-class probabilities with
+`higher_is_positive`; neither is a prevalence-scenario calculation.
+
+```{r probability-diagnostics}
+probability_result <- evaluate_cutoff(
+  scored, calibration_bins = 3, threshold_probability = c(0.2, 0.5, 0.8)
+)
+classification_plot_data(probability_result, "calibration")$data$points
+classification_plot_data(probability_result, "net_benefit")$data$points
+```
+
+The net-benefit display contains only the requested thresholds and does not
+interpolate a decision curve. Calibration groups are a display choice, with no
+sampling confidence intervals. In the workbench, changing these settings makes
+the previous evaluation stale until it is recalculated.
+
 ## Missingness and uncertainty
 
 The default missing-data policy is `error`. Choosing `missing = "exclude"`
@@ -102,6 +122,28 @@ imports power and report objects, not classification specifications.
 Retain the input definition, data provenance, result and software revision
 alongside the exported record. The [getting-started tutorial](getting-started.html)
 explains the package's typed outcomes and reproducibility workflow.
+
+Portable reports use a separate privacy boundary. They omit individual rows,
+full score-derived ROC/PR curves and density tables. To include only the frozen
+calibration-bin means/counts and the requested net-benefit threshold aggregates,
+opt in explicitly:
+
+```{r aggregate-report}
+envelope <- analysis_envelope(
+  classification_evaluated_spec(probability_result), probability_result
+)
+report <- create_report_snapshot(envelope, include_probability_summaries = TRUE)
+stopifnot(
+  !report$privacy$raw_rows_included,
+  identical(ig_hash(report), ig_hash(ig_from_json(ig_to_json(report))))
+)
+```
+
+Small groups can still disclose sensitive information. Review aggregate content
+and user-supplied titles or model metadata before sharing. The report records
+the inclusion decision in schema 0.4; reports without these summaries retain
+their existing format unless another feature, such as a Boschloo lattice,
+requires the newer version.
 
 ```{r session-information}
 sessionInfo()

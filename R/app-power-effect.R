@@ -85,7 +85,12 @@
       choices <- names(layouts())
       if (isTRUE(input$mode %in% choices)) input$mode else choices[1]
     })
-    fields <- shiny::reactive(layouts()[[mode()]] %||% character())
+    fields <- shiny::reactive({
+      available <- layouts(); selected <- mode()
+      if (!length(available) || length(selected) != 1L || is.na(selected) ||
+          !selected %in% names(available)) return(character())
+      available[[selected]] %||% character()
+    })
     field_id <- function(nm) paste(form()$method, mode(), nm, sep = "_")
     output$controls <- shiny::renderUI({
       if (!length(layouts())) return(shiny::tags$p(if (language() == "de")

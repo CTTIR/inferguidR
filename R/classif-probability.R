@@ -115,7 +115,9 @@
   # units with equal p stay in one group (the group of their first member)
   key <- match(p, unique(p))
   first <- tapply(grp, key, min)
-  grp <- as.integer(first[key])
+  # Requested bin labels can exceed the integer range; only their ordering
+  # matters. Output groups below are consecutively numbered observed groups.
+  grp <- as.double(first[key])
   ug <- sort(unique(grp))
   rows <- lapply(seq_along(ug), function(j) {
     g <- grp == ug[j]
@@ -175,7 +177,11 @@
 #' @examples
 #' ex <- classification_examples("scored_synthetic")
 #' calibration_summary(ex$spec)$summaries
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 calibration_summary <- function(spec, bins = 10) {
   .ig_cls_check_spec(spec)
@@ -223,7 +229,11 @@ calibration_summary <- function(spec, bins = 10) {
 #' @examples
 #' ex <- classification_examples("scored_synthetic")
 #' net_benefit(ex$spec, threshold_probability = c(0.1, 0.2, 0.3))
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 net_benefit <- function(spec, threshold_probability) {
   .ig_cls_check_spec(spec)

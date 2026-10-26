@@ -59,7 +59,11 @@
 #' m[m$metric_id %in% c("tn", "tpr", "ppv", "lr_neg"), c("metric_id", "display", "display_reason")]
 #' sc <- prevalence_scenario(c(tp = 8, fn = 2, fp = 9, tn = 81), prevalence = 0.02)
 #' format_metric_values(sc, lang = "de")[1:4, c("metric_id", "display")]
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 format_metric_values <- function(x, lang = c("en", "de"), percent = TRUE, digits = NULL) {
   lang <- match.arg(lang)

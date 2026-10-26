@@ -47,6 +47,7 @@ advisor_recommendation(s2)$status
 \seealso{
 Other advisor:
 \code{\link[=advisor_answer]{advisor_answer()}},
+\code{\link[=advisor_power_spec]{advisor_power_spec()}},
 \code{\link[=advisor_question]{advisor_question()}},
 \code{\link[=advisor_r_code]{advisor_r_code()}},
 \code{\link[=advisor_recommendation]{advisor_recommendation()}},

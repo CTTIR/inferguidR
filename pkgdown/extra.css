@@ -1,0 +1,4 @@
+/* pkgdown supplies the page logo; retain the README artwork on GitHub. */
+.template-home .cttir-readme-logo {
+  display: none;
+}

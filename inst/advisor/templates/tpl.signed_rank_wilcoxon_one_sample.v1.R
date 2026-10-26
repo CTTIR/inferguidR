@@ -32,7 +32,7 @@ signed_analysis <- function(x,mu,alternative,conf.level,exact) {
   exact=exact,diagnostics=messages,
   limitations="Symmetry and interval scale must be justified externally; zeros are omitted from signed ranks in approximation mode. A location interval is not a mean interval.")
 }
-analyse <- function(x,mu=0,alternative="two.sided",conf.level=.95,exact=TRUE) {
+analyse <- function(x,mu,alternative="two.sided",conf.level=.95,exact=TRUE) {
  signed_analysis(x,mu,alternative,conf.level,exact)
 }
 example_x <- c(-1,2,-3,4,5,-6,7,8,9,10)

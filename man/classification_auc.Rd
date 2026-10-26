@@ -10,9 +10,10 @@ classification_auc(spec, partial_auc = NULL, level = NULL)
 \item{spec}{A \code{classification_spec} (scored data with attached data, or
 theory).}
 
-\item{partial_auc}{Optional \code{list(focus = "fpr" | "tpr", range = c(lo, hi))}.
-pROC's \verb{partial.auc = c(1, 0.8), partial.auc.focus = "specificity"}
-corresponds to \code{list(focus = "fpr", range = c(0, 0.2))}.}
+\item{partial_auc}{Optional list with \code{focus} equal to \code{"fpr"} or \code{"tpr"}
+and \code{range} equal to \code{c(lo, hi)}. In pROC, \code{partial.auc = c(1, 0.8)}
+with \code{partial.auc.focus = "specificity"} corresponds to \code{focus = "fpr"}
+and \code{range = c(0, 0.2)} here.}
 
 \item{level}{Confidence level (default: the spec's uncertainty level).}
 }
@@ -36,33 +37,10 @@ spec <- classification_spec(d, truth = "y", positive_label = 1, scores = "s", cu
 classification_auc(spec, partial_auc = list(focus = "fpr", range = c(0, 0.2)))
 }
 \seealso{
-Other classification:
-\code{\link[=attach_classification_data]{attach_classification_data()}},
-\code{\link[=binormal_model]{binormal_model()}},
-\code{\link[=binormal_rates]{binormal_rates()}},
-\code{\link[=calibration_summary]{calibration_summary()}},
-\code{\link[=classification_evaluated_spec]{classification_evaluated_spec()}},
-\code{\link[=classification_examples]{classification_examples()}},
-\code{\link[=classification_metrics]{classification_metrics()}},
-\code{\link[=classification_plot_data]{classification_plot_data()}},
-\code{\link[=classification_spec]{classification_spec()}},
-\code{\link[=classification_table]{classification_table()}},
-\code{\link[=classification_uncertainty]{classification_uncertainty()}},
-\code{\link[=classifier_model]{classifier_model()}},
-\code{\link[=compare_classifiers]{compare_classifiers()}},
-\code{\link[=cutoff_rule]{cutoff_rule()}},
-\code{\link[=cutoff_sweep]{cutoff_sweep()}},
-\code{\link[=evaluate_cutoff]{evaluate_cutoff()}},
-\code{\link[=format_metric_values]{format_metric_values()}},
-\code{\link[=metric_dictionary]{metric_dictionary()}},
-\code{\link[=net_benefit]{net_benefit()}},
-\code{\link[=plot_classification]{plot_classification()}},
-\code{\link[=ppv_gap_max_prevalence]{ppv_gap_max_prevalence()}},
-\code{\link[=pr_summary]{pr_summary()}},
-\code{\link[=predictive_values_at_prevalence]{predictive_values_at_prevalence()}},
-\code{\link[=prevalence_for_ppv_target]{prevalence_for_ppv_target()}},
-\code{\link[=prevalence_scenario]{prevalence_scenario()}},
-\code{\link[=select_cutoff]{select_cutoff()}},
-\code{\link[=update.classification_spec]{update.classification_spec()}}
+\itemize{
+\item \code{\link[=classification_spec]{classification_spec()}}
+\item \code{\link[=evaluate_cutoff]{evaluate_cutoff()}}
+\item \code{\link[=plot_classification]{plot_classification()}}
+}
 }
 \concept{classification}

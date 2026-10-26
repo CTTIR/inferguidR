@@ -62,8 +62,10 @@ test_that("recommendations contain no numerical results and no claimed parity", 
     nums <- th_finite_numbers(rec)
     expect_true(all(grepl(allowed, nums)), info = paste(id, paste(nums[!grepl(allowed, nums)], collapse = ", ")))
     expect_false(.ig_contains_result(unclass(rec)), info = id)
-    expect_false(rec$planning$planning_compatibility %in%
-                   c("exact_gpower_match", "independently_validated_extension"), info = id)
+    expect_false(rec$planning$planning_compatibility == "exact_gpower_match", info = id)
+    if (rec$planning$planning_compatibility == "independently_validated_extension")
+      expect_true(rec$preferred$analysis_variant_id %in% c("boschloo_two_sided_central",
+        "boschloo_two_sided_minlike", "boschloo_one_sided"), info = id)
     expect_length(rec$planning$spec_refs, 0L)
     expect_length(rec$planning$evidence_ids, 0L)
     expect_null(rec$planning$gpower_method_id)
@@ -129,8 +131,8 @@ test_that("manual relation, learning links and source nodes resolve against the 
     expect_true(all(rec$learning_links %in% ids), info = id)
     expect_true(all(unlist(rec$rules$source_nodes$uzh) %in% rs$uzh_nodes), info = id)
     expect_true(all(unlist(rec$rules$source_nodes$descrtab2) %in% rs$descrtab2_nodes), info = id)
-    expect_identical(rec$rules$rules_version, "2026-10-26.1")
-    expect_identical(rec$rules$analysis_variants_version, "2026-10-13.1")
+    expect_identical(rec$rules$rules_version, "2026-10-26.2")
+    expect_identical(rec$rules$analysis_variants_version, "2026-10-26.1")
     expect_match(rec$rules$learning_resources_version, "^sha256:[0-9a-f]{64}$")
     if (is.null(rec$preferred)) next
     # The planning note exists in both languages, also for an override
@@ -141,7 +143,10 @@ test_that("manual relation, learning links and source nodes resolve against the 
       vid <- rec$preferred$analysis_variant_id
       expect_true(grepl(vid, rec$planning$note_en, fixed = TRUE), info = id)
       expect_true(grepl(vid, rec$preferred$planning_note_de, fixed = TRUE), info = id)
-      expect_true(rec$planning$planning_compatibility %in% c("not_yet_validated", "not_applicable"), info = id)
+      if (vid %in% c("boschloo_two_sided_minlike", "boschloo_two_sided_central") &&
+          rec$outcome_id %in% c("out.two_group.boschloo_central", "out.two_group.boschloo_one_sided"))
+        expect_identical(rec$planning$planning_compatibility, "independently_validated_extension")
+      else expect_true(rec$planning$planning_compatibility %in% c("not_yet_validated", "not_applicable"), info = id)
     }
     for (role in c("course", "tutorial", "overview")) {
       blk <- rec$preferred$learning[[role]]
@@ -166,7 +171,7 @@ test_that("manual relation, learning links and source nodes resolve against the 
   bos <- advisor_recommendation(advisor_replay(bos_map))
   expect_identical(bos$preferred$analysis_variant_id, "boschloo_two_sided_central")
   expect_identical(bos$preferred$gpower_manual_relation$relation, "different_method_comparator")
-  expect_identical(bos$planning$planning_availability, "planned_independent_validation")
+  expect_identical(bos$planning$planning_availability, "available")
 })
 
 test_that("overrides list the overriding variant's assumptions or state that there are none", {

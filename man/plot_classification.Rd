@@ -7,7 +7,8 @@
 plot_classification(
   x,
   panel = c("roc", "pr", "mosaic", "score_distribution", "prevalence_curve",
-    "model_comparison", "metric_vs_cutoff", "metric_pair", "metric_network"),
+    "model_comparison", "metric_vs_cutoff", "metric_pair", "metric_network",
+    "calibration", "net_benefit"),
   model_id = NULL,
   basis = c("observed", "scenario"),
   lang = c("en", "de"),
@@ -35,15 +36,6 @@ curve, or model comparison (see the supported values below).}
 
 \item{basis}{\code{"observed"} or \code{"scenario"}; see \code{\link[=classification_plot_data]{classification_plot_data()}}.}
 
-\item{interval_method}{Optional marginal interval bars at the current ROC or
-PR point: wilson, clopper_pearson or bootstrap_percentile. The method must
-have been computed in the result. These are separate fixed-cutoff intervals,
-not a joint confidence region or a curve band. Scenario intervals are not drawn.}
-
-\item{ppv_levels, f1_levels}{Reference levels strictly between zero and one for ROC iso-PPV and PR iso-F1 curves.}
-
-\item{realised_rules}{Optional independently supplied counts for varying-cutoff rules; see \code{classification_plot_data()}. Drawn as separate triangles, never as fixed-threshold curve points.}
-
 \item{lang}{Label language, \code{"en"} or \code{"de"}.}
 
 \item{mosaic_mode}{Joint population shares or within-class conditional rates.}
@@ -62,6 +54,15 @@ undefined and infinite coordinates are counted and omitted, never clamped.}
 
 \item{metric_focus}{Operating-point metric whose direct dictionary dependencies
 are shown in a metric-network view. This is a calculation graph, not a causal graph.}
+
+\item{interval_method}{Optional marginal interval bars at the current ROC or
+PR point: wilson, clopper_pearson or bootstrap_percentile. The method must
+have been computed in the result. These are separate fixed-cutoff intervals,
+not a joint confidence region or a curve band. Scenario intervals are not drawn.}
+
+\item{ppv_levels, f1_levels}{Reference levels strictly between zero and one for ROC iso-PPV and PR iso-F1 curves.}
+
+\item{realised_rules}{Optional independently supplied counts for varying-cutoff rules; see \code{\link[=classification_plot_data]{classification_plot_data()}}. Drawn as separate triangles, never as fixed-threshold curve points.}
 }
 \value{
 A \code{ggplot} object. Requires the suggested package 'ggplot2'.
@@ -83,33 +84,9 @@ if (requireNamespace("ggplot2", quietly = TRUE)) {
 }
 }
 \seealso{
-Other classification:
-\code{\link[=attach_classification_data]{attach_classification_data()}},
-\code{\link[=binormal_model]{binormal_model()}},
-\code{\link[=binormal_rates]{binormal_rates()}},
-\code{\link[=calibration_summary]{calibration_summary()}},
-\code{\link[=classification_auc]{classification_auc()}},
-\code{\link[=classification_evaluated_spec]{classification_evaluated_spec()}},
-\code{\link[=classification_examples]{classification_examples()}},
-\code{\link[=classification_metrics]{classification_metrics()}},
-\code{\link[=classification_plot_data]{classification_plot_data()}},
-\code{\link[=classification_spec]{classification_spec()}},
-\code{\link[=classification_table]{classification_table()}},
-\code{\link[=classification_uncertainty]{classification_uncertainty()}},
-\code{\link[=classifier_model]{classifier_model()}},
-\code{\link[=compare_classifiers]{compare_classifiers()}},
-\code{\link[=cutoff_rule]{cutoff_rule()}},
-\code{\link[=cutoff_sweep]{cutoff_sweep()}},
-\code{\link[=evaluate_cutoff]{evaluate_cutoff()}},
-\code{\link[=format_metric_values]{format_metric_values()}},
-\code{\link[=metric_dictionary]{metric_dictionary()}},
-\code{\link[=net_benefit]{net_benefit()}},
-\code{\link[=ppv_gap_max_prevalence]{ppv_gap_max_prevalence()}},
-\code{\link[=pr_summary]{pr_summary()}},
-\code{\link[=predictive_values_at_prevalence]{predictive_values_at_prevalence()}},
-\code{\link[=prevalence_for_ppv_target]{prevalence_for_ppv_target()}},
-\code{\link[=prevalence_scenario]{prevalence_scenario()}},
-\code{\link[=select_cutoff]{select_cutoff()}},
-\code{\link[=update.classification_spec]{update.classification_spec()}}
+\itemize{
+\item \code{\link[=classification_spec]{classification_spec()}}
+\item \code{\link[=evaluate_cutoff]{evaluate_cutoff()}}
+}
 }
 \concept{classification}

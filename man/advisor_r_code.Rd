@@ -91,7 +91,7 @@ Brunner-Munzel examples estimate P(X > Y) plus half the tie probability,
 using an explicit heteroscedastic placement-variance t approximation. They
 require at least ten observations per group in this teaching implementation.
 Zero placement variance is unavailable. Approximate intervals are intersected
-with \code{[0,1]} and unconstrained limits retained. This is not a mean/median-shift test.
+with \verb{[0,1]} and unconstrained limits retained. This is not a mean/median-shift test.
 Monte Carlo goodness-of-fit examples use prespecified multinomial probabilities,
 a recorded seed and replicate count, and restore the calling RNG state. Their
 plus-one p-value and computational precision interval are distinct from a
@@ -233,6 +233,7 @@ size or substitute a pooled test for Welch planning.
 Other advisor:
 \code{\link[=advisor_answer]{advisor_answer()}},
 \code{\link[=advisor_override]{advisor_override()}},
+\code{\link[=advisor_power_spec]{advisor_power_spec()}},
 \code{\link[=advisor_question]{advisor_question()}},
 \code{\link[=advisor_recommendation]{advisor_recommendation()}},
 \code{\link[=advisor_replay]{advisor_replay()}},

@@ -180,3 +180,50 @@ Update checkboxes only after inspecting the corresponding evidence.
   Windows/macOS/release/devel CI and verify the deployed Pages endpoint.
 - Phases 3–5 remain open. This milestone does not certify complete numerical
   parity, complete workbench behavior or release readiness.
+
+### Follow-on execution — 26 October 2026
+
+The reviewed local milestone was merged to `main` and published as `0595042`.
+The follow-on work addresses every work package below. Its final verification
+record is completed after the source archive is frozen; a row describing an
+implemented check does not imply that all scientific qualification gates pass.
+
+| Work package | Implemented work and evidence entry points | Remaining acceptance boundary |
+|---|---|---|
+| N1 | Enumerated every deterministic rejection state for an attained-size compromise example; documented why the requested equality can be unattainable in `tools/validation/NUMERICAL-CONTRACTS.md` | Exact attained-size compromise stays excluded with `reference_pending`; no nearest-ratio or randomized test is substituted |
+| N2 | Corrected split rational ties in pooled, corrected pooled and Mantel-Haenszel exact statistics; independent enumeration, integer-boundary and inverse checks in the numerical campaigns | Historical native-reference disagreements remain visible; representative tests do not certify every continuous input domain |
+| N3 | Added bounded, streaming GLM, rank and regression checks with independent integration/enumeration and explicit case receipts | New synthetic results do not requalify the entire historical capture corpus or erase failed/OOM runs |
+| N4 | Added design-derived multivariate parameter mappings, independent distribution integrals and utility checks | Approximation choices and finite candidate option grids are distinguished from exhaustive continuous-domain qualification |
+| N5 | Independently checked tetrachoric quadrature/variance and bootstrap weighted arithmetic; enumerated finite-sample percentile-interval coverage diagnostics | Bootstrap remains development; undercoverage and finite-sample limitations are retained |
+| N6 | Published all registered method/mode/option declarations and scoped sample coverage | Uncovered branches and unresolved applicability remain explicit; no global certification label is introduced |
+| P1 | Reviewed variant identities, actual executable templates, estimands, assumptions, overrides and source relationships; corrected stale interval and data-handling promises | Technical consistency and source provenance do not establish external scientific approval or source equivalence |
+| P2 | Added explicit `advisor_power_spec()` mappings for the four Boschloo variants, including direction, allocation and supported numerical controls | Other method bridges remain unavailable unless explicitly mapped; older saved sessions require replay |
+| P3 | Added observed calibration/net-benefit panels and settings controls, independent arithmetic and adversarial aggregate-report validation | No prevalence-scenario fabrication; frozen probability summaries are opt-in and bootstrap coverage remains qualified |
+| P4 | Checked setting-aware staleness, history, individual sweep results and reproducible exports | Failed or changed settings must not export an old result as current |
+| P5 | Added an original bilingual glossary, live resource/anchor audit and frozen aggregate probability and lattice figures alongside existing XY sweeps | Full scored-row ROC/PR/density tables remain intentionally excluded from portable reports |
+| P6 | Installed-browser review covers offline use, desktop/mobile widths, keyboard operation, separate sessions, downloads and recovery | Acceptance requires actual browser receipts and visual inspection for the final source candidate |
+| Release | Added source archive inspection, exported-help/startup/report preflight, isolated optional-dependency absence, licence review and runtime measurement | Final local checks, hosted platform results and deployed HTTP readback are recorded separately; no stable version or submission is inferred |
+
+The portable-report extension is versioned as `inferguidR.report_document/0.4.0`.
+Existing report formats remain readable. Probability summaries require explicit
+inclusion; lattice-only reports do not imply permission to include scored-data
+aggregates. The numerical repair can change criterion results where an earlier
+floating-point calculation split a mathematically tied rejection class.
+
+Release policy: retain the experimental version while documented exclusions,
+external-reference adjudications or required platform acceptance remain open.
+The roadmap's stable-release step is not satisfied by passing local regression
+tests or by merely enumerating the registered methods.
+
+The independent campaigns now contain 584 cases and 2,057 comparisons, with
+numerical representatives for all 50 methods. Of 243 registered method/mode
+pairs, 124 have numerical samples, two have only an intentional refusal check
+and 117 remain uncovered by these campaigns. See
+[`EXTENDED-COVERAGE.md`](https://github.com/CTTIR/inferguidR/blob/main/tools/validation/EXTENDED-COVERAGE.md) for the branch
+contracts and the distinction between sampled evidence and certification.
+
+The [advisor review tables](https://github.com/CTTIR/inferguidR/blob/main/tools/product/reviews/2026-10-26/README.md) make the
+69-variant review, 30-reference bibliographic verification and 19 lesson-gap
+dispositions inspectable. External candidates are not silently registered as
+exact lessons, and bibliographic verification is separate from full-content
+or scientific acceptance. Historical source labels remain historical records.

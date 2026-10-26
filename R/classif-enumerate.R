@@ -127,7 +127,11 @@
 #' d <- data.frame(y = c(1, 1, 1, 0, 0, 0), s = c(5, 4, 4, 4, 2, 1))
 #' spec <- classification_spec(d, truth = "y", positive_label = 1, scores = "s", cutoff = 4)
 #' cutoff_sweep(spec, metrics = c("tpr", "fpr", "ppv"))
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 cutoff_sweep <- function(x, metrics = .ig_cls_default_sweep_metrics, model_id = NULL, grid = 401,
                          basis = c("observed", "scenario")) {

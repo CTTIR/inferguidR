@@ -35,6 +35,14 @@ bundled JSON Schemas when 'jsonvalidate' is installed (default \code{TRUE}).
 See \code{\link[=ig_config]{ig_config()}} for the current values.
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/CTTIR/inferguidR}
+  \item Report bugs at \url{https://github.com/CTTIR/inferguidR/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Raban Heller \email{raban.heller@charite.de} (\href{https://orcid.org/0000-0001-8006-9742}{ORCID}) [copyright holder]
 

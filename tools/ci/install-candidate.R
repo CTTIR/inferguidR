@@ -61,6 +61,7 @@ libraries <- paste(c(candidate_library, if (nzchar(old_libraries)) old_libraries
 con <- file(environment_file, open = "a")
 writeLines(c(paste0("R_LIBS=", libraries),
              paste0("INFERGUIDR_EXPECTED_LIBRARY=", candidate_library),
-             paste0("INFERGUIDR_SOURCE_SHA256=", expected_sha)), con)
+             paste0("INFERGUIDR_SOURCE_SHA256=", expected_sha),
+             paste0("INFERGUIDR_SOURCE_COMMIT=", source_commit)), con)
 close(con)
 cat("Candidate installed into fresh library:", candidate_library, "\n")

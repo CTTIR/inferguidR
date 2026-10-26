@@ -35,7 +35,8 @@ Statuses follow the rule set: a \code{recommended} outcome is downgraded to
 by an applicable status modifier or by an override; statuses are never
 upgraded. An unfinished walkthrough gives \code{needs_information} with the
 pending question. Planning compatibility is never \code{exact_gpower_match}
-without authentic 'G*Power' captures (none exist).
+without matching authentic 'G*Power' evidence and a qualified mapping;
+no advisor route currently claims this status.
 }
 \examples{
 s <- advisor_replay(c(q.aim = "compare", q.stage = "planning",
@@ -52,6 +53,7 @@ rec$planning$planning_compatibility
 Other advisor:
 \code{\link[=advisor_answer]{advisor_answer()}},
 \code{\link[=advisor_override]{advisor_override()}},
+\code{\link[=advisor_power_spec]{advisor_power_spec()}},
 \code{\link[=advisor_question]{advisor_question()}},
 \code{\link[=advisor_r_code]{advisor_r_code()}},
 \code{\link[=advisor_replay]{advisor_replay()}},

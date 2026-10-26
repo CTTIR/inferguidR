@@ -1,9 +1,9 @@
 {
  "schema_version": "inferguidR.analysis-variants/0.1.0",
- "variants_version": "2026-10-13.1",
+ "variants_version": "2026-10-26.1",
  "status": "provisional",
  "created_date": "2026-10-03",
- "note": "Revision 2026-10-13.1 records the implemented SMC permutation parallel-analysis helper for EFA; other call sketches remain historical drafts pending semantic reconciliation. Analysis variant ids used by specs/advisor/rules.json (primary outcomes, alternatives and rejected routes). r_functions are call sketches for phase 12A templates, not executed templates. gpower_method_id is null throughout because no G*Power application inventory with method ids exists yet (phase 01/03); gpower_candidate records only what the June 2023 manual documents. Review 2026-10-03.2 (rules-review.md): estimand or notes texts of rank_sum_mann_whitney, kruskal_wallis, sign_test_one_sample and lmm_cluster_random_intercept corrected; no r_functions changed. Revision 2026-10-05.1 (decision D12): the r_functions of boschloo_two_sided_central, boschloo_two_sided_minlike and boschloo_one_sided name inferguidR's own Boschloo engine (boschloo_test(), boschloo_power(), boschloo_sample_size()) instead of exact2x2::boschloo, which D12 rejects as engine and as oracle; Exact::exact.test is listed as a comparator only; the gpower_candidate.relation of the three variants is different_method_comparator (phase 09A classification, provisional).",
+ "note": "Revision 2026-10-26.1 reconciles paired-t missing-data notes with the bundled rejecting template and makes the one-sample signed-rank reference explicit in executable teaching code. Three GLM templates refuse exponentiation overflow or underflow in returned slope ratios and omit intercept ratios; mixed-clustering rules describe pairwise missingness explicitly. Revision 2026-10-13.1 records the implemented SMC permutation parallel-analysis helper for EFA; other call sketches remain historical drafts pending semantic reconciliation. Analysis variant ids used by specs/advisor/rules.json (primary outcomes, alternatives and rejected routes). r_functions are call sketches for phase 12A templates, not executed templates. gpower_method_id is null throughout because no G*Power application inventory with method ids exists yet (phase 01/03); gpower_candidate records only what the June 2023 manual documents. Review 2026-10-03.2 (rules-review.md): estimand or notes texts of rank_sum_mann_whitney, kruskal_wallis, sign_test_one_sample and lmm_cluster_random_intercept corrected; no r_functions changed. Revision 2026-10-05.1 (decision D12): the r_functions of boschloo_two_sided_central, boschloo_two_sided_minlike and boschloo_one_sided name inferguidR's own Boschloo engine (boschloo_test(), boschloo_power(), boschloo_sample_size()) instead of exact2x2::boschloo, which D12 rejects as engine and as oracle; Exact::exact.test is listed as a comparator only; the gpower_candidate.relation of the three variants is different_method_comparator (phase 09A classification, provisional).",
  "api_check": {
   "date": "2026-10-03",
   "r_version": "R 4.6.1",
@@ -1360,7 +1360,7 @@
      "package_version_installed": "4.6.1"
     }
    ],
-   "notes": "Pairs formed from a confirmed ID (one record per ID and occasion). Incomplete pairs are excluded and reported.",
+   "notes": "Pairs formed from a confirmed ID (one record per ID and occasion). The bundled teaching example rejects missing or non-finite pair values; it does not silently exclude incomplete pairs. Any prior exclusion requires an explicit justified missing-data procedure and reporting outside this example.",
    "gpower_method_id": null,
    "gpower_candidate": {
     "manual_section": "19 t test: Means - difference between two dependent means (matched pairs)",

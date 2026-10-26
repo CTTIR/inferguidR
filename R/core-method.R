@@ -75,16 +75,16 @@
 #'   mode, `function(p, n_lo, n_max)`, used instead of the generic integer
 #'   search (for example a discrete test that can exclude designs by a proven
 #'   bound). `p` holds the specification's inputs and options, and
-#'   `[n_lo, n_max]` is the admissible range of `n_total`. It returns
-#'   `list(status = "ok", n = <smallest admissible n_total reaching the target>,
-#'   power = <its power>, diagnostics = list(...))`, or
-#'   `list(status = <status code>, reason = <text>, diagnostics = list(...))`
-#'   when there is no answer. The solver checks the returned design against
+#'   `[n_lo, n_max]` is the admissible range of `n_total`. Return a list with
+#'   `status = "ok"`, `n` (the smallest admissible total reaching the target),
+#'   `power` (its power), and a `diagnostics` list. When there is no answer,
+#'   return a list with `status` (the status code), `reason` (explanatory text)
+#'   and `diagnostics`. The solver checks the returned design against
 #'   `design` and recomputes its power with `power`.
 #' @param sensitivity_search Optional `function(p, target_name)` replacing
-#'   the generic sensitivity scan. Return a status/reason for failure, or
-#'   `list(status = "ok", value = <effect>, diagnostics = list(...),
-#'   warnings = character())`. The effect must be in its parameter domain
+#'   the generic sensitivity scan. Return a status/reason for failure, or a
+#'   list with `status = "ok"`, `value` (the effect), a `diagnostics` list,
+#'   and a character vector of `warnings`. The effect must be in its parameter domain
 #'   and its recomputed power must reach the target within solver tolerance.
 #'   A method-specific maximum below target is allowed only with
 #'   `diagnostics$target_reached = FALSE`, `diagnostics$max_power` agreeing

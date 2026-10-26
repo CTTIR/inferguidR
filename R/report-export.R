@@ -42,6 +42,10 @@ report_pdf_capabilities <- function() {
   sections <- list(x$specifications, x$recommendation, x$results, x$uncertainty,
     x$validation, x$provenance, x$reproducibility, x$resources, x$visualisations, x$sweeps)
   if (pdf) sections[[9]] <- lapply(x$visualisations, function(v) v[setdiff(names(v), "data")])
+  if (!is.null(x$probability_summaries)) {
+    sections <- c(sections,list(x$probability_summaries))
+    labels <- c(labels,if(x$locale=="de") "Freigegebene Wahrscheinlichkeitsaggregate" else "Included probability aggregates")
+  }
   lines <- c(.ig_report_literal(x$title), paste("Snapshot:", x$snapshot_id),
     paste("Analysis hash:", x$analysis_hash), paste("Created UTC:", x$created_at),
     paste("Display timezone:", x$display_timezone), paste("Language:", x$locale),
@@ -142,6 +146,8 @@ report_pdf_capabilities <- function() {
       .ig_report_draw_distribution(v, x$results[[v$analysis]], x$locale)
     } else if (v$plot_type == "power_sweep") {
       .ig_report_draw_sweep(v,x$locale)
+    } else if (v$plot_type == "power_lattice") {
+      .ig_report_draw_lattice(v,x$locale)
     } else if (v$plot_type == "two_group_counts") {
       values <- rbind(unlist(v$data$event), unlist(v$data$non_event))
       labels <- vapply(unlist(v$data$group_labels),.ig_report_plot_label,"",width_in=2.4,size=9.6)
@@ -166,6 +172,8 @@ report_pdf_capabilities <- function() {
       .ig_report_draw_classifier_comparison(v, x$locale)
     } else if (v$plot_type %in% c("classifier_mosaic", "classifier_prevalence")) {
       .ig_report_draw_classifier_aggregate(v, x$locale)
+    } else if (v$plot_type %in% c("classifier_calibration", "classifier_net_benefit")) {
+      .ig_report_draw_probability(v, x$locale)
     } else next
     caption_lines <- .ig_report_wrap_pdf_lines(paste(.ig_report_literal(.ig_report_caption(v,x$locale)),if(x$locale=="de") "Vollstaendige Bezeichnungen stehen im Anhang." else "Full labels are retained in the appendix."),width_in=if(v$plot_type=="classifier_comparison") 4.8 else 6.5,size=8.4,family="sans")
     if(length(caption_lines)>4L) caption_lines <- c(utils::head(caption_lines,3L),if(x$locale=="de") "Vollstaendige Bildunterschrift im technischen Anhang." else "Full caption in the technical appendix.")
@@ -188,6 +196,11 @@ report_pdf_capabilities <- function() {
 #' @details Rendering uses a private temporary file. JSON and TXT remain
 #'   available if the offline Cairo PDF capability is unavailable. Text is
 #'   rendered literally; report content is never evaluated as R or markup.
+#'   PDF and TXT begin with a readable summary rounded to six significant
+#'   digits; stored decisions and the technical appendix retain full precision.
+#'   PDF figures precede the appendix and have adjacent captions. Very long
+#'   plot labels may be abbreviated with `[...]` while full labels remain in
+#'   the appendix. PDF text wrapping uses measured font widths.
 #' @export
 export_report <- function(snapshot, file, format = c("pdf", "json", "txt"), overwrite = FALSE) {
   format <- match.arg(format)

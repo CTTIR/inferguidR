@@ -2,6 +2,7 @@
   ns <- shiny::NS(id)
   shiny::tags$details(shiny::tags$summary("Report downloads / Berichte herunterladen"),
     shiny::checkboxInput(ns("include_resources"), "Include verified teaching references when available / Gepruefte Lehrquellen aufnehmen, soweit verfuegbar", value = TRUE),
+    shiny::checkboxInput(ns("include_probability_summaries"), "Include calibration-bin means/counts and requested net-benefit aggregates; review small groups before sharing / Kalibrierungsgruppen und angeforderte Nettonutzenaggregate aufnehmen; kleine Gruppen vor Weitergabe pruefen", value = FALSE),
     shiny::actionButton(ns("freeze"), "Freeze report / Bericht festhalten"),
     shiny::textOutput(ns("status")), shiny::uiOutput(ns("downloads")))
 }
@@ -18,6 +19,7 @@
         incomplete_sweep <- any(vapply(entries,function(entry) any(entry$sweep$status!="ok"),TRUE))
         snapshot(create_report_snapshot(e, locale = language(), sweeps = entries,
           resources = if(isTRUE(input$include_resources)) .ig_report_envelope_resources(e) else list(),
+          include_probability_summaries = isTRUE(input$include_probability_summaries),
           report_kind = if(incomplete_sweep) "incomplete_settings" else "single_analysis"))
         message("")
       }, error = function(e) message(conditionMessage(e)))

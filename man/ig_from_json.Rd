@@ -21,7 +21,7 @@ ig_from_json(
 \code{"recommendation"}).}
 
 \item{validate}{Validate against the JSON Schema when possible. Defaults
-to the option \code{inferguidR.validate_json_schema}.}
+to the JSON-schema validation option described in \code{\link[=ig_config]{ig_config()}}.}
 }
 \value{
 The rebuilt object. Errors are conditions of class

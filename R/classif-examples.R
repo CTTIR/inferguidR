@@ -60,7 +60,11 @@
 #' @examples
 #' ex <- classification_examples("binormal_unequal_variance")
 #' evaluate_cutoff(ex$spec)
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 classification_examples <- function(name = c("scored_synthetic", "binormal_equal_variance",
                                              "binormal_unequal_variance", "counts_fixed"),

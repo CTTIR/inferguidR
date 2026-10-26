@@ -25,7 +25,11 @@
       !.ig_is_string(x$completeness) || !x$completeness %in% c("complete","incomplete")) bad("invalid metadata")
   fields(x$provenance,c("package","package_version","r_version","platform"))
   if (!all(vapply(x$provenance,.ig_is_string,TRUE))) bad("invalid runtime provenance")
-  fields(x$privacy,c("raw_rows_included","score_curve_tables_included","note"))
+  probability_schema <- identical(x$schema_version,"inferguidR.report_document/0.4.0")
+  fields(x$privacy,c("raw_rows_included","score_curve_tables_included","note",
+    if(probability_schema) "probability_aggregates_included"))
+  if (probability_schema && (!is.logical(x$privacy$probability_aggregates_included)||
+      length(x$privacy$probability_aggregates_included)!=1L||is.na(x$privacy$probability_aggregates_included))) bad("probability aggregates require an explicit inclusion choice")
   if (!isFALSE(x$privacy$raw_rows_included) || !isFALSE(x$privacy$score_curve_tables_included) ||
       !.ig_is_string(x$privacy$note)) bad("invalid privacy declaration")
   if (x$report_kind=="single_analysis" && n!=1L)
@@ -129,7 +133,7 @@
     fields(v,c("analysis","plot_type","status","axes","data","caption"),c("reason","fixed_parameters","critical","model_id","basis","sweep_index","target"))
     if(!is.list(v) || !scalar(v$analysis) || v$analysis!=floor(v$analysis) || v$analysis<1 || v$analysis>n ||
         !.ig_is_string(v$plot_type) || !.ig_is_string(v$status)) bad("invalid visualisation reference")
-    if(!v$plot_type %in% c("distribution","confusion_counts","two_group_counts","classifier_mosaic","classifier_prevalence","classifier_comparison","classifier_roc_point","classifier_pr_point","power_sweep")) bad("unknown plot type")
+    if(!v$plot_type %in% c("distribution","confusion_counts","two_group_counts","classifier_mosaic","classifier_prevalence","classifier_comparison","classifier_roc_point","classifier_pr_point","classifier_calibration","classifier_net_benefit","power_sweep","power_lattice")) bad("unknown plot type")
     if(v$plot_type=="power_sweep") {
       expected <- .ig_report_sweep_figures(x$sweeps,x$locale)
       matching <- Filter(function(z) identical(as.double(z$sweep_index),as.double(v$sweep_index)) && identical(z$target,v$target),expected)
@@ -223,7 +227,8 @@
   }
   for(i in seq_len(n)) {
     distributions<-Filter(function(v) v$analysis==i && v$plot_type=="distribution",x$visualisations)
-    expected_distribution<-as.integer(kinds[i]=="power" && identical(codes[i],"ok"))
+    expected_distribution<-as.integer(kinds[i]=="power" && identical(codes[i],"ok") &&
+      !(identical(x$schema_version,"inferguidR.report_document/0.4.0")&&identical(x$specifications[[i]]$specification$method_id,.bl_method_id)))
     if(length(distributions)!=expected_distribution) bad("distribution figure is missing or duplicated")
     points<-Filter(function(v) v$analysis==i && v$plot_type %in% c("classifier_roc_point","classifier_pr_point"),x$visualisations)
     if(length(points)) {
@@ -241,5 +246,7 @@
   expected_sweeps <- .ig_report_sweep_figures(x$sweeps,x$locale)
   actual_sweeps <- Filter(function(v) v$plot_type=="power_sweep",x$visualisations)
   if(!equal(actual_sweeps,.ig_report_plain(expected_sweeps))) bad("sweep figures are missing or duplicated")
+  .ig_report_validate_probability(x)
+  .ig_report_validate_lattice(x)
   invisible(TRUE)
 }

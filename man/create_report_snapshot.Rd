@@ -12,7 +12,8 @@ create_report_snapshot(
   locale = "en",
   display_timezone = "UTC",
   sweeps = list(),
-  resources = list()
+  resources = list(),
+  include_probability_summaries = FALSE
 )
 }
 \arguments{
@@ -32,6 +33,13 @@ session or incomplete_settings.}
 \item{sweeps}{Optional list of entries with analysis (one-based envelope index) and sweep (a sweep_design() result). At most20sweeps and1000rows per sweep are retained; requested values must be finite. Each sweep must match its completed frozen base. Failed rows require report_kind = "incomplete_settings". Specifications, results, failures and individually evaluated points are retained without interpolation. Documents with sweeps use schema0.2; existing schema0.1 documents remain readable.}
 
 \item{resources}{Optional list of entries with analysis (one-based index) and resource_id. Currently inferguidR_boschloo_minlike is available only for the exact minlike observed test or power variant. Frozen titles, scope, file hashes and source references use a versioned bundled catalog. No resource code is executed and no website is requested. Attached resources use report schema0.3.}
+
+\item{include_probability_summaries}{Logical, FALSE by default. Explicitly
+include frozen calibration-bin counts and means, and aggregates at the
+explicitly requested net-benefit thresholds, with point figures. Small
+groups may disclose sensitive information; review before sharing. No
+individual rows, score ranges, full ROC/PR curves or density tables are
+included. Opted-in documents use schema 0.4; older documents remain readable.}
 }
 \value{
 A report_document inheriting from report_snapshot, suitable for
@@ -47,6 +55,11 @@ Selected ROC and precision-recall points use only retained aggregate cells;
 undefined denominators remain unavailable. Prevalence-scenario precision is
 labelled separately and is not a new observed measurement. These selected
 points do not reconstruct full curves or imply an AUC from one cutoff.
+Completed Boschloo power reports retain the full possible-table lattice
+when it fits the 5000-table display limit, separately for H0 and H1.
+The frozen rejection set is checked against the result's region hash;
+import and rendering do not rerun the region solver. Lattice reports use
+schema 0.4 and retain an explicit unavailable display above the limit.
 Original private scored data must be reattached for recomputation.
 User-supplied titles and metadata are included as literal text.
 Observed Boschloo reports retain independent-group counts and numerical

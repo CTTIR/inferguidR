@@ -23,6 +23,7 @@ R CMD build .
 R CMD check --no-manual inferguidR_0.0.0.9000.tar.gz
 R CMD INSTALL --library=/absolute/path/to/library inferguidR_0.0.0.9000.tar.gz
 R_LIBS=/absolute/path/to/library Rscript tools/validation/check-public.R /absolute/path/to/results
+R_LIBS=/absolute/path/to/library Rscript tools/validation/check-numerics.R /absolute/path/to/numerical-results
 ```
 
 The independent checker uses an installed package and public synthetic inputs.
@@ -35,6 +36,14 @@ Repository automation runs full checks on Linux release/devel, Windows and
 macOS, plus a separate minimum-R core profile. The R 4.1.0 core profile uses
 hard dependencies and functional examples; it is not the full optional-package
 test suite. Actual workflow runs are required before claiming hosted coverage.
+
+The expanded numerical campaign streams individual results and a complete
+method/mode/option declaration inventory. Declared combinations are not
+automatically valid input designs or covered numerical cases. Uncovered,
+inactive and pending branches remain explicit in the inventory.
+
+Installed API/help, startup and optional-dependency absence checks and source
+archive audits are described in the [release preflight instructions](https://github.com/CTTIR/inferguidR/blob/main/tools/release/README.md).
 
 ## Why reference checks can be skipped
 
@@ -65,8 +74,11 @@ MIT licence. The public checker contains separate code and synthetic cases.
   `reference_pending`.
 - Classifier bootstrap validation remains `development`.
 - Standalone Boschloo calculations have independent numerical checks. The
-  advisor's mapping to a planning specification remains unvalidated; its
-  recommendation must not be interpreted as an automatic planning bridge.
+  explicit `advisor_power_spec()` bridge preserves central, minlike and
+  prespecified directional variants for mapped, completed recommendations.
+  It requires supplied event probabilities, design parameters and allocation
+  policy; it does not infer these from the answers or certify every numerical
+  branch. Unmapped recommendations remain unavailable for automatic planning.
 - `unsupported`, `infeasible`, `invalid_input`, `numerical_failure` and
   `reference_pending` outcomes must be handled explicitly, not coerced into
   usable design estimates.
@@ -77,10 +89,13 @@ made solely by changing a status label.
 
 ## Advisor rules revision
 
-Rules `2026-10-26.1` update validation explanations without changing questions,
-routing, estimands or planning availability. Saved sessions retain their
+Rules `2026-10-26.1` corrected validation explanations. Rules `2026-10-26.2`
+add explicit Boschloo planning mappings and the additive `available` planning
+state. Questions and estimands are unchanged. Saved sessions retain their
 original rules version. Restoration across versions requires explicit
 migration/replay; do not rewrite old JSON or silently relabel its provenance.
+Existing recommendation documents remain readable; an older reader may refuse
+the new availability value.
 
 ## Reporting a discrepancy
 

@@ -1,0 +1,15 @@
+{
+  "review_date": "2026-10-26",
+  "rules_version": "2026-10-26.2",
+  "source_sha256": {
+    "inst/advisor/rules.json": "7191dd2a7e4421cd10e857ca51fee53702134e317b0d59106d0423be3845bfe9",
+    "inst/advisor/analysis-variants.json": "c43053983a2275b62170098285de18d3a2a135b85cd94c75033ec4fb77b48e8f",
+    "inst/metadata/learning-resources.json": "11a1a91806a3e1da5527a0bad3892772983a60744be2f8106aead9b3ddf8bd92"
+  },
+  "rows": {
+    "variants": 69,
+    "bibliography": 30,
+    "learning_gaps": 19
+  },
+  "scope": "Technical consistency and bibliographic identity; not complete source equivalence or scientific acceptance"
+}

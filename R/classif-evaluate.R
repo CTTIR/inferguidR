@@ -462,7 +462,10 @@
 #' held_out$evaluation$label
 #' @seealso [select_cutoff()], [classification_table()], [cutoff_sweep()],
 #'   [prevalence_scenario()]
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [plot_classification()]
 #' @export
 evaluate_cutoff <- function(spec, cutoff = NULL, model_id = NULL, partial_auc = NULL,
                             threshold_probability = NULL, calibration_bins = 10,
@@ -538,7 +541,11 @@ evaluate_cutoff <- function(spec, cutoff = NULL, model_id = NULL, partial_auc = 
 #' spec <- classification_evaluated_spec(res)
 #' spec$operating_rule$selection
 #' analysis_envelope(spec, res)
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 classification_evaluated_spec <- function(x) {
   if (!inherits(x, "classification_result")) {

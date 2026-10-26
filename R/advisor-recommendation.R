@@ -29,7 +29,7 @@
 # * r_implementation template id with an explicit availability status (no
 #                 code and no function names until a reviewed template exists);
 # * planning      compatibility and availability exactly as the rules state
-#                 (never exact_gpower_match: no captures exist, blocker B01).
+#                 (no advisor route currently claims exact_gpower_match).
 #
 # The recommendation references specifications only; it never contains a
 # numerical result.
@@ -65,7 +65,7 @@
 
 # What the G*Power manual documents for a variant (analysis-variants.json
 # gpower_candidate). This is documentary provenance only: it never implies
-# parity, which needs authentic application captures (blocker B01).
+# parity, which needs matching authentic application evidence and qualification.
 .ig_advisor_manual_relation <- function(variant) {
   gc <- variant$gpower_candidate
   if (!is.list(gc) || !.ig_is_string(gc$relation)) return(NULL)
@@ -207,7 +207,8 @@
 #' by an applicable status modifier or by an override; statuses are never
 #' upgraded. An unfinished walkthrough gives `needs_information` with the
 #' pending question. Planning compatibility is never `exact_gpower_match`
-#' without authentic 'G*Power' captures (none exist).
+#' without matching authentic 'G*Power' evidence and a qualified mapping;
+#' no advisor route currently claims this status.
 #'
 #' @inheritParams advisor_answer
 #' @return A `recommendation` object (see [ig_to_json()] for export).
@@ -365,7 +366,7 @@ advisor_recommendation <- function(session, rules = NULL) {
                    outcome$rationale_de, v$name_de, pv$name_de, ov_alt$why_not_preferred_de))
   }
 
-  # Planning: exactly as the rules state; an override has no rule-defined planning.
+  # Planning: preserve the rules unless an explicit selected-variant mapping applies.
   # The core planning record keeps both notes (note_en, note_de); method
   # outcomes also carry the German note in preferred$planning_note_de.
   pl <- outcome$planning
@@ -393,6 +394,17 @@ advisor_recommendation <- function(session, rules = NULL) {
     planning$note_de <- sprintf(paste0("Die Regeln %s legen f\u00fcr %s (Auswahl durch die Nutzerin oder den ",
                                        "Nutzer) keine Planung fest. Hinweis zu %s: %s"),
                                 ver$rules_version, override, primary, pl$note_de)
+  }
+  # Explicit mappings apply to the selected variant, including minlike overrides.
+  # Unknown answers never become an available design merely through a rule default.
+  if (has_method && identical(pl$planning_availability, "available") &&
+      .ig_advisor_boschloo_outcome(outcome$outcome_id, primary) &&
+      !is.null(.ig_advisor_boschloo_variant(vid))) {
+    planning$planning_compatibility <- "independently_validated_extension"
+    planning$planning_availability <- if (length(missing)) "unavailable" else "available"
+    planning$note_en <- paste0(vid, ": ", .ig_advisor_boschloo_planning_note("en"))
+    planning$note_de <- paste0(vid, ": ", .ig_advisor_boschloo_planning_note("de"))
+    preferred$planning_inputs <- as.list(c("p1", "p2", "alpha", "power or n1/n2", "allocation_ratio and allocation policy for a priori planning"))
   }
   if (has_method) preferred$planning_note_de <- planning$note_de
 

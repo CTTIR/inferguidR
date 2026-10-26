@@ -17,7 +17,7 @@
 
 .ig_cls_panels <- c("confusion_table", "mosaic", "score_distribution", "roc", "pr",
                     "metric_vs_cutoff", "prevalence_curve", "metric_pair", "metric_network",
-                    "model_comparison", "sweep_table", "current_table")
+                    "model_comparison", "sweep_table", "current_table", "calibration", "net_benefit")
 
 .ig_cls_families <- list(
   within_truth = c("tpr", "fpr"),
@@ -106,7 +106,10 @@
 #' (metric dependency graph from the dictionary), `"model_comparison"` (ROC
 #' curves and operating points of all models evaluated on the same units,
 #' with the paired DeLong comparisons; `model_id` is the focal model),
-#' `"sweep_table"` and `"current_table"`.
+#' `"sweep_table"` and `"current_table"`. Probability-score panels
+#' `"calibration"` (retained grouped observed rates and diagnostic summaries) and
+#' `"net_benefit"` (explicit decision probabilities with alert-all and alert-none
+#' references) use observed data, never prevalence scenarios.
 #'
 #' @param x A `classification_result`.
 #' @param panel Panel name (see Details).
@@ -131,7 +134,11 @@
 #' roc <- classification_plot_data(res, "roc")
 #' head(roc$data$points)
 #' roc$notes
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 classification_plot_data <- function(x, panel = .ig_cls_panels, model_id = NULL,
                                      basis = c("observed", "scenario"), lang = c("en", "de"),
@@ -168,7 +175,9 @@ classification_plot_data <- function(x, panel = .ig_cls_panels, model_id = NULL,
     metric_network = .ig_cls_pd_network(m, basis, lang),
     model_comparison = .ig_cls_pd_comparison(x, m),
     sweep_table = .ig_cls_pd_sweep(x, m, basis),
-    current_table = .ig_cls_pd_current(x, m, basis, lang))
+    current_table = .ig_cls_pd_current(x, m, basis, lang),
+    calibration = .ig_cls_pd_probability(x, m, panel, basis, lang),
+    net_benefit = .ig_cls_pd_probability(x, m, panel, basis, lang))
   c(list(panel = panel, model_id = model_id, basis = basis), out)
 }
 

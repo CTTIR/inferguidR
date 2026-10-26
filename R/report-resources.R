@@ -49,7 +49,7 @@
   if (!is.list(r) || anyDuplicated(names(r)) || !.ig_is_string(x$locale) || !x$locale %in% c("en", "de"))
     .ig_abort("invalid_input", "Invalid resource declaration or locale.")
   if (identical(r$status, "attached")) {
-    if (!identical(x$schema_version, "inferguidR.report_document/0.3.0") ||
+    if (!x$schema_version %in% c("inferguidR.report_document/0.3.0","inferguidR.report_document/0.4.0") ||
         !is.list(r$entries) || !length(r$entries) || !is.null(names(r$entries)))
       .ig_abort("invalid_input", "Invalid version or entries for attached report resources.")
     requests <- lapply(r$entries, function(e) {

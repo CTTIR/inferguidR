@@ -246,10 +246,16 @@
     if (!is.list(pl) || !.ig_is_string(pl$planning_compatibility) ||
         !(pl$planning_compatibility %in% vocab$planning_compatibility)) {
       add("planning", sprintf("%s: planning_compatibility outside the vocabulary", id))
-    } else if (pl$planning_compatibility %in% c("exact_gpower_match", "independently_validated_extension")) {
-      add("planning", sprintf("%s: claims '%s' without validation evidence (none exists; blocker B01)",
+    } else if (identical(pl$planning_compatibility, "exact_gpower_match") ||
+               (identical(pl$planning_compatibility, "independently_validated_extension") &&
+                !.ig_advisor_boschloo_outcome(id, vid))) {
+      add("planning", sprintf("%s: claims '%s' without a validated mapping",
                               id, pl$planning_compatibility))
     }
+    if (is.list(pl) && identical(pl$planning_availability, "available") &&
+        (!.ig_advisor_boschloo_outcome(id, vid) ||
+         !identical(pl$planning_compatibility, "independently_validated_extension")))
+      add("planning", sprintf("%s: no implemented same-test planning mapping", id))
     if (is.list(pl) && (!.ig_is_string(pl$planning_availability) ||
                         !(pl$planning_availability %in% vocab$planning_availability))) {
       add("planning", sprintf("%s: planning_availability outside the vocabulary", id))

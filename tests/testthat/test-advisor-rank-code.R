@@ -5,6 +5,12 @@
 }
 .rank_expected_p <- function(z,alt) switch(alt,less=pnorm(z),greater=pnorm(z,lower.tail=FALSE),two.sided=2*pnorm(-abs(z)))
 
+test_that("one-sample signed-rank teaching code requires an explicit reference", {
+ e<-.rank_code_env("signed_rank_wilcoxon_one_sample","two.sided")
+ expect_error(e$analyse(e$example_x),"mu.*missing")
+ expect_identical(e$analyse(e$example_x,mu=0)$null_location,0)
+})
+
 test_that("signed-rank examples agree with sign enumeration and Walsh location", {
  for(id in c("signed_rank_wilcoxon_one_sample","signed_rank_wilcoxon")) for(alt in c("less","greater","two.sided")) {
   e<-.rank_code_env(id,alt);d<-c(-1,2,-3,4,5,-6)

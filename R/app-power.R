@@ -16,7 +16,7 @@
     shiny::tags$main(class = "ig-figure",
       shiny::tags$div(role = "status", `aria-live` = "polite", shiny::textOutput(ns("status"))),
       shiny::uiOutput(ns("result_method")),
-      shiny::plotOutput(ns("distribution"), height = "420px"),
+      shiny::plotOutput(ns("distribution"), height = "620px"),
       shiny::tableOutput(ns("decisions")),
       shiny::uiOutput(ns("history_controls")),
       .ig_power_sweep_ui(ns("sweep")),
@@ -31,6 +31,15 @@
     message <- shiny::reactiveVal("")
     context_notice <- shiny::reactiveVal("")
     field_languages <- new.env(parent = emptyenv())
+    field_drafts <- new.env(parent = emptyenv())
+    remember_field <- function(id, text, lang) {
+      saved <- field_drafts[[id]]
+      if (!is.null(text) && (is.null(saved) || !identical(text, saved$text))) {
+        saved <- list(text = text, locale = field_languages[[id]] %||% lang)
+        field_drafts[[id]] <- saved
+      }
+      saved
+    }
     example <- list(d = .5, alpha = .05, power = .8, n_total = 30, error_ratio = 1)
     method <- shiny::reactive(input$method %||% "t_means_one_sample")
     definition <- shiny::reactive(.ig_get_method(method()))
@@ -72,6 +81,39 @@
       if (is.null(saved)) input_form() else
         .ig_workbench_form(saved$method_id, saved$mode, saved$options, saved$target)
     })
+    field_layout <- shiny::reactiveVal(NULL)
+    option_layout <- shiny::reactiveVal(NULL)
+    target_layout <- shiny::reactiveVal(NULL)
+    restore_active <- FALSE
+    restore_generation <- 0L
+    shiny::observe({
+      f <- form(); active <- !is.null(restoring())
+      if (active && !restore_active) restore_generation <<- restore_generation + 1L
+      restore_active <<- active
+      layout <- list(method = f$method, parameters = f$parameters,
+                     restore_generation = restore_generation)
+      # Option bindings often invalidate form() without changing these fields.
+      # Replacing an identical editor can erase typing before its input event
+      # reaches the server. History explicitly requests one new render; ending
+      # restoration does not request another replacement of the same editor.
+      if (!identical(shiny::isolate(field_layout()), layout)) field_layout(layout)
+      options <- list(method = f$method, choices = f$option_choices,
+                      restore_generation = restore_generation)
+      if (!identical(shiny::isolate(option_layout()), options)) option_layout(options)
+      target <- list(method = f$method, mode = f$mode, targets = f$targets,
+                     restore_generation = restore_generation)
+      if (!identical(shiny::isolate(target_layout()), target)) target_layout(target)
+    }, priority = 90)
+    # Dynamic editors can briefly unbind inputs during method/locale changes.
+    # Retain the latest draft, including invalid and deliberately empty text,
+    # with the locale in which it was entered; never substitute an old result.
+    shiny::observe({
+      f <- input_form()
+      for (p in f$parameters) {
+        id <- .ig_workbench_field_id(f$method, p$name)
+        remember_field(id, input[[id]], language())
+      }
+    }, priority = 100)
     shiny::observeEvent(form(), {
       f <- form()
       reset <- union(f$dropped_options, names(f$reset_options))
@@ -82,7 +124,8 @@
       }
     }, ignoreInit = TRUE)
     output$options <- shiny::renderUI({
-      f <- form()
+      shiny::req(!is.null(option_layout()))
+      f <- shiny::isolate(form())
       shiny::tagList(lapply(names(f$option_choices), function(nm) {
         o <- f$definition$options[[nm]]
         codes <- f$option_choices[[nm]]
@@ -97,7 +140,8 @@
       }))
     })
     output$target <- shiny::renderUI({
-      f <- form()
+      shiny::req(!is.null(target_layout()))
+      f <- shiny::isolate(form())
       label <- function(nm) .ig_workbench_label(f$definition$params[[nm]]$label, language(), nm)
       if (length(f$targets) > 1L && f$mode != "compromise") {
         shiny::selectInput(session$ns(.ig_workbench_field_id(f$method, f$mode, "target")),
@@ -112,12 +156,15 @@
     })
     output$fields <- shiny::renderUI({
       lang <- language()
-      f <- form()
+      f <- field_layout(); shiny::req(!is.null(f))
+      restore <- shiny::isolate(restoring())
       shiny::tagList(lapply(f$parameters, function(p) {
         id <- .ig_workbench_field_id(f$method, p$name)
         current <- shiny::isolate(input[[id]])
-        value <- if (!is.null(restoring())) restoring()$inputs[[p$name]] else if (is.null(current)) p$default %||% (if (f$method == "t_means_one_sample") example[[p$name]]) else
-          tryCatch(.ig_workbench_parse_number(current, field_languages[[id]] %||% lang), error = function(e) NULL)
+        saved <- remember_field(id, current, lang)
+        if (is.null(current) && !is.null(saved)) current <- saved$text
+        value <- if (!is.null(restore)) restore$inputs[[p$name]] else if (is.null(current)) p$default %||% (if (f$method == "t_means_one_sample") example[[p$name]]) else
+          tryCatch(.ig_workbench_parse_number(current, saved$locale %||% field_languages[[id]] %||% lang), error = function(e) NULL)
         shown <- if (is.null(value)) current %||% "" else .ig_format_double(value)
         if (!is.null(value) && lang == "de") shown <- sub(".", ",", shown, fixed = TRUE)
         field_languages[[id]] <- lang
@@ -224,7 +271,8 @@
       panel <- if (identical(r$method_id, .bl_method_id)) "lattice" else "distribution"
       pd <- power_plot_data(r, panel)
       shiny::validate(shiny::need(pd$status == "ok", pd$reason %||% "Distribution unavailable"))
-      plot_power(r, panel = panel, lang = language())
+      .ig_workbench_plot_labels(plot_power(r, panel = panel, lang = language()),
+        session$clientData[[paste0("output_",session$ns("distribution"),"_width")]])
     }, res = 110)
     output$decisions <- shiny::renderTable({
       pd <- power_plot_data(current(), "decision_table")

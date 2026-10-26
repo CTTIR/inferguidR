@@ -25,7 +25,11 @@
 #'   `auc_check` (the AUC recomputed as \eqn{\Phi(d / \sqrt{1 + \sigma^2})}).
 #' @examples
 #' binormal_model(0.8, 1.5)
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 binormal_model <- function(auc, sigma = 1) {
   .ig_cls_check_binormal(auc, sigma)
@@ -52,7 +56,11 @@ binormal_model <- function(auc, sigma = 1) {
 #'   normal upper tails (no discretisation).
 #' @examples
 #' binormal_rates(c(0, 1, 2), auc = 0.8, sigma = 1)
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 binormal_rates <- function(cutoff, auc, sigma = 1) {
   .ig_cls_check_binormal(auc, sigma)

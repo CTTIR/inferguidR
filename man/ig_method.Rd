@@ -98,15 +98,17 @@ mode and selected solve target(s). Existing one-argument callbacks work unchange
 mode, \verb{function(p, n_lo, n_max)}, used instead of the generic integer
 search (for example a discrete test that can exclude designs by a proven
 bound). \code{p} holds the specification's inputs and options, and
-\verb{[n_lo, n_max]} is the admissible range of \code{n_total}. It returns
-\verb{list(status = "ok", n = <smallest admissible n_total reaching the target>, power = <its power>, diagnostics = list(...))}, or
-\verb{list(status = <status code>, reason = <text>, diagnostics = list(...))}
-when there is no answer. The solver checks the returned design against
+\verb{[n_lo, n_max]} is the admissible range of \code{n_total}. Return a list with
+\code{status = "ok"}, \code{n} (the smallest admissible total reaching the target),
+\code{power} (its power), and a \code{diagnostics} list. When there is no answer,
+return a list with \code{status} (the status code), \code{reason} (explanatory text)
+and \code{diagnostics}. The solver checks the returned design against
 \code{design} and recomputes its power with \code{power}.}
 
 \item{sensitivity_search}{Optional \verb{function(p, target_name)} replacing
-the generic sensitivity scan. Return a status/reason for failure, or
-\verb{list(status = "ok", value = <effect>, diagnostics = list(...), warnings = character())}. The effect must be in its parameter domain
+the generic sensitivity scan. Return a status/reason for failure, or a
+list with \code{status = "ok"}, \code{value} (the effect), a \code{diagnostics} list,
+and a character vector of \code{warnings}. The effect must be in its parameter domain
 and its recomputed power must reach the target within solver tolerance.
 A method-specific maximum below target is allowed only with
 \code{diagnostics$target_reached = FALSE}, \code{diagnostics$max_power} agreeing

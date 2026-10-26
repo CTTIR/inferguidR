@@ -35,7 +35,8 @@
       "enum": [
         "inferguidR.report_document/0.1.0",
         "inferguidR.report_document/0.2.0",
-        "inferguidR.report_document/0.3.0"
+        "inferguidR.report_document/0.3.0",
+        "inferguidR.report_document/0.4.0"
       ]
     },
     "object_type": {
@@ -2004,7 +2005,10 @@
               "classifier_comparison",
               "classifier_roc_point",
               "classifier_pr_point",
-              "power_sweep"
+              "power_sweep",
+              "classifier_calibration",
+              "classifier_net_benefit",
+              "power_lattice"
             ]
           },
           "status": {
@@ -2027,7 +2031,9 @@
             "enum": [
               "observed",
               "theoretical",
-              "scenario"
+              "scenario",
+              "H0",
+              "H1"
             ]
           },
           "sweep_index": {
@@ -2262,6 +2268,9 @@
         },
         "note": {
           "type": "string"
+        },
+        "probability_aggregates_included": {
+          "type": "boolean"
         }
       },
       "required": [
@@ -2276,6 +2285,102 @@
         "object",
         "null"
       ]
+    },
+    "probability_summaries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "analysis",
+          "model_id",
+          "calibration",
+          "net_benefit"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "analysis": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "model_id": {
+            "type": "string"
+          },
+          "calibration": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "group",
+                "n_units",
+                "events",
+                "mean_predicted",
+                "observed_rate"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "group": {
+                  "type": "number"
+                },
+                "n_units": {
+                  "type": "number"
+                },
+                "events": {
+                  "type": "number"
+                },
+                "mean_predicted": {
+                  "type": "number"
+                },
+                "observed_rate": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "net_benefit": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "threshold_probability",
+                "harm_weight",
+                "tp",
+                "fp",
+                "n_total",
+                "net_benefit",
+                "net_benefit_alert_all",
+                "net_benefit_alert_none"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "threshold_probability": {
+                  "type": "number"
+                },
+                "harm_weight": {
+                  "type": "number"
+                },
+                "tp": {
+                  "type": "number"
+                },
+                "fp": {
+                  "type": "number"
+                },
+                "n_total": {
+                  "type": "number"
+                },
+                "net_benefit": {
+                  "type": "number"
+                },
+                "net_benefit_alert_all": {
+                  "type": "number"
+                },
+                "net_benefit_alert_none": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "allOf": [
@@ -2323,6 +2428,43 @@
               }
             },
             "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "inferguidR.report_document/0.4.0"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "probability_summaries"
+        ],
+        "properties": {
+          "privacy": {
+            "required": [
+              "probability_aggregates_included"
+            ]
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "required": [
+            "probability_summaries"
+          ]
+        },
+        "properties": {
+          "privacy": {
+            "not": {
+              "required": [
+                "probability_aggregates_included"
+              ]
+            }
           }
         }
       }

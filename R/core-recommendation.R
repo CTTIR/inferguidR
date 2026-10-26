@@ -15,7 +15,7 @@
                              "not_applicable"),
   planning_availability = c("planned_with_gpower_reference_candidate",
                             "planned_independent_validation", "simulation_only_if_implemented",
-                            "unavailable", "not_applicable"),
+                            "unavailable", "not_applicable", "available"),
   assumption_state = c("met", "unknown", "not_met", "not_applicable")
 )
 

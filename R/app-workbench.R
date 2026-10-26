@@ -14,18 +14,22 @@ workbench_app <- function() {
   for (package in c("shiny", "ggplot2")) if (!requireNamespace(package, quietly = TRUE))
     .ig_abort("unsupported", sprintf("The workbench requires the suggested package '%s'.", package))
   shiny::addResourcePath("inferguidr-assets", system.file("www", package = "inferguidR"))
-  ui <- shiny::fluidPage(
-    shiny::tags$head(shiny::tags$style(shiny::HTML(paste(
+  ui <- shiny::fluidPage(title = "inferguidR",
+    shiny::tags$head(shiny::tags$link(rel="icon",type="image/svg+xml",href="inferguidr-assets/logo.svg"),
+      shiny::tags$style(shiny::HTML(paste(
       "body{font-family:'DejaVu Sans',Arial,sans-serif;color:#152330;background:#fff;font-size:16px}",
       ".ig-header{padding:22px 12px 16px;border-bottom:2px solid #334E9A;display:flex;justify-content:space-between;gap:24px}",
       ".ig-header h1{font-size:28px;margin:0 0 8px}.ig-header p{max-width:75ch;margin:0}",
       ".ig-study{display:grid;grid-template-columns:minmax(210px,1fr) minmax(360px,3fr) minmax(210px,1fr);gap:26px;padding:22px 10px}",
       ".ig-controls{border-right:1px solid #DCE4EA;padding-right:20px}.ig-inspector{border-left:1px solid #DCE4EA;padding-left:20px;overflow-wrap:anywhere}",
+      ".ig-study>*{min-width:0}.shiny-table-output{max-width:100%;overflow-x:auto}.shiny-plot-output img{max-width:100%;height:auto}",
+      ".shiny-table-output th{overflow-wrap:anywhere}",
       "input,select,button{font-size:16px!important}.btn{border-radius:3px}.btn:focus,a:focus,input:focus,select:focus{outline:3px solid #956000!important;outline-offset:2px}",
+      ".selectize-input.focus,summary:focus{outline:3px solid #956000!important;outline-offset:2px}",
       ".ig-recommendation{max-width:85ch;margin:24px 12px}.ig-recommendation h4{margin-top:24px;font-size:19px}",
       "fieldset{max-width:78ch;margin:22px 0}legend{font-size:22px}details{margin:16px 0}table{font-variant-numeric:tabular-nums}",
       "@media(max-width:1100px){.ig-study{grid-template-columns:240px 1fr}.ig-inspector{grid-column:1/-1;border-left:0;border-top:1px solid #DCE4EA;padding:16px 0}}",
-      "@media(max-width:720px){.ig-study{display:block}.ig-controls{border-right:0;border-bottom:1px solid #DCE4EA;padding:0 0 20px}.ig-header{display:block}.ig-figure{padding-top:16px}}"
+      "@media(max-width:720px){.ig-study{display:block}.ig-controls{border-right:0;border-bottom:1px solid #DCE4EA;padding:0 0 20px}.ig-header{display:block}.ig-figure{padding-top:16px}.shiny-plot-output{min-height:820px}.ig-compact-plot .shiny-plot-output{min-height:450px}.shiny-plot-output.shiny-output-error{min-height:0;height:auto!important}}"
     )))),
     shiny::tags$header(class = "ig-header", shiny::tags$div(shiny::tags$h1(
       shiny::tags$img(src = "inferguidr-assets/logo.svg", alt = "",

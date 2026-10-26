@@ -47,37 +47,26 @@ Intervals are conditional on the scores and, for operating-point metrics,
 on the fixed cutoff. They do not include the uncertainty of a data-driven
 cutoff selection.
 }
+\details{
+Bootstrap limits use type-7 empirical quantiles. Undefined replicates are
+excluded only when at most 10 percent are undefined; otherwise the interval
+is explicitly unavailable. Class stratification conditions on the observed
+class totals, so it does not estimate population-prevalence uncertainty.
+Frequency weights represent replicated units; declared clusters are sampled
+as whole clusters. These are percentile intervals, without bias correction
+or studentisation. Their nominal level is not a coverage guarantee: small
+samples and boundary estimates can have severe undercoverage. Independent
+arithmetic checks and a binomial coverage diagnostic are provided in
+\code{tools/product/check-bootstrap.R}; bootstrap validation remains development.
+}
 \examples{
 classification_uncertainty(level = 0.9, bootstrap_replicates = 500, seed = 1)
 }
 \seealso{
-Other classification:
-\code{\link[=attach_classification_data]{attach_classification_data()}},
-\code{\link[=binormal_model]{binormal_model()}},
-\code{\link[=binormal_rates]{binormal_rates()}},
-\code{\link[=calibration_summary]{calibration_summary()}},
-\code{\link[=classification_auc]{classification_auc()}},
-\code{\link[=classification_evaluated_spec]{classification_evaluated_spec()}},
-\code{\link[=classification_examples]{classification_examples()}},
-\code{\link[=classification_metrics]{classification_metrics()}},
-\code{\link[=classification_plot_data]{classification_plot_data()}},
-\code{\link[=classification_spec]{classification_spec()}},
-\code{\link[=classification_table]{classification_table()}},
-\code{\link[=classifier_model]{classifier_model()}},
-\code{\link[=compare_classifiers]{compare_classifiers()}},
-\code{\link[=cutoff_rule]{cutoff_rule()}},
-\code{\link[=cutoff_sweep]{cutoff_sweep()}},
-\code{\link[=evaluate_cutoff]{evaluate_cutoff()}},
-\code{\link[=format_metric_values]{format_metric_values()}},
-\code{\link[=metric_dictionary]{metric_dictionary()}},
-\code{\link[=net_benefit]{net_benefit()}},
-\code{\link[=plot_classification]{plot_classification()}},
-\code{\link[=ppv_gap_max_prevalence]{ppv_gap_max_prevalence()}},
-\code{\link[=pr_summary]{pr_summary()}},
-\code{\link[=predictive_values_at_prevalence]{predictive_values_at_prevalence()}},
-\code{\link[=prevalence_for_ppv_target]{prevalence_for_ppv_target()}},
-\code{\link[=prevalence_scenario]{prevalence_scenario()}},
-\code{\link[=select_cutoff]{select_cutoff()}},
-\code{\link[=update.classification_spec]{update.classification_spec()}}
+\itemize{
+\item \code{\link[=classification_spec]{classification_spec()}}
+\item \code{\link[=evaluate_cutoff]{evaluate_cutoff()}}
+\item \code{\link[=plot_classification]{plot_classification()}}
+}
 }
 \concept{classification}

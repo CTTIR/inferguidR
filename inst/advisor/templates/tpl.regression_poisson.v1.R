@@ -50,6 +50,13 @@ analyse <- function(data,predictors,independent_units=FALSE,alternative="two.sid
  tab<-data.frame(term=c('(Intercept)',predictors),estimate=beta,std_error=se,z=statistic,
   p_value=2*stats::pnorm(abs(statistic),lower.tail=FALSE),lower=lo,upper=hi,
   ratio=exp(beta),ratio_lower=exp(lo),ratio_upper=exp(hi),stringsAsFactors=FALSE)
+ # The intercept is a baseline log rate, not a rate ratio. Keep its link-scale
+ # inference; only slopes receive exponentiated ratios. Finite link limits that
+ # overflow or underflow on exponentiation are not unbounded confidence limits.
+ tab$ratio[1]<-NA_real_;tab$ratio_lower[1]<-NA_real_;tab$ratio_upper[1]<-NA_real_
+ ratios<-as.matrix(tab[-1,c('ratio','ratio_lower','ratio_upper'),drop=FALSE])
+ if(any(!is.finite(lo))||any(!is.finite(hi))||any(!is.finite(ratios))||any(ratios<=0))
+  return(unavailable('Exponentiated slope estimates or finite interval limits are outside the numerical range; rescale the predictor units explicitly.'))
  LR<-null$deviance-f$deviance
  if(LR<0&&abs(LR)<=64*.Machine$double.eps*max(1,null$deviance,f$deviance))LR<-0
  if(!is.finite(LR)||LR<0)return(unavailable('Nested-model likelihood difference is unresolved.'))
@@ -59,7 +66,7 @@ analyse <- function(data,predictors,independent_units=FALSE,alternative="two.sid
   n_total=nrow(data),n_used=n,n_excluded=sum(!keep),predictors=predictors,confidence_level=conf.level,
   fitted=as.numeric(f$fitted.values),residual_deviance=f$deviance,residual_df=f$df.residual,
   pearson_dispersion=sum((y-f$fitted.values)^2/family$variance(f$fitted.values))/f$df.residual,
-  alpha=1-conf.level,event_or_exposure='y is the nonnegative integer event count; exposure is positive time/opportunity in a common prespecified unit. Ratios are rates per exposure unit.',assumptions='Independent Poisson counts, log exposure offset, correct log-linear mean and conditional variance equal to the mean. Pearson dispersion is descriptive and does not trigger a model switch. Complete-case inference needs justified missingness assumptions.',
+  alpha=1-conf.level,event_or_exposure='y is the nonnegative integer event count; exposure is positive time/opportunity in a common prespecified unit. Slope ratios compare rates for a one-unit predictor increase. The intercept is the baseline log rate at zero predictors; its ratio is omitted.',assumptions='Independent Poisson counts, log exposure offset, correct log-linear mean and conditional variance equal to the mean. Pearson dispersion is descriptive and does not trigger a model switch. Complete-case inference needs justified missingness assumptions.',
   limitations='One to ten prespecified numeric predictors, independent observations, no weights or automatic variable selection. Wald coefficient intervals are marginal and not multiplicity-adjusted. Numerical guards may refuse extreme but finite fits; they do not replace design or model checks. No effect is interpreted as causal without design support.')
 }
 example_data<-data.frame(id=1:18,x1=rep(c(-1,0,1),6),x2=rep(c(0,1),each=9),exposure=rep(c(1,2,3),6),y=c(1,3,8,2,4,7,0,5,9,2,6,11,1,4,13,3,7,10))

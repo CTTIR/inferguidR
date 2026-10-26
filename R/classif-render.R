@@ -33,7 +33,10 @@
 #'   Fixed counts cannot provide ROC, PR or score-distribution curves. Score
 #'   distributions and model comparisons always use the observed/model basis.
 #'   Prevalence curves hold the current class-conditional rates fixed.
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
 #' @export
 #' @examples
 #' if (requireNamespace("ggplot2", quietly = TRUE)) {
@@ -41,7 +44,7 @@
 #'   plot_classification(r, "roc", "model_b")
 #' }
 plot_classification <- function(x, panel = c("roc", "pr", "mosaic", "score_distribution",
-                                                            "prevalence_curve", "model_comparison", "metric_vs_cutoff", "metric_pair", "metric_network"), model_id = NULL,
+                                                            "prevalence_curve", "model_comparison", "metric_vs_cutoff", "metric_pair", "metric_network", "calibration", "net_benefit"), model_id = NULL,
                                 basis = c("observed", "scenario"), lang = c("en", "de"),
                                 mosaic_mode = c("joint", "within_class"), bins = 40,
                                 metric_family = "within_truth", metric_x = "fpr", metric_y = "tpr",
@@ -56,6 +59,8 @@ plot_classification <- function(x, panel = c("roc", "pr", "mosaic", "score_distr
   basis <- match.arg(basis)
   lang <- match.arg(lang)
   mosaic_mode <- match.arg(mosaic_mode)
+  if (panel %in% c("calibration", "net_benefit")) return(.ig_plot_classification_probability(
+    x, panel, model_id, basis, lang))
   if (panel == "metric_network") return(.ig_plot_classification_network(
     x, model_id, basis, lang, metric_focus))
   if (panel %in% c("metric_vs_cutoff", "metric_pair")) return(.ig_plot_classification_metrics(

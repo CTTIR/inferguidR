@@ -7,11 +7,14 @@
 boschloo_variants()
 }
 \value{
-A data frame with one row per variant: \code{variant} (the value of the
-\code{variant} argument), \code{variant_id}, \code{advisor_variant_id}, \code{alternative},
-\code{label}, \code{ordering_statistic}, \code{construction}, \code{exact_call},
-\code{exact2x2_call}, \code{validation_status}, \code{planning_compatibility},
-\code{gpower_relation} and \code{gpower_classification_status}.
+A data frame with one row per variant and these columns:
+\itemize{
+\item \code{variant}, \code{variant_id}, \code{advisor_variant_id}: variant identifiers.
+\item \code{alternative}, \code{label}, \code{ordering_statistic}, \code{construction}: test definition.
+\item \code{exact_call}, \code{exact2x2_call}: comparator calls.
+\item \code{validation_status}, \code{planning_compatibility}: evidence status.
+\item \code{gpower_relation}, \code{gpower_classification_status}: reference relationship.
+}
 }
 \description{
 Lists the four Boschloo variants with their identifiers, hypotheses,

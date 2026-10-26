@@ -34,9 +34,11 @@ validation_status("boschloo_proportions_two_independent")
 ```
 
 Standalone Boschloo power and sample-size functions have independent checks.
-The advisor-to-planner mapping is a separate feature and remains unvalidated.
-Select the test variant, direction and allocation explicitly when using the
-standalone functions.
+The explicit `advisor_power_spec()` bridge preserves the selected central,
+minlike or prespecified directional variant for completed, mapped advisor
+recommendations. Supply event probabilities, direction and allocation
+explicitly. Unmapped or incomplete recommendations remain unavailable for
+automatic planning; the mapping does not certify every numerical branch.
 
 ## Inspect the actual outcome
 
@@ -63,6 +65,17 @@ The source repository includes an installed-package checker with synthetic
 inputs and separate reference calculations. It emits per-case comparisons and
 a run summary, and exits unsuccessfully on a mismatch. Its scope and tolerances
 are documented in the [public validation instructions](https://github.com/CTTIR/inferguidR/blob/main/tools/validation/README.md).
+
+Separate bounded numerical campaigns exercise exact table enumeration, inverse
+targets, rank and regression models, multivariate approximations and utility
+calculations. Their method/mode/option inventory distinguishes an independently
+checked sample from an uncovered branch or an intentional refusal. A finite
+sample for every registered method is not certification of all its inputs.
+The [numerical contracts](https://github.com/CTTIR/inferguidR/blob/main/tools/validation/NUMERICAL-CONTRACTS.md)
+state the oracle, tolerance, supported scope and remaining boundary for each
+work package. The installed release preflight separately checks API/help
+availability, startup effects and report round-trips under full and minimal
+dependency profiles.
 
 The package regression suite and this independent checker answer different
 questions. Neither replaces full reference-corpus comparison. Some provenance

@@ -82,7 +82,11 @@
 #' @examples
 #' # Case-control style sample (50 % events) transported to 2 % prevalence
 #' prevalence_scenario(c(tp = 80, fn = 20, fp = 10, tn = 90), prevalence = c(0.02, 0.5))
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 prevalence_scenario <- function(x, prevalence, n_total = NULL, source = c("assumed", "external"),
                                 lang = c("en", "de")) {

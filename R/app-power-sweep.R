@@ -68,7 +68,8 @@
     output$message <- shiny::renderText(message())
     output$curve_panel <- shiny::renderUI({
       if(is.null(current_sweep())) return(NULL)
-      shiny::plotOutput(session$ns("curve"),height="350px")
+      shiny::tags$div(class="ig-compact-plot",
+        shiny::plotOutput(session$ns("curve"),height="350px"))
     })
     output$curve <- shiny::renderPlot({
       sw <- current_sweep();shiny::req(sw)
@@ -83,13 +84,14 @@
       shiny::validate(shiny::need(nrow(tab)>0,text("No successful finite points to plot.","Keine erfolgreichen endlichen Punkte darstellbar.")))
       value <- solved_value <- target <- NULL
       names(tab)[names(tab)=="solved"] <- "solved_value"
-      ggplot2::ggplot(tab,ggplot2::aes(x=value,y=solved_value)) + ggplot2::geom_point(colour="#334E9A",size=2.5) +
+      plot <- ggplot2::ggplot(tab,ggplot2::aes(x=value,y=solved_value)) + ggplot2::geom_point(colour="#334E9A",size=2.5) +
         ggplot2::facet_wrap(~target,scales="free_y") +
         ggplot2::labs(x=.ig_workbench_label(def$params[[attr(sw,"free")]]$label,language(),attr(sw,"free")),
           y=text("Solved value","Berechneter Wert"),
           caption=text("Evaluated points only; no interpolation. See the table for failed rows.",
             "Nur berechnete Punkte; keine Interpolation. Fehlgeschlagene Zeilen stehen in der Tabelle.")) +
         ggplot2::theme_minimal(base_size=13)
+      .ig_workbench_plot_labels(plot,session$clientData[[paste0("output_",session$ns("curve"),"_width")]])
     },res=110)
     output$rows <- shiny::renderTable({
       sw <- current_sweep();shiny::req(sw)
@@ -143,11 +145,12 @@
       if(is.null(sw) || is.null(s$preview) || is.null(i)) return(NULL)
       shiny::tagList(shiny::tags$p(shiny::tags$strong(paste(text("Preview only \u2014 row","Nur Vorschau \u2014 Zeile"),i)),
         text(". The main result is unchanged until Apply preview.",". Das Hauptergebnis bleibt bis zur Uebernahme unveraendert.")),
-        shiny::plotOutput(session$ns("preview_plot"),height="350px"))
+        shiny::plotOutput(session$ns("preview_plot"),height="620px"))
     })
     output$preview_plot <- shiny::renderPlot({
       shiny::req(current_sweep(),preview_row(),state()$preview)
-      plot_power(state()$preview$result,lang=language())
+      plot <- plot_power(state()$preview$result,lang=language())
+      .ig_workbench_plot_labels(plot,session$clientData[[paste0("output_",session$ns("preview_plot"),"_width")]])
     },res=110)
     shiny::observeEvent(input$apply,{
       tryCatch({

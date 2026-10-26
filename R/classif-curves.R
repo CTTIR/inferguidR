@@ -277,9 +277,10 @@
 #'
 #' @param spec A `classification_spec` (scored data with attached data, or
 #'   theory).
-#' @param partial_auc Optional `list(focus = "fpr" | "tpr", range = c(lo, hi))`.
-#'   pROC's `partial.auc = c(1, 0.8), partial.auc.focus = "specificity"`
-#'   corresponds to `list(focus = "fpr", range = c(0, 0.2))`.
+#' @param partial_auc Optional list with `focus` equal to `"fpr"` or `"tpr"`
+#'   and `range` equal to `c(lo, hi)`. In pROC, `partial.auc = c(1, 0.8)`
+#'   with `partial.auc.focus = "specificity"` corresponds to `focus = "fpr"`
+#'   and `range = c(0, 0.2)` here.
 #' @param level Confidence level (default: the spec's uncertainty level).
 #' @return A data frame with one row per model and summary (`metric_id`,
 #'   `variant`, `value`, `status`, `reason_code`, `reason`, `estimate_kind`,
@@ -290,7 +291,11 @@
 #'                 s = c(9, 7, 7, 6, 5, 3, 7, 5, 4, 4, 3, 2, 2, 1))
 #' spec <- classification_spec(d, truth = "y", positive_label = 1, scores = "s", cutoff = 5)
 #' classification_auc(spec, partial_auc = list(focus = "fpr", range = c(0, 0.2)))
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 classification_auc <- function(spec, partial_auc = NULL, level = NULL) {
   .ig_cls_check_spec(spec)
@@ -343,7 +348,11 @@ classification_auc <- function(spec, partial_auc = NULL, level = NULL) {
 #' d <- data.frame(y = c(1, 0, 1, 1, 0, 0, 1, 0), s = c(.9, .8, .7, .6, .55, .5, .4, .3))
 #' spec <- classification_spec(d, truth = "y", positive_label = 1, scores = "s", cutoff = .5)
 #' pr_summary(spec, prevalence = 0.1)
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 pr_summary <- function(spec, prevalence = NULL) {
   .ig_cls_check_spec(spec)
@@ -415,7 +424,11 @@ pr_summary <- function(spec, prevalence = NULL) {
 #' spec <- classification_spec(d, truth = "y", positive_label = 1, scores = c("a", "b"),
 #'                             cutoff = 4)
 #' compare_classifiers(spec)
-#' @family classification
+#' @concept classification
+#' @seealso
+#' * [classification_spec()]
+#' * [evaluate_cutoff()]
+#' * [plot_classification()]
 #' @export
 compare_classifiers <- function(spec, level = NULL) {
   .ig_cls_check_spec(spec)

@@ -6,6 +6,14 @@ application, captured output, private project file or development namespace is
 used. Passing these checks is not full numerical certification or evidence of
 agreement with G*Power.
 
+For the broader streamed numerical campaign, exact-compromise contract,
+discrete-boundary correction and complete method/option inventory, see
+[NUMERICAL-CONTRACTS.md](NUMERICAL-CONTRACTS.md). Run `check-numerics.R`
+with the same installed-library guard and a separate new output directory.
+The complementary [extended coverage campaign](EXTENDED-COVERAGE.md) adds
+independent representative cases for the remaining method families and more
+inverse and option branches through `check-coverage.R`.
+
 ## Run
 
 Install the candidate with `R CMD INSTALL` into a suitable library, then make
