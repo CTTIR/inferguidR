@@ -18,6 +18,7 @@ here <- dirname(normalizePath(sub("^--file=", "", grep("^--file=", commandArgs(F
 ref <- function(file) { e <- new.env(parent = globalenv()); sys.source(file.path(here, "reference", file), e); e }
 cont <- ref("continuous.R"); multi <- ref("multivariate.R")
 multi$ref_pchisq <- cont$ref_pchisq
+inverse_f <- ref("inverse-f.R")
 glm <- ref("glm.R"); rank <- ref("rank.R"); manova <- ref("manova.R")
 discrete <- ref("discrete.R"); offset <- ref("offset.R"); regression <- ref("regression.R")
 variance <- ref("variance.R"); correlations <- ref("correlations.R"); proportions <- ref("proportions.R"); unconditional <- ref("unconditional.R")
@@ -74,7 +75,7 @@ t_power <- function(df, ncp, alpha, tails = "two") {
 }
 f_power <- function(df1, df2, ncp, alpha) {
   if (!is.finite(df1) || !is.finite(df2) || min(df1, df2) <= 0) return(NA_real_)
-  multi$ref_pf(stats::qf(alpha, df1, df2, lower.tail = FALSE), df1, df2, ncp, FALSE)
+  inverse_f$ref_inverse_pf(stats::qf(alpha, df1, df2, lower.tail = FALSE), df1, df2, ncp, FALSE)
 }
 models <- list()
 add <- function(id, input, effect, family, parameters, options = list(), minimum = 2, step = 1, modes = "a_priori") {

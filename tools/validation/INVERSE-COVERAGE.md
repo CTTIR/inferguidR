@@ -40,6 +40,15 @@ base-R quantiles and probability primitives are shared in some branches;
 alternative tails use independent integrals, formulas or enumeration. This
 is algorithmic cross-checking, not independence from every numerical library.
 
+The F reference in `reference/inverse-f.R` integrates the denominator on its
+log scale, retaining the exponential Jacobian. Its inner noncentral
+chi-square convolution uses a sine coordinate and the corresponding cosine
+Jacobian, with the complete integration interval split around the shifted
+normal density's center. These coordinates regularize endpoint behavior
+across R versions. Inner and outer relative quadrature targets remain
+`1e-13` and `1e-11`, with zero absolute target; the two omitted denominator
+tails bound truncation error by `2e-14`. No smaller sample size is skipped.
+
 | Families | Inverse evidence |
 |---|---|
 | t means, slopes/intercepts, point-biserial correlation, single coefficient, ANOVA/ANCOVA | A priori size with independently mapped parameters and noncentral t/F integrals |
