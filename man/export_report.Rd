@@ -27,7 +27,15 @@ Invisibly, the destination and its SHA-256 hash with the snapshot ID.
 Export a frozen report as PDF, JSON or UTF-8 text
 }
 \details{
-Rendering uses a private temporary file. JSON and TXT remain
+Rendering uses a temporary file in the destination directory. The
+completed file is checked and hashed before a single checked rename
+replaces the destination. Rendering or failed-rename errors leave an
+existing destination intact; staging files are removed on exit. This
+follows the filesystem's same-directory rename semantics, including on
+Windows, and does not promise crash durability or concurrent-writer
+isolation. Explicit replacement replaces a symbolic link itself, leaving
+its target untouched; a dangling link also requires overwrite = TRUE.
+JSON and TXT remain
 available if the offline Cairo PDF capability is unavailable. Text is
 rendered literally; report content is never evaluated as R or markup.
 PDF and TXT begin with a readable summary rounded to six significant

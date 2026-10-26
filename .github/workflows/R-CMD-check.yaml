@@ -148,6 +148,8 @@ jobs:
         run: Rscript --vanilla tools/validation/check-numerics.R check/numerical-validation
       - name: Check every registered numerical method on the installed candidate
         run: Rscript --vanilla tools/validation/check-coverage.R check/method-coverage
+      - name: Check independent inverse and sample-size boundaries
+        run: Rscript --vanilla tools/validation/check-inverses.R check/inverse-validation
       - name: Check bounded classifier bootstrap calculations
         run: Rscript --vanilla tools/product/check-bootstrap.R check/bootstrap-validation
       - name: Check installed APIs, startup and reports

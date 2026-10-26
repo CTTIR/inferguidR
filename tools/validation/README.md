@@ -123,3 +123,8 @@ semantics or cross-platform acceptance. The eleven package-test skips for
 excluded development provenance are separate and are not closed by these
 selected checks. See the repository's `VALIDATION.md` and `ROADMAP.md` for the
 broader evidence and qualification requirements.
+
+The additional [inverse and integer-minimality campaign](INVERSE-COVERAGE.md)
+checks the 117 method/mode pairs absent from the first two numerical campaigns.
+Its independent references and discrete-boundary qualifications are documented
+separately; representative coverage is not whole-domain certification.

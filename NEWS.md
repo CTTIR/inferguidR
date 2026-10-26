@@ -26,6 +26,10 @@ Development version; numerical and release qualification remain incomplete.
   Boschloo power reports now retain both conditional count lattices, including
   their finite support, rejection membership and probability masses. Import
   and export use the frozen grids without rerunning the region solver.
+* Report exports stage and validate a complete sibling file before replacing
+  the destination with a checked rename. Failed rendering or commit leaves an
+  existing report intact; this follows filesystem rename semantics rather than
+  promising crash durability or isolation from concurrent writers.
 * Canonical JSON string handling avoids repeated scans while preserving the
   serialized bytes and hashes. Report normalization explicitly preserves NULL
   values across supported R versions.

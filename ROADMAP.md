@@ -191,7 +191,7 @@ implemented check does not imply that all scientific qualification gates pass.
 | Work package | Implemented work and evidence entry points | Remaining acceptance boundary |
 |---|---|---|
 | N1 | Enumerated every deterministic rejection state for an attained-size compromise example; documented why the requested equality can be unattainable in `tools/validation/NUMERICAL-CONTRACTS.md` | Exact attained-size compromise stays excluded with `reference_pending`; no nearest-ratio or randomized test is substituted |
-| N2 | Corrected split rational ties in pooled, corrected pooled and Mantel-Haenszel exact statistics; independent enumeration, integer-boundary and inverse checks in the numerical campaigns | Historical native-reference disagreements remain visible; representative tests do not certify every continuous input domain |
+| N2 | Corrected split rational ties in pooled, corrected pooled and Mantel-Haenszel exact statistics; independent enumeration, integer-boundary and inverse checks, including the 144-case inverse campaign | Historical native-reference disagreements remain visible; representative tests do not certify every continuous input domain |
 | N3 | Added bounded, streaming GLM, rank and regression checks with independent integration/enumeration and explicit case receipts | New synthetic results do not requalify the entire historical capture corpus or erase failed/OOM runs |
 | N4 | Added design-derived multivariate parameter mappings, independent distribution integrals and utility checks | Approximation choices and finite candidate option grids are distinguished from exhaustive continuous-domain qualification |
 | N5 | Independently checked tetrachoric quadrature/variance and bootstrap weighted arithmetic; enumerated finite-sample percentile-interval coverage diagnostics | Bootstrap remains development; undercoverage and finite-sample limitations are retained |
@@ -199,8 +199,8 @@ implemented check does not imply that all scientific qualification gates pass.
 | P1 | Reviewed variant identities, actual executable templates, estimands, assumptions, overrides and source relationships; corrected stale interval and data-handling promises | Technical consistency and source provenance do not establish external scientific approval or source equivalence |
 | P2 | Added explicit `advisor_power_spec()` mappings for the four Boschloo variants, including direction, allocation and supported numerical controls | Other method bridges remain unavailable unless explicitly mapped; older saved sessions require replay |
 | P3 | Added observed calibration/net-benefit panels and settings controls, independent arithmetic and adversarial aggregate-report validation | No prevalence-scenario fabrication; frozen probability summaries are opt-in and bootstrap coverage remains qualified |
-| P4 | Checked setting-aware staleness, history, individual sweep results and reproducible exports | Failed or changed settings must not export an old result as current |
-| P5 | Added an original bilingual glossary, live resource/anchor audit and frozen aggregate probability and lattice figures alongside existing XY sweeps | Full scored-row ROC/PR/density tables remain intentionally excluded from portable reports |
+| P4 | Checked setting-aware staleness, history, individual sweep results, reproducible exports and every advertised helper layout | Failed or changed settings must not export an old result as current; UI editors cover 20 layouts for 11 methods, while other API drawers remain explicitly unavailable in the UI |
+| P5 | Added an original bilingual glossary, live resource/anchor audit and frozen aggregate probability and lattice figures alongside existing XY sweeps; replaced destructive export copying with a checked sibling-file rename | Full scored-row ROC/PR/density tables remain intentionally excluded from portable reports; filesystem rename behavior does not establish crash durability or concurrent-writer isolation |
 | P6 | Installed-browser review covers offline use, desktop/mobile widths, keyboard operation, separate sessions, downloads and recovery | Acceptance requires actual browser receipts and visual inspection for the final source candidate |
 | Release | Added source archive inspection, exported-help/startup/report preflight, isolated optional-dependency absence, licence review and runtime measurement | Final local checks, hosted platform results and deployed HTTP readback are recorded separately; no stable version or submission is inferred |
 
@@ -215,12 +215,17 @@ external-reference adjudications or required platform acceptance remain open.
 The roadmap's stable-release step is not satisfied by passing local regression
 tests or by merely enumerating the registered methods.
 
-The independent campaigns now contain 584 cases and 2,057 comparisons, with
-numerical representatives for all 50 methods. Of 243 registered method/mode
-pairs, 124 have numerical samples, two have only an intentional refusal check
-and 117 remain uncovered by these campaigns. See
+The three numerical campaigns now contain 728 cases and 2,655 comparisons,
+with numerical representatives for all 50 methods. Of 243 registered
+method/mode pairs, 241 have numerical samples and two have only an intentional
+exact-compromise refusal check. No method/mode pair is unsampled, but option
+interactions and continuous input domains are not exhaustively certified. See
 [`EXTENDED-COVERAGE.md`](https://github.com/CTTIR/inferguidR/blob/main/tools/validation/EXTENDED-COVERAGE.md) for the branch
-contracts and the distinction between sampled evidence and certification.
+contracts and the distinction between sampled evidence and certification, and
+[`INVERSE-COVERAGE.md`](https://github.com/CTTIR/inferguidR/blob/main/tools/validation/INVERSE-COVERAGE.md)
+for independent inverse residuals, admissible sample-size scans and discrete
+jump conventions. The separate compact public campaign retains its 21 cases
+and 761 comparisons.
 
 The [advisor review tables](https://github.com/CTTIR/inferguidR/blob/main/tools/product/reviews/2026-10-26/README.md) make the
 69-variant review, 30-reference bibliographic verification and 19 lesson-gap

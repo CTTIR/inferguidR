@@ -187,13 +187,27 @@ report_pdf_capabilities <- function() {
   invisible(file)
 }
 
+.ig_report_destination_exists <- function(file) {
+  if (file.exists(file)) return(TRUE)
+  link <- Sys.readlink(file)
+  length(link) == 1L && !is.na(link) && nzchar(link)
+}
+
 #' Export a frozen report as PDF, JSON or UTF-8 text
 #' @param snapshot A report_document from create_report_snapshot().
 #' @param file Destination file. Existing files are preserved unless overwrite is TRUE.
 #' @param format One of pdf, json or txt.
 #' @param overwrite Allow replacement of an existing file.
 #' @return Invisibly, the destination and its SHA-256 hash with the snapshot ID.
-#' @details Rendering uses a private temporary file. JSON and TXT remain
+#' @details Rendering uses a temporary file in the destination directory. The
+#'   completed file is checked and hashed before a single checked rename
+#'   replaces the destination. Rendering or failed-rename errors leave an
+#'   existing destination intact; staging files are removed on exit. This
+#'   follows the filesystem's same-directory rename semantics, including on
+#'   Windows, and does not promise crash durability or concurrent-writer
+#'   isolation. Explicit replacement replaces a symbolic link itself, leaving
+#'   its target untouched; a dangling link also requires overwrite = TRUE.
+#'   JSON and TXT remain
 #'   available if the offline Cairo PDF capability is unavailable. Text is
 #'   rendered literally; report content is never evaluated as R or markup.
 #'   PDF and TXT begin with a readable summary rounded to six significant
@@ -209,17 +223,21 @@ export_report <- function(snapshot, file, format = c("pdf", "json", "txt"), over
   if (!.ig_is_string(file) || !nzchar(file) || grepl("^[A-Za-z][A-Za-z0-9+.-]*://", file) ||
       !dir.exists(dirname(file)) || dir.exists(file)) .ig_abort("invalid_input", "file must be a local destination in an existing directory")
   if (!is.logical(overwrite) || length(overwrite) != 1L || is.na(overwrite)) .ig_abort("invalid_input", "overwrite must be TRUE or FALSE")
-  if (file.exists(file) && !overwrite) .ig_abort("invalid_input", "destination exists; use overwrite = TRUE to replace it")
-  temporary <- tempfile(pattern = "inferguidR-report-", fileext = paste0(".", format))
+  if (.ig_report_destination_exists(file) && !overwrite) .ig_abort("invalid_input", "destination exists; use overwrite = TRUE to replace it")
+  temporary <- tempfile(pattern = ".inferguidR-report-", tmpdir = dirname(file), fileext = paste0(".", format))
   on.exit(unlink(temporary), add = TRUE)
+  if (!file.create(temporary, showWarnings = FALSE) || !Sys.chmod(temporary, mode = "0600"))
+    .ig_abort("invalid_input", "could not create report staging file")
   switch(format,
     json = writeLines(as.character(ig_to_json(snapshot, pretty = TRUE)), temporary, useBytes = TRUE),
     txt = writeLines(.ig_report_text(snapshot), temporary, useBytes = TRUE),
     pdf = .ig_report_pdf(snapshot, temporary))
   if (!file.exists(temporary) || file.size(temporary) <= 0) .ig_abort("numerical_failure", "report renderer produced no file")
-  if (!file.copy(temporary, file, overwrite = overwrite)) .ig_abort("invalid_input", "could not write report destination")
+  hash <- digest::digest(file = temporary, algo = "sha256")
+  if (.ig_report_destination_exists(file) && !overwrite) .ig_abort("invalid_input", "destination exists; use overwrite = TRUE to replace it")
+  if (!file.rename(temporary, file)) .ig_abort("invalid_input", "could not commit report destination")
   invisible(list(file = file, format = format, snapshot_id = snapshot$snapshot_id,
-                 sha256 = digest::digest(file = file, algo = "sha256")))
+                 sha256 = hash))
 }
 
 # Localise known explanatory prose while retaining canonical snapshot metadata.
