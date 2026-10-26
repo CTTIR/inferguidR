@@ -100,7 +100,7 @@ test_that("the bundled rule set loads with its versions and provenance", {
   expect_s3_class(rs, "advisor_rules")
   v <- rs$versions
   expect_identical(v$rules_id, "advisor_rules")
-  expect_identical(v$rules_version, "2026-10-05.1")
+  expect_identical(v$rules_version, "2026-10-26.1")
   expect_identical(v$uzh_tree_version, "2026-10-03.1")
   expect_identical(v$analysis_variants_version, "2026-10-13.1")
   expect_match(v$descrtab2_tree_version, "2026-10-03")

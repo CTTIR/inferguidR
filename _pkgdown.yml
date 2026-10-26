@@ -1,3 +1,4 @@
+url: https://cttir.github.io/inferguidR/
 template:
   package: themakR
   math-rendering: mathml
@@ -24,6 +25,7 @@ articles:
   contents:
   - getting-started
   - classification
+  - validation
 reference:
 - title: Power and study design
   contents:

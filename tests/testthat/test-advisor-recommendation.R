@@ -129,7 +129,7 @@ test_that("manual relation, learning links and source nodes resolve against the 
     expect_true(all(rec$learning_links %in% ids), info = id)
     expect_true(all(unlist(rec$rules$source_nodes$uzh) %in% rs$uzh_nodes), info = id)
     expect_true(all(unlist(rec$rules$source_nodes$descrtab2) %in% rs$descrtab2_nodes), info = id)
-    expect_identical(rec$rules$rules_version, "2026-10-05.1")
+    expect_identical(rec$rules$rules_version, "2026-10-26.1")
     expect_identical(rec$rules$analysis_variants_version, "2026-10-13.1")
     expect_match(rec$rules$learning_resources_version, "^sha256:[0-9a-f]{64}$")
     if (is.null(rec$preferred)) next

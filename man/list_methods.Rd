@@ -21,7 +21,9 @@ followed by inferguidR extensions that are not G}Power procedures (family
 \code{"boschloo"}: Boschloo's unconditional exact test). \code{implementation_status}
 is \code{"not_implemented"} (no method definition), \code{"definition_only"}
 (forward model registered, no mode solver yet), \code{"partial"} or
-\code{"implemented"}. \code{validation_status} is the method's validation status;
+\code{"implemented"}. An implemented method has a registered engine and mode
+solvers; individual parameter branches can still return a typed refusal.
+\code{validation_status} is the method's validation status;
 inventory methods without an engine report \code{"reference_pending"}, and
 extensions without an engine report \code{"not_applicable"} (no G\emph{Power
 reference can exist for them). No method is G}Power-validated until

@@ -1,0 +1,72 @@
+---
+title: "Understanding validation status"
+author: "Raban Heller"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Understanding validation status}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(inferguidR)
+```
+
+An implemented engine can have unresolved branches. A successful calculation
+does not establish agreement with every external reference or suitability for
+a particular study. Always retain the specification, result and package revision.
+
+## Inspect the method before using a result
+
+```{r method-status}
+validation_status("t_means_two_independent")
+```
+
+`independently_checked` records the existence of independent numerical checks.
+It does not mean every option combination is certified. `reference_pending`
+means complete G*Power comparison is not certified; captured cases may already
+exist. The Boschloo extension is outside the G*Power inventory and therefore
+has G*Power reference status `not_applicable`.
+
+```{r extension}
+validation_status("boschloo_proportions_two_independent")
+```
+
+Standalone Boschloo power and sample-size functions have independent checks.
+The advisor-to-planner mapping is a separate feature and remains unvalidated.
+Select the test variant, direction and allocation explicitly when using the
+standalone functions.
+
+## Inspect the actual outcome
+
+```{r outcome}
+spec <- analysis_spec(
+  "t_means_two_independent", "a_priori",
+  inputs = list(alpha = 0.05, power = 0.8, d = 0.5),
+  options = list(tails = "two")
+)
+result <- solve_design(spec)
+result$status
+result$warnings
+result$validation
+```
+
+Use a design estimate only after checking its typed status, warnings and
+assumptions. In particular, exact unconditional compromise and tetrachoric
+approximation confidence intervals still have pending branches. Classifier
+bootstrap validation remains at development status.
+
+## Reproduce the public checks
+
+The source repository includes an installed-package checker with synthetic
+inputs and separate reference calculations. It emits per-case comparisons and
+a run summary, and exits unsuccessfully on a mismatch. Its scope and tolerances
+are documented in the [public validation instructions](https://github.com/CTTIR/inferguidR/blob/main/tools/validation/README.md).
+
+The package regression suite and this independent checker answer different
+questions. Neither replaces full reference-corpus comparison. Some provenance
+checks skip because development inventories, captured fixtures and ledgers are
+not shipped. The [validation guide](https://github.com/CTTIR/inferguidR/blob/main/VALIDATION.md)
+lists those skips and the [roadmap](https://github.com/CTTIR/inferguidR/blob/main/ROADMAP.md)
+defines the remaining qualification gates.

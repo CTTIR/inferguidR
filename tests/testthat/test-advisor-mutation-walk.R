@@ -173,30 +173,30 @@ test_that("advisor_rules() refuses invalid copies and loads valid ones fully che
 
 test_that("restoring under a different rules version requires an explicit migration", {
   d <- tm_doc()
-  d$rules_version <- "2026-10-06.1"
+  d$rules_version <- "2026-10-27.1"
   d$change_log[[length(d$change_log) + 1L]] <- list(
-    rules_version = "2026-10-06.1", date = "2026-10-06",
+    rules_version = "2026-10-27.1", date = "2026-10-27",
     summary_en = "Test copy with a new version label.",
     migration_en = "No answers change; this entry exists only for the migration test.")
   p <- tm_write_json(d)
   on.exit(unlink(p), add = TRUE)
   newer <- advisor_rules(rules = p)
-  expect_identical(newer$versions$rules_version, "2026-10-06.1")
+  expect_identical(newer$versions$rules_version, "2026-10-27.1")
   s <- advisor_replay(c(q.aim = "compare", q.stage = "analysis", q.outcome_type = "continuous"))
   js <- advisor_save(s)
   e <- tryCatch(advisor_restore(js, rules = newer), inferguidR_error = function(e) e)
   expect_s3_class(e, "inferguidR_migration_required")
   expect_s3_class(e, "inferguidR_invalid_input")
   expect_identical(e$status$details$reason_code, "migration_required")
-  expect_identical(e$status$details$saved_rules_version, "2026-10-05.1")
-  expect_identical(e$status$details$current_rules_version, "2026-10-06.1")
+  expect_identical(e$status$details$saved_rules_version, "2026-10-26.1")
+  expect_identical(e$status$details$current_rules_version, "2026-10-27.1")
   versions <- vapply(e$status$details$change_log, `[[`, "", "rules_version")
-  expect_true("2026-10-06.1" %in% versions)
+  expect_true("2026-10-27.1" %in% versions)
   # and the other way round: a state saved under the newer version is not re-interpreted
   s2 <- advisor_replay(c(q.aim = "compare", q.stage = "analysis"), rules = newer)
   e2 <- tryCatch(advisor_restore(advisor_save(s2, rules = newer)), inferguidR_error = function(e) e)
   expect_s3_class(e2, "inferguidR_migration_required")
-  expect_identical(e2$status$details$saved_rules_version, "2026-10-06.1")
+  expect_identical(e2$status$details$saved_rules_version, "2026-10-27.1")
   # the same version restores exactly
   expect_identical(advisor_restore(advisor_save(s2, rules = newer), rules = newer), s2)
 })

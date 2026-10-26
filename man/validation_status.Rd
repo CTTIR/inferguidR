@@ -18,7 +18,9 @@ whether an engine exists, its validation status, the state of the G\emph{Power
 reference comparison (\code{"validated"}, \code{"reference_pending"}, or
 \code{"not_applicable"} for inferguidR extensions that are not G}Power
 procedures), the independent checker and the documented manual examples
-that can serve as (non-authoritative) evidence.
+that can serve as (non-authoritative) evidence. Pending reference status
+means that complete comparison is not certified, even when captured cases
+and independent numerical checks already exist.
 }
 \examples{
 validation_status("t_means_two_independent")

@@ -1,9 +1,9 @@
 {
  "schema_version": "inferguidR.advisor-rules/0.1.0",
  "rules_id": "advisor_rules",
- "rules_version": "2026-10-05.1",
+ "rules_version": "2026-10-26.1",
  "status": "provisional",
- "status_note": "Draft rule graph from phase 01A, written 2026-10-03 from the two audited source trees and finalised the same day after re-verification (Boschloo tie-handling observation, G*Power chapter citations checked against the manual's table of contents, references re-checked). Statistical choices are a single-author review without second review. Structural integrity and the acceptance scenarios were replayed by a temporary R script on 2026-10-03 (see summary.draft_check); no testthat test exists yet (phase 12A). Adversarial statistical review on 2026-10-03 (rules_version 2026-10-03.2, see specs/advisor/rules-review.md): added q.records_per_individual and the q.structure option groups_over_time with out.group_time_design, corrected the Wilcoxon-Mann-Whitney/Kruskal-Wallis null-hypothesis statements and four status-modifier or explanation texts; replayed by an independent temporary Python walker, still without testthat tests.",
+ "status_note": "Provisional statistical rule graph. Structural, route, mutation and serialization tests are included in the package; full semantic review of the analysis variants and advisor-to-planner mappings remains incomplete. Historical draft checks and earlier decisions are retained below. Revision 2026-10-26.1 clarifies standalone Boschloo engine validation versus pending advisor planning integration without changing routing, estimands or compatibility states.",
  "created_date": "2026-10-03",
  "requirement_ids": [
   "R05",
@@ -8216,8 +8216,8 @@
     "planning_compatibility": "not_yet_validated",
     "planning_compatibility_target": "undetermined",
     "planning_availability": "planned_independent_validation",
-    "note_en": "Same-test planning by enumerating rejection regions is phase 09A (mandatory). The June 2023 G*Power manual documents only Fisher's exact test for two independent proportions (chapter 6, a different, conditional test); any unconditional option of the application must be inspected before an equivalence claim (BOSCHLOO.md). An asymptotic two-proportion calculation is never labelled Boschloo.",
-    "note_de": "Die Planung mit demselben Test über Ablehnungsbereiche ist Phase 09A (verpflichtend). Das G*Power-Handbuch vom Juni 2023 dokumentiert für zwei unabhängige Anteile nur Fishers exakten Test (Kapitel 6, ein anderer, bedingter Test); eine etwaige unbedingte Option der Anwendung muss vor einer Äquivalenzaussage geprüft werden (BOSCHLOO.md). Eine asymptotische Zwei-Anteile-Rechnung wird nie als Boschloo bezeichnet.",
+    "note_en": "The standalone inferguidR Boschloo engine and its same-test power and sample-size functions have independent numerical checks. The advisor-to-planner mapping is not yet independently validated, so this recommendation does not create a planning specification. Use boschloo_power() or boschloo_sample_size() with explicit variant, direction and allocation after reviewing their documented limits. G*Power comparison is not applicable to Boschloo itself; Fisher and asymptotic two-proportion tests are different procedures.",
+    "note_de": "Für die eigenständigen Boschloo-Funktionen von inferguidR einschließlich Power- und Stichprobenumfangsberechnung liegen unabhängige numerische Prüfungen vor. Die Zuordnung vom Methodenberater zur Studienplanung ist noch nicht unabhängig validiert; diese Empfehlung erzeugt daher keine Planungsspezifikation. Verwenden Sie boschloo_power() oder boschloo_sample_size() mit ausdrücklich festgelegter Variante, Richtung und Gruppenzuteilung unter Beachtung der dokumentierten Grenzen. Ein G*Power-Vergleich ist für Boschloo selbst nicht anwendbar; Fisher- und asymptotische Zwei-Anteile-Tests sind andere Verfahren.",
     "planning_inputs": [
      "reference-group probability p1",
      "comparison-group probability p2 or effect (risk difference, risk ratio or odds ratio) with feasibility check",
@@ -8356,8 +8356,8 @@
     "planning_compatibility": "not_yet_validated",
     "planning_compatibility_target": "undetermined",
     "planning_availability": "planned_independent_validation",
-    "note_en": "Same-test planning by enumerating rejection regions is phase 09A (mandatory). The June 2023 G*Power manual documents only Fisher's exact test for two independent proportions (chapter 6, a different, conditional test); any unconditional option of the application must be inspected before an equivalence claim (BOSCHLOO.md). An asymptotic two-proportion calculation is never labelled Boschloo.",
-    "note_de": "Die Planung mit demselben Test über Ablehnungsbereiche ist Phase 09A (verpflichtend). Das G*Power-Handbuch vom Juni 2023 dokumentiert für zwei unabhängige Anteile nur Fishers exakten Test (Kapitel 6, ein anderer, bedingter Test); eine etwaige unbedingte Option der Anwendung muss vor einer Äquivalenzaussage geprüft werden (BOSCHLOO.md). Eine asymptotische Zwei-Anteile-Rechnung wird nie als Boschloo bezeichnet.",
+    "note_en": "The standalone inferguidR Boschloo engine and its same-test power and sample-size functions have independent numerical checks. The advisor-to-planner mapping is not yet independently validated, so this recommendation does not create a planning specification. Use boschloo_power() or boschloo_sample_size() with explicit variant, direction and allocation after reviewing their documented limits. G*Power comparison is not applicable to Boschloo itself; Fisher and asymptotic two-proportion tests are different procedures.",
+    "note_de": "Für die eigenständigen Boschloo-Funktionen von inferguidR einschließlich Power- und Stichprobenumfangsberechnung liegen unabhängige numerische Prüfungen vor. Die Zuordnung vom Methodenberater zur Studienplanung ist noch nicht unabhängig validiert; diese Empfehlung erzeugt daher keine Planungsspezifikation. Verwenden Sie boschloo_power() oder boschloo_sample_size() mit ausdrücklich festgelegter Variante, Richtung und Gruppenzuteilung unter Beachtung der dokumentierten Grenzen. Ein G*Power-Vergleich ist für Boschloo selbst nicht anwendbar; Fisher- und asymptotische Zwei-Anteile-Tests sind andere Verfahren.",
     "planning_inputs": [
      "reference-group probability p1",
      "comparison-group probability p2 or effect (risk difference, risk ratio or odds ratio) with feasibility check",
@@ -12606,6 +12606,12 @@
    "date": "2026-10-05",
    "summary_en": "Decision D12 (inferguidR's own Boschloo engine; exact2x2 rejected as engine and oracle): variant_settings.control of out.two_group.boschloo_central and out.two_group.boschloo_one_sided now records inferguidR::boschloo_control() settings instead of exact2x2::ucControl(); the assumption a.ordering_ties of both outcomes states the implemented tie rule (relative tolerance 1e-7, exact integer fallback) instead of deferring it to phase 09A. analysis-variants.json 2026-10-05.1 names inferguidR's boschloo_test(), boschloo_power() and boschloo_sample_size() in the r_functions of the three Boschloo variants. No question, option, transition, outcome, status or planning field changed.",
    "migration_en": "No routing change: every trace of 2026-10-03.2 replays to the same outcome ids, statuses and modifiers. Saved states still carry the old rules version and need an explicit migration (restore_policy), which can map them unchanged."
+  },
+  {
+   "rules_version": "2026-10-26.1",
+   "date": "2026-10-26",
+   "summary_en": "Clarify independently checked standalone Boschloo calculations versus the advisor-to-planner mapping that remains unvalidated. Update the overall status note to reflect existing package tests. No routing, estimand, option, compatibility or availability state changes.",
+   "migration_en": "Saved sessions retain their original version and require explicit migration. Existing answer traces can be replayed unchanged; review the updated planning explanations before saving a new session."
   }
  ]
 }

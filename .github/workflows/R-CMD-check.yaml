@@ -1,0 +1,179 @@
+name: R-CMD-check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TESTTHAT_CPUS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  BLIS_NUM_THREADS: '1'
+
+jobs:
+  build-source:
+    name: Freeze source candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: r-lib/actions/setup-pandoc@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
+      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
+        with:
+          r-version: release
+          Ncpus: '2'
+      - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
+        with:
+          extra-packages: any::pkgbuild
+          dependencies: '"all"'
+      - name: Build one source archive for every platform
+        shell: Rscript {0}
+        run: |
+          bundle <- file.path(Sys.getenv("RUNNER_TEMP"), "source-candidate")
+          dir.create(bundle)
+          archive <- pkgbuild::build(".", dest_path = bundle, vignettes = TRUE,
+                                     manual = FALSE, quiet = FALSE)
+          writeLines(paste(digest::digest(file = archive, algo = "sha256"), basename(archive)),
+                     file.path(bundle, "SOURCE-SHA256.txt"))
+          writeLines(Sys.getenv("GITHUB_SHA"), file.path(bundle, "SOURCE-COMMIT.txt"))
+      - name: Retain the immutable source candidate
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-candidate
+          path: ${{ runner.temp }}/source-candidate/
+          if-no-files-found: error
+
+  check:
+    name: ${{ matrix.config.os }} / R ${{ matrix.config.r }}
+    runs-on: ${{ matrix.config.os }}
+    needs: build-source
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest, r: release}
+          - {os: ubuntu-latest, r: devel}
+          - {os: windows-latest, r: release}
+          - {os: macos-latest, r: release}
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: 'yes'
+      _R_CHECK_FORCE_SUGGESTS_: 'true'
+      _R_CHECK_CRAN_INCOMING_: 'false'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        id: python
+        with:
+          python-version: '3.12'
+      - uses: r-lib/actions/setup-pandoc@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
+      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: release
+          Ncpus: '2'
+      - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+          dependencies: '"all"'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: source-candidate
+          path: source/
+      - name: Check the shared source candidate
+        shell: Rscript {0}
+        run: |
+          archives <- list.files("source", pattern = "^inferguidR_.*[.]tar[.]gz$", full.names = TRUE)
+          stopifnot(length(archives) == 1L)
+          expected <- strsplit(readLines("source/SOURCE-SHA256.txt"), " ", fixed = TRUE)[[1L]][[1L]]
+          stopifnot(identical(digest::digest(file = archives, algo = "sha256"), expected))
+          stopifnot(identical(readLines("source/SOURCE-COMMIT.txt"), Sys.getenv("GITHUB_SHA")))
+          rcmdcheck::rcmdcheck(archives, args = c("--no-manual", "--as-cran"),
+                               check_dir = "check", error_on = "warning")
+      - name: Install the checked source archive
+        run: Rscript tools/ci/install-candidate.R source check/candidate-install.log
+      - name: Verify candidate library in a fresh R process
+        shell: Rscript {0}
+        run: |
+          expected_library <- Sys.getenv("INFERGUIDR_EXPECTED_LIBRARY")
+          stopifnot(nzchar(expected_library))
+          expected <- normalizePath(file.path(expected_library, "inferguidR"), winslash = "/", mustWork = TRUE)
+          actual <- normalizePath(find.package("inferguidR"), winslash = "/", mustWork = TRUE)
+          stopifnot(identical(actual, expected))
+      - name: Run public independent checks on the installed candidate
+        env:
+          PYTHON: ${{ steps.python.outputs.python-path }}
+        run: Rscript tools/validation/check-public.R check/public-validation
+      - name: Retain candidate and validation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: check-${{ matrix.config.os }}-${{ matrix.config.r }}
+          path: check/
+          if-no-files-found: ignore
+
+  minimum-r:
+    name: R 4.1.0 / core compatibility
+    runs-on: ubuntu-24.04
+    needs: build-source
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
+        with:
+          r-version: '4.1.0'
+          Ncpus: '2'
+          use-public-rspm: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: source-candidate
+          path: source/
+      - name: Install core dependencies
+        shell: Rscript {0}
+        run: |
+          stopifnot(getRversion() == "4.1.0")
+          install.packages(c("digest", "jsonlite"))
+      - name: Install the source candidate
+        run: Rscript tools/ci/install-candidate.R source minimum-r-install.log
+      - name: Verify candidate library in a fresh R process
+        shell: Rscript {0}
+        run: |
+          expected_library <- Sys.getenv("INFERGUIDR_EXPECTED_LIBRARY")
+          stopifnot(nzchar(expected_library))
+          expected <- normalizePath(file.path(expected_library, "inferguidR"), winslash = "/", mustWork = TRUE)
+          actual <- normalizePath(find.package("inferguidR"), winslash = "/", mustWork = TRUE)
+          stopifnot(identical(actual, expected))
+      - name: Exercise installed core interfaces
+        run: Rscript tools/ci/minimum-r-smoke.R minimum-r-results
+      - name: Retain minimum-R evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: minimum-r-4.1.0-core
+          path: |
+            minimum-r-results/
+            minimum-r-install.log
+            minimum-r-install.log.json
+            source/SOURCE-SHA256.txt
+            source/SOURCE-COMMIT.txt
+          if-no-files-found: ignore

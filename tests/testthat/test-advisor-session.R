@@ -300,7 +300,7 @@ test_that("restore refuses tampered, foreign, future and other-version states", 
   e <- ta_err(advisor_restore(reseal(t6)))
   expect_s3_class(e, "inferguidR_migration_required")
   expect_s3_class(e, "inferguidR_invalid_input")
-  expect_identical(e$status$details$current_rules_version, "2026-10-05.1")
+  expect_identical(e$status$details$current_rules_version, "2026-10-26.1")
   expect_true(any(vapply(e$status$details$change_log, function(x) nzchar(x$migration_en), logical(1))))
   # same version label, different content
   t7 <- doc
@@ -390,7 +390,7 @@ test_that("printing and formatting work", {
   s <- advisor_replay(ta_welch_map)
   expect_output(print(s), "out.two_group.welch")
   expect_output(print(advisor_question(advisor_session())), "q.aim")
-  expect_output(print(advisor_rules()), "2026-10-05.1")
+  expect_output(print(advisor_rules()), "2026-10-26.1")
   expect_output(print(advisor_recommendation(s)), "t_means_two_independent_welch")
   expect_null(advisor_question(s))
 })

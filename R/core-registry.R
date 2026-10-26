@@ -306,7 +306,9 @@
 #' `"boschloo"`: Boschloo's unconditional exact test). `implementation_status`
 #' is `"not_implemented"` (no method definition), `"definition_only"`
 #' (forward model registered, no mode solver yet), `"partial"` or
-#' `"implemented"`. `validation_status` is the method's validation status;
+#' `"implemented"`. An implemented method has a registered engine and mode
+#' solvers; individual parameter branches can still return a typed refusal.
+#' `validation_status` is the method's validation status;
 #' inventory methods without an engine report `"reference_pending"`, and
 #' extensions without an engine report `"not_applicable"` (no G*Power
 #' reference can exist for them). No method is G*Power-validated until
@@ -350,7 +352,9 @@ list_methods <- function(family = NULL) {
 #' reference comparison (`"validated"`, `"reference_pending"`, or
 #' `"not_applicable"` for inferguidR extensions that are not G*Power
 #' procedures), the independent checker and the documented manual examples
-#' that can serve as (non-authoritative) evidence.
+#' that can serve as (non-authoritative) evidence. Pending reference status
+#' means that complete comparison is not certified, even when captured cases
+#' and independent numerical checks already exist.
 #'
 #' @param method_id A method id from [list_methods()].
 #' @return An object of class `ig_validation_status` (a list).
@@ -370,7 +374,7 @@ validation_status <- function(method_id) {
     if (is.null(def)) "No engine is implemented for this method yet; calculations return status 'unsupported'.",
     if (!is.null(def) && !length(solver_modes)) "A method definition exists but no mode solver is implemented yet.",
     if (gp_status == "not_applicable") "This procedure is not part of the G*Power inventory; no G*Power reference exists.",
-    if (gp_status == "reference_pending") "No G*Power application reference captures exist yet; agreement with G*Power is not claimed.",
+    if (gp_status == "reference_pending") "G*Power reference comparison is not fully certified for this method. Available captures and passing regression cases are limited evidence; complete agreement with G*Power is not claimed.",
     if (identical(status, "development")) "The engine has not been checked by an independent implementation yet.",
     if (length(meta$documented_example_ids)) "Documented manual examples are secondary evidence, not application captures."
   )

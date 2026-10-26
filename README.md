@@ -16,6 +16,10 @@ and an optional Shiny workbench.
 A successful calculation is not proof of agreement with every external reference
 or suitability for a particular study. The package is not a CRAN release.
 
+See the [validation guide](VALIDATION.md) for evidence levels, reproducible
+public checks and known limitations, and the [improvement roadmap](ROADMAP.md)
+for the numerical, product and release acceptance gates.
+
 ## Installation
 
 R 4.1.0 or later is required. Install the development version from GitHub:
@@ -91,6 +95,7 @@ Hashes identify content; they do not establish scientific correctness.
 
 - [Guided analysis and reproducible power calculations](https://github.com/CTTIR/inferguidR/blob/main/vignettes/getting-started.Rmd).
 - [Classification metrics and explicit operating points](https://github.com/CTTIR/inferguidR/blob/main/vignettes/classification.Rmd).
+- [Understanding validation status](https://github.com/CTTIR/inferguidR/blob/main/vignettes/validation.Rmd).
 
 After installing with vignettes, use `vignette("getting-started", package =
 "inferguidR")` or `vignette("classification", package = "inferguidR")`.

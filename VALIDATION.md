@@ -1,0 +1,91 @@
+# Validation and supported scope
+
+inferguidR is development software. A method being registered, a calculation
+returning `ok`, an independent numerical comparison and a complete external
+reference certification are different statements.
+
+| Evidence | What it establishes | What it does not establish |
+|---|---|---|
+| `list_methods()` implementation status | An engine and generic solvers are registered | Every parameter branch is available or qualified |
+| Method `independently_checked` status | Independent checks exist for the method | Exhaustive coverage of all modes, options or numerical boundaries |
+| Public package regression tests | The tested behaviors agree with their regression expectations | Complete G*Power parity; some reference tests intentionally use agreeing cases |
+| Public independent checker | The documented synthetic cases agree with separate reference calculations | Certification of untested methods or a proof of all numerical error bounds |
+| G*Power `reference_pending` status | Complete external comparison is not certified | Absence of all captured reference evidence |
+| Passing platform checks | The identified package candidate passes on the recorded environments | Scientific approval, hosted deployment or CRAN acceptance |
+
+## Run the checks
+
+Use a clean checkout and a separate candidate library, keeping compatible
+dependency libraries available. From the checkout root:
+
+```sh
+R CMD build .
+R CMD check --no-manual inferguidR_0.0.0.9000.tar.gz
+R CMD INSTALL --library=/absolute/path/to/library inferguidR_0.0.0.9000.tar.gz
+R_LIBS=/absolute/path/to/library Rscript tools/validation/check-public.R /absolute/path/to/results
+```
+
+The independent checker uses an installed package and public synthetic inputs.
+Its [instructions](https://github.com/CTTIR/inferguidR/blob/main/tools/validation/README.md) specify the reference algorithms,
+tolerances, dependencies, output and failure behavior. Retain the source archive
+and its SHA-256 alongside the result files. The checker is deliberately scoped;
+it does not read private captures or certify the full G*Power inventory.
+
+Repository automation runs full checks on Linux release/devel, Windows and
+macOS, plus a separate minimum-R core profile. The R 4.1.0 core profile uses
+hard dependencies and functional examples; it is not the full optional-package
+test suite. Actual workflow runs are required before claiming hosted coverage.
+
+## Why reference checks can be skipped
+
+The initial public package check had eleven skips. Their purposes are:
+
+| Group | Count | Files or reason |
+|---|---:|---|
+| Development protocol specifications | 1 | `test-protocol-export.R` |
+| MANOVA/G10 reference fixture files | 2 | `test-methods-g4-manova.R`, `test-methods-g10-fixtures.R` |
+| Registry source inventory | 2 | `test-core-registry.R` |
+| G7 development corpus | 1 | `test-methods-g7-fixtures.R` |
+| Advisor source specifications | 1 | `test-advisor-rules.R` |
+| G1/G6/G11 captured fixture provenance | 3 | Corresponding `test-methods-*-fixtures.R` files |
+| Validation ledger | 1 | `test-slice-t-two-independent.R` |
+
+These materials are not shipped in the source package. A skip is not a pass.
+The embedded numerical regression cases still run; their provenance checks
+and complete comparison summaries are separate. G*Power executables, manuals
+and raw captures must not be inferred to be redistributable from the package's
+MIT licence. The public checker contains separate code and synthetic cases.
+
+## Current explicit limits
+
+- Exact unconditional compromise retains `reference_pending`: the generic
+  solver's nominal alpha and the exact test's attained size need a separately
+  validated contract.
+- Tetrachoric approximation-mode confidence intervals retain
+  `reference_pending`.
+- Classifier bootstrap validation remains `development`.
+- Standalone Boschloo calculations have independent numerical checks. The
+  advisor's mapping to a planning specification remains unvalidated; its
+  recommendation must not be interpreted as an automatic planning bridge.
+- `unsupported`, `infeasible`, `invalid_input`, `numerical_failure` and
+  `reference_pending` outcomes must be handled explicitly, not coerced into
+  usable design estimates.
+
+The [roadmap](ROADMAP.md) gives the remaining numerical, advisor, workbench,
+report, platform and release gates. No supported-scope expansion should be
+made solely by changing a status label.
+
+## Advisor rules revision
+
+Rules `2026-10-26.1` update validation explanations without changing questions,
+routing, estimands or planning availability. Saved sessions retain their
+original rules version. Restoration across versions requires explicit
+migration/replay; do not rewrite old JSON or silently relabel its provenance.
+
+## Reporting a discrepancy
+
+Include the method and mode, complete synthetic specification, returned typed
+status, warnings, package revision/version, platform and `sessionInfo()`. For a
+reference comparison, identify the reference algorithm or application version,
+display precision, tolerance, input mapping and which values disagree. Retain
+failed cases alongside passing ones.
