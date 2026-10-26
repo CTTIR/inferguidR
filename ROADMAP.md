@@ -192,7 +192,7 @@ implemented check does not imply that all scientific qualification gates pass.
 |---|---|---|
 | N1 | Enumerated every deterministic rejection state for an attained-size compromise example; documented why the requested equality can be unattainable in `tools/validation/NUMERICAL-CONTRACTS.md` | Exact attained-size compromise stays excluded with `reference_pending`; no nearest-ratio or randomized test is substituted |
 | N2 | Corrected split rational ties in pooled, corrected pooled and Mantel-Haenszel exact statistics; independent enumeration, integer-boundary and inverse checks, including the 144-case inverse campaign | Historical native-reference disagreements remain visible; representative tests do not certify every continuous input domain |
-| N3 | Added bounded, streaming GLM, rank and regression checks with independent integration/enumeration and explicit case receipts | New synthetic results do not requalify the entire historical capture corpus or erase failed/OOM runs |
+| N3 | Added bounded, streaming GLM, rank and regression checks; replayed all scheduled historical G5/G6/G8/G12 mathematical campaigns against the unchanged numerical source, retaining per-case receipts | G12 reuses retained high-precision references; two historical G8 refusals remain explicit. These results do not certify the entire native capture corpus or erase failed/OOM runs |
 | N4 | Added design-derived multivariate parameter mappings, independent distribution integrals and utility checks | Approximation choices and finite candidate option grids are distinguished from exhaustive continuous-domain qualification |
 | N5 | Independently checked tetrachoric quadrature/variance and bootstrap weighted arithmetic; enumerated finite-sample percentile-interval coverage diagnostics | Bootstrap remains development; undercoverage and finite-sample limitations are retained |
 | N6 | Published all registered method/mode/option declarations and scoped sample coverage | Uncovered branches and unresolved applicability remain explicit; no global certification label is introduced |
@@ -232,3 +232,66 @@ The [advisor review tables](https://github.com/CTTIR/inferguidR/blob/main/tools/
 dispositions inspectable. External candidates are not silently registered as
 exact lessons, and bibliographic verification is separate from full-content
 or scientific acceptance. Historical source labels remain historical records.
+
+### Final local candidate — 26 October 2026
+
+The locally checked package source archive has SHA-256
+`48242513e561ad503a5253b63c069ca2398bafb7f36c22e47a7dea11e0ee22cd`.
+Its package source is revision `fef8e64`; the later independent-reference
+quadrature correction changes excluded validation tools only. All 580 source
+package files passed the distribution audit.
+
+- Linux R 4.6.1 and the available R-devel snapshot (2026-10-10 r90659)
+  each completed `R CMD check --as-cran --timings`, including the PDF manual,
+  with `Status: OK`: 46,103 passing assertions, zero failures or warnings and
+  the same 11 documented skips. Incoming CRAN checks were disabled.
+- R 4.1.0 passed isolated installation, 19 core compatibility checks,
+  optional-dependency absence, all three numerical campaigns, the public
+  checker, bootstrap arithmetic and installed export-failure checks. This is
+  not the full optional-package test suite on minimum R.
+- The first minimum-R inverse run exposed a reference-integration failure.
+  Log-denominator and sine-inner coordinates fixed it without changing
+  package calculations, tolerances, tail bounds or the sample-size scan.
+  Independent kernel comparisons and fresh minimum/current-R runs passed;
+  the original failed runs remain retained.
+- Every advertised effect helper layout passed server checks: 20 layouts,
+  374 assertions, explicit apply behavior, stale-input refusal and EN/DE
+  rebinding. Export transaction tests cover rendering/rename interruption,
+  existing destinations and symbolic links. The installed probe also checks
+  actual JSON, TXT and PDF replacement.
+- Installed browser checks passed history/method/language transitions,
+  independent sessions, keyboard operation, stale-result refusal and actual
+  downloads. The complete EN/DE desktop/mobile plot matrix was inspected;
+  final-package checks repeated representative panels with source-equivalence
+  evidence. The 109-page manual and 8-/36-page report PDFs had no text outside
+  their physical page bounds; report fonts were embedded.
+- The local site passed its build and audit of 119 HTML pages, their local
+  references and anchors, plus browser search and mobile navigation.
+  Hosted deployment remains a separate gate.
+- Historical mathematical replay passed G5's 406 comparisons, G6's 4,575
+  comparisons across 604 cases, and G12's 989 calculator cases. G8 retained
+  22,062 passing case rows and two independently reproduced sensitivity
+  refusals. G6 used two workers, fresh checkpoints and bounded enumeration;
+  its measured maximum resident set was about 257 MiB. G12 reused the
+  retained high-precision reference table with exact case-ID matching.
+
+### Remaining acceptance and next work
+
+1. Obtain successful hosted Windows, macOS, release/devel and minimum-R jobs
+   for the published revision, and verify the deployed Pages HTTP endpoint.
+   Local success and queued jobs do not satisfy these gates.
+2. Adjudicate the retained native-reference disagreements and the exact
+   attained-size compromise/no-solution contract. Preserve typed refusals
+   while these contracts are unresolved.
+3. Extend scientific coverage beyond representative mode samples: 825 of
+   1,511 declared marginal option values remain unsampled. The finite option
+   candidate grid also includes input-dependent or infeasible combinations;
+   it is not a list of certified designs. Bootstrap undercoverage and
+   tetrachoric confidence-interval limits remain explicit.
+4. Complete scientific content/source-equivalence judgments and the 19
+   lesson-gap dispositions before registering additional exact lessons.
+   Further planner bridges and the 31 API effect drawers without UI editors
+   are separate product extensions requiring exact mappings and tests.
+5. Keep the development version until the required numerical, product and
+   platform gates are accepted. A stable release, tag or CRAN submission is
+   not implied by this implementation or by merging it to `main`.

@@ -17,13 +17,22 @@ reference certification are different statements.
 
 Use a clean checkout and a separate candidate library, keeping compatible
 dependency libraries available. From the checkout root:
+Choose a new library directory whose parent already exists; a failed build or
+installation must stop the sequence before any checker can load stale code.
 
 ```sh
+set -eu
+candidate_library=/absolute/path/to/library
+mkdir "$candidate_library"
 R CMD build .
-R CMD check --no-manual inferguidR_0.0.0.9000.tar.gz
-R CMD INSTALL --library=/absolute/path/to/library inferguidR_0.0.0.9000.tar.gz
-R_LIBS=/absolute/path/to/library Rscript tools/validation/check-public.R /absolute/path/to/results
-R_LIBS=/absolute/path/to/library Rscript tools/validation/check-numerics.R /absolute/path/to/numerical-results
+R CMD check --as-cran inferguidR_0.0.0.9000.tar.gz
+R CMD INSTALL --library="$candidate_library" inferguidR_0.0.0.9000.tar.gz
+export INFERGUIDR_EXPECTED_LIBRARY="$candidate_library"
+export R_LIBS="$candidate_library${R_LIBS:+:$R_LIBS}"
+Rscript --vanilla tools/validation/check-public.R /absolute/path/to/results
+Rscript --vanilla tools/validation/check-numerics.R /absolute/path/to/numerical-results
+Rscript --vanilla tools/validation/check-coverage.R /absolute/path/to/coverage-results
+Rscript --vanilla tools/validation/check-inverses.R /absolute/path/to/inverse-results
 ```
 
 The independent checker uses an installed package and public synthetic inputs.
@@ -41,6 +50,14 @@ The expanded numerical campaign streams individual results and a complete
 method/mode/option declaration inventory. Declared combinations are not
 automatically valid input designs or covered numerical cases. Uncovered,
 inactive and pending branches remain explicit in the inventory.
+The three numerical campaigns jointly contain 728 cases and 2,655 comparisons:
+241 registered method/mode pairs have numerical samples and two exact
+unconditional compromise pairs have intentional refusal checks. This covers
+all 243 registered pairs at that limited level, while 825 marginal option
+values remain unsampled. The separate public smoke campaign contains 21 cases
+and 761 comparisons. See the
+[inverse coverage contract](https://github.com/CTTIR/inferguidR/blob/main/tools/validation/INVERSE-COVERAGE.md)
+for integer-design scans and discrete-boundary conventions.
 
 Installed API/help, startup and optional-dependency absence checks and source
 archive audits are described in the [release preflight instructions](https://github.com/CTTIR/inferguidR/blob/main/tools/release/README.md).
