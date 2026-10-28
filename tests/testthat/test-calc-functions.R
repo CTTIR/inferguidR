@@ -48,7 +48,9 @@ test_that("elementary functions and the captured G*Power conventions", {
   expect_identical(cv("int(1.56)"), 1)                        # DOC-025
   expect_identical(cv("frac(-1.56)"), -1.56 + 1)              # U020-UE01
   expect_identical(cv("int(-1.56)"), -1)                      # U021-UE01
-  expect_identical(cv("atan2(1,2)"), atan(1 / 2))             # U013-UO01: atan2(y, x)
+  # atan2() and atan() come from the platform maths library and may differ
+  # in the last bit (macOS).
+  expect_equal(cv("atan2(1,2)"), atan(1 / 2), tolerance = 4 * .Machine$double.eps) # U013-UO01
   expect_identical(cv("atan2(0,-1)"), pi)                     # U013-UD01
   expect_identical(cv("sqr(-3)"), 9)
   expect_identical(cv("sign(-1e-300)"), -1)
