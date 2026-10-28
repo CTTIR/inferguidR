@@ -111,6 +111,10 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: release
           Ncpus: '2'
+      # CRAN's macOS R loads its Cairo devices from XQuartz, which the runner lacks.
+      - name: Install XQuartz for Cairo PDF reports
+        if: runner.os == 'macOS'
+        run: brew install --cask xquartz
       - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
         with:
           extra-packages: any::rcmdcheck
