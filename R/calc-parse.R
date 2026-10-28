@@ -74,8 +74,8 @@
       }
       lit <- paste(chars[i:(j - 1L)], collapse = "")
       # The literal matches [0-9]*\.?[0-9]*([eE][+-]?[0-9]+)? by construction;
-      # as.numeric() converts it (no evaluation of input text).
-      add("num", lit, i, as.numeric(lit))
+      # .ig_parse_decimal() converts it (no evaluation of input text).
+      add("num", lit, i, .ig_parse_decimal(lit))
       i <- j
     } else if (is_alpha(ch)) {
       j <- i
