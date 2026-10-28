@@ -162,6 +162,10 @@
       expected<-.ig_json_parse(.ig_canonical_json(.ig_report_plain(expected)))
       # Display-coordinate portability tolerance only; no engine/reference certification.
       coordinate_equal<-function(a,b) scalar(a)&&scalar(b)&&abs(a-b)<=1e-12+1e-10*max(abs(a),abs(b))
+      # Positions on the test-statistic axis are compared on the scale of the axis:
+      # where long double has no extra precision (macOS arm64) noncentral t
+      # quantiles move points near zero by about 1e-11.
+      position_equal<-function(a,b) scalar(a)&&scalar(b)&&abs(a-b)<=1e-10*max(1,abs(a),abs(b))
       matches <- function(candidate) {
         if(!equal(v[setdiff(names(v),"data")],candidate[setdiff(names(candidate),"data")]) ||
            length(v$data)!=length(candidate$data)) return(FALSE)
@@ -169,7 +173,7 @@
           row<-v$data[[j]];ref<-candidate$data[[j]]
           fields(row,c("hypothesis","x","y","reject"))
           if(!identical(row$hypothesis,ref$hypothesis)||!identical(row$reject,ref$reject)||
-             !coordinate_equal(row$x,ref$x)||!coordinate_equal(row$y,ref$y)||row$y<0) return(FALSE)
+             !position_equal(row$x,ref$x)||!coordinate_equal(row$y,ref$y)||row$y<0) return(FALSE)
         }
         TRUE
       }
