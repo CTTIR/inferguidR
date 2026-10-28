@@ -381,9 +381,17 @@
   cv <- vapply(cand, fval, double(1))
   best <- max(cv)
   tied <- cand[.ig_cls_is_tied(cv, best)]
-  # the same optimum reached from neighbouring scan points counts once
+  # the same optimum reached from neighbouring scan points counts once; an
+  # analytic stationary point represents its cluster, since on which side of
+  # it optimize() stops is rounding noise that differs between platforms
   tied <- sort(tied)
-  if (length(tied) > 1L) tied <- tied[c(TRUE, diff(tied) > 1e-7 | is.infinite(diff(tied)))]
+  if (length(tied) > 1L) {
+    cluster <- cumsum(c(TRUE, diff(tied) > 1e-7 | is.infinite(diff(tied))))
+    tied <- vapply(split(tied, cluster), function(z) {
+      exact <- z[z %in% rec$analytic_stationary_points]
+      if (length(exact)) exact[1L] else z[1L]
+    }, double(1), USE.NAMES = FALSE)
+  }
   # fewer alerts means a higher cutoff
   chosen <- if (identical(rule$tie_break, "most_alerts")) min(tied) else max(tied)
   # An optimum within two grid steps of the scan edge needs a look beyond the
