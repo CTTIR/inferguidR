@@ -88,6 +88,9 @@ test_that("dangling destination links require explicit replacement", {
   on.exit(unlink(directory, recursive = TRUE), add = TRUE)
   file <- file.path(directory, "report.txt")
   target <- file.path(directory, "missing.txt")
+  # Base R cannot observe these links on Windows: Sys.readlink() always
+  # returns "" there and unlink() fails on file symbolic links.
+  skip_on_os("windows")
   skip_if_not(suppressWarnings(file.symlink(target, file)), "symbolic links unavailable")
   expect_error(export_report(snapshot, file, "txt"), class = "inferguidR_invalid_input")
   expect_identical(Sys.readlink(file), target)
