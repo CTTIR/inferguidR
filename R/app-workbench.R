@@ -15,7 +15,7 @@ workbench_app <- function() {
     .ig_abort("unsupported", sprintf("The workbench requires the suggested package '%s'.", package))
   shiny::addResourcePath("inferguidr-assets", system.file("www", package = "inferguidR"))
   ui <- shiny::fluidPage(title = "inferguidR",
-    shiny::tags$head(shiny::tags$link(rel="icon",type="image/svg+xml",href="inferguidr-assets/logo.svg"),
+    shiny::tags$head(
       shiny::tags$style(shiny::HTML(paste(
       "body{font-family:'DejaVu Sans',Arial,sans-serif;color:#152330;background:#fff;font-size:16px}",
       ".ig-header{padding:22px 12px 16px;border-bottom:2px solid #334E9A;display:flex;justify-content:space-between;gap:24px}",
@@ -32,8 +32,7 @@ workbench_app <- function() {
       "@media(max-width:720px){.ig-study{display:block}.ig-controls{border-right:0;border-bottom:1px solid #DCE4EA;padding:0 0 20px}.ig-header{display:block}.ig-figure{padding-top:16px}.shiny-plot-output{min-height:820px}.ig-compact-plot .shiny-plot-output{min-height:450px}.shiny-plot-output.shiny-output-error{min-height:0;height:auto!important}}"
     )))),
     shiny::tags$header(class = "ig-header", shiny::tags$div(shiny::tags$h1(
-      shiny::tags$img(src = "inferguidr-assets/logo.svg", alt = "",
-                      height = "58", style = "margin-right:12px;vertical-align:middle"),
+      .cttir_brand_logo(),
       "inferguidR"),
       shiny::tags$p("Study design, evidence and decisions / Studiendesign, Evidenz und Entscheidungen")),
       shiny::selectInput("language", "Language / Sprache", c("English" = "en", "Deutsch" = "de"), width = "180px")),

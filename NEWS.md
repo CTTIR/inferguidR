@@ -1,5 +1,9 @@
 # inferguidR 0.0.0.9000
 
+* Standardize the named v5 package logo across README, documentation pages
+  and available application headers, with matching light and dark artwork.
+
+
 Development version; numerical and release qualification remain incomplete.
 
 * Exact unconditional pooled, continuity-corrected pooled and Mantel-Haenszel
