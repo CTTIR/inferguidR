@@ -1,6 +1,7 @@
 test_that("binomial confidence limits agree with independent extreme-tail references", {
   # 70-digit normal-tail inversion, Wilson score roots and binomial tail sums.
-  ref <- read.csv(test_path("fixtures", "classifier-confidence-boundary.csv"))
+  ref <- read.csv(test_path("fixtures", "classifier-confidence-boundary.csv"), colClasses = "character")
+  ref[] <- lapply(ref, .ig_parse_decimal)
   for (i in seq_len(nrow(ref))) {
     r <- ref[i, ]
     w <- .ig_cls_wilson(r$x, r$n, r$level)

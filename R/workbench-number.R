@@ -12,7 +12,7 @@
     .ig_abort("invalid_input", if (locale == "de")
       "Eine Zahl mit Dezimalkomma eingeben; keine Tausendertrennzeichen." else
       "Enter one number with a decimal point and no grouping separators.")
-  value <- as.double(if (locale == "de") sub(",", ".", text, fixed = TRUE) else text)
+  value <- .ig_parse_decimal(if (locale == "de") sub(",", ".", text, fixed = TRUE) else text)
   if (!is.finite(value)) .ig_abort("invalid_input", "the entered number must be finite")
   value
 }

@@ -1,5 +1,6 @@
 test_that("large calculator trigonometric arguments use portable reduction", {
-  # Independent 500-digit evaluation at exact binary64 input values.
+  # Independent 500-digit evaluation at exact binary64 input values, read
+  # with the correctly rounded conversion so the inputs are those values.
   cases <- read.csv(text = "x,sin,cos,tan
 1048576,0.33049314002173469,0.94380839390131199,0.35016974012660901
 1048575.9999999999,0.33049313991186091,0.94380839393978644,0.35016973999591899
@@ -34,7 +35,9 @@ test_that("large calculator trigonometric arguments use portable reduction", {
 -1.5123660752041707e+36,-0.2160046718431099,0.97639232982543978,-0.22122733377240622
 -2.317694266407237e+90,0.86978679453759833,0.49342773741249046,1.7627440222528132
 -5.9848657368728149e+210,0.16082837430530258,-0.98698238789672099,-0.16294958884527924
--1.2191386819541528e+301,-0.015254466029329124,0.99988364386370476,-0.015256241186607986")
+-1.2191386819541528e+301,-0.015254466029329124,0.99988364386370476,-0.015256241186607986",
+                    colClasses = "character")
+  cases[] <- lapply(cases, .ig_parse_decimal)
   for (i in seq_len(nrow(cases))) for (kind in c("sin", "cos", "tan")) {
     expression <- sprintf("%s(%.17g)", kind, cases$x[i])
     value <- distribution_calculator(expression)

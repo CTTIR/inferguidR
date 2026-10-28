@@ -165,7 +165,7 @@ test_that("classifier metric controls and complete tables share the selected eva
   expect_equal(nrow(displayed_table()),nrow(classification_plot_data(before,"current_table")$data$metrics))
   expect_match(output$primary_table,"denominator")
   raw <- classification_plot_data(before,"current_table")$data$metrics
-  expect_equal(as.numeric(displayed_table()$value),raw$value,tolerance=0)
+  expect_equal(.ig_parse_decimal(displayed_table()$value),raw$value,tolerance=0)
   session$setInputs(curve_panel="sweep_table")
   expect_equal(nrow(displayed_table()),nrow(cutoff_sweep(before, model_id="model_a")))
   expect_identical(result(),before)

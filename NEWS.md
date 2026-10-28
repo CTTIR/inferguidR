@@ -6,6 +6,14 @@
 
 Development version; numerical and release qualification remain incomplete.
 
+* Numbers typed into the calculator and the workbench, and numbers read back
+  from canonical JSON, are converted with correct rounding on every platform.
+  R's own conversion missed the nearest double for many inputs with 16 or more
+  significant digits or a large exponent where long double has no extra
+  precision (macOS on Apple silicon), which changed calculator results and
+  made retained report hashes fail there.
+* The unconstrained theoretical Youden optimum reports the analytic stationary
+  point instead of a numerical estimate next to it.
 * Exact unconditional pooled, continuity-corrected pooled and Mantel-Haenszel
   calculations now preserve rational equality classes at discrete critical
   boundaries. Some criterion results can change where the previous calculation

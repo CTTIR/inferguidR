@@ -2,25 +2,25 @@ e<-new.env(parent=baseenv());e$alternative<-'two.sided';e$confidence_level<-.95
 invisible(capture.output(sys.source(system.file("advisor","templates","tpl.anova_factorial.v1.R",package="inferguidR"),e)))
 .factorial_data<-function(ref) {
  m<-matrix(unlist(ref$groups),ncol=length(ref$levels),byrow=TRUE)
- d<-data.frame(id=seq_len(nrow(m)),y=as.numeric(unlist(ref$y)))
+ d<-data.frame(id=seq_len(nrow(m)),y=.ig_parse_decimal(unlist(ref$y)))
  for(j in seq_len(ncol(m))) d[[LETTERS[j]]]<-factor(m[,j],levels=seq_len(ref$levels[[j]])-1L)
  d
 }
-.fraction_number<-function(x) {z<-as.numeric(strsplit(x,'/',fixed=TRUE)[[1]]);if(length(z)==1L)z else z[1]/z[2]}
+.fraction_number<-function(x) {z<-.ig_parse_decimal(strsplit(x,'/',fixed=TRUE)[[1]]);if(length(z)==1L)z else z[1]/z[2]}
 test_that('type-III factorial hypotheses match exact rational matrix references',{
  refs<-jsonlite::read_json(test_path("fixtures","factorial-rational.json"))$cases
  for(ref in refs) {
   d<-.factorial_data(ref);cols<-LETTERS[seq_along(ref$levels)]
   r<-e$analyse(d,cols,TRUE,TRUE)
   expect_identical(r$status,'ok');expect_equal(r$residual_df,ref$residual_df)
-  expect_equal(r$residual_sum_squares,as.numeric(ref$residual_sum_squares),tolerance=1e-13)
+  expect_equal(r$residual_sum_squares,.ig_parse_decimal(ref$residual_sum_squares),tolerance=1e-13)
   for(t in ref$terms) {
    a<-r$terms[r$terms$term==t$term,,drop=FALSE]
    expect_equal(nrow(a),1);expect_equal(a$df,t$df)
    expect_equal(a$sum_squares,.fraction_number(t$sum_squares),tolerance=2e-12)
-   expect_equal(a$F,as.numeric(t$F),tolerance=2e-12)
-   expect_equal(a$p_value,as.numeric(t$p_value),tolerance=2e-12)
-   expect_equal(a$partial_eta_squared,as.numeric(t$partial_eta_squared),tolerance=2e-12)
+   expect_equal(a$F,.ig_parse_decimal(t$F),tolerance=2e-12)
+   expect_equal(a$p_value,.ig_parse_decimal(t$p_value),tolerance=2e-12)
+   expect_equal(a$partial_eta_squared,.ig_parse_decimal(t$partial_eta_squared),tolerance=2e-12)
   }
   expect_equal(r$terms$p_holm,p.adjust(r$terms$p_value,'holm'))
   expect_null(r$confidence_interval);expect_equal(r$n_excluded,0)

@@ -9,7 +9,9 @@
 #   written as 0. jsonlite's `digits = NA` writes at most 15 significant
 #   digits, which does not round-trip (0.1 + 0.2 is written as 0.3), so the
 #   number text is produced here and jsonlite is used for string escaping,
-#   structural parsing and pretty-printing; numerical tokens use R conversion;
+#   structural parsing and pretty-printing; number text is read with the
+#   correctly rounded conversion of .ig_parse_decimal(), so the same text is
+#   the same double on every platform;
 # * missing values (NA) are `null`; the object that holds them must say why;
 # * non-finite numbers are written as the marker object
 #   {"nonfinite": "positive_infinity" | "negative_infinity" | "not_a_number",
@@ -25,6 +27,33 @@
 # Maximum accepted size of an imported JSON document (bytes).
 .ig_json_max_bytes <- 64 * 1024^2
 
+# Decimal number text to the nearest double, identically on every platform.
+# R's own conversion (as.numeric) builds the value in long double. Where long
+# double is no wider than double, as on macOS for Apple silicon, it misses the
+# nearest double for most inputs with 16 or more significant digits or a large
+# exponent; elsewhere it still misses by one ULP now and then. jsonlite reads
+# numbers with the C library's strtod, which rounds correctly. The sign is
+# applied afterwards so that "-0" stays negative zero.
+.ig_decimal_pattern <- "^[+-]?(?:[0-9]+\\.?[0-9]*|\\.[0-9]+)(?:[eE][+-]?[0-9]+)?$"
+
+.ig_parse_decimal <- function(txt) {
+  if (!length(txt)) return(double())
+  if (!is.character(txt) || anyNA(txt) || !all(grepl(.ig_decimal_pattern, txt, perl = TRUE))) {
+    .ig_abort("invalid_input", "number text must be a plain decimal number")
+  }
+  negative <- startsWith(txt, "-")
+  body <- sub("^[+-]", "", txt)
+  exponent <- sub("^[^eE]*", "", body)
+  mantissa <- sub("[eE].*$", "", body)
+  whole <- sub("^0+", "", sub("\\..*$", "", mantissa))
+  whole[!nzchar(whole)] <- "0"
+  fraction <- ifelse(grepl(".", mantissa, fixed = TRUE), sub("^[^.]*\\.", "", mantissa), "")
+  json <- paste0(whole, ifelse(nzchar(fraction), paste0(".", fraction), ""), exponent)
+  value <- as.double(unlist(jsonlite::parse_json(paste0("[", paste(json, collapse = ","), "]")),
+                            use.names = FALSE))
+  ifelse(negative, -value, value)
+}
+
 # Shortest round-trip decimal text for doubles (non-finite values are
 # returned as R prints them; the JSON writer encodes them separately).
 .ig_format_double <- function(x) {
@@ -33,10 +62,10 @@
   if (!length(fin)) return(out)
   xf <- x[fin]
   txt <- sprintf("%.15g", xf)
-  bad <- as.numeric(txt) != xf
+  bad <- .ig_parse_decimal(txt) != xf
   if (any(bad)) {
     txt[bad] <- sprintf("%.16g", xf[bad])
-    bad <- as.numeric(txt) != xf
+    bad <- .ig_parse_decimal(txt) != xf
     if (any(bad)) txt[bad] <- sprintf("%.17g", xf[bad])
   }
   txt[xf == 0] <- "0"
@@ -177,14 +206,13 @@
 }
 
 
-# jsonlite structural parsing can round a valid decimal one ULP away from
-# R's conversion used by the canonical writer. Read numerical tokens using
-# that same conversion, preserving string contents and the parsed structure.
+# Read numerical tokens with the same conversion the canonical writer checks
+# its text against, preserving string contents and the parsed structure.
 .ig_json_restore_numbers <- function(parsed, txt) {
   pattern <- '"(?:[^"\\\\]++|\\\\.)*+"(*SKIP)(*F)|-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[eE][+-]?[0-9]+)?'
   positions <- gregexpr(pattern, txt, perl = TRUE)
   tokens <- regmatches(txt, positions)[[1L]]
-  values <- as.numeric(tokens)
+  values <- .ig_parse_decimal(tokens)
   cursor <- 0L
   restore <- function(x) {
     if (is.numeric(x)) {
