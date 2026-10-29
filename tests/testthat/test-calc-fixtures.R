@@ -7,7 +7,7 @@
 # interval of the last displayed digit plus 8 eps max(1, |x|)
 # (validation/tolerances.md section 4); text displays are compared exactly.
 
-g12_display_interval <- function(displayed) {
+g12_display_interval <- function(displayed, eps_slack = 8) {
   s <- trimws(displayed)
   if (grepl("e", s, fixed = TRUE)) {
     mant <- sub("e.*$", "", s)
@@ -19,16 +19,16 @@ g12_display_interval <- function(displayed) {
     half <- 0.5 * 10^(-d)
   }
   x <- as.numeric(s)
-  a <- 8 * .Machine$double.eps * max(1, abs(x))
+  a <- eps_slack * .Machine$double.eps * max(1, abs(x))
   c(x - half - a, x + half + a)
 }
-expect_display <- function(expr, displayed, record) {
+expect_display <- function(expr, displayed, record, eps_slack = 8) {
   r <- distribution_calculator(expr)
   expect_identical(r$status$code, "ok", info = record)
   if (displayed %in% c("inf", "-inf", "-nan(ind)")) {
     expect_identical(r$display, displayed, info = record)
   } else {
-    iv <- g12_display_interval(displayed)
+    iv <- g12_display_interval(displayed, eps_slack)
     expect_true(r$value >= iv[1] && r$value <= iv[2],
                 info = sprintf("%s: %s = %s, G*Power %s", record, expr, format(r$value, digits = 17), displayed))
   }
@@ -63,7 +63,10 @@ test_that("distribution functions agree with the G*Power display", {
     c("norminv(1e-12,0,1)", "-7.03448382530113", "GPW-UT-CALC-UTL-U030-UD01--r01"),
     c("chi2cdf(100000,100000)", "0.500594708104793", "GPW-UT-CALC-UTL-U031-UD01--r01"),
     c("chi2inv(1e-10,1000)", "741.268071719353", "GPW-UT-CALC-UTL-U033-UD01--r01"),
-    c("fcdf(1.001,1e6,1e6)", "0.691374450428913", "GPW-UT-CALC-UTL-U034-UD01--r01"),
+    # df = 1e6 makes this evaluation ill-conditioned: at 50 digits the value is
+    # 0.69137445042890253; G*Power and R on Linux are 1.5e-14 above it, R on
+    # macOS 2.5e-14. This record alone gets 64 eps instead of MR-DISPLAY's 8.
+    c("fcdf(1.001,1e6,1e6)", "0.691374450428913", "GPW-UT-CALC-UTL-U034-UD01--r01", "64"),
     c("finv(0.999999,1,1)", "405284734545.376", "GPW-UT-CALC-UTL-U036-UD01--r01"),
     c("tcdf(-50,3)", "8.80857602063598e-06", "GPW-UT-CALC-UTL-U037-UD01--r01"),
     c("tinv(0.9999999,1)", "3183098.86351325", "GPW-UT-CALC-UTL-U039-UD01--r01"),
@@ -95,7 +98,7 @@ test_that("distribution functions agree with the G*Power display", {
     c("hygecdf(2,10.5,5,50)", "0.936001717985992", "SUP-G12-UT-CALC-B53--r01"),
     c("tcdf(2,10.5)", "0.963983099921516", "SUP-G12-UT-CALC-D11--r01")
   )
-  for (k in cases) expect_display(k[1], k[2], k[3])
+  for (k in cases) expect_display(k[1], k[2], k[3], if (length(k) > 3L) as.numeric(k[4]) else 8)
 })
 
 test_that("documented G*Power defects give the documented function, not the G*Power value", {
