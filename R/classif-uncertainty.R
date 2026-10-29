@@ -118,11 +118,13 @@
 
 # Draw the replicate weights of one bootstrap replicate: the number of times
 # each unit (row) is drawn. Units with frequency weight w count as w
-# replicated units.
+# replicated units. rmultinom() gets the unnormalised weights: it normalises
+# them itself, and where long double has no extra precision (macOS arm64) a
+# vector normalised beforehand can draw differently from the same seed.
 .ig_cls_bootstrap_draw <- function(y, w, cluster_index, n_clusters, strata) {
   n <- length(y)
   if (!is.null(cluster_index)) {
-    m <- stats::rmultinom(1L, n_clusters, rep(1 / n_clusters, n_clusters))[, 1]
+    m <- stats::rmultinom(1L, n_clusters, rep(1, n_clusters))[, 1]
     return(m[cluster_index] * w)
   }
   wb <- numeric(n)
@@ -131,7 +133,7 @@
     g <- g[w[g] > 0]
     if (!length(g)) next
     size <- sum(w[g])
-    wb[g] <- stats::rmultinom(1L, size, w[g] / size)[, 1]
+    wb[g] <- stats::rmultinom(1L, size, w[g])[, 1]
   }
   wb
 }
