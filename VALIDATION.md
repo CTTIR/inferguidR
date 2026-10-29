@@ -44,7 +44,8 @@ it does not read private captures or certify the full G*Power inventory.
 Repository automation runs full checks on Linux release/devel, Windows and
 macOS, plus a separate minimum-R core profile. The R 4.1.0 core profile uses
 hard dependencies and functional examples; it is not the full optional-package
-test suite. Actual workflow runs are required before claiming hosted coverage.
+test suite. Actual workflow runs are required before claiming hosted coverage;
+all five profiles passed for `c83e08c` on 2026-10-29.
 
 The expanded numerical campaign streams individual results and a complete
 method/mode/option declaration inventory. Declared combinations are not

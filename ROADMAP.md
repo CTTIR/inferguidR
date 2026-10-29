@@ -176,8 +176,10 @@ Update checkboxes only after inspecting the corresponding evidence.
   behaved as required.
 - Local site: 116 HTML pages, 5,143 local links/assets/anchors checked with
   no missing targets; validation article rendered without horizontal overflow.
-- Remaining Phase 2 acceptance: publish the reviewed changes, run hosted
-  Windows/macOS/release/devel CI and verify the deployed Pages endpoint.
+- Hosted Phase 2 acceptance was met on 2026-10-29 for `c83e08c`: Linux
+  release/devel, Windows, macOS and R 4.1.0 core jobs passed (R-CMD-check run
+  40832009017), and the deployed Pages endpoint answered HTTP 200 after
+  Documentation run 40832008905.
 - Phases 3–5 remain open. This milestone does not certify complete numerical
   parity, complete workbench behavior or release readiness.
 
@@ -277,9 +279,10 @@ package files passed the distribution audit.
 
 ### Remaining acceptance and next work
 
-1. Obtain successful hosted Windows, macOS, release/devel and minimum-R jobs
-   for the published revision, and verify the deployed Pages HTTP endpoint.
-   Local success and queued jobs do not satisfy these gates.
+1. Hosted platform gate: met on 2026-10-29 for `c83e08c` (Windows, macOS,
+   Linux release/devel and minimum-R jobs passed; deployed Pages endpoint
+   answered HTTP 200). Each later candidate needs its own passing hosted runs;
+   local success and queued jobs do not satisfy this gate.
 2. Adjudicate the retained native-reference disagreements and the exact
    attained-size compromise/no-solution contract. Preserve typed refusals
    while these contracts are unresolved.
