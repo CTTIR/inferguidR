@@ -36,3 +36,4 @@
 
 ^tools/infer-suite-migration$
 ^tools/infer-suite-prompts$
+^INFER-SUITE\.md$

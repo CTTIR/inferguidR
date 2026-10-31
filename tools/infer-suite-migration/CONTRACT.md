@@ -20,7 +20,7 @@ Mandatory row columns are row_id, variable_id, component, estimand, contrast, es
 
 Metadata requires method_id, variant_id, result_id, contract_version and kind. Constructors supply variant_id and result_id if absent. IDs are stable labels within a result, not global identifiers or cryptographic hashes. Cross-result joins require explicit distinct result_id values and row_id keys. Metadata carries population, exclusions, settings, orientation, warnings, assumptions, provenance and validation evidence when relevant. Source-specific status/fields stay in payload. Common status is one of ok, undefined, not_applicable, unsupported, invalid_input, numerical_failure, infeasible, reference_pending or unresolved. Original unresolved/partial computation is never promoted to ok.
 
-Raw and adjusted p-values are distinct. Missing adjusted p-values may not fall back to raw values when adjustment is requested. Adjustment records complete family membership before display filtering and does not alter intervals. An omnibus test cannot supply pairwise contrasts. Estimates and intervals must name the same estimand and scale. Unknown sample size remains unknown, never inferred from Welch df.
+Raw and adjusted p-values are distinct. Missing adjusted p-values may not fall back to raw values when adjustment is requested. Adjustment records complete family membership before display filtering and does not alter intervals. A family_id cannot be reused within a result, including on disjoint rows or after display filtering. An omnibus test cannot supply pairwise contrasts. Estimates and intervals must name the same estimand and scale. Unknown sample size remains unknown, never inferred from Welch df.
 
 ## Execution and adapter rules
 
