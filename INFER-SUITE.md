@@ -14,15 +14,21 @@ With sibling checkouts, install from their source archives in provider-first
 order, into a library you control:
 
 ```sh
+suite_library="/path/to/library"
+mkdir -p "$suite_library"
+export R_LIBS="$suite_library"
+export R_LIBS_USER="$suite_library"
 R CMD build infercalcR
-R CMD INSTALL --library=/path/to/library infercalcR_0.0.0.9000.tar.gz
+R CMD INSTALL --library="$suite_library" infercalcR_0.0.0.9000.tar.gz
 R CMD build infereportR
-R CMD INSTALL --library=/path/to/library infereportR_0.0.0.9000.tar.gz
+R CMD INSTALL --library="$suite_library" infereportR_0.0.0.9000.tar.gz
 R CMD build inferguidR
-R CMD INSTALL --library=/path/to/library inferguidR_0.0.0.9000.tar.gz
+R CMD INSTALL --library="$suite_library" inferguidR_0.0.0.9000.tar.gz
 ```
 
-Set `R_LIBS_USER` to that library for builds and sessions. Plain R CMD INSTALL
+Set both `R_LIBS` and `R_LIBS_USER` to that library: child vignette builds may
+replace the user library setting, so `R_LIBS` keeps the exact installed provider
+visible. Plain R CMD INSTALL
 does not fetch dependencies or honor GitHub Remotes automatically. GitHub
 installation requires authenticated access to the private provider/report
 repositories. Keep credentials outside source files and command history.
