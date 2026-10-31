@@ -111,7 +111,7 @@ test_that("results print a readable summary and record a reproducible call", {
   expect_true(any(grepl("ROC AUC", txt)))
   expect_true(any(grepl("limitation: prevalence_scenario", txt)))
   expect_output(print(r), "spec hash")
-  expect_match(r$r_call, "^inferguidR::evaluate_cutoff\\(spec, partial_auc = ")
+  expect_match(r$r_call, "^infercalcR::evaluate_cutoff\\(spec, partial_auc = ")
   expect_match(r$r_call, r$spec_hash, fixed = TRUE)
   expect_identical(th_condition_code(classification_table(list(), "metrics")), "invalid_input")
   de <- classification_table(ex_results()$counts, "intervals", lang = "de")

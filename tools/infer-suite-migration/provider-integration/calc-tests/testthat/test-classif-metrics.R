@@ -4,7 +4,7 @@ cm_value <- function(m, id) m$value[m$metric_id == id]
 cm_status <- function(m, id) m$status[m$metric_id == id]
 
 test_that("the dictionary documents every computed metric completely and bilingually", {
-  doc <- inferguidR:::.ig_cls_dictionary()
+  doc <- infercalcR:::.ig_cls_dictionary()
   ids <- vapply(doc$metrics, `[[`, "", "id")
   expect_false(anyDuplicated(ids) > 0)
   expect_true(all(grepl("^[a-z][a-z0-9_]*$", ids)))
@@ -24,7 +24,7 @@ test_that("the dictionary documents every computed metric completely and bilingu
   }
   for (rc in doc$reason_codes) expect_true(all(c("en", "de") %in% names(rc)))
   # every operating-point metric is computed by the engine, and nothing else
-  computed <- names(inferguidR:::.ig_cls_metrics_vec(1, 1, 1, 1))
+  computed <- names(infercalcR:::.ig_cls_metrics_vec(1, 1, 1, 1))
   expect_setequal(computed, ids[vapply(doc$metrics, function(e) e$scope == "operating_point", TRUE)])
   # the required families of CLASSIFICATION_CUTOFF are present
   expect_true(all(c("tp", "fn", "fp", "tn", "n_total", "n_events", "n_non_events", "n_alerts",

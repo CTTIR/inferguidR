@@ -251,7 +251,7 @@ test_that("parameters beyond the computable range are typed as unsupported", {
     expect_true(is.na(r$value), info = expr)
     expect_match(r$status$reason, "^outside the computable range: ", info = expr)
   }
-  rg <- inferguidR:::.ig_calc_range
+  rg <- infercalcR:::.ig_calc_range
   expect_identical(rg$nc, 1e8)
   unsupported("ncx2cdf(1,2,1e9)")
   unsupported("ncx2pdf(1,2,1e300)")
@@ -279,7 +279,7 @@ test_that("tails below the double range are 0 or 1 without a long mixture", {
   expect_identical(cv("ncfpdf(1/0,2,3,1)"), 0)
   expect_identical(cv("lognpdf(1e-300,0.999999,1e-300)"), 0)   # nmath's direct formula is 0/0 here
   # The Chernoff bound that decides this is a bound: where it does not apply the mixture is summed.
-  b <- inferguidR:::.ig_calc_ncx2_log_bound
+  b <- infercalcR:::.ig_calc_ncx2_log_bound
   for (x in c(30, 60, 200)) {
     expect_gte(b(x, 4, 20, upper = TRUE), pchisq(x, 4, 20, lower.tail = FALSE, log.p = TRUE) - 1e-9)
   }
@@ -290,7 +290,7 @@ test_that("tails below the double range are 0 or 1 without a long mixture", {
 })
 
 test_that("the hypergeometric function of the correlation density has its closed forms", {
-  h <- function(c, x) exp(inferguidR:::.ig_log_hyp2f1_half(c, x))
+  h <- function(c, x) exp(infercalcR:::.ig_log_hyp2f1_half(c, x))
   # 2F1(1/2, 1/2; 3/2; x) = asin(sqrt(x)) / sqrt(x);
   # 2F1(1/2, 1/2; 5/2; x) = 3/(4x) ((2x - 1) asin(sqrt(x)) / sqrt(x) + sqrt(1 - x))  (N = 3).
   f15 <- function(x) asin(sqrt(x)) / sqrt(x)
@@ -301,10 +301,10 @@ test_that("the hypergeometric function of the correlation density has its closed
   }
   expect_identical(h(2.5, 0), 1)
   # The series and the connection formula in 1 - x agree where both converge.
-  s <- function(c, x) inferguidR:::.ig_hyp2f1_series(0.5, 0.5, c, x)
+  s <- function(c, x) infercalcR:::.ig_hyp2f1_series(0.5, 0.5, c, x)
   for (c in c(2.5, 3.5, 4.4, 7.5)) close_rel(h(c, 0.93), s(c, 0.93), 1e-14)
   # A series that cannot converge within its term limit gives NaN, never a wrong number.
-  expect_true(is.nan(inferguidR:::.ig_hyp2f1_series(0.5, 0.5, 3, 1 - 1e-9, max_terms = 1e4)))
+  expect_true(is.nan(infercalcR:::.ig_hyp2f1_series(0.5, 0.5, 3, 1 - 1e-9, max_terms = 1e4)))
 })
 
 test_that("every function returns a typed outcome for edge-case arguments", {

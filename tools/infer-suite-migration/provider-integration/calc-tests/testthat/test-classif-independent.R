@@ -1,7 +1,7 @@
 # Independent checks of the classifier engine.
 #
 # Everything defined in this file is written from the definitions with plain
-# loops and arithmetic; it calls no inferguidR function except the engine
+# loops and arithmetic; it calls no package function except the engine
 # entry points under test. Counts come from comparing every unit with every
 # candidate cutoff, AUC from all event/non-event pairs, partial AUC from a
 # dense numerical integration of the ROC polygon, DeLong from the explicit
