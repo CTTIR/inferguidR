@@ -147,38 +147,6 @@
   if (is.na(v)) "unknown" else v
 }
 
-# Paths of finite numbers inside a (nested) list.
-.ig_finite_paths <- function(x, path) {
-  if (is.null(x)) return(character())
-  if (is.list(x)) {
-    nms <- names(x)
-    out <- character()
-    for (i in seq_along(x)) {
-      sub <- if (is.null(nms)) paste0(path, "[", i, "]") else paste0(path, "$", nms[i])
-      out <- c(out, .ig_finite_paths(x[[i]], sub))
-    }
-    return(out)
-  }
-  if (is.numeric(x) && any(is.finite(x))) return(path)
-  character()
-}
-
-# Convert integers to doubles recursively (not inside group sizes).
-.ig_doubles <- function(x) {
-  if (is.list(x)) {
-    nms <- names(x)
-    out <- lapply(x, .ig_doubles)
-    names(out) <- nms
-    return(out)
-  }
-  if (is.integer(x) && !is.factor(x)) {
-    nm <- names(x)
-    x <- as.double(x)
-    names(x) <- nm
-  }
-  x
-}
-
 .ig_coerce_solved <- function(spec, solved) {
   if (!length(solved)) return(solved)
   def <- .ig_get_method(spec$method_id)
