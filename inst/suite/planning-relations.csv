@@ -1,0 +1,70 @@
+mapping_version,method_id,planning_engine,relation,required_inputs,assumptions,supported_conversion
+1.0.0,descriptive_summary,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,t_mean_one_sample,t_means_one_sample,same_procedure_under_assumptions,d;alpha;power or n_total,Independent normal observations; prospective standardized mean difference and a prespecified tail.,explicit manual specification
+1.0.0,signed_rank_wilcoxon_one_sample,t_wilcoxon_signed_rank_one_sample,approximation,standardized shift;parent distribution or ARE;alpha;power or n_total,Large-sample relative-efficiency planning under the declared shift/parent model; not exact finite-sample rank-test power.,explicit manual specification
+1.0.0,binomial_exact_one_sample,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,prop_one_sample_score,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,chisq_goodness_of_fit,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,chisq_goodness_of_fit_mc,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,sign_test_one_sample,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,t_means_two_independent_welch,t_means_two_independent,comparator,d;alpha;power or n_total;allocation_ratio,Pooled equal-variance planning is a different procedure; no automatic Welch mapping.,explicit manual specification
+1.0.0,t_means_two_independent_student,t_means_two_independent,same_procedure_under_assumptions,d;alpha;power or n_total;allocation_ratio,Independent normal groups with a common variance; pooled Student procedure.,explicit manual specification
+1.0.0,rank_sum_mann_whitney,t_wilcoxon_mann_whitney,approximation,standardized shift;parent distribution or ARE;alpha;power or n_total,Large-sample relative-efficiency planning under the declared shift/parent model; not exact finite-sample rank-test power.,explicit manual specification
+1.0.0,brunner_munzel,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,boschloo_two_sided_central,boschloo_proportions_two_independent,same_procedure_under_assumptions,p1;p2;alpha;n1/n2 or target power/allocation;numerical controls,"Independent fixed-size binomial samples; exact same variant, direction, event coding, tie and numerical decision rules.",advisor_power_spec
+1.0.0,boschloo_two_sided_minlike,boschloo_proportions_two_independent,same_procedure_under_assumptions,p1;p2;alpha;n1/n2 or target power/allocation;numerical controls,"Independent fixed-size binomial samples; exact same variant, direction, event coding, tie and numerical decision rules.",advisor_power_spec
+1.0.0,boschloo_one_sided,boschloo_proportions_two_independent,same_procedure_under_assumptions,p1;p2;alpha;n1/n2 or target power/allocation;numerical controls,"Independent fixed-size binomial samples; exact same variant, direction, event coding, tie and numerical decision rules.",advisor_power_spec
+1.0.0,fisher_exact_2x2,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,prop_two_independent_pearson_chisq,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,unconditional_exact_z_pooled,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,anova_one_way_welch,,unsupported,,No reviewed Welch ANOVA planning engine; pooled F planning is a different procedure.,explicit manual specification
+1.0.0,anova_one_way,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,kruskal_wallis,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,jonckheere_terpstra,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,chisq_independence_rxc,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,fisher_exact_rxc,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,cochran_armitage_trend,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,anova_factorial,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,ancova_baseline_adjusted,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,variance_brown_forsythe,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,variance_f_test_two,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,variance_fligner_killeen,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,variance_chisq_one_sample,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,t_means_paired,t_means_matched_pairs,same_procedure_under_assumptions,dz;alpha;power or n_total,Independent subjects and normally distributed paired differences; N counts pairs.,explicit manual specification
+1.0.0,signed_rank_wilcoxon,t_wilcoxon_signed_rank_matched_pairs,approximation,standardized shift;parent distribution or ARE;alpha;power or n_total,Large-sample relative-efficiency planning under the declared shift/parent model; not exact finite-sample rank-test power.,explicit manual specification
+1.0.0,sign_test_paired,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,mcnemar_exact_conditional,exact_proportions_mcnemar,approximation,discordance probability;conditional event probability;alpha;N or target power,Review prospective discordance-count averaging and alpha-balancing options explicitly; matched exact conditional observed identity does not establish all planning conventions.,explicit manual specification
+1.0.0,mcnemar_midp,exact_proportions_mcnemar,comparator,discordance probabilities;alpha;N or target power,Exact conditional planning differs from the selected asymptotic or mid-p decision rule; no automatic conversion.,explicit manual specification
+1.0.0,mcnemar_asymptotic_uncorrected,exact_proportions_mcnemar,comparator,discordance probabilities;alpha;N or target power,Exact conditional planning differs from the selected asymptotic or mid-p decision rule; no automatic conversion.,explicit manual specification
+1.0.0,mcnemar_asymptotic_cc,exact_proportions_mcnemar,comparator,discordance probabilities;alpha;N or target power,Exact conditional planning differs from the selected asymptotic or mid-p decision rule; no automatic conversion.,explicit manual specification
+1.0.0,stuart_maxwell_marginal_homogeneity,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,bowker_symmetry,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,anova_repeated_one_way_gg,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,lmm_repeated_measures,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,friedman,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,cochran_q,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,lmm_cluster_random_intercept,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,glmm_logistic_random_intercept,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,gee_logistic_exchangeable,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,correlation_pearson,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,correlation_spearman,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,correlation_kendall,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,regression_linear_simple,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,regression_linear_multiple,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,regression_logistic_binary,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,regression_ordinal_proportional_odds,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,regression_multinomial,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,regression_poisson,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,regression_negative_binomial,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,prediction_model_linear,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,prediction_model_logistic,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,efa_common_factor_ml,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,pca_components,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,cluster_hierarchical_ward,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,cluster_kmeans,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,cluster_gower_pam,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,classifier_cutoff_exploration,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,classifier_predeclared_rule,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,classifier_heldout_validation,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,diagnostic_2x2_fixed_cutoff,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none
+1.0.0,classifier_binormal_theory,,unsupported,,No reviewed same-procedure mapping; existing planning catalogue remains available separately.,none

@@ -44,3 +44,5 @@ testthat-problems.rds
 /inst/doc/
 /vignettes/*.html
 /vignettes/*.R
+
+/tools/infer-suite-migration/runs/

@@ -1,0 +1,17 @@
+Run-ID: UNSET
+Contract-Revision: UNSET
+Source-Baseline-SHA: UNSET
+Source-Original-Path: UNSET
+Source-Working-Path: UNSET
+Calc-Working-Path: UNSET
+Report-Working-Path: UNSET
+Coordinator: UNSET
+Mutable-Run-State-Path: UNSET
+Current-Phase: P01
+Implementation-State: NOT_STARTED
+Local-Validation-State: NOT_RUN
+Hosted-Validation-State: NOT_RUN
+Remote-Creation-State: NOT_RUN
+Next-Action: Complete P01 discovery before implementation.
+Blocker: none-recorded
+
