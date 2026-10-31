@@ -28,11 +28,14 @@ archives <- character()
 for (pkg in names(sources)) {
   version <- read.dcf(file.path(sources[[pkg]], "DESCRIPTION"))[1, "Version"]
   archive <- file.path(output, paste0(pkg, "_", version, ".tar.gz"))
-  run("build", pkg, R, c("CMD", "build", sources[[pkg]]))
+  # Build-vignette installation replaces its user library; R_LIBS must retain
+  # the exact provider and the declared integration dependencies in child R.
+  libraries <- shQuote(paste(c(lib, original_libs), collapse = .Platform$path.sep))
+  full_env <- c(paste0("R_LIBS=", libraries), paste0("R_LIBS_USER=", libraries),
+                "_R_CHECK_FORCE_SUGGESTS_=false", "INFER_SUITE_FULL=true")
+  run("build", pkg, R, c("CMD", "build", sources[[pkg]]), full_env)
   stopifnot(file.exists(archive))
   archives[pkg] <- archive
-  full_env <- c("R_LIBS=", paste0("R_LIBS_USER=", shQuote(paste(c(lib, original_libs), collapse = .Platform$path.sep))),
-                "_R_CHECK_FORCE_SUGGESTS_=false", "INFER_SUITE_FULL=true")
   run("install", pkg, R, c("CMD", "INSTALL", "--install-tests", paste0("--library=", lib), archive), full_env)
   # Check built resources, examples and installed tests; record every warning.
   run("check", pkg, R, c("CMD", "check", "--no-manual", "--no-vignettes", paste0("--library=", lib), archive), full_env)
@@ -41,7 +44,7 @@ for (pkg in names(sources)) {
   writeLines(lines[grepl("Status:|ERROR|WARNING|NOTE", lines)], file.path(output, paste0(pkg, "-check-disposition.txt")))
   if (any(grepl(" ERROR| WARNING", lines))) stop("Package check requires repair or a recorded disposition: ", pkg)
 }
-minimal_env <- c("R_LIBS=", paste0("R_LIBS_USER=", shQuote(minimal)), paste0("R_LIBS_SITE=", shQuote(empty)),
+minimal_env <- c(paste0("R_LIBS=", shQuote(minimal)), paste0("R_LIBS_USER=", shQuote(minimal)), paste0("R_LIBS_SITE=", shQuote(empty)),
                  "_R_CHECK_FORCE_SUGGESTS_=false", "INFER_SUITE_FULL=false")
 for (pkg in c("infercalcR", "infereportR")) {
   run("minimal-install", pkg, R, c("CMD", "INSTALL", "--install-tests", paste0("--library=", minimal), archives[[pkg]]), minimal_env)
