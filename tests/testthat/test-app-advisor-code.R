@@ -6,7 +6,7 @@ test_that("advisor code controls preserve explicit direction and selected varian
  shiny::testServer(.ig_advisor_server,args=list(language=shiny::reactive("en")), {
   state(advisor_replay(map));session$flushReact()
   expect_match(output$r_code_controls$html,"95%",fixed=TRUE)
-  expect_match(output$r_code_text,"var.equal = FALSE",fixed=TRUE)
+  expect_match(output$r_code_text,"t_means_two_independent_welch",fixed=TRUE)
   expect_match(output$r_code_download$html,"Download R example",fixed=TRUE)
   one <- map;one[['q.direction']] <- "one_sided_prespecified"
   state(advisor_replay(one));session$flushReact()
@@ -17,10 +17,10 @@ test_that("advisor code controls preserve explicit direction and selected varian
   state(advisor_replay(map));session$flushReact()
   expect_match(output$r_code_text,'alternative <- "two.sided"',fixed=TRUE)
   state(advisor_override(state(),"t_means_two_independent_student"));session$flushReact()
-  expect_match(output$r_code_text,"var.equal = TRUE",fixed=TRUE)
+  expect_match(output$r_code_text,"t_means_two_independent_student",fixed=TRUE)
   state(advisor_override(state(),"rank_sum_mann_whitney"));session$flushReact()
   expect_match(output$r_code_controls$html,"95%",fixed=TRUE)
-  expect_match(output$r_code_text,"probability_superiority",fixed=TRUE)
+  expect_match(output$r_code_text,"rank_sum_mann_whitney",fixed=TRUE)
   expect_match(output$r_code_download$html,"Download R example",fixed=TRUE)
   state(advisor_replay(c(q.aim="describe")));session$flushReact()
   expect_identical(advisor_recommendation(state())$preferred$analysis_variant_id,"descriptive_summary")

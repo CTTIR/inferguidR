@@ -11,13 +11,13 @@ analyse <- function(tp,fn,fp,tn,sampling,cutoff_origin,evaluation_split,conf.lev
  cells<-list(tp=tp,fn=fn,fp=fp,tn=tn)
  stopifnot(all(vapply(cells,function(v) is.numeric(v)&&length(v)==1L&&is.finite(v)&&v>=0&&v==floor(v),logical(1))))
  if(cutoff_origin=="held_out_tuning"&&evaluation_split=="same_data") stop("A tuned cutoff needs untouched held-out or external evaluation data.")
- spec<-inferguidR::classification_spec(counts=unlist(cells),
-   rule=inferguidR::cutoff_rule(cutoff=1,selection_data=cutoff_origin),
-   models=inferguidR::classifier_model("test",score_meaning="binary test decision: 1 = alert, 0 = no alert"),
+ spec<-infercalcR::classification_spec(counts=unlist(cells),
+   rule=infercalcR::cutoff_rule(cutoff=1,selection_data=cutoff_origin),
+   models=infercalcR::classifier_model("test",score_meaning="binary test decision: 1 = alert, 0 = no alert"),
    direction="higher_is_positive",comparator=">=",evaluation_split=evaluation_split,
    sampling=sampling,prevalence=prevalence,prevalence_source=prevalence_source,
-   uncertainty=inferguidR::classification_uncertainty(level=conf.level,proportion_methods="clopper_pearson",auc_method="none"))
- result<-inferguidR::evaluate_cutoff(spec);m<-result$models[[1]]
+   uncertainty=infercalcR::classification_uncertainty(level=conf.level,proportion_methods="clopper_pearson",auc_method="none"))
+ result<-infercalcR::evaluate_cutoff(spec);m<-result$models[[1]]
  list(method="Fixed-cutoff diagnostic 2 x 2 counts",status=result$status$code,
    counts=unlist(cells),sampling=sampling,cutoff_origin=cutoff_origin,evaluation_split=evaluation_split,
    metrics=m$metrics,intervals=m$intervals,scenario=m$scenario,

@@ -31,10 +31,7 @@ test_that('prediction bootstrap preserves RNG state and never drops failed fits'
   dd<-d;dd$x2<-dd$x1;expect_error(run(dd))
   expect_error(run(resamples=matrix(0,nrow(d),20)))
   expect_error(e$predict_new(r,data.frame(x1=NA_real_,x2=1)))
-  if(kind=='logistic'){
-   expect_error(e$measure_prediction(rep(1,10),rep(.5,10)))
-   expect_equal(e$measure_prediction(c(0,1,0,1,0,1),c(.2,.2,.5,.5,.8,.8))['auc'],c(auc=.5))
-  }
+  # Independent metric helper assertions moved to infercalcR/tests/observed-legacy-helpers.R.
  }
 })
 

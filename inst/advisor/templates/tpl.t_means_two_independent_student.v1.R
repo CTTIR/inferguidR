@@ -5,17 +5,8 @@
 # alpha is not inferred from the observed result. The confidence level is explicit.
 # Pooled two-sample t-test: equal population variances must be justified in advance.
 analyse <- function(x, y, alternative = "two.sided", conf.level = 0.95) {
-  stopifnot(is.numeric(x), is.numeric(y), length(x) >= 2L, length(y) >= 2L,
-            all(is.finite(x)), all(is.finite(y)),
-            length(alternative) == 1L, alternative %in% c("two.sided", "greater", "less"),
-            is.numeric(conf.level), length(conf.level) == 1L,
-            is.finite(conf.level), conf.level > 0, conf.level < 1)
-  fit <- stats::t.test(x, y, paired = FALSE, var.equal = TRUE,
-                       alternative = alternative, mu = 0, conf.level = conf.level)
-  list(method = fit$method, n = c(x = length(x), y = length(y)),
-       mean_difference = mean(x) - mean(y), confidence_interval = fit$conf.int,
-       statistic = unname(fit$statistic), df = unname(fit$parameter),
-       p_value = fit$p.value, alternative = fit$alternative)
+    spec <- infercalcR::method_spec("t_means_two_independent_student", alternative = alternative, conf.level = conf.level)
+    infercalcR::run_inference(spec, x = x, y = y)$payload$native
 }
 example_x <- c(5.2, 6.1, 4.9, 7.3, 5.8, 6.5, 7.1, 4.7)
 example_y <- c(3.8, 5.9, 4.2, 5.1, 6.7, 4.8, 3.9, 5.3, 6.0)
