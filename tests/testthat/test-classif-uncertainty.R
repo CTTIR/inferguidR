@@ -35,28 +35,6 @@ un_cp <- function(x, n, level) {
     if (x == n) 1 else un_bisect(function(p) un_tail(n, p, 0:x) - a2, 1e-300, 1 - 1e-16))
 }
 
-test_that("Wilson and Clopper-Pearson limits equal independent references", {
-  for (level in c(0.9, 0.95)) {
-    z <- un_z(level)
-    for (n in c(1, 2, 7, 25)) for (x in 0:n) {
-      w <- inferguidR:::.ig_cls_wilson(x, n, level)
-      cp <- inferguidR:::.ig_cls_clopper_pearson(x, n, level)
-      expect_equal(c(w$lower, w$upper), un_wilson(x, n, z), tolerance = 1e-12, info = paste(level, x, n))
-      expect_equal(c(cp$lower, cp$upper), un_cp(x, n, level), tolerance = 1e-12, info = paste(level, x, n))
-    }
-  }
-  # the reported intervals use the specification's level and the right numerator/denominator
-  r <- evaluate_cutoff(classification_spec(counts = c(tp = 17, fn = 8, fp = 12, tn = 63),
-                                           uncertainty = classification_uncertainty(level = 0.9)))
-  iv <- classification_table(r, "intervals")
-  ppv <- iv[iv$metric_id == "ppv" & iv$method == "clopper_pearson", ]
-  expect_equal(c(ppv$lower, ppv$upper), un_cp(17, 29, 0.9), tolerance = 1e-12)
-  npv <- iv[iv$metric_id == "npv" & iv$method == "wilson", ]
-  expect_equal(c(npv$lower, npv$upper), un_wilson(63, 71, un_z(0.9)), tolerance = 1e-12)
-  expect_true(all(iv$level == 0.9))
-  expect_true(all(iv$conditioning[iv$method != "delong"] == "fixed_cutoff"))
-})
-
 test_that("interval methods can be switched off or restricted", {
   r <- evaluate_cutoff(classification_spec(counts = c(tp = 5, fn = 5, fp = 5, tn = 5),
                                            uncertainty = classification_uncertainty(proportion_methods = "wilson",
@@ -126,18 +104,6 @@ test_that("bootstrap settings are validated and limited to scored data", {
                                                          uncertainty = unc)), "invalid_input")
   expect_identical(th_condition_code(classification_spec(theory = list(auc = 0.8, sigma = 1), cutoff = 0,
                                                          prevalence = 0.1, uncertainty = unc)), "invalid_input")
-})
-
-test_that("the cluster bootstrap draws whole clusters", {
-  set.seed(5)
-  cl <- rep(1:6, times = c(1, 2, 3, 4, 2, 3))
-  draws <- inferguidR:::.ig_cls_with_seed(3, replicate(50, inferguidR:::.ig_cls_bootstrap_draw(
-    y = rep(0:1, length.out = 15), w = rep(1, 15), cluster_index = cl, n_clusters = 6L, strata = "class")))
-  for (k in seq_len(ncol(draws))) {
-    per_cluster <- tapply(draws[, k], cl, function(v) length(unique(v)))
-    expect_true(all(per_cluster == 1))
-    expect_equal(sum(tapply(draws[, k], cl, `[`, 1)), 6)
-  }
 })
 
 test_that("unstable bootstrap quantities are reported as undefined or infinite, not as numbers", {

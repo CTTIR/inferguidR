@@ -6,14 +6,9 @@ check_settings <- function(alternative, conf.level) {
 }
 # Independent binary trials with one fixed event definition and reference probability.
 # The interval estimates the event probability, not a difference from the reference.
-analyse <- function(events,n,p0,alternative="two.sided",conf.level=.95) {
- check_settings(alternative,conf.level)
- stopifnot(is.numeric(events),length(events)==1L,is.finite(events),events>=0,events==floor(events),
-           is.numeric(n),length(n)==1L,is.finite(n),n>0,n==floor(n),events<=n,
-           is.numeric(p0),length(p0)==1L,is.finite(p0),p0>0,p0<1)
- fit <- stats::prop.test(events,n,p=p0,alternative=alternative,conf.level=conf.level,correct=FALSE)
- list(method=fit$method,events=events,n=n,proportion=events/n,reference=p0,
-      confidence_interval=fit$conf.int,p_value=fit$p.value,alternative=alternative)
+analyse <- function(events, n, p0, alternative = "two.sided", conf.level = 0.95) {
+    spec <- infercalcR::method_spec("prop_one_sample_score", alternative = alternative, conf.level = conf.level)
+    infercalcR::run_inference(spec, events = events, n = n, p0 = p0)$payload$native
 }
 example_result <- analyse(35,100,.2,alternative,confidence_level)
 print(example_result)

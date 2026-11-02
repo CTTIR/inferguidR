@@ -22,9 +22,6 @@ test_that("a scenario basis without events gives typed results, never an interna
   expect_identical(th_condition_code(classification_plot_data(res, "confusion_table", basis = "scenario")),
                    "infeasible")
   expect_error(classification_plot_data(res, "confusion_table", basis = "scenario"), "scenario undefined")
-  v <- inferguidR:::.ig_cls_metrics_vec(c(NA, 1), c(NA, 1), c(NA, 1), c(NA, 1))
-  expect_identical(v$ppv$status, c("undefined", "ok"))
-  expect_identical(v$ppv$reason, c("counts_undefined", NA))
   # a selection on that basis is infeasible for the stated reason
   for (obj in c("max_youden", "max_f1")) {
     r <- select_cutoff(spec, obj, prevalence_basis = "scenario")
@@ -102,11 +99,6 @@ test_that("far tails of a theoretical model never give an internal error or a nu
   expect_identical(r$status$code, "ok")
   expect_equal(r$models[[1]]$operating_point$cutoff, qnorm(1e-300, lower.tail = FALSE), tolerance = 1e-9)
   # a ratio that overflows is "not_computed", with its reason; exact zeros keep their typed status
-  v <- inferguidR:::.ig_cls_metrics_vec(tp = 1e-310, fn = 0.1, fp = 1, tn = 999)
-  expect_identical(v$fp_per_tp$status, "not_computed")
-  expect_identical(v$fp_per_tp$reason, "outside_double_range")
-  expect_true(is.na(v$fp_per_tp$value))
-  expect_identical(inferguidR:::.ig_cls_metrics_vec(0, 0.1, 1, 999)$fp_per_tp$status, "positive_infinity")
   # uniformly tiny expected counts: products underflow, but no status is invented
   tiny <- classification_metrics(c(tp = 1e-200, fn = 1e-200, fp = 1e-200, tn = 1e-200), count_kind = "expected")
   expect_equal(tiny$value[tiny$metric_id == "f1"], 0.5)

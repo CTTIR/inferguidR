@@ -16,6 +16,18 @@ installed <- rownames(installed.packages(lib.loc = dependency_library))
 if (!setequal(installed, required))
   stop("Isolated core dependency installation did not provide exactly digest and jsonlite", call. = FALSE)
 
+# The private calculation provider is checked out at the same exact commit as
+# DESCRIPTION Remotes. Its optional backends are deliberately absent here.
+args <- commandArgs(TRUE)
+if (length(args) != 1L) stop("Supply the pinned infercalcR checkout path", call. = FALSE)
+provider <- normalizePath(args[[1L]], mustWork = TRUE)
+if (!identical(read.dcf(file.path(provider, "DESCRIPTION"))[1L, "Package"], "infercalcR"))
+  stop("Provider checkout is not infercalcR", call. = FALSE)
+r <- file.path(R.home("bin"), "R")
+status <- system2(r, c("CMD", "INSTALL", shQuote(paste0("--library=", dependency_library)),
+                      shQuote(provider)))
+if (status != 0L) stop("Pinned calculation provider installation failed", call. = FALSE)
+
 # Nonexistent explicit paths prevent R from restoring its usual site/user paths.
 hidden <- tempfile("inferguidR-hidden-libraries-", tmpdir = runner_temp)
 con <- file(environment_file, open = "a")

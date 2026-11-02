@@ -1,0 +1,10 @@
+test_that("undefined vector counts and extreme ratios retain typed statuses", {
+  v <- infercalcR:::.ig_cls_metrics_vec(c(NA, 1), c(NA, 1), c(NA, 1), c(NA, 1))
+  expect_identical(v$ppv$status, c("undefined", "ok"))
+  expect_identical(v$ppv$reason, c("counts_undefined", NA))
+  v <- infercalcR:::.ig_cls_metrics_vec(tp = 1e-310, fn = 0.1, fp = 1, tn = 999)
+  expect_identical(v$fp_per_tp$status, "not_computed")
+  expect_identical(v$fp_per_tp$reason, "outside_double_range")
+  expect_true(is.na(v$fp_per_tp$value))
+  expect_identical(infercalcR:::.ig_cls_metrics_vec(0, 0.1, 1, 999)$fp_per_tp$status, "positive_infinity")
+})

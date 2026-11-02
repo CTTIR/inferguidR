@@ -1,5 +1,11 @@
 # inferguidR 0.0.0.9000
 
+* Separate observed calculations into infercalcR and finalized-result reporting
+  into infereportR. Retain guidance, prospective planning and historical
+  document/export compatibility in inferguidR.
+* Add public common planning-result accessors and explicit observed-method
+  relations to planning engines.
+
 * Standardize the named v5 package logo across README, documentation pages
   and available application headers, with matching light and dark artwork.
 

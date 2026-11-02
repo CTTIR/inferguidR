@@ -32,8 +32,7 @@ test_that('numeric cluster geometry agrees with independent Ward and separated-c
   shuffled<-run(d[rev(seq_len(nrow(d))),]);expect_identical(shuffled$membership,rr$membership);expect_equal(shuffled$stability,rr$stability)
   bad<-d;bad$x[1]<-NA;expect_error(run(bad));expect_equal(run(bad,complete_cases=TRUE)$n_excluded,1)
   bad<-d;bad$y<-1;expect_error(run(bad));expect_error(e$analyse(d,c('x','y'),3,TRUE))
-  expect_equal(e$adjusted_rand(c(1,1,2,2),c(2,2,1,1)),1)
-  expect_equal(e$adjusted_rand(c(1,1,2,2),c(1,2,1,2)),-.5)
+  # Independent ARI helper assertions live in infercalcR/tests/observed-legacy-helpers.R.
  }
 })
 test_that('typed Gower distances and PAM agree with exhaustive independent medoid enumeration',{
@@ -52,15 +51,7 @@ test_that('typed Gower distances and PAM agree with exhaustive independent medoi
  bad<-d;bad$flag[1]<-2;expect_error(run(bad))
  expect_error(e$analyse(d,vars,e$example_types,weights,2));expect_null(r$confidence_interval)
 })
-test_that('Gower pairwise weights and binary conventions match explicit independent arithmetic',{
- ref<-jsonlite::read_json(test_path("fixtures","structure-gower-edge-oracle.json"));e<-.structure_env('cluster_gower_pam')
- d<-data.frame(amount=c(0,2,4,6,NA,3),kind=factor(c('a','a','b','b','c',NA)),grade=ordered(c('low','middle','high','middle','high','low'),levels=c('low','middle','high')),
-  symmetric=c(0,1,0,1,1,0),asymmetric=c(0,0,1,1,0,1))
- types<-c(amount='continuous',kind='nominal',grade='ordinal',symmetric='symmetric_binary',asymmetric='asymmetric_binary')
- r<-e$gower_fit(d,2,types,unlist(ref$weights));expect_equal(unname(r$distance),.structure_matrix(ref$distance),tolerance=1e-12)
- expect_equal(e$gower_fit(d,2,types,unlist(ref$weights)*100)$distance,r$distance,tolerance=1e-12)
-})
-
+# Independent Gower edge arithmetic moved to infercalcR/tests/observed-legacy-helpers.R.
 test_that('structure advisor exports exact exploratory models and accepted alternatives',{
  routes<-list(
   efa_common_factor_ml=c(q.aim='structure',q.stage='analysis',q.structure_goal='variables',q.reduction_purpose='latent'),
