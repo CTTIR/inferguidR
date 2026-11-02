@@ -59,6 +59,12 @@ not repeat the test. `describe_data()` and `report_descriptive()` provide
 continuous/categorical tables with explicit denominators and missing counts;
 they do not automatically add inferential p-values.
 
+Wilcoxon intervals preserve the confidence level reported by the native R
+method. Older R versions can report a nominal or rounded level that differs
+from exact attained coverage. The common interval description and full report
+text retain this qualification; neither package substitutes a new interval or
+relabels the stored number as independently verified coverage.
+
 With ggplot2 installed, add explicit original-unit annotations without raw
 analysis data in the result:
 
@@ -154,7 +160,9 @@ does not demonstrate that a feature was tested. Existing testthat regressions
 are retained until mapped replacement checks have executed. New tests use
 ordinary R scripts.
 
-Hosted consumer checks require a credential authorized to read the private
-provider repository. A workflow's default token does not automatically have
+Hosted consumer checks require an `INFER_SUITE_TOKEN` Actions secret in
+inferguidR and infereportR, authorized to read `CTTIR/infercalcR`. An organization
+secret must be made available to both consumer repositories. A workflow's
+default token does not automatically have
 cross-repository access. Local checks and hosted checks have separate states;
 workflow configuration alone is not evidence of a passing run.
