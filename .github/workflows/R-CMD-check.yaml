@@ -208,7 +208,7 @@ jobs:
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           repository: CTTIR/infercalcR
-          ref: 9834850a7dac6623ecc57a6ff888e737e082246a
+          ref: d89081f5664c69930e2ee6291ae4b7d9670ad6a8
           token: ${{ secrets.INFER_SUITE_TOKEN }}
           persist-credentials: false
           path: suite-provider
