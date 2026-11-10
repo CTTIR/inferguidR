@@ -57,8 +57,11 @@ failure <- tryCatch({
   aliases <- unique(unlist(lapply(rd, function(doc) unlist(lapply(doc, function(node)
     if (identical(attr(node, "Rd_tag"), "\\alias")) as.character(node) else NULL)))))
   check(!length(setdiff(exports, aliases)), "Every exported API has an installed help alias")
-  check(all(vapply(exports, function(n) exists(n, asNamespace("inferguidR"), inherits = FALSE), TRUE)),
-        "Every exported API resolves in the namespace")
+  check(all(vapply(exports, function(n) tryCatch({
+    getExportedValue("inferguidR", n)
+    TRUE
+  }, error = function(e) FALSE), TRUE)),
+        "Every exported API resolves through the public namespace")
   description <- utils::packageDescription("inferguidR")
   check(identical(description$License, "MIT + file LICENSE"), "Installed licence declaration is explicit")
   check(file.exists(file.path(package_path, "LICENSE")), "Installed copyright file is present")

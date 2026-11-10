@@ -1,6 +1,13 @@
 # inferguidR 0.1.0
 
 * Prepared for a first CRAN submission.
+* Observed calculations and the shared numerical engines (Boschloo,
+  classifier, distribution and calculator code) now live in infercalcR, which
+  inferguidR imports; finalized-result tables, text and plot annotations live
+  in infereportR. inferguidR keeps guidance, prospective planning and the
+  historical JSON and report formats. All previously exported functions remain
+  available; status helpers and common result accessors are re-exported from
+  infercalcR.
 * The maintainer address is now raban.heller@uni-ulm.de, and `URL` also
   lists the documentation site.
 * DESCRIPTION declares `Language: en-GB`; `inst/WORDLIST` records the
@@ -16,6 +23,8 @@
 
 ## Earlier development changes
 
+* Add public common planning-result accessors and explicit observed-method
+  relations to planning engines.
 * Standardize the named v5 package logo across README, documentation pages
   and available application headers, with matching light and dark artwork.
 

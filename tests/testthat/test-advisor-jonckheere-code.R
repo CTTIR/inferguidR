@@ -1,17 +1,7 @@
 e<-new.env(parent=baseenv());e$alternative<-'two.sided';e$confidence_level<-.95
 invisible(capture.output(sys.source(system.file("advisor","templates","tpl.jonckheere_terpstra.v1.R",package="inferguidR"),e)))
 perms<-function(x) if(length(x)==1L) matrix(x,nrow=1L) else do.call(rbind,lapply(seq_along(x),function(i) cbind(x[i],perms(x[-i]))))
-test_that('integer trend scores agree with independently enumerated distributions',{
- refs<-jsonlite::fromJSON(test_path("fixtures","jonckheere-enumeration.json"),simplifyVector=FALSE)$cases
- for(ref in refs) {
-  y<-unlist(ref$values);g<-rep(seq_along(ref$group_sizes),unlist(ref$group_sizes));orders<-perms(seq_along(y))
-  actual<-apply(orders,1,function(i) e$jt_twice_statistic(y[i],g));tab<-table(actual)
-  expect_equal(as.numeric(tab),as.numeric(unlist(ref$distribution)))
-  expect_equal(names(tab),names(ref$distribution))
-  expect_equal(e$jt_twice_statistic(y,g),ref$twice_observed)
-  expect_equal(sum(tab),ref$labelled_permutations)
- }
-})
+# Independent integer-score enumeration moved to infercalcR/tests/observed-legacy-helpers.R.
 test_that('permutation tails match a separate rank-sum implementation for the same stream',{
  d<-data.frame(id=1:6,group=rep(c('a','b','c'),c(1,2,3)),y=c(0,0,1,1,1,2));B<-999L
  # Rank-sum identity, rather than pair comparisons used by the template.

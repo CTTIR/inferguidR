@@ -7,16 +7,9 @@ check_settings <- function(alternative, conf.level) {
 # Rank association uses the explicitly asymptotic test (exact=FALSE), including when ties occur. No confidence interval is supplied by this base R procedure.
 # x and y must already be matched by a confirmed unique unit ID; row matching is never guessed.
 # Greater means positive association; less means negative association.
-analyse <- function(data,alternative="two.sided",conf.level=.95) {
- check_settings(alternative,conf.level)
- stopifnot(is.data.frame(data),all(c("id","x","y") %in% names(data)),nrow(data)>=4,
-           !anyNA(data$id),!anyDuplicated(data$id),is.numeric(data$x),is.numeric(data$y),
-           all(is.finite(data$x)),all(is.finite(data$y)),stats::sd(data$x)>0,stats::sd(data$y)>0)
- fit <- stats::cor.test(data$x,data$y,method="kendall",alternative=alternative,conf.level=conf.level,exact=FALSE)
- list(method=fit$method,n=nrow(data),estimate=unname(fit$estimate),statistic=unname(fit$statistic),
-      confidence_interval=if(is.null(fit$conf.int)) NULL else fit$conf.int,
-      interval_status=if(is.null(fit$conf.int)) "not_provided_by_method" else "available",
-      p_value=fit$p.value,alternative=alternative)
+analyse <- function(data, alternative = "two.sided", conf.level = 0.95) {
+    spec <- infercalcR::method_spec("correlation_kendall", alternative = alternative, conf.level = conf.level)
+    infercalcR::run_inference(spec, data = data)$payload$native
 }
 example_data <- data.frame(id=paste0("unit_",1:8),x=c(1,2,3,4,5,6,7,8),y=c(2,1,4,3,7,5,8,6))
 example_result <- analyse(example_data,alternative,confidence_level)

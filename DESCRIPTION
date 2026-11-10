@@ -27,6 +27,7 @@ RoxygenNote: 8.0.0
 Depends:
     R (>= 4.1.0)
 Imports:
+    infercalcR (>= 0.1.0),
     digest,
     grDevices,
     graphics,

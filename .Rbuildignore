@@ -33,4 +33,9 @@
 ^tools/product$
 ^ROADMAP\.md$
 ^VALIDATION\.md$
+
+^tools/infer-suite-migration$
+^tools/infer-suite-prompts$
+^INFER-SUITE\.md$
+^[^/]+[.]tar[.]gz$
 ^cran-comments\.md$

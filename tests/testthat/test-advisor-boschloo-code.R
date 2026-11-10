@@ -39,7 +39,7 @@ test_that("Boschloo advisor routes export the selected engine convention", {
   alts <- if(id=="boschloo_one_sided") c("greater","less") else "two.sided"
   for(alt in alts) {
    code <- advisor_r_code(s,alternative=alt)
-   expect_match(code,"inferguidR::boschloo_test",fixed=TRUE)
+   expect_match(code,"infercalcR::run_inference",fixed=TRUE)
    expect_match(code,r$recommendation_hash,fixed=TRUE)
    e <- new.env();invisible(capture.output(eval(parse(text=code),e)))
    expect_identical(e$example_result$alternative,alt)

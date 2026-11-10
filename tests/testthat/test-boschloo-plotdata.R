@@ -94,7 +94,7 @@ test_that("the nuisance envelope uses the settings recorded in its input", {
   expect_s3_class(e, "inferguidR_invalid_input")
   # After a JSON round trip of the envelope the recorded settings still apply.
   back <- ig_from_json(ig_to_json(analysis_envelope(r$spec, r)))$result
-  expect_identical(.bl_control_key(.bl_control_from_record(back$settings)), .bl_control_key(ctl))
+  expect_identical(infercalcR::boschloo_control_record(.bl_control_from_record(back$settings)), infercalcR::boschloo_control_record(ctl))
 })
 
 test_that("uncertified p-values and regions give no curve", {
@@ -108,21 +108,6 @@ test_that("uncertified p-values and regions give no curve", {
   expect_identical(env2$status$code, "numerical_failure")
   expect_identical(nrow(env2$data), 0L)
   expect_null(env2$reference$attained_size)
-})
-
-test_that("the generic set supremum reproduces region and Fisher sizes", {
-  reg <- boschloo_region(9, 13, 0.05, "central")
-  member <- logical(10 * 14)
-  member[reg$rejected$x1 + 1 + reg$rejected$x2 * 10] <- TRUE
-  s <- .bl_set_sup(9, 13, member)
-  expect_equal(s$value, reg$size$value, tolerance = 1e-12)
-  expect_lte(s$upper, 0.05)
-  cmp <- boschloo_compare_fisher(9, 13, alpha = 0.05, variant = "central")
-  fs <- .bl_set_sup(9, 13, cmp$tables$fisher_reject)
-  expect_equal(fs$value, cmp$size$fisher$value, tolerance = 1e-12)
-  expect_identical(.bl_set_sup(9, 13, logical(140))$value, 0)
-  expect_identical(.bl_set_sup(9, 13, rep(TRUE, 140))$value, 1)
-  expect_error(.bl_set_sup(9, 13, TRUE), "one element per table")
 })
 
 test_that("power versus baseline and versus allocation use the same regions", {
