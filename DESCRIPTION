@@ -21,6 +21,7 @@ Description: Plans and explains statistical analyses. Provides a registry of
     not claimed until it has been shown against recorded reference cases.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Language: en-GB
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 8.0.0
 Depends:
