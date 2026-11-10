@@ -1,4 +1,17 @@
-# inferguidR 0.0.0.9000
+# inferguidR 0.1.0
+
+* Prepared for a first CRAN submission.
+* The maintainer address is now raban.heller@uni-ulm.de, and `URL` also
+  lists the documentation site.
+* DESCRIPTION declares `Language: en-GB`; `inst/WORDLIST` records the
+  technical terms and the German glossary entries used in the
+  documentation.
+* Nine exported functions without examples gain them, among them
+  `advisor_power_spec()`, `advisor_r_code()`, `ig_method()`,
+  `create_report_snapshot()` and `export_report()`.
+* The GitHub Actions check matrix adds R oldrel-1 on Linux.
+
+## Earlier development changes
 
 * Standardize the named v5 package logo across README, documentation pages
   and available application headers, with matching light and dark artwork.

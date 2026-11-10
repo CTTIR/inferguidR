@@ -33,3 +33,4 @@
 ^tools/product$
 ^ROADMAP\.md$
 ^VALIDATION\.md$
+^cran-comments\.md$

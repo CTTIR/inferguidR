@@ -1,7 +1,7 @@
 Package: inferguidR
 Type: Package
 Title: Guided Inference, Power Analysis and Diagnostic Accuracy
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R:
     person("Raban", "Heller", , "raban.heller@uni-ulm.de", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-8006-9742"))

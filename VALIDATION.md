@@ -25,8 +25,8 @@ set -eu
 candidate_library=/absolute/path/to/library
 mkdir "$candidate_library"
 R CMD build .
-R CMD check --as-cran inferguidR_0.0.0.9000.tar.gz
-R CMD INSTALL --library="$candidate_library" inferguidR_0.0.0.9000.tar.gz
+R CMD check --as-cran inferguidR_0.1.0.tar.gz
+R CMD INSTALL --library="$candidate_library" inferguidR_0.1.0.tar.gz
 export INFERGUIDR_EXPECTED_LIBRARY="$candidate_library"
 export R_LIBS="$candidate_library${R_LIBS:+:$R_LIBS}"
 Rscript --vanilla tools/validation/check-public.R /absolute/path/to/results
