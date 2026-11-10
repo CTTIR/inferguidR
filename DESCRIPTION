@@ -3,7 +3,7 @@ Type: Package
 Title: Guided Inference, Power Analysis and Diagnostic Accuracy
 Version: 0.0.0.9000
 Authors@R:
-    person("Raban", "Heller", , "raban.heller@charite.de", role = c("aut", "cre", "cph"),
+    person("Raban", "Heller", , "raban.heller@uni-ulm.de", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-8006-9742"))
 Description: Plans and explains statistical analyses. Provides a registry of
     power-analysis procedures modelled on the test inventory of the 'G*Power'
@@ -60,7 +60,7 @@ Suggests:
     yardstick
 Config/testthat/edition: 3
 Config/testthat/parallel: true
-URL: https://github.com/CTTIR/inferguidR
+URL: https://github.com/CTTIR/inferguidR, https://cttir.github.io/inferguidR/
 BugReports: https://github.com/CTTIR/inferguidR/issues
 VignetteBuilder: knitr
 Config/Needs/website: CTTIR/themakR
