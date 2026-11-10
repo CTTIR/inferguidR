@@ -22,6 +22,7 @@ env:
 jobs:
   build:
     name: Build documentation
+    if: ${{ secrets.INFER_SUITE_TOKEN != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
@@ -30,13 +31,6 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
-      - name: Verify private provider access is configured
-        shell: bash
-        run: |
-          if [ -z "$GITHUB_PAT" ]; then
-            echo 'INFER_SUITE_TOKEN must authorize read access to CTTIR/infercalcR.' >&2
-            exit 1
-          fi
       - uses: r-lib/actions/setup-pandoc@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
       - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
         with:
