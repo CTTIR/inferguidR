@@ -141,8 +141,8 @@ ta_run_operation <- function(op, session, rec, rs, label) {
            # The bundled code must use the exact selected variant.
            expect_identical(rec$r_implementation$template_status, "available")
            sketch <- advisor_r_code(session)
-           expect_true(any(grepl("stats::t.test(", sketch, fixed = TRUE) &
-                             grepl("var.equal = FALSE", sketch, fixed = TRUE)), info = op$expect_template_calls)
+           expect_true(any(grepl("infercalcR::run_inference", sketch, fixed = TRUE) &
+                             grepl("t_means_two_independent_welch", sketch, fixed = TRUE)), info = op$expect_template_calls)
            session
          },
          deep_link = {

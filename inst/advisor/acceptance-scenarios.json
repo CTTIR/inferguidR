@@ -1558,7 +1558,7 @@
     {
      "op": "code_export",
      "expect_r_template_id": "tpl.t_means_two_independent_welch.v1",
-     "expect_template_calls": "stats::t.test with var.equal = FALSE",
+     "expect_template_calls": "infercalcR::run_inference with t_means_two_independent_welch",
      "template_status": "pending_phase_12A"
     }
    ],

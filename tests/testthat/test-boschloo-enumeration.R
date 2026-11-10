@@ -155,9 +155,6 @@ rf_power <- function(d, member, p1, p2) {
 }
 
 # Engine p-values (value and rigorous upper bound) of every table.
-bl_all <- function(n1, n2, variant, control = boschloo_control()) {
-  .bl_pvalues_all(as.integer(n1), as.integer(n2), .bl_variant(variant), control)
-}
 
 variants <- c("less", "greater", "minlike", "central")
 designs <- list(c(1, 1), c(1, 2), c(2, 1), c(2, 2), c(1, 6), c(3, 4), c(4, 4), c(5, 7), c(7, 5),
@@ -174,35 +171,6 @@ test_that("the reference reproduces the phase 02 brute-force values", {
   d <- rf_design(15, 15)
   i <- which(d$x1 == 3 & d$x2 == 9)
   expect_lt(abs(rf_pvalues(d, "minlike")[i] - 0.03006801), 5e-9)
-})
-
-test_that("p-values of every table agree with the enumeration reference", {
-  for (nn in designs) {
-    d <- rf_design(nn[1], nn[2])
-    for (v in variants) {
-      eng <- bl_all(nn[1], nn[2], v)
-      ref <- rf_pvalues(d, v)
-      info <- sprintf("design (%d, %d), variant %s", nn[1], nn[2], v)
-      expect_true(isTRUE(eng$converged), info = info)
-      expect_lt(max(abs(eng$value - ref)), 1e-9)
-      # The reference value (a lower bound of the supremum) never exceeds the
-      # engine's rigorous upper bound.
-      expect_true(all(ref <= eng$upper + 1e-12), info = info)
-      expect_true(all(eng$value <= eng$upper), info = info)
-    }
-  }
-})
-
-test_that("the engine's tie levels equal the exact tie classes", {
-  for (nn in designs) {
-    d <- rf_design(nn[1], nn[2])
-    for (side in c("lower", "upper", "minlike")) {
-      ord <- .bl_ordering(as.integer(nn[1]), as.integer(nn[2]), side, boschloo_control())
-      rk <- rf_ranks(d, side)$rank
-      expect_identical(as.integer(ord$level), rk,
-                       info = sprintf("design (%d, %d), side %s", nn[1], nn[2], side))
-    }
-  }
 })
 
 test_that("rejection regions, attained size and power agree with the enumeration", {
@@ -252,41 +220,6 @@ test_that("the public observed test equals the per-table enumeration", {
     }
   }
 })
-
-test_that("the exact integer ordering equals the exact tie classes and replaces ambiguous floating ties", {
-  # Direct check of the exact-arithmetic ordering on every design above.
-  for (nn in c(designs, list(c(15, 20), c(20, 30)))) {
-    d <- rf_design(nn[1], nn[2])
-    for (side in c("lower", "upper", "minlike")) {
-      ex <- .bl_exact_order(as.integer(nn[1]), as.integer(nn[2]), side,
-                            .bl_tables(as.integer(nn[1]), as.integer(nn[2])))
-      rank <- integer(length(ex$perm))
-      rank[ex$perm] <- cumsum(c(1L, as.integer(!ex$tie)))
-      expect_identical(rank, rf_ranks(d, side)$rank,
-                       info = sprintf("design (%d, %d), side %s", nn[1], nn[2], side))
-    }
-  }
-  # With a wide ambiguity band the fallback is triggered (n1 + n2 <= 56) and
-  # gives the same levels and p-values as the default floating ordering.
-  wide <- boschloo_control(ambiguity_band = c(1e-12, 1e-3))
-  used <- 0L
-  for (nn in list(c(15, 20), c(20, 30))) {
-    d <- rf_design(nn[1], nn[2])
-    for (side in c("lower", "upper", "minlike")) {
-      ord <- .bl_ordering(as.integer(nn[1]), as.integer(nn[2]), side, wide)
-      if (ord$arithmetic == "exact_integer") used <- used + 1L
-      expect_identical(as.integer(ord$level), rf_ranks(d, side)$rank)
-      expect_null(ord$ambiguity)
-    }
-  }
-  for (v in variants) {
-    a <- bl_all(15, 20, v, wide)$value
-    b <- bl_all(15, 20, v)$value
-    expect_lt(max(abs(a - b)), 1e-12)
-  }
-  expect_gte(used, 4L)
-})
-
 
 test_that("independent polynomial supremum preserves sample-space identities", {
   for (N in c(2L, 10L, 30L)) {

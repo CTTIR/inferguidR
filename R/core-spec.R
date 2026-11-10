@@ -730,29 +730,6 @@ print.power_spec <- function(x, ...) {
 
 .ig_r_name <- function(nm) if (make.names(nm) == nm) nm else paste0("`", nm, "`")
 
-.ig_r_literal <- function(v) {
-  one <- if (is.character(v)) {
-    vapply(v, function(s) encodeString(s, quote = "\""), "", USE.NAMES = FALSE)
-  } else if (is.integer(v)) {
-    paste0(v, "L")
-  } else if (is.double(v)) {
-    .ig_format_double(v)
-  } else if (is.logical(v)) {
-    ifelse(v, "TRUE", "FALSE")
-  } else {
-    stop("cannot write a literal for type ", typeof(v), call. = FALSE)
-  }
-  if (length(one) == 1L) one else paste0("c(", paste(one, collapse = ", "), ")")
-}
-
-# Immutability ---------------------------------------------------------------------------------
-
-.ig_abort_frozen <- function(x) {
-  .ig_abort("invalid_input", sprintf(
-    "%s objects are immutable; create a new one (for specifications use update())",
-    class(x)[1]))
-}
-
 #' Immutable inferguidR objects
 #'
 #' Specifications, results, envelopes, report snapshots and recommendations
@@ -767,22 +744,3 @@ print.power_spec <- function(x, ...) {
 #' @name ig_immutable
 #' @keywords internal
 NULL
-
-#' @rdname ig_immutable
-#' @export
-`$<-.ig_frozen` <- function(x, name, value) .ig_abort_frozen(x)
-
-#' @rdname ig_immutable
-#' @export
-`[[<-.ig_frozen` <- function(x, i, ..., value) .ig_abort_frozen(x)
-
-#' @rdname ig_immutable
-#' @export
-`[<-.ig_frozen` <- function(x, i, ..., value) .ig_abort_frozen(x)
-
-# Plain-list copy of a frozen object (for serialisation of auxiliary types).
-.ig_unclass_frozen <- function(x) {
-  out <- unclass(x)
-  attr(out, "class") <- NULL
-  out
-}

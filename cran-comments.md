@@ -2,6 +2,9 @@
 
 This is a new submission: inferguidR 0.1.0.
 
+It imports infercalcR, which is submitted to CRAN first; this package can
+only be submitted once infercalcR is available on CRAN.
+
 ## Test environments
 
 * Local: macOS 27 on Apple silicon, R 4.6.1 (aarch64-apple-darwin),
@@ -18,6 +21,9 @@ This is a new submission: inferguidR 0.1.0.
 0 errors | 0 warnings | 1 note
 
 * New submission.
+
+Until infercalcR is on CRAN, the incoming feasibility check also reports
+it as a strong dependency not in a mainstream repository.
 
 The installed size is about 7.8 Mb (R 3.0 Mb, help 1.7 Mb, advisor 1.3 Mb)
 and may be reported on some platforms. The package ships a registry of

@@ -6,12 +6,9 @@ check_settings <- function(alternative, conf.level) {
 }
 # Estimand: population mean minus the prespecified reference mean.
 # Independence is a design assumption; a QQ plot cannot establish it.
-analyse <- function(x, mu0, alternative="two.sided", conf.level=.95) {
- check_settings(alternative,conf.level)
- stopifnot(is.numeric(x),length(x)>=2L,all(is.finite(x)),is.numeric(mu0),length(mu0)==1L,is.finite(mu0))
- fit <- stats::t.test(x,mu=mu0,alternative=alternative,conf.level=conf.level)
- list(method=fit$method,n=length(x),mean=mean(x),reference=mu0,mean_difference=mean(x)-mu0,
-      confidence_interval=fit$conf.int-mu0,statistic=unname(fit$statistic),df=unname(fit$parameter),p_value=fit$p.value)
+analyse <- function(x, mu0, alternative = "two.sided", conf.level = 0.95) {
+    spec <- infercalcR::method_spec("t_mean_one_sample", alternative = alternative, conf.level = conf.level)
+    infercalcR::run_inference(spec, x = x, mu0 = mu0)$payload$native
 }
 example_x <- c(5.2,6.1,4.9,7.3,5.8,6.5,7.1,4.7)
 example_reference <- 5

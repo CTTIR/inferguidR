@@ -5,12 +5,16 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE.md)
 <!-- badges: end -->
 
-**Guided inference, power analysis and diagnostic accuracy in R.**
+**Statistical guidance and prospective power/design planning in R.**
 
 inferguidR connects explicit statistical questions with validated analysis
 specifications, typed results and reproducible exports. It includes a method
 advisor, power and sample-size calculations, classification and cutoff tools,
-and an optional Shiny workbench.
+and an optional Shiny workbench. In the inference suite, `infercalcR` owns
+observed analyses and shared numerical engines, `inferguidR` owns guidance and
+planning, and `infereportR` formats finalized results as tables, text and plot
+annotations. Existing inferguidR calculation entry points remain compatibility
+routes to the shared engines. Reporting can be used without guidance installed.
 
 **Development software.** Implemented methods differ in their validation status.
 A successful calculation is not proof of agreement with every external reference
@@ -22,11 +26,15 @@ for the numerical, product and release acceptance gates.
 
 ## Installation
 
-R 4.1.0 or later is required. Install the development version from GitHub:
+R 4.1.0 or later is required. The packages are not on CRAN yet. Install the
+calculation provider infercalcR first, then inferguidR, from GitHub:
 
 ```r
 install.packages("remotes")
+remotes::install_github("CTTIR/infercalcR")
 remotes::install_github("CTTIR/inferguidR", build_vignettes = TRUE)
+# Optional: tables, text and plot annotations for finalized results
+remotes::install_github("CTTIR/infereportR")
 ```
 
 Building the tutorials needs `knitr`, `rmarkdown` and Pandoc. Set
@@ -37,6 +45,13 @@ application, browser, database or external service.
 For the optional workbench, install `shiny` and `ggplot2`. Some advisor-generated
 analysis scripts use additional packages named in their output; inspect the
 script and its requirements before running it.
+
+The new plain result, descriptive and standard-method interfaces use standard
+R. Legacy canonical JSON, SHA-256 fingerprints and correctly rounded decimal
+parsing retain `jsonlite` and `digest`; these remain required by inferguidR.
+Specialist models and plotting use explicit optional backends, without silently
+substituting another statistical procedure. See [the suite guide](INFER-SUITE.md)
+for migration, installation from local sources and validation commands.
 
 ## Quick start
 
