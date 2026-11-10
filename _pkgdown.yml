@@ -53,6 +53,7 @@ reference:
   - effect_size
   - plot_design_sweep
   - plot_power
+  - planning_methods
   - power_plot_data
   - solve_design
   - sweep_design
@@ -132,6 +133,7 @@ reference:
   - update.classification_spec
   - update.power_spec
   - validation_status
+  - suite-results
   - workbench_app
 
 llm-docs: false

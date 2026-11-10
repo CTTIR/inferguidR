@@ -200,9 +200,9 @@ jobs:
           repository: CTTIR/infercalcR
           ref: main
           persist-credentials: false
-          path: suite-provider
+          path: infercalcR
       - name: Install core dependencies in an isolated library
-        run: Rscript --vanilla tools/ci/install-minimal-dependencies.R suite-provider
+        run: Rscript --vanilla tools/ci/install-minimal-dependencies.R infercalcR
       - name: Install the source candidate
         run: Rscript tools/ci/install-candidate.R source minimum-r-install.log
       - name: Verify candidate library in a fresh R process
