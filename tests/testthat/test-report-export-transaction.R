@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 .report_export_clone <- function(bindings) {
   fun <- export_report
   environment(fun) <- list2env(bindings, parent = environment(fun))

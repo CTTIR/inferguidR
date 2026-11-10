@@ -26,17 +26,15 @@ for the numerical, product and release acceptance gates.
 
 ## Installation
 
-R 4.1.0 or later is required. The suite is under development; use matching
-checked revisions of its packages. The new repositories are private and require
-authenticated access. Install the calculation provider before the consumers:
+R 4.1.0 or later is required. The packages are not on CRAN yet. Install the
+calculation provider infercalcR first, then inferguidR, from GitHub:
 
 ```r
 install.packages("remotes")
-remotes::install_github("CTTIR/infercalcR", build_vignettes = FALSE)
-remotes::install_github("CTTIR/infereportR", build_vignettes = FALSE)
-# Until the migration PR is merged, select its feature branch explicitly.
-remotes::install_github("CTTIR/inferguidR@refactor/infer-suite-split-20261031",
-                        build_vignettes = TRUE)
+remotes::install_github("CTTIR/infercalcR")
+remotes::install_github("CTTIR/inferguidR", build_vignettes = TRUE)
+# Optional: tables, text and plot annotations for finalized results
+remotes::install_github("CTTIR/infereportR")
 ```
 
 Building the tutorials needs `knitr`, `rmarkdown` and Pandoc. Set
@@ -147,8 +145,9 @@ copyediting, prose refinement, Markdown/LaTeX formatting, boilerplate scaffoldin
 [Chat AI](https://kisski.gwdg.de/leistungen/2-02-llm-service/), the KISSKI
 (GWDG) service, and self-hosted **Mistral Small (24B, Apache-2.0)** served through
 a local **vLLM architecture** on an Ubuntu Linux workstation with Intel
-processors and NVIDIA GPUs. The self-hosted model ran locally, with no data sent
-to third parties.
+processors and NVIDIA GPUs. Self-hosted use also includes models that were
+further trained (fine-tuned) or weight-edited in-house for specific tasks.
+All self-hosted models ran locally, with no data sent to third parties.
 
 All scientific claims, methodological choices, analyses, interpretations and
 conclusions remain the authors' own. Where applicable, LLM-generated material

@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 .distribution_snapshot <- function(method="t_means_one_sample", inputs=list(d=.5,alpha=.05,n_total=30), options=list(tails="two")) {
  s<-analysis_spec(method,"post_hoc",inputs,options)
  create_report_snapshot(analysis_envelope(s,calculate_power(s)))

@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 test_that("rehashed classifier reports reject impossible and inconsistent aggregates", {
  s<-classification_spec(counts=c(tp=40,fn=10,fp=20,tn=130),cutoff=.5,prevalence=.1)
  x<-create_report_snapshot(analysis_envelope(s,evaluate_cutoff(s)),report_kind="model_cutoff")

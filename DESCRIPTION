@@ -1,9 +1,9 @@
 Package: inferguidR
 Type: Package
 Title: Guided Inference, Power Analysis and Diagnostic Accuracy
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R:
-    person("Raban", "Heller", , "raban.heller@charite.de", role = c("aut", "cre", "cph"),
+    person("Raban", "Heller", , "raban.heller@uni-ulm.de", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-8006-9742"))
 Description: Plans and explains statistical analyses. Provides a registry of
     power-analysis procedures modelled on the test inventory of the 'G*Power'
@@ -21,12 +21,13 @@ Description: Plans and explains statistical analyses. Provides a registry of
     not claimed until it has been shown against recorded reference cases.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Language: en-GB
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 8.0.0
 Depends:
     R (>= 4.1.0)
 Imports:
-    infercalcR (>= 0.0.0.9000),
+    infercalcR (>= 0.1.0),
     digest,
     grDevices,
     graphics,
@@ -61,8 +62,7 @@ Suggests:
     yardstick
 Config/testthat/edition: 3
 Config/testthat/parallel: true
-URL: https://github.com/CTTIR/inferguidR
+URL: https://github.com/CTTIR/inferguidR, https://cttir.github.io/inferguidR/
 BugReports: https://github.com/CTTIR/inferguidR/issues
 VignetteBuilder: knitr
 Config/Needs/website: CTTIR/themakR
-Remotes: CTTIR/infercalcR@d89081f5664c69930e2ee6291ae4b7d9670ad6a8

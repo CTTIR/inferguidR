@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 # Advisor recommendations: JSON round trip against the bundled schema, no
 # numerical results, R-function and manual provenance, learning lookup and
 # immutability, over every reachable outcome-status combination and every

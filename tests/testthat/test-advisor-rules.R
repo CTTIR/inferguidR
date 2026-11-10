@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 # Advisor rule set: bundled data, validation and the exhaustive path walk.
 
 ta_rules_doc <- function() {

@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 .report_rehash <- function(x) {
  x <- unclass(x);x$snapshot_hash <- NULL;x$snapshot_hash <- .ig_hash_value(x);x
 }

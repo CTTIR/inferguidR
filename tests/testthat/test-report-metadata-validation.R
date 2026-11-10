@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 .metadata_reports <- function(locale="en") {
  s<-analysis_spec('t_means_one_sample','post_hoc',list(d=.5,alpha=.05,n_total=30),list(tails='two'))
  b<-boschloo_test(1,2,0,2,'greater')

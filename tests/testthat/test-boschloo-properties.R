@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 # Structural properties of Boschloo's test (layer-3 checks): symmetries,
 # boundary tables, ties, dominance over Fisher, nested tails, size control,
 # decision/region consistency and independence of the numerical settings.

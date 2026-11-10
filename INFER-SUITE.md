@@ -5,12 +5,11 @@
 `infereportR` presents finalized results. Both consumers import infercalcR;
 calculation has no dependency on either consumer, and reporting works without
 guidance. This development migration does not establish universal scientific
-validation, a public release or CRAN availability.
+validation or CRAN availability.
 
 ## Installation
 
-Use the exact revisions and source archives identified by the migration handoff.
-With sibling checkouts, install from their source archives in provider-first
+Use matching revisions of the three packages. With sibling checkouts, install from their source archives in provider-first
 order, into a library you control:
 
 ```sh
@@ -19,19 +18,18 @@ mkdir -p "$suite_library"
 export R_LIBS="$suite_library"
 export R_LIBS_USER="$suite_library"
 R CMD build infercalcR
-R CMD INSTALL --library="$suite_library" infercalcR_0.0.0.9000.tar.gz
+R CMD INSTALL --library="$suite_library" infercalcR_0.1.0.tar.gz
 R CMD build infereportR
-R CMD INSTALL --library="$suite_library" infereportR_0.0.0.9000.tar.gz
+R CMD INSTALL --library="$suite_library" infereportR_0.1.0.tar.gz
 R CMD build inferguidR
-R CMD INSTALL --library="$suite_library" inferguidR_0.0.0.9000.tar.gz
+R CMD INSTALL --library="$suite_library" inferguidR_0.1.0.tar.gz
 ```
 
 Set both `R_LIBS` and `R_LIBS_USER` to that library: child vignette builds may
 replace the user library setting, so `R_LIBS` keeps the exact installed provider
 visible. Plain R CMD INSTALL
-does not fetch dependencies or honor GitHub Remotes automatically. GitHub
-installation requires authenticated access to the private provider/report
-repositories. Keep credentials outside source files and command history.
+does not fetch dependencies automatically. All three repositories are public;
+`remotes::install_github()` installs them without credentials.
 
 Core calculations and plain reporting do not require ggplot2 or a testing
 framework. Legacy identity-bearing APIs require digest/jsonlite; their absence
@@ -160,9 +158,7 @@ does not demonstrate that a feature was tested. Existing testthat regressions
 are retained until mapped replacement checks have executed. New tests use
 ordinary R scripts.
 
-Hosted consumer checks require an `INFER_SUITE_TOKEN` Actions secret in
-inferguidR and infereportR, authorized to read `CTTIR/infercalcR`. An organization
-secret must be made available to both consumer repositories. A workflow's
-default token does not automatically have
-cross-repository access. Local checks and hosted checks have separate states;
-workflow configuration alone is not evidence of a passing run.
+Hosted consumer checks install the public `CTTIR/infercalcR` from GitHub with
+the workflow's default token; no extra secret is needed. Local checks and hosted
+checks have separate states; workflow configuration alone is not evidence of a
+passing run.

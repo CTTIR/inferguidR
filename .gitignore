@@ -46,3 +46,8 @@ testthat-problems.rds
 /vignettes/*.R
 
 /tools/infer-suite-migration/runs/
+
+# Migration prompt stack and session reports stay local
+/tools/infer-suite-prompts/
+/tools/infer-suite-migration/VALIDATION-2026*.md
+/tools/infer-suite-migration/provider-integration/

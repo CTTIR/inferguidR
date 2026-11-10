@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 test_that("power workspace commits through the R API and keeps draft edits separate", {
   skip_if_not_installed("shiny")
   lang <- shiny::reactiveVal("en")

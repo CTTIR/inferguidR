@@ -20,14 +20,14 @@ env:
   MKL_NUM_THREADS: '1'
   BLIS_NUM_THREADS: '1'
   INFER_SUITE_FULL: 'true'
-  GITHUB_PAT: ${{ secrets.INFER_SUITE_TOKEN }}
 
 jobs:
   build-source:
     name: Freeze source candidate
-    if: ${{ secrets.INFER_SUITE_TOKEN != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -43,7 +43,10 @@ jobs:
           Ncpus: '2'
       - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
         with:
-          extra-packages: any::pkgbuild
+          # infercalcR is not on CRAN yet; install it from its public repository.
+          extra-packages: |
+            any::pkgbuild
+            github::CTTIR/infercalcR
           dependencies: '"all"'
       - name: Build one source archive for every platform
         shell: Rscript {0}
@@ -82,7 +85,6 @@ jobs:
 
   check:
     name: ${{ matrix.config.os }} / R ${{ matrix.config.r }}
-    if: ${{ secrets.INFER_SUITE_TOKEN != '' }}
     runs-on: ${{ matrix.config.os }}
     needs: build-source
     timeout-minutes: 60
@@ -92,12 +94,16 @@ jobs:
         config:
           - {os: ubuntu-latest, r: release}
           - {os: ubuntu-latest, r: devel}
+          - {os: ubuntu-latest, r: oldrel-1}
           - {os: windows-latest, r: release}
           - {os: macos-latest, r: release}
     env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: 'yes'
       _R_CHECK_FORCE_SUGGESTS_: 'true'
       _R_CHECK_CRAN_INCOMING_: 'false'
+      # Slow test files skip on CRAN; the Linux release job still runs them.
+      NOT_CRAN: ${{ (matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'release') && 'true' || 'false' }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -118,7 +124,10 @@ jobs:
         run: brew install --cask xquartz
       - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2
         with:
-          extra-packages: any::rcmdcheck
+          # infercalcR is not on CRAN yet; install it from its public repository.
+          extra-packages: |
+            any::rcmdcheck
+            github::CTTIR/infercalcR
           needs: check
           dependencies: '"all"'
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -169,7 +178,6 @@ jobs:
 
   minimum-r:
     name: R 4.1.0 / core compatibility
-    if: ${{ secrets.INFER_SUITE_TOKEN != '' }}
     runs-on: ubuntu-24.04
     needs: build-source
     timeout-minutes: 30
@@ -186,12 +194,11 @@ jobs:
         with:
           name: source-candidate
           path: source/
-      - name: Fetch the exact calculation provider
+      - name: Fetch the calculation provider
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           repository: CTTIR/infercalcR
-          ref: d89081f5664c69930e2ee6291ae4b7d9670ad6a8
-          token: ${{ secrets.INFER_SUITE_TOKEN }}
+          ref: main
           persist-credentials: false
           path: suite-provider
       - name: Install core dependencies in an isolated library

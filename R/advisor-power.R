@@ -61,6 +61,17 @@
 #'   Retain the session/recommendation alongside the specification to preserve
 #'   the question trace and scientific assumptions.
 #' @family advisor
+#' @examples
+#' s <- advisor_replay(c(q.aim = "compare", q.stage = "planning",
+#'   q.outcome_type = "binary", q.unit = "individuals",
+#'   q.structure = "independent", q.independence_check = "no",
+#'   q.n_factors = "one", q.n_groups = "two", q.covariates = "no",
+#'   q.binary_margins = "group_sizes_fixed", q.direction = "two_sided",
+#'   q.missingness = "none"))
+#' spec <- advisor_power_spec(s,
+#'   list(p1 = 0.2, p2 = 0.7, alpha = 0.05, n1 = 10, n2 = 10),
+#'   mode = "post_hoc")
+#' calculate_power(spec)$status
 #' @export
 advisor_power_spec <- function(session, inputs, mode = "a_priori", alternative = NULL,
                                allocation = NULL, control = boschloo_control(), rules = NULL) {

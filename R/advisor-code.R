@@ -213,6 +213,10 @@
 #' @return A single character string containing an R script. Use `writeLines()`
 #'   to save it. Running the script prints a result; some examples also draw plots.
 #' @family advisor
+#' @examples
+#' s <- advisor_replay(c(q.aim = "describe"))
+#' code <- advisor_r_code(s)
+#' head(strsplit(code, "\n", fixed = TRUE)[[1]], 4)
 #' @export
 advisor_r_code <- function(session, alternative = NULL, conf.level = 0.95, rules = NULL) {
   r <- advisor_recommendation(session, rules = rules)

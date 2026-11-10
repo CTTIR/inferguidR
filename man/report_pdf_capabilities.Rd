@@ -12,3 +12,6 @@ A list with available and reason. No software is installed.
 \description{
 Check the offline PDF report renderer
 }
+\examples{
+report_pdf_capabilities()$available
+}

@@ -9,6 +9,11 @@
 #'
 #' @return A Shiny application object. Requires 'shiny' and 'ggplot2'.
 #' @seealso [launch_app()]
+#' @examples
+#' if (interactive() && requireNamespace("shiny", quietly = TRUE) &&
+#'     requireNamespace("ggplot2", quietly = TRUE)) {
+#'   shiny::runApp(workbench_app())
+#' }
 #' @export
 workbench_app <- function() {
   for (package in c("shiny", "ggplot2")) if (!requireNamespace(package, quietly = TRUE))

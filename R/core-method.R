@@ -95,6 +95,25 @@
 #'   validated inputs/options, for example to admissible correlations.
 #' @return An object of class `ig_method`.
 #' @family method definition API
+#' @examples
+#' # An illustrative normal-approximation definition; it is not registered.
+#' m <- ig_method(
+#'   id = "t_means_one_sample", family = "z",
+#'   label = list(en = "One-sample z approximation (illustration)"),
+#'   params = ig_params(
+#'     ig_param("d", role = "effect", domain = ig_domain_real(),
+#'              label = list(en = "Effect size d")),
+#'     ig_param_alpha(), ig_param_power(), ig_param_n_total(lower = 2)),
+#'   options = ig_options(ig_option("tails", values = c("one", "two"))),
+#'   modes = "post_hoc",
+#'   power = function(p) {
+#'     k <- if (p$tails == "two") 2 else 1
+#'     z <- stats::qnorm(1 - p$alpha / k)
+#'     ncp <- p$d * sqrt(p$n_total)
+#'     list(power = stats::pnorm(ncp - z) + (k == 2) * stats::pnorm(-ncp - z),
+#'          alpha_attained = p$alpha)
+#'   })
+#' class(m)
 #' @export
 ig_method <- function(id, family, label, params, options = ig_options(), modes,
                       power, design = NULL, discrete = FALSE,

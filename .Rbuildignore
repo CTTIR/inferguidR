@@ -38,3 +38,4 @@
 ^tools/infer-suite-prompts$
 ^INFER-SUITE\.md$
 ^[^/]+[.]tar[.]gz$
+^cran-comments\.md$

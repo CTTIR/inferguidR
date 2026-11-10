@@ -29,6 +29,17 @@
 #' @param x Data returned by [xy_plot_data()].
 #' @param lang Label language, `"en"` or `"de"`.
 #' @return A static ggplot object retaining all point data and result identities.
+#' @examples
+#' if (requireNamespace("ggplot2", quietly = TRUE)) {
+#'   spec <- analysis_spec("t_means_two_independent", "post_hoc",
+#'     inputs = list(d = 0.5, n1 = 20, n2 = 20, alpha = 0.05),
+#'     options = list(tails = "two"))
+#'   sweep <- xy_plot_data(spec, "power", "sample_size", 20, 40, 5)
+#'   p <- plot_design_sweep(sweep)
+#'   # The axis labels use Greek letters; draw with a Unicode-capable device
+#'   # such as grDevices::cairo_pdf() or png().
+#'   inherits(p, "ggplot")
+#' }
 #' @export
 plot_design_sweep <- function(x, lang = c("en", "de")) {
   lang <- match.arg(lang)

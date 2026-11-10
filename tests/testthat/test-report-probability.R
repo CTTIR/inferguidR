@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 rp_envelope <- function() {
   s <- classification_spec(data.frame(y=c(0,1,0,1,1,0),p=c(.1,.2,.4,.6,.8,.9)),
     truth="y",positive_label=1,scores="p",score_scale="probability",cutoff=.5)

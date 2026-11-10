@@ -1,1 +1,0 @@
-check_id,phase,lane,repository,candidate_sha,contract_revision,command_or_script,R_version,library,status,exit_code,executed_check_count,log,scope_or_reason

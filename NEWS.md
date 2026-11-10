@@ -1,11 +1,30 @@
-# inferguidR 0.0.0.9000
+# inferguidR 0.1.0
 
-* Separate observed calculations into infercalcR and finalized-result reporting
-  into infereportR. Retain guidance, prospective planning and historical
-  document/export compatibility in inferguidR.
+* Prepared for a first CRAN submission.
+* Observed calculations and the shared numerical engines (Boschloo,
+  classifier, distribution and calculator code) now live in infercalcR, which
+  inferguidR imports; finalized-result tables, text and plot annotations live
+  in infereportR. inferguidR keeps guidance, prospective planning and the
+  historical JSON and report formats. All previously exported functions remain
+  available; status helpers and common result accessors are re-exported from
+  infercalcR.
+* The maintainer address is now raban.heller@uni-ulm.de, and `URL` also
+  lists the documentation site.
+* DESCRIPTION declares `Language: en-GB`; `inst/WORDLIST` records the
+  technical terms and the German glossary entries used in the
+  documentation.
+* Nine exported functions without examples gain them, among them
+  `advisor_power_spec()`, `advisor_r_code()`, `ig_method()`,
+  `create_report_snapshot()` and `export_report()`.
+* The GitHub Actions check matrix adds R oldrel-1 on Linux.
+* The 23 slowest test files, which together took about ten minutes,
+  skip on CRAN. They still run with `NOT_CRAN=true`, which the Linux
+  R-release CI job now sets.
+
+## Earlier development changes
+
 * Add public common planning-result accessors and explicit observed-method
   relations to planning engines.
-
 * Standardize the named v5 package logo across README, documentation pages
   and available application headers, with matching light and dark artwork.
 
