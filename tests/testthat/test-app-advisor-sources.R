@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 test_that("offline source trees expose every audited node without changing routing", {
  skip_if_not_installed("shiny")
  rules <- advisor_rules()

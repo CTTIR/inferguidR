@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 rl_report <- function(locale="en") {
  s<-analysis_spec("boschloo_proportions_two_independent","post_hoc",
    list(p1=.2,p2=.7,alpha=.13,n1=2,n2=2),list(variant="central"))

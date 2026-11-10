@@ -98,6 +98,8 @@ jobs:
       R_KEEP_PKG_SOURCE: 'yes'
       _R_CHECK_FORCE_SUGGESTS_: 'true'
       _R_CHECK_CRAN_INCOMING_: 'false'
+      # Slow test files skip on CRAN; the Linux release job still runs them.
+      NOT_CRAN: ${{ (matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'release') && 'true' || 'false' }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:

@@ -10,6 +10,9 @@
   `advisor_power_spec()`, `advisor_r_code()`, `ig_method()`,
   `create_report_snapshot()` and `export_report()`.
 * The GitHub Actions check matrix adds R oldrel-1 on Linux.
+* The 23 slowest test files, which together took about ten minutes,
+  skip on CRAN. They still run with `NOT_CRAN=true`, which the Linux
+  R-release CI job now sets.
 
 ## Earlier development changes
 

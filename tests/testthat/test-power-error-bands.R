@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 test_that("continuous error bands separate two tails and retain exact critical edges", {
   x <- seq(-3,3,by=.5)
   data <- data.frame(hypothesis=rep(c("H0","H1"),each=length(x)),x=rep(x,2),

@@ -32,4 +32,6 @@ rule set as structured data in `inst/`; these are needed at run time.
 * Examples that build or export a full report take a few seconds each and
   are wrapped in `\donttest{}`; the interactive workbench example runs only
   in interactive sessions.
-* Tests use at most two worker processes.
+* Tests use at most two worker processes. The slowest validation test
+  files skip on CRAN, so the tests finish in a few minutes; they run in
+  full in continuous integration.

@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 ns<-asNamespace('inferguidR');rehash<-function(x){x<-unclass(x);x$snapshot_hash<-NULL;x$snapshot_hash<-get('.ig_hash_value',ns)(x);get('.ig_canonical_json',ns)(x)}
 testthat::test_that('sweep reports round-trip and preserve strict versioned content',{
  spec<-analysis_spec('t_means_two_independent','a_priori',inputs=list(alpha=.05,power=.8,d=.5),options=list(tails='two'));e<-analysis_envelope(spec,calculate_power(spec));sw<-sweep_design(spec,'alpha',c(.01,0,.05))

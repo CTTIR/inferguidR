@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 testthat::test_that('sweep rows cannot change settings, display, identity or admissibility', {
  s<-analysis_spec('t_means_one_sample','post_hoc',list(d=.5,alpha=.05,n_total=30),list(tails='two'))
  e<-analysis_envelope(s,calculate_power(s));sw<-sweep_design(s,'n_total',c(1,10,20))

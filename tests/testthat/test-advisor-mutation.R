@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 # Mutation tests for advisor_validate_rules(), part 1: defects found by the
 # static checks, defective companion files and unreadable inputs. Part 2
 # (test-advisor-mutation-walk.R) holds the defects that need the exhaustive

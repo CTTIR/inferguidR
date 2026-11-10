@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 test_that("report imports validate paired classifier comparisons", {
  s<-classification_examples("scored_synthetic")$spec
  x<-create_report_snapshot(analysis_envelope(s,evaluate_cutoff(s)))

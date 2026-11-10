@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 # Mutation tests for advisor_validate_rules() and advisor_rules(), part 2:
 # defects that only the exhaustive walk of every answer path can find, the
 # loader's refusal of invalid copies, and restoring under another rules

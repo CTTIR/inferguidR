@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 # G*Power reference fixtures for z_logistic_regression and z_poisson_regression
 # (group G6): a curated, fast subset of the comparison that
 # validation/tools/compare_fixtures.R runs on every fixture of the two methods

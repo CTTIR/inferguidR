@@ -1,3 +1,6 @@
+# Slow; skipped on CRAN. Runs with NOT_CRAN=true, as in the Linux release CI job.
+skip_on_cran()
+
 test_that("portable report content preserves null values in nested lists", {
   content <- list(absent = NULL, nested = list(NULL, list(absent = NULL)), empty = list())
   expect_identical(.ig_report_plain(content), content)
