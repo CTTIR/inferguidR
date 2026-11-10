@@ -107,3 +107,6 @@ checks skip because development inventories, captured fixtures and ledgers are
 not shipped. The [validation guide](https://github.com/CTTIR/inferguidR/blob/main/VALIDATION.md)
 lists those skips and the [roadmap](https://github.com/CTTIR/inferguidR/blob/main/ROADMAP.md)
 defines the remaining qualification gates.
+
+```{r acknowledgments, child = "children/_acknowledgments.Rmd"}
+```

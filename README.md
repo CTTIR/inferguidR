@@ -130,6 +130,70 @@ result is a calculation outcome to inspect, not a value to coerce into a number.
 Diagnostic examples are synthetic; selecting and evaluating a cutoff on the
 same observations does not establish out-of-sample performance.
 
+## Acknowledgements and sources
+
+inferguidR is part of an inference suite with infercalcR and infereportR. The
+suite builds on the work of others. We gratefully acknowledge that work here and
+cite it, so that every method can be traced to its source.
+
+### DescrTab2, Institute of Medical Biometry, Heidelberg University
+
+The suite is deeply inspired by **DescrTab2** [1], the R package for
+publication-quality descriptive statistics tables developed at the Institute of
+Medical Biometry (IMBI), Heidelberg University, by Jan Meis, Lukas Baumann,
+Maximilian Pilz and Lukas Sauer, with contributions from Lorenz Uhlmann and
+Csilla van Lunteren. Its documented test-choice tree, its validation statement
+and its practice of computing each test with an established implementation (R's
+stats package, exact2x2, DescTools and nlme) are the model for how the suite
+chooses, computes and reports statistical tests. The inferguidR method advisor
+maps each of its recommendations to the DescrTab2 test-choice tree
+(`inst/advisor/descrtab2-tree.json`). DescrTab2 was archived on CRAN on 18
+October 2025; its source code remains available on GitHub. We thank its authors
+and IMBI Heidelberg for making their work openly available.
+
+### Methodenberatung, University of Zurich
+
+The methods-consulting pages of the University of Zurich [2] inspired the
+guidance in this suite: their decision tree and step-by-step decision assistant
+for choosing a statistical method, and their worked examples and explanations of
+each method. The inferguidR method advisor maps its questions to that decision
+tree (`inst/advisor/uzh-tree.json`) and records where and why it departs from
+it, for example where the pages choose between tests with a preliminary test.
+
+### G\*Power
+
+The power and sample-size procedures of inferguidR follow the test inventory of
+G\*Power 3.1 [3, 4], and the distribution calculator of infercalcR follows the
+G\*Power 3.1.9.7 calculator. Their results are compared with values recorded
+from G\*Power 3.1.9.7. G\*Power is neither distributed with nor called by these
+packages.
+
+### Software
+
+inferguidR is written in R [5] and imports infercalcR [6], digest [7] and
+jsonlite [8]. The optional workbench uses shiny [9] and ggplot2 [10]. Tests
+compare Boschloo results with Exact [11] and classifier metrics with pROC [12]
+and yardstick [13]. Boschloo's test follows Boschloo (1970) [14]. Use
+`citation("inferguidR")` for this package and `citation()` or
+`citation("<package>")` for R and the packages you used.
+
+### References
+
+1. Meis J, Baumann L, Pilz M, Sauer L (2022). *DescrTab2: Publication Quality Descriptive Statistics Tables*. R package version 2.1.16. <https://doi.org/10.32614/CRAN.package.DescrTab2>. Source code, including the development version 2.1.26: <https://github.com/imbi-heidelberg/DescrTab2>.
+2. Universität Zürich, Methodenberatung. *Datenanalyse mit SPSS*: decision tree (Entscheidbaum), decision assistant (Entscheidassistent) and method pages with examples and explanations. <https://www.methodenberatung.uzh.ch/de/datenanalyse_spss.html>. Accessed 3 October 2026.
+3. Faul F, Erdfelder E, Lang A-G, Buchner A (2007). G\*Power 3: A flexible statistical power analysis program for the social, behavioral, and biomedical sciences. *Behavior Research Methods*, 39(2), 175-191. <https://doi.org/10.3758/BF03193146>.
+4. Faul F, Erdfelder E, Buchner A, Lang A-G (2009). Statistical power analyses using G\*Power 3.1: Tests for correlation and regression analyses. *Behavior Research Methods*, 41(4), 1149-1160. <https://doi.org/10.3758/BRM.41.4.1149>.
+5. R Core Team. *R: A Language and Environment for Statistical Computing*. R Foundation for Statistical Computing, Vienna, Austria. <https://www.R-project.org/>.
+6. Heller R. *infercalcR: Statistical Inference and Diagnostic Calculations*. R package. <https://github.com/CTTIR/infercalcR>.
+7. Eddelbuettel D. *digest: Create Compact Hash Digests of R Objects*. R package. <https://doi.org/10.32614/CRAN.package.digest>.
+8. Ooms J (2014). The jsonlite package: A practical and consistent mapping between JSON data and R objects. arXiv:1403.2805. <https://arxiv.org/abs/1403.2805>.
+9. Chang W, Cheng J, Allaire JJ, Sievert C, Schloerke B, Aden-Buie G, Xie Y, Allen J, McPherson J, Dipert A, Borges B. *shiny: Web Application Framework for R*. R package. <https://doi.org/10.32614/CRAN.package.shiny>.
+10. Wickham H (2016). *ggplot2: Elegant Graphics for Data Analysis*. Springer, New York. <https://doi.org/10.1007/978-3-319-24277-4>.
+11. Calhoun P. *Exact: Unconditional Exact Test*. R package. <https://doi.org/10.32614/CRAN.package.Exact>.
+12. Robin X, Turck N, Hainard A, Tiberti N, Lisacek F, Sanchez J-C, Müller M (2011). pROC: an open-source package for R and S+ to analyze and compare ROC curves. *BMC Bioinformatics*, 12, 77. <https://doi.org/10.1186/1471-2105-12-77>.
+13. Kuhn M, Vaughan D, Hvitfeldt E. *yardstick: Tidy Characterizations of Model Performance*. R package. <https://doi.org/10.32614/CRAN.package.yardstick>.
+14. Boschloo RD (1970). Raised conditional level of significance for the 2 x 2-table when testing the equality of two probabilities. *Statistica Neerlandica*, 24(1), 1-9. <https://doi.org/10.1111/j.1467-9574.1970.tb00104.x>.
+
 ## Authors, citation and licence
 
 Raban Heller. Use `citation("inferguidR")` for installed-version metadata and

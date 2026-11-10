@@ -144,6 +144,9 @@ launch_app()
 The launch chunk is not evaluated during a documentation build because it starts
 an interactive server. No external reference application is required.
 
+```{r acknowledgments, child = "children/_acknowledgments.Rmd"}
+```
+
 ```{r session-information}
 sessionInfo()
 ```

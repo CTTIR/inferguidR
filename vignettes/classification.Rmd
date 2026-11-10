@@ -169,6 +169,9 @@ the inclusion decision in schema 0.4; reports without these summaries retain
 their existing format unless another feature, such as a Boschloo lattice,
 requires the newer version.
 
+```{r acknowledgments, child = "children/_acknowledgments.Rmd"}
+```
+
 ```{r session-information}
 sessionInfo()
 ```
