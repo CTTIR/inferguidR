@@ -21,7 +21,7 @@ if (!setequal(installed, required))
 args <- commandArgs(TRUE)
 if (length(args) != 1L) stop("Supply the infercalcR checkout path", call. = FALSE)
 provider <- normalizePath(args[[1L]], mustWork = TRUE)
-if (!identical(read.dcf(file.path(provider, "DESCRIPTION"))[1L, "Package"], "infercalcR"))
+if (!identical(read.dcf(file.path(provider, "DESCRIPTION"), fields = "Package")[[1L]], "infercalcR"))
   stop("Provider checkout is not infercalcR", call. = FALSE)
 r <- file.path(R.home("bin"), "R")
 status <- system2(r, c("CMD", "INSTALL", shQuote(paste0("--library=", dependency_library)),
