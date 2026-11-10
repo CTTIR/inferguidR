@@ -72,6 +72,12 @@ ig_status <- function(code, reason = "", details = list()) {
 #' @param x Any object.
 #' @return `TRUE` if `x` is an `ig_status`.
 #' @family status helpers
+#' @examples
+#' spec <- analysis_spec("t_means_one_sample", "post_hoc",
+#'   inputs = list(alpha = 0.05, n_total = 20, d = 0.5),
+#'   options = list(tails = "two"))
+#' is_ig_status(calculate_power(spec)$status)
+#' is_ig_status("ok")
 #' @export
 is_ig_status <- function(x) inherits(x, "ig_status")
 

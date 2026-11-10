@@ -44,3 +44,15 @@ PDF figures precede the appendix and have adjacent captions. Very long
 plot labels may be abbreviated with \verb{[...]} while full labels remain in
 the appendix. PDF text wrapping uses measured font widths.
 }
+\examples{
+\donttest{
+spec <- analysis_spec("t_means_two_independent", "post_hoc",
+  inputs = list(d = 0.5, n1 = 20, n2 = 20, alpha = 0.05),
+  options = list(tails = "two"))
+snap <- create_report_snapshot(analysis_envelope(spec, calculate_power(spec)))
+file <- tempfile(fileext = ".txt")
+export_report(snap, file, format = "txt")$format
+head(readLines(file), 3)
+unlink(file)
+}
+}

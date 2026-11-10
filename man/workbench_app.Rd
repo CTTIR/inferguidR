@@ -17,6 +17,12 @@ method definitions, including option applicability and solve targets.
 Pending numerical domains are not presented as
 released or externally validated calculations.
 }
+\examples{
+if (interactive() && requireNamespace("shiny", quietly = TRUE) &&
+    requireNamespace("ggplot2", quietly = TRUE)) {
+  shiny::runApp(workbench_app())
+}
+}
 \seealso{
 \code{\link[=launch_app]{launch_app()}}
 }

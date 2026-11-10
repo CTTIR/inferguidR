@@ -229,6 +229,11 @@ Diagnostic plots do not trigger a switch of test. Planning availability remains 
 availability recorded by the advisor; the script does not invent a sample
 size or substitute a pooled test for Welch planning.
 }
+\examples{
+s <- advisor_replay(c(q.aim = "describe"))
+code <- advisor_r_code(s)
+head(strsplit(code, "\n", fixed = TRUE)[[1]], 4)
+}
 \seealso{
 Other advisor:
 \code{\link[=advisor_answer]{advisor_answer()}},

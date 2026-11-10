@@ -15,6 +15,13 @@ is_ig_status(x)
 \description{
 Test for a status object
 }
+\examples{
+spec <- analysis_spec("t_means_one_sample", "post_hoc",
+  inputs = list(alpha = 0.05, n_total = 20, d = 0.5),
+  options = list(tails = "two"))
+is_ig_status(calculate_power(spec)$status)
+is_ig_status("ok")
+}
 \seealso{
 Other status helpers:
 \code{\link[=ig_status]{ig_status()}},

@@ -58,6 +58,18 @@ chosen direction is never inferred from the supplied probabilities.
 The mapping establishes the identity of analysis and planning procedures,
 not exhaustive numerical certification or agreement with G*Power.
 }
+\examples{
+s <- advisor_replay(c(q.aim = "compare", q.stage = "planning",
+  q.outcome_type = "binary", q.unit = "individuals",
+  q.structure = "independent", q.independence_check = "no",
+  q.n_factors = "one", q.n_groups = "two", q.covariates = "no",
+  q.binary_margins = "group_sizes_fixed", q.direction = "two_sided",
+  q.missingness = "none"))
+spec <- advisor_power_spec(s,
+  list(p1 = 0.2, p2 = 0.7, alpha = 0.05, n1 = 10, n2 = 10),
+  mode = "post_hoc")
+calculate_power(spec)$status
+}
 \seealso{
 Other advisor:
 \code{\link[=advisor_answer]{advisor_answer()}},

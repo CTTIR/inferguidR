@@ -66,6 +66,14 @@
 #'   included. Opted-in documents use schema 0.4; older documents remain readable.
 #' @return A report_document inheriting from report_snapshot, suitable for
 #'   export_report() and safe ig_to_json()/ig_from_json() round trips.
+#' @examples
+#' \donttest{
+#' spec <- analysis_spec("t_means_two_independent", "post_hoc",
+#'   inputs = list(d = 0.5, n1 = 20, n2 = 20, alpha = 0.05),
+#'   options = list(tails = "two"))
+#' snap <- create_report_snapshot(analysis_envelope(spec, calculate_power(spec)))
+#' class(snap)
+#' }
 #' @export
 create_report_snapshot <- function(envelopes, recommendation = NULL,
                                    report_kind = "single_analysis", title = NULL,
