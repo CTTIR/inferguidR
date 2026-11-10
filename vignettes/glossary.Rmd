@@ -104,3 +104,6 @@ See the [classification guide](classification.html) for the data contracts and
 the [validation guide](validation.html) for the scope of available evidence.
 Die [Klassifikationsanleitung](classification.html) erläutert die Datenverträge;
 die [Validierungsanleitung](validation.html) beschreibt die verfügbare Evidenz.
+
+```{r acknowledgments, child = "children/_acknowledgments.Rmd"}
+```

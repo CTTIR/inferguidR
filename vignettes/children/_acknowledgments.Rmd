@@ -1,0 +1,21 @@
+## Acknowledgements and sources
+
+This package is part of an inference suite (infercalcR, inferguidR and
+infereportR) that is deeply inspired by DescrTab2 [1], developed at the
+Institute of Medical Biometry (IMBI), Heidelberg University, by Jan Meis, Lukas
+Baumann, Maximilian Pilz and Lukas Sauer. Its test-choice tree, its validation
+statement and its practice of computing each test with an established
+implementation are the model for how the suite chooses, computes and reports
+statistical tests. DescrTab2 was archived on CRAN on 18 October 2025; its source
+code remains available on GitHub. The methods-consulting pages of the University
+of Zurich [2], with their decision tree, decision assistant, worked examples and
+explanations, inspired the guidance in the suite. Power and sample-size planning
+and the distribution calculator follow G\*Power 3.1 [3, 4]. We thank the authors
+of these works for making them openly available. The [package
+README](https://github.com/CTTIR/inferguidR#acknowledgements-and-sources) cites
+all software the package uses.
+
+1. Meis J, Baumann L, Pilz M, Sauer L (2022). *DescrTab2: Publication Quality Descriptive Statistics Tables*. R package version 2.1.16. <https://doi.org/10.32614/CRAN.package.DescrTab2>. Source code, including the development version 2.1.26: <https://github.com/imbi-heidelberg/DescrTab2>.
+2. Universität Zürich, Methodenberatung. *Datenanalyse mit SPSS*: decision tree (Entscheidbaum), decision assistant (Entscheidassistent) and method pages with examples and explanations. <https://www.methodenberatung.uzh.ch/de/datenanalyse_spss.html>. Accessed 3 October 2026.
+3. Faul F, Erdfelder E, Lang A-G, Buchner A (2007). G\*Power 3: A flexible statistical power analysis program for the social, behavioral, and biomedical sciences. *Behavior Research Methods*, 39(2), 175-191. <https://doi.org/10.3758/BF03193146>.
+4. Faul F, Erdfelder E, Buchner A, Lang A-G (2009). Statistical power analyses using G\*Power 3.1: Tests for correlation and regression analyses. *Behavior Research Methods*, 41(4), 1149-1160. <https://doi.org/10.3758/BRM.41.4.1149>.
