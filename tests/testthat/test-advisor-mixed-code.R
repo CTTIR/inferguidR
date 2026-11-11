@@ -1,5 +1,6 @@
 .lme_env<-function(kind){e<-new.env(parent=baseenv());e$alternative<-'two.sided';e$confidence_level<-.95;invisible(capture.output(sys.source(system.file("advisor","templates",paste0("tpl.",kind,".v1.R"),package="inferguidR"),e)));e}
 test_that('random-intercept REML models match independent block covariance likelihoods',{
+ skip_if_not_installed("nlme")
  refs<-jsonlite::read_json(test_path("fixtures","mixed-lme-oracle.json"))$cases
  for(ref in refs){
   e<-.lme_env(ref$kind);d<-do.call(rbind,lapply(ref$data,as.data.frame));d$factor<-factor(d$level);d$y[d$id%in%unlist(ref$missing_ids)]<-NA
@@ -12,6 +13,7 @@ test_that('random-intercept REML models match independent block covariance likel
  }
 })
 test_that('mixed-model designs and missing outcomes require explicit assumptions',{
+ skip_if_not_installed("nlme")
  for(kind in c('lmm_repeated_measures','lmm_cluster_random_intercept')){
   e<-.lme_env(kind);d<-e$example_data;run<-function(x=d,...)e$analyse(x,TRUE,TRUE,...)
   expect_error(e$analyse(d));expect_error(e$analyse(d,TRUE,FALSE));expect_error(run(alternative='less'))
@@ -34,6 +36,8 @@ test_that('mixed-model designs and missing outcomes require explicit assumptions
 
 .binary_mixed_env<-function(kind){e<-new.env(parent=baseenv());e$alternative<-'two.sided';e$confidence_level<-.95;invisible(capture.output(sys.source(system.file("advisor","templates",paste0("tpl.",kind,".v1.R"),package="inferguidR"),e)));e}
 test_that('conditional and marginal binary models match independent likelihood/sandwich references',{
+ skip_if_not_installed("lme4")
+ skip_if_not_installed("geepack")
  refs<-jsonlite::read_json(test_path("fixtures","mixed-binary-oracle.json"))
  for(kind in c('glmm_logistic_random_intercept','gee_logistic_exchangeable')){
   e<-.binary_mixed_env(kind);r<-e$example_result;gee<-kind=='gee_logistic_exchangeable';ref<-refs[[if(gee)'gee' else 'glmm']]
@@ -48,6 +52,8 @@ test_that('conditional and marginal binary models match independent likelihood/s
  }
 })
 test_that('binary cluster models retain explicit estimand and missingness boundaries',{
+ skip_if_not_installed("lme4")
+ skip_if_not_installed("geepack")
  for(kind in c('glmm_logistic_random_intercept','gee_logistic_exchangeable')){
   e<-.binary_mixed_env(kind);d<-e$example_data;gee<-kind=='gee_logistic_exchangeable';run<-function(x=d,...)e$analyse(x,TRUE,TRUE,...)
   expect_error(e$analyse(d));expect_error(e$analyse(d,TRUE,FALSE));expect_error(run(alternative='greater'))
@@ -64,6 +70,9 @@ test_that('binary cluster models retain explicit estimand and missingness bounda
 })
 
 test_that('clustered and repeated advisor routes preserve covariance and estimand choices',{
+ skip_if_not_installed("nlme")
+ skip_if_not_installed("lme4")
+ skip_if_not_installed("geepack")
  routes<-list(
   lmm_repeated_measures=c(q.aim='compare',q.stage='analysis',q.outcome_type='continuous',q.unit='individuals',q.structure='repeated',q.pairing_id='yes',q.estimand_continuous='mean',q.missingness='some'),
   lmm_cluster_random_intercept=c(q.aim='compare',q.stage='analysis',q.outcome_type='continuous',q.unit='clusters'),

@@ -36,6 +36,7 @@ test_that('numeric cluster geometry agrees with independent Ward and separated-c
  }
 })
 test_that('typed Gower distances and PAM agree with exhaustive independent medoid enumeration',{
+ skip_if_not_installed("cluster")
  ref<-jsonlite::read_json(test_path("fixtures","structure-oracle.json"))$gower;e<-.structure_env('cluster_gower_pam');r<-e$example_result
  expect_identical(r$status,'ok');expect_equal(unname(r$dissimilarity),.structure_matrix(ref$distance),tolerance=1e-12)
  expect_equal(r$mean_dissimilarity,ref$global_mean_dissimilarity,tolerance=1e-12)
@@ -53,6 +54,7 @@ test_that('typed Gower distances and PAM agree with exhaustive independent medoi
 })
 # Independent Gower edge arithmetic moved to infercalcR/tests/observed-legacy-helpers.R.
 test_that('structure advisor exports exact exploratory models and accepted alternatives',{
+ skip_if_not_installed("cluster")
  routes<-list(
   efa_common_factor_ml=c(q.aim='structure',q.stage='analysis',q.structure_goal='variables',q.reduction_purpose='latent'),
   cluster_hierarchical_ward=c(q.aim='structure',q.stage='analysis',q.structure_goal='cases',q.cluster_types='all_continuous'),
