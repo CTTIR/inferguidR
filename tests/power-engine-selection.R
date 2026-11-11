@@ -35,6 +35,26 @@ resolved <- inferguidR:::.ig_engine_resolve(reference, registry = too_old)
 stopifnot(inherits(resolved, "ig_status"), identical(resolved$code, "unsupported"),
   grepl("999.0", resolved$reason, fixed = TRUE))
 
+# An unbalanced a priori search brackets designs the two-sample original cannot
+# evaluate; the reference engine reports this instead of mixing engines.
+if (requireNamespace("pwr", quietly = TRUE)) {
+  unbalanced <- solve_design(analysis_spec("t_means_two_independent", "a_priori",
+    inputs = list(d = 0.5, alpha = 0.05, power = 0.95, allocation_ratio = 2), options = list(tails = "one"),
+    engine = "reference"))
+  stopifnot(identical(unbalanced$status$code, "unsupported"))
+  balanced <- solve_design(analysis_spec("t_means_two_independent", "a_priori",
+    inputs = list(d = 0.5, alpha = 0.05, power = 0.95, allocation_ratio = 1), options = list(tails = "one"),
+    engine = "reference"))
+  stopifnot(identical(balanced$status$code, "ok"), identical(balanced$provenance$engine$engine, "reference"))
+}
+# A one-tailed single-coefficient test has no packaged original.
+if (requireNamespace("WebPower", quietly = TRUE)) {
+  one_tailed <- calculate_power(analysis_spec("t_mrc_single_coefficient", "post_hoc",
+    inputs = list(f2 = 0.1, alpha = 0.05, n_total = 100, n_predictors = 3), options = list(tails = "one"),
+    engine = "reference"))
+  stopifnot(identical(one_tailed$status$code, "unsupported"))
+}
+
 listing <- list_methods()
 stopifnot(all(c("engines", "reference") %in% names(listing)),
   all(listing$engines %in% c("base", "base+reference")))

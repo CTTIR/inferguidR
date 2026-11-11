@@ -73,11 +73,7 @@ solve_design <- function(spec) .ig_run(spec, "solve_design")
     }
     # The original's forward model replaces the base model; the generic
     # solvers derive every mode from it, without the base search hooks.
-    def$power <- resolved$branch$power
-    def$a_priori_search <- NULL
-    def$sensitivity_search <- NULL
-    def$engine <- list(package = resolved$package, fun = resolved$call, version = resolved$version,
-                       engine = "reference")
+    def <- .ig_ref_method(def, resolved, spec)
   }
   solver <- .ig_solver_for(spec$mode)
   if (!is.function(solver)) {
@@ -86,7 +82,10 @@ solve_design <- function(spec) .ig_run(spec, "solve_design")
   }
   caught <- character()
   res <- withCallingHandlers(
-    tryCatch(solver(def, spec, entry), error = function(e) e),
+    tryCatch(solver(def, spec, entry),
+             inferguidR_reference_domain = function(e) .ig_power_result(spec, ig_status("unsupported",
+               conditionMessage(e)), provenance = list(entry = entry, engine = list(engine = "reference"))),
+             error = function(e) e),
     warning = function(w) {
       caught <<- c(caught, conditionMessage(w))
       invokeRestart("muffleWarning")

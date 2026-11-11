@@ -10,7 +10,7 @@
 # Originals are optional (Suggests); a missing, older or inapplicable original
 # gives an "unsupported" result and never falls back to the base engine.
 # Files named engine-reference-*.R are collated before this file.
-.ig_engine_info <- list()
+.ig_engine_info <- c(.ig_engine_info_t(), .ig_engine_info_f())
 
 .ig_engines <- c("base", "reference")
 
@@ -47,6 +47,32 @@
       absent[[1L]], version)))
   list(engine = "reference", package = branch$package, version = as.character(version), call = branch$call,
     branch = branch)
+}
+
+# Signal that a design lies outside the original's domain (for example fewer
+# observations than it accepts); the runner reports it as unsupported.
+.ig_ref_outside <- function(message)
+  stop(structure(class = c("inferguidR_reference_domain", "error", "condition"),
+    list(message = message, call = NULL)))
+
+# The reference model of a method: the original's forward model replaces the
+# base model, the base search hooks are dropped, and the smallest total sample
+# size the original can evaluate becomes the lower bound of the search.
+.ig_ref_method <- function(def, resolved, spec) {
+  branch <- resolved$branch
+  def$power <- branch$power
+  # A procedure's design rule (for example equal group sizes) is kept by
+  # rebuilding its a priori search around the original's forward model.
+  def$a_priori_search <- if (is.function(branch$search)) branch$search(branch$power) else NULL
+  def$sensitivity_search <- NULL
+  def$engine <- list(package = resolved$package, fun = resolved$call, version = resolved$version,
+                     engine = "reference")
+  n_min <- if (is.function(branch$n_min)) branch$n_min(spec$inputs) else branch$n_min
+  if (!is.null(n_min)) {
+    at <- which(vapply(def$params, function(x) identical(x$name, "n_total"), NA))
+    if (length(at)) def$params[[at]]$domain$lower <- max(def$params[[at]]$domain$lower, n_min)
+  }
+  def
 }
 
 .ig_engine_listing <- function(ids) {
