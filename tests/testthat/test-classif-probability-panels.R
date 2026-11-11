@@ -4,6 +4,7 @@ probability_panel_spec <- function() {
 }
 
 test_that("probability panels use frozen tables and independently checked arithmetic", {
+  skip_if_not_installed("ggplot2")
   spec <- probability_panel_spec()
   r <- evaluate_cutoff(spec, threshold_probability = c(.2, .5, .8), calibration_bins = 3)
   cal <- classification_plot_data(r, "calibration")

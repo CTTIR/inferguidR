@@ -18,6 +18,7 @@ test_that("empty uncertainty and comparison tables state why they are unavailabl
 })
 
 test_that("ROC and PR point intervals use the correct marginal denominators", {
+ skip_if_not_installed("ggplot2")
  r <- interval_example()
  for(panel in c("roc","pr")) for(method in c("wilson","clopper_pearson")) {
   p <- plot_classification(r,panel,interval_method=method)
@@ -49,6 +50,7 @@ test_that("interval display uses German decimals without changing numeric record
 })
 
 test_that("scenario, clustered and uncomputed intervals are never invented", {
+ skip_if_not_installed("ggplot2")
  r <- interval_example()
  s <- update(classification_evaluated_spec(r),prevalence=.1)
  scenario <- evaluate_cutoff(s)
@@ -67,6 +69,7 @@ test_that("scenario, clustered and uncomputed intervals are never invented", {
 })
 
 test_that("undefined current PR points retain reasons without interval segments", {
+ skip_if_not_installed("ggplot2")
  r <- interval_example();r<-evaluate_cutoff(update(classification_evaluated_spec(r),cutoff=10))
  p <- plot_classification(r,"pr",interval_method="wilson")
  d <- attr(p,"inferguidR_plot_data")$data$intervals

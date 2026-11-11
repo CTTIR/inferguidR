@@ -1,5 +1,6 @@
 .glm_env<-function(kind){e<-new.env(parent=baseenv());e$alternative<-'two.sided';e$confidence_level<-.95;invisible(capture.output(sys.source(system.file("advisor","templates",paste0("tpl.regression_",kind,".v1.R"),package="inferguidR"),e)));e}
 test_that('finite log-scale regression fits do not report overflowing or underflowing ratios',{
+ skip_if_not_installed("MASS")
  for(kind in c('logistic_binary','poisson','negative_binomial')) {
   e<-.glm_env(kind);d<-e$example_data
   base<-e$analyse(d,c('x1','x2'),TRUE)
@@ -83,6 +84,7 @@ test_that('logistic profile endpoints match independent joint likelihood roots',
  }
 })
 test_that('NB2 estimates re-estimate dispersion in the null and full likelihoods',{
+ skip_if_not_installed("MASS")
  refs<-jsonlite::read_json(test_path("fixtures","glm-nb-oracle.json"))$cases;e<-.glm_env('negative_binomial')
  for(ref in refs){
   d<-as.data.frame(do.call(rbind,lapply(ref$x,unlist)));names(d)<-paste0('x',seq_len(ncol(d)));cols<-names(d)
@@ -96,6 +98,8 @@ test_that('NB2 estimates re-estimate dispersion in the null and full likelihoods
  expect_identical(r$status,'not_applicable');expect_null(r$p_value)
 })
 test_that('ordinal and multinomial likelihood fits match independent 60-digit references',{
+ skip_if_not_installed("MASS")
+ skip_if_not_installed("nnet")
  refs<-jsonlite::read_json(test_path("fixtures","glm-categorical-oracle.json"))$cases
  for(ref in refs){
   e<-.glm_env(ref$kind);ordinal<-ref$kind=='ordinal_proportional_odds'
@@ -132,6 +136,8 @@ test_that('ordinal and multinomial likelihood fits match independent 60-digit re
 })
 
 test_that('regression advisor exports the selected families and NB override in EN and DE',{
+ skip_if_not_installed("MASS")
+ skip_if_not_installed("nnet")
  variants<-c(binary='regression_logistic_binary',ordinal='regression_ordinal_proportional_odds',nominal='regression_multinomial',count='regression_poisson')
  for(lang in c('en','de'))for(type in names(variants))for(missing in c('none','some')){
   a<-c(q.aim='model',q.stage='analysis',q.outcome_type=type,q.unit='individuals',q.records_per_individual='one',q.n_predictors='several',q.missingness=missing)
