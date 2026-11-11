@@ -27,7 +27,50 @@ glm_options <- function(procedure, vc, x, tails = "two", mode_input = NULL) c(li
   list(variance_correction = vc), list(x_distribution = x), if (!is.null(mode_input))
   list(effect_size_input_mode = mode_input))
 
+mess_binom <- "MESS ?power_binom_test example power_binom_test(n = 50, p0 = .50, pa = .75)"
+pwrss_oneprop <- "pwrss ?power.exact.oneprop example (prob = 0.45, null.prob = 0.50, n = 500)"
+exact_help <- "Exact ?power.exact.test example (p1 = 0.15, p2 = 0.60, n1 = 15, n2 = 30)"
+
 power_benchmark_cases <- list(
+  exact_proportion_one_sample_binomial = function() c(
+    both_tails("mess-help", mess_binom, "post_hoc", list(g = 0.25, p0 = 0.5, alpha = 0.05, n_total = 50)),
+    list(power_case("mess-help-minor-tail", paste(mess_binom, "with the minor-tail balancing rule (derived)"), "post_hoc",
+        list(g = 0.25, p0 = 0.5, alpha = 0.05, n_total = 50),
+        list(tails = "two", alpha_balancing = "minor_tail_half_rest_major"))),
+    both_tails("pwrss-help", pwrss_oneprop, "post_hoc", list(g = -0.05, p0 = 0.5, alpha = 0.05, n_total = 500))),
+  exact_proportion_sign_test = function()
+    both_tails("mess-help", paste(mess_binom, "as a sign test (derived)"), "post_hoc",
+      list(g = 0.25, alpha = 0.05, n_total = 50)),
+  exact_generic_binomial = function() c(
+    both_tails("mess-help", mess_binom, "post_hoc", list(p2 = 0.75, p1 = 0.5, alpha = 0.05, n_total = 50)),
+    both_tails("pwrss-help", pwrss_oneprop, "post_hoc", list(p2 = 0.45, p1 = 0.5, alpha = 0.05, n_total = 500))),
+  exact_proportions_mcnemar = function() list(
+    power_case("mess-help-two", paste("MESS ?power_mcnemar_test example (paid = .125, psi = 2), i.e. pd = 0.375 and",
+      "OR = 2, post hoc at n = 120 (derived)"), "post_hoc", list(or = 2, pd = 0.375, alpha = 0.05, n_total = 120),
+      list(tails = "two"))),
+  exact_proportions_fisher = function()
+    both_tails("exact-help", paste(exact_help, "with method = \"Fisher\""), "post_hoc",
+      list(p1 = 0.15, p2 = 0.6, alpha = 0.05, n1 = 15, n2 = 30)),
+  exact_correlation_bivariate_normal = function() list(
+    power_case("pwrss-help-exact", "pwrss ?power.exact.onecor example (rho = 0.20) post hoc at n = 200 (derived)",
+      "post_hoc", list(rho_h1 = 0.2, rho_h0 = 0, alpha = 0.05, n_total = 200), list(tails = "two", computation = "exact")),
+    power_case("pwrss-help-exact-one", "the same, one-tailed (derived)", "post_hoc",
+      list(rho_h1 = 0.2, rho_h0 = 0, alpha = 0.05, n_total = 200), list(tails = "one", computation = "exact")),
+    power_case("pwrss-help-fisher-z", "the same with the Fisher z approximation (derived)", "post_hoc",
+      list(rho_h1 = 0.2, rho_h0 = 0, alpha = 0.05, n_total = 200), list(tails = "two", computation = "fisher_z_approx"))),
+  chi2_goodness_of_fit_contingency = function() list(
+    power_case("pwr-help-1", "pwr ?pwr.chisq.test example pwr.chisq.test(w = 0.289, df = 3, N = 100)", "post_hoc",
+      list(w = 0.289, df = 3, alpha = 0.05, n_total = 100)),
+    power_case("pwr-help-2", "pwr ?pwr.chisq.test example pwr.chisq.test(w = 0.346, df = 2, N = 140, sig.level = 0.01)",
+      "post_hoc", list(w = 0.346, df = 2, alpha = 0.01, n_total = 140)),
+    power_case("pwr-help-1-apriori", "the first example a priori for power 0.8 (derived)", "a_priori",
+      list(w = 0.289, df = 3, alpha = 0.05, power = 0.8))),
+  chi2_generic = function() list(
+    power_case("pwrss-help", "pwrss ?power.chisq.test example power.chisq.test(ncp = 20, df = 100)", "post_hoc",
+      list(lambda = 20, df = 100, alpha = 0.05))),
+  boschloo_proportions_two_independent = function() lapply(c("minlike", "less", "greater"), function(v)
+    power_case(paste0("exact-help-", v), paste(exact_help, "with method = \"Boschloo\",", v), "post_hoc",
+      list(p1 = 0.15, p2 = 0.6, alpha = 0.05, n1 = 15, n2 = 30), list(variant = v))),
   z_proportions_two_independent = function() c(
     both_tails("stats-help-n50", "stats ?power.prop.test example power.prop.test(n = 50, p1 = .50, p2 = .75)",
       "post_hoc", list(p1 = 0.5, p2 = 0.75, alpha = 0.05, n1 = 50, n2 = 50)),
