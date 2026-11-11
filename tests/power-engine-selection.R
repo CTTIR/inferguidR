@@ -6,13 +6,17 @@ spec_args <- list("t_means_one_sample", "post_hoc", inputs = list(alpha = .05, d
   options = list(tails = "two"))
 base <- do.call(analysis_spec, spec_args)
 
-# Identities recorded on main b900523, before engines existed.
+# Identities recorded on main b900523, before engines existed. The spec hash
+# covers inputs only and is the same on every platform; the result hash covers
+# computed doubles, whose last bits differ between platforms, so the saved
+# specification must reproduce this platform's base result, and the power the
+# value recorded on Linux within rounding.
+base_result <- calculate_power(base)
 stopifnot(identical(base$spec_hash, "467119d8f8eb4143689192445dafda5d7a633dcf53fe2195d3b3e84c63854b58"),
-  is.null(base$engine),
-  identical(calculate_power(base)$result_hash, "e9297e4fc51fd4d664ebaf6e1b52456b10d4853802bf1fcf95153f27144630a3"))
+  is.null(base$engine), abs(base_result$achieved$power - 0.56450441843908394) <= 1e-12)
 saved <- ig_from_json(readLines(fixture("spec-t-one-sample-b900523.json")))
 stopifnot(identical(saved$spec_hash, base$spec_hash),
-  identical(calculate_power(saved)$result_hash, "e9297e4fc51fd4d664ebaf6e1b52456b10d4853802bf1fcf95153f27144630a3"),
+  identical(calculate_power(saved)$result_hash, base_result$result_hash),
   identical(as.character(ig_to_json(base)), paste(readLines(fixture("spec-t-one-sample-b900523.json")), collapse = "\n")))
 
 # A reference specification is a different, recorded analysis.
