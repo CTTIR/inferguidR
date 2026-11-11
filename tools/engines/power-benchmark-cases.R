@@ -31,7 +31,19 @@ mess_binom <- "MESS ?power_binom_test example power_binom_test(n = 50, p0 = .50,
 pwrss_oneprop <- "pwrss ?power.exact.oneprop example (prob = 0.45, null.prob = 0.50, n = 500)"
 exact_help <- "Exact ?power.exact.test example (p1 = 0.15, p2 = 0.60, n1 = 15, n2 = 30)"
 
+pwrss_np <- "pwrss ?power.np.wilcoxon example power.np.wilcoxon(d = 0.25, power = 0.80)"
+wilcoxon_cases <- function(effect, design_inputs, posthoc_inputs) c(
+  both_tails("pwrss-help", pwrss_np, "a_priori", c(stats::setNames(list(0.25), effect), list(alpha = 0.05, power = 0.8),
+    design_inputs)),
+  lapply(c("laplace", "logistic"), function(parent) power_case(paste0("pwrss-help-", parent),
+    paste(pwrss_np, "with a", parent, "parent, post hoc (derived)"), "post_hoc",
+    c(stats::setNames(list(0.25), effect), list(alpha = 0.05), posthoc_inputs),
+    list(tails = "two", parent_distribution = parent))))
+
 power_benchmark_cases <- list(
+  t_wilcoxon_signed_rank_one_sample = function() wilcoxon_cases("d", list(), list(n_total = 120)),
+  t_wilcoxon_signed_rank_matched_pairs = function() wilcoxon_cases("dz", list(), list(n_total = 120)),
+  t_wilcoxon_mann_whitney = function() wilcoxon_cases("d", list(allocation_ratio = 1), list(n1 = 200, n2 = 300)),
   exact_proportion_one_sample_binomial = function() c(
     both_tails("mess-help", mess_binom, "post_hoc", list(g = 0.25, p0 = 0.5, alpha = 0.05, n_total = 50)),
     list(power_case("mess-help-minor-tail", paste(mess_binom, "with the minor-tail balancing rule (derived)"), "post_hoc",

@@ -11,7 +11,7 @@
 # gives an "unsupported" result and never falls back to the base engine.
 # Files named engine-reference-*.R are collated before this file.
 .ig_engine_info <- c(.ig_engine_info_t(), .ig_engine_info_f(), .ig_engine_info_z(),
-  .ig_engine_info_exact())
+  .ig_engine_info_exact(), .ig_engine_info_wilcoxon())
 
 .ig_engines <- c("base", "reference")
 
