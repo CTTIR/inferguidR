@@ -45,6 +45,10 @@
     },
     "validation_level": { "enum": ["method_definition", "registry_metadata"] },
     "unvalidated_inputs": { "$ref": "common.schema.json#/$defs/string_array" },
+    "engine": {
+      "enum": ["reference"],
+      "description": "Present only for a specification computed by the reference engine (the established R package for the procedure); it is then part of the hashed key. Base specifications omit it."
+    },
     "spec_hash": { "$ref": "common.schema.json#/$defs/sha256" }
   },
   "if": { "properties": { "mode": { "const": "compromise" } } },

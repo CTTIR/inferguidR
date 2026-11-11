@@ -61,6 +61,24 @@ solve_design <- function(spec) .ig_run(spec, "solve_design")
     return(.ig_unsupported_result(spec, sprintf("engine for %s not implemented yet", spec$method_id),
                                   entry))
   }
+  if (identical(spec$engine, "reference")) {
+    resolved <- .ig_engine_resolve(spec)
+    if (inherits(resolved, "ig_status")) {
+      return(.ig_power_result(spec, resolved, provenance = list(entry = entry, engine = list(engine = "reference"))))
+    }
+    if (!isTRUE(resolved$branch$generic_search) && !identical(spec$mode, "post_hoc")) {
+      return(.ig_power_result(spec, ig_status("unsupported", sprintf(
+        "the reference engine for %s supports post hoc analyses only; use engine = \"base\" for mode '%s'",
+        spec$method_id, spec$mode)), provenance = list(entry = entry, engine = list(engine = "reference"))))
+    }
+    # The original's forward model replaces the base model; the generic
+    # solvers derive every mode from it, without the base search hooks.
+    def$power <- resolved$branch$power
+    def$a_priori_search <- NULL
+    def$sensitivity_search <- NULL
+    def$engine <- list(package = resolved$package, fun = resolved$call, version = resolved$version,
+                       engine = "reference")
+  }
   solver <- .ig_solver_for(spec$mode)
   if (!is.function(solver)) {
     return(.ig_unsupported_result(spec, sprintf("solver for mode '%s' not implemented yet", spec$mode),
@@ -96,7 +114,8 @@ solve_design <- function(spec) .ig_run(spec, "solve_design")
   if (!inherits(spec, "power_spec")) {
     .ig_abort("invalid_input", "`spec` must be a power_spec created by analysis_spec()")
   }
-  key <- .ig_spec_key(spec$method_id, spec$mode, spec$target, spec$inputs, spec$options)
+  key <- .ig_spec_key(spec$method_id, spec$mode, spec$target, spec$inputs, spec$options,
+                      spec$engine %||% "base")
   if (!identical(.ig_hash_value(key), spec$spec_hash)) {
     .ig_abort("invalid_input", "the specification was modified after creation (hash mismatch)")
   }

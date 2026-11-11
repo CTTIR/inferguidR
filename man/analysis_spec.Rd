@@ -10,7 +10,8 @@ analysis_spec(
   inputs = list(),
   options = list(),
   target = NULL,
-  ...
+  ...,
+  engine = "base"
 )
 }
 \arguments{
@@ -26,6 +27,13 @@ analysis_spec(
 only where a method offers alternative targets.}
 
 \item{...}{Further named inputs.}
+
+\item{engine}{\code{"base"} (default) computes with inferguidR's own forward
+model. \code{"reference"} computes with the established R package listed by
+\code{\link[=list_methods]{list_methods()}} for the procedure (and option combination); if that
+package is missing, older than required or does not provide the
+combination, the result has status \code{"unsupported"} and no other engine is
+used. Base specifications keep their historical structure and hash.}
 }
 \value{
 An immutable object of class \code{power_spec}.
