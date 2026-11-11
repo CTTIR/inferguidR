@@ -50,6 +50,7 @@ Suggests:
     nlme,
     nnet,
     pROC,
+    powerMediation,
     pwr,
     pwrss,
     quarto,

@@ -10,7 +10,8 @@
 # Originals are optional (Suggests); a missing, older or inapplicable original
 # gives an "unsupported" result and never falls back to the base engine.
 # Files named engine-reference-*.R are collated before this file.
-.ig_engine_info <- c(.ig_engine_info_t(), .ig_engine_info_f())
+.ig_engine_info <- c(.ig_engine_info_t(), .ig_engine_info_f(), .ig_engine_info_z(),
+  .ig_engine_info_exact(), .ig_engine_info_wilcoxon())
 
 .ig_engines <- c("base", "reference")
 
@@ -70,7 +71,12 @@
   n_min <- if (is.function(branch$n_min)) branch$n_min(spec$inputs) else branch$n_min
   if (!is.null(n_min)) {
     at <- which(vapply(def$params, function(x) identical(x$name, "n_total"), NA))
-    if (length(at)) def$params[[at]]$domain$lower <- max(def$params[[at]]$domain$lower, n_min)
+    if (length(at) && n_min > def$params[[at]]$domain$lower) {
+      def$params[[at]]$domain$lower <- n_min
+      # A design solved at this raised floor may not be minimal: the base
+      # engine admits smaller designs the original cannot evaluate.
+      def$ref_floor <- n_min
+    }
   }
   def
 }

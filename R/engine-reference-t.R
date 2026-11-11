@@ -6,8 +6,10 @@
 
 .ig_ref_t_one_two <- function(tails) if (identical(tails, "two")) "two.sided" else "one.sided"
 
-.ig_ref_result <- function(power, call, n_total = NULL, group_sizes = NULL) {
-  c(list(power = as.double(power)),
+.ig_ref_result <- function(power, call, n_total = NULL, group_sizes = NULL, discrete = FALSE) {
+  # A discrete original does not report the attained significance level.
+  c(list(power = as.double(power)), if (discrete) list(alpha_attained = NA_real_,
+      notes = list(alpha_attained = "not reported by the original")),
     if (!is.null(n_total)) list(n_total = as.double(n_total)),
     if (!is.null(group_sizes)) list(group_sizes = group_sizes),
     list(assumptions = sprintf("power computed by %s (reference engine)", call)))
