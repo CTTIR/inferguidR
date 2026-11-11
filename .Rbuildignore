@@ -39,3 +39,4 @@
 ^INFER-SUITE\.md$
 ^[^/]+[.]tar[.]gz$
 ^cran-comments\.md$
+^tools/engines$

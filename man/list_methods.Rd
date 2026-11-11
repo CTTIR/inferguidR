@@ -12,7 +12,10 @@ list_methods(family = NULL)
 }
 \value{
 A data frame with columns \code{id}, \code{family}, \code{label}, \code{modes}
-(comma-separated), \code{implementation_status} and \code{validation_status}.
+(comma-separated), \code{implementation_status}, \code{validation_status},
+\code{engines} (\code{"base"} or \code{"base+reference"}) and \code{reference}
+(the original's \code{package::function} for \code{engine = "reference"} in
+\code{\link[=analysis_spec]{analysis_spec()}}, or \code{NA}).
 }
 \description{
 Returns one row per registered method with its implementation and

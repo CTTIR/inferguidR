@@ -317,7 +317,9 @@
 #' @param family Optional family filter (`"exact"`, `"F"`, `"t"`, `"z"`,
 #'   `"chi2"`, or `"boschloo"` for the extension).
 #' @return A data frame with columns `id`, `family`, `label`, `modes`
-#'   (comma-separated), `implementation_status` and `validation_status`.
+#'   (comma-separated), `implementation_status`, `validation_status`, `engines`
+#'   (`"base"` or `"base+reference"`) and `reference` (the original's
+#'   `package::function` for `engine = "reference"` in [analysis_spec()], or `NA`).
 #' @examples
 #' head(list_methods())
 #' list_methods(family = "chi2")
@@ -341,6 +343,8 @@ list_methods <- function(family = NULL) {
     modes = vapply(meta, function(e) paste(e$modes, collapse = ", "), "", USE.NAMES = FALSE),
     implementation_status = vapply(ids, .ig_implementation_status, "", USE.NAMES = FALSE),
     validation_status = vapply(ids, .ig_method_validation_status, "", USE.NAMES = FALSE),
+    engines = .ig_engine_listing(ids)$engines,
+    reference = .ig_engine_listing(ids)$reference,
     stringsAsFactors = FALSE
   )
 }

@@ -133,8 +133,10 @@
     quantities = quantities, undefined = undefined, method_outputs = method_outputs,
     diagnostics = c(list(solver = solver_id), diagnostics),
     provenance = list(entry = entry, solver = solver_id,
-                      engine = list(package = as.character(method$engine$package),
-                                    fun = as.character(method$engine$fun))),
+                      engine = c(list(package = as.character(method$engine$package),
+                                      fun = as.character(method$engine$fun)),
+                                 if (identical(method$engine$engine, "reference"))
+                                   list(engine = "reference", version = as.character(method$engine$version)))),
     assumptions = assumptions, warnings = warnings, r_call = .ig_result_call(spec, entry)
   )
 }

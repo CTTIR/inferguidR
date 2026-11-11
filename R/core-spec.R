@@ -68,6 +68,12 @@
 #' @param target Optional solve target. Defaults to the mode's target; needed
 #'   only where a method offers alternative targets.
 #' @param ... Further named inputs.
+#' @param engine `"base"` (default) computes with inferguidR's own forward
+#'   model. `"reference"` computes with the established R package listed by
+#'   [list_methods()] for the procedure (and option combination); if that
+#'   package is missing, older than required or does not provide the
+#'   combination, the result has status `"unsupported"` and no other engine is
+#'   used. Base specifications keep their historical structure and hash.
 #' @return An immutable object of class `power_spec`.
 #' @examples
 #' spec <- analysis_spec("t_means_two_independent", "a_priori",
@@ -79,13 +85,16 @@
 #' @seealso [update.power_spec()], [calculate_power()], [ig_to_json()]
 #' @export
 analysis_spec <- function(method, mode, inputs = list(), options = list(),
-                          target = NULL, ...) {
+                          target = NULL, ..., engine = "base") {
   if (missing(method)) method <- NULL
   if (missing(mode)) mode <- NULL
-  .ig_build_spec(method, mode, inputs, list(...), options, target)
+  .ig_build_spec(method, mode, inputs, list(...), options, target, engine)
 }
 
-.ig_build_spec <- function(method, mode, inputs, dots, options, target) {
+.ig_build_spec <- function(method, mode, inputs, dots, options, target, engine = "base") {
+  if (!.ig_is_string(engine) || !(engine %in% .ig_engines)) {
+    .ig_abort("invalid_input", "`engine` must be \"base\" or \"reference\"")
+  }
   if (!.ig_is_string(method)) {
     .ig_abort("invalid_input", "`method` must be a single method id; see list_methods()")
   }
@@ -145,13 +154,15 @@ analysis_spec <- function(method, mode, inputs = list(), options = list(),
                inputs = iv$values, options = ov$values,
                defaults_applied = list(inputs = iv$defaults, options = ov$defaults),
                validation_level = if (is.null(def)) "registry_metadata" else "method_definition",
-               unvalidated_inputs = iv$unvalidated)
+               unvalidated_inputs = iv$unvalidated, engine = engine)
 }
 
 .ig_new_spec <- function(method_id, family, mode, target, inputs, options,
-                         defaults_applied, validation_level, unvalidated_inputs) {
-  key <- .ig_spec_key(method_id, mode, target, inputs, options)
-  structure(list(
+                         defaults_applied, validation_level, unvalidated_inputs, engine = "base") {
+  key <- .ig_spec_key(method_id, mode, target, inputs, options, engine)
+  # A base specification keeps its historical fields; only a reference
+  # specification carries (and hashes) its engine.
+  structure(c(list(
     schema_version = .ig_schema_versions[["power_spec"]],
     object_type = "power_spec",
     method_id = method_id,
@@ -164,20 +175,23 @@ analysis_spec <- function(method, mode, inputs = list(), options = list(),
     defaults_applied = list(inputs = as.character(defaults_applied$inputs),
                             options = as.character(defaults_applied$options)),
     validation_level = validation_level,
-    unvalidated_inputs = as.character(unvalidated_inputs),
-    spec_hash = .ig_hash_value(key)
+    unvalidated_inputs = as.character(unvalidated_inputs)),
+    if (identical(engine, "reference")) list(engine = "reference"),
+    list(spec_hash = .ig_hash_value(key))
   ), class = c("power_spec", "ig_frozen"))
 }
 
 # The hashed analysis key.
-.ig_spec_key <- function(method_id, mode, target, inputs, options) {
-  list(schema_version = .ig_schema_versions[["power_spec"]],
+.ig_spec_key <- function(method_id, mode, target, inputs, options, engine = "base") {
+  key <- list(schema_version = .ig_schema_versions[["power_spec"]],
        object_type = "power_spec",
        method_id = method_id,
        mode = mode,
        target = I(as.character(target)),
        inputs = .ig_named_or_empty(inputs),
        options = .ig_named_or_empty(options))
+  if (identical(engine, "reference")) key$engine <- "reference"
+  key
 }
 
 # Merge several named lists. Repeated names with identical values collapse;
@@ -611,7 +625,8 @@ update.power_spec <- function(object, ..., inputs = list(), options = list(),
   } else if (is.null(target) && !identical(object$mode, "compromise")) {
     target <- object$target
   }
-  .ig_build_spec(object$method_id, new_mode, base_inputs, list(), base_options, target)
+  .ig_build_spec(object$method_id, new_mode, base_inputs, list(), base_options, target,
+                 object$engine %||% "base")
 }
 
 # Serialisation ------------------------------------------------------------------------------
@@ -631,9 +646,14 @@ update.power_spec <- function(object, ..., inputs = list(), options = list(),
                             options = I(x$defaults_applied$options)),
     validation_level = x$validation_level,
     unvalidated_inputs = I(x$unvalidated_inputs),
+    engine = x$engine,
     spec_hash = x$spec_hash
-  )
+  )[c(names(.ig_spec_to_list_fields), if (!is.null(x$engine)) "engine", "spec_hash")]
 }
+
+# Serialised fields before the optional engine (base specifications have no engine).
+.ig_spec_to_list_fields <- c(schema_version = 1, object_type = 1, method_id = 1, family = 1, mode = 1, target = 1,
+  joint_target = 1, inputs = 1, options = 1, defaults_applied = 1, validation_level = 1, unvalidated_inputs = 1)
 
 # Rebuild a power_spec from parsed JSON by re-running the validators.
 .ig_spec_from_list <- function(x) {
@@ -670,7 +690,8 @@ update.power_spec <- function(object, ..., inputs = list(), options = list(),
   spec <- .ig_build_spec(x$method_id, x$mode,
                          inputs[setdiff(names(inputs), d_in)], list(),
                          options[setdiff(names(options), d_opt)],
-                         if (identical(x$mode, "compromise")) NULL else target)
+                         if (identical(x$mode, "compromise")) NULL else target,
+                         .ig_flatten(x$engine, "character") %||% "base")
   if (!identical(spec$spec_hash, x$spec_hash)) {
     .ig_abort("invalid_input", paste(
       "spec_hash does not match the specification content (the document was modified,",

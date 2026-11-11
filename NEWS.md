@@ -1,5 +1,14 @@
 # inferguidR 0.1.0
 
+* `analysis_spec()` gains `engine = "reference"`, which computes a procedure
+  with an established R package that computes the same quantity, instead of
+  inferguidR's own forward model; `engine = "base"` stays the default and
+  base specifications keep their structure and hash. The t-test and F-test
+  procedures have reference engines (stats, pwr, pwrss, WebPower), benchmarked
+  against the base engines on the originals' help-page examples and G*Power
+  manual examples (`inst/validation/engine-benchmarks.rds`). A missing,
+  older or inapplicable original gives an "unsupported" result, never a
+  fallback. `list_methods()` lists each procedure's engines.
 * The README and every vignette now acknowledge and cite DescrTab2
   (Institute of Medical Biometry, Heidelberg University), which deeply
   inspired the suite, the Methodenberatung pages of the University of

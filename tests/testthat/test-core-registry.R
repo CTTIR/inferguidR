@@ -54,7 +54,8 @@ test_that("list_methods returns the documented columns in inventory order", {
   lm <- list_methods()
   expect_s3_class(lm, "data.frame")
   expect_identical(names(lm), c("id", "family", "label", "modes",
-                                "implementation_status", "validation_status"))
+                                "implementation_status", "validation_status",
+                                "engines", "reference"))
   # Inventory procedures first, in inventory order; extensions (null
   # inventory index) last.
   expect_identical(lm$id, c(th_inventory_ids, th_extension_ids))
