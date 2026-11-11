@@ -55,6 +55,19 @@ if (requireNamespace("WebPower", quietly = TRUE)) {
   stopifnot(identical(one_tailed$status$code, "unsupported"))
 }
 
+# Option combinations without a matching original are unsupported, not replaced.
+if (requireNamespace("WebPower", quietly = TRUE)) {
+  vc <- calculate_power(analysis_spec("z_logistic_regression", "post_hoc", inputs = list(odds_ratio = 1.5, p1 = 0.5,
+    alpha = 0.05, n_total = 300, r2_other_x = 0, x_mu = 0, x_sigma = 1), options = list(tails = "two",
+    computation = "large_sample", test_procedure = "demidenko", variance_correction = "on", x_distribution = "normal"),
+    engine = "reference"))
+  stopifnot(identical(vc$status$code, "unsupported"))
+}
+corrected <- calculate_power(analysis_spec("z_proportions_two_independent", "post_hoc", inputs = list(p1 = 0.5,
+  p2 = 0.75, alpha = 0.05, n1 = 50, n2 = 50), options = list(tails = "two", continuity_correction = "on"),
+  engine = "reference"))
+stopifnot(identical(corrected$status$code, "unsupported"))
+
 listing <- list_methods()
 stopifnot(all(c("engines", "reference") %in% names(listing)),
   all(listing$engines %in% c("base", "base+reference")))
