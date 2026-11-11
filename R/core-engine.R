@@ -66,6 +66,11 @@ solve_design <- function(spec) .ig_run(spec, "solve_design")
     if (inherits(resolved, "ig_status")) {
       return(.ig_power_result(spec, resolved, provenance = list(entry = entry, engine = list(engine = "reference"))))
     }
+    if (!(spec$mode %in% c("post_hoc", "a_priori"))) {
+      return(.ig_power_result(spec, ig_status("unsupported", sprintf(
+        "the reference engine answers post hoc and a priori analyses; use engine = \"base\" for mode '%s'",
+        spec$mode)), provenance = list(entry = entry, engine = list(engine = "reference"))))
+    }
     if (!isTRUE(resolved$branch$generic_search) && !identical(spec$mode, "post_hoc")) {
       return(.ig_power_result(spec, ig_status("unsupported", sprintf(
         "the reference engine for %s supports post hoc analyses only; use engine = \"base\" for mode '%s'",
@@ -104,6 +109,11 @@ solve_design <- function(spec) .ig_run(spec, "solve_design")
       provenance = list(entry = entry), warnings = caught))
   }
   if (length(caught)) res <- .ig_result_add_warnings(res, caught)
+  if (!is.null(def$ref_floor) && identical(res$status$code, "ok") && isTRUE(res$solved$n_total <= def$ref_floor)) {
+    return(.ig_power_result(spec, ig_status("unsupported", sprintf(
+      "the smallest design may lie below N = %s, the smallest the original evaluates; use engine = \"base\"",
+      format(def$ref_floor))), provenance = list(entry = entry, engine = list(engine = "reference"))))
+  }
   res
 }
 

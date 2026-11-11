@@ -719,6 +719,7 @@ format.power_spec <- function(x, ...) {
             if (isTRUE(x$joint_target)) " (joint)" else ""),
     sprintf("  inputs:    %s", show(x$inputs, x$defaults_applied$inputs)),
     sprintf("  options:   %s", show(x$options, x$defaults_applied$options)),
+    if (identical(x$engine, "reference")) "  engine:    reference (established R package; see list_methods())",
     if (length(x$unvalidated_inputs))
       sprintf("  not yet validated: %s", paste(x$unvalidated_inputs, collapse = ", ")),
     sprintf("  validated against: %s", level),
@@ -746,6 +747,7 @@ print.power_spec <- function(x, ...) {
   if (!identical(spec$mode, "compromise")) {
     args <- c(args, sprintf("target = %s", .ig_r_literal(spec$target)))
   }
+  if (identical(spec$engine, "reference")) args <- c(args, "engine = \"reference\"")
   paste0("inferguidR::analysis_spec(", paste(args, collapse = ", "), ")")
 }
 

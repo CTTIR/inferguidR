@@ -4,27 +4,25 @@
 # answer post hoc analyses only (generic_search = FALSE).
 
 .ig_ref_binomial <- function(p0_of, prob_of) function(p) {
-  p0 <- p0_of(p)
-  prob <- prob_of(p)
-  pwrss_rule <- !identical(p$tails, "two") || identical(p$alpha_balancing, "half_each_side")
-  power <- if (pwrss_rule) .ig_ref_quiet(pwrss::power.exact.oneprop(prob = prob, null.prob = p0, n = p$n_total,
-    alpha = p$alpha, alternative = .ig_ref_t_one_two(p$tails), verbose = FALSE))$power else
-    MESS::power_binom_test(n = p$n_total, p0 = p0, pa = prob, sig.level = p$alpha, alternative = "two.sided")$power
-  .ig_ref_result(power, if (pwrss_rule) "pwrss::power.exact.oneprop" else "MESS::power_binom_test", n_total = p$n_total)
+  fit <- .ig_ref_quiet(pwrss::power.exact.oneprop(prob = prob_of(p), null.prob = p0_of(p), n = p$n_total,
+    alpha = p$alpha, alternative = .ig_ref_t_one_two(p$tails), verbose = FALSE))
+  .ig_ref_result(fit$power, "pwrss::power.exact.oneprop", n_total = p$n_total, discrete = TRUE)
 }
 
 .ig_ref_mcnemar <- function(p) {
-  # MESS takes the probability of the less frequent discordant cell, pd / (1 + OR).
-  fit <- MESS::power_mcnemar_test(n = p$n_total, paid = p$pd / (1 + p$or), psi = p$or, sig.level = p$alpha,
+  # MESS takes the ratio psi >= 1 and the probability of the less frequent
+  # discordant cell, pd / (1 + psi); the two-tailed test is symmetric in OR and 1 / OR.
+  psi <- max(p$or, 1 / p$or)
+  fit <- MESS::power_mcnemar_test(n = p$n_total, paid = p$pd / (1 + psi), psi = psi, sig.level = p$alpha,
     alternative = .ig_ref_t_one_two(p$tails), method = "cond.exact")
-  .ig_ref_result(fit$power, "MESS::power_mcnemar_test(method = \"cond.exact\")", n_total = p$n_total)
+  .ig_ref_result(fit$power, "MESS::power_mcnemar_test(method = \"cond.exact\")", n_total = p$n_total, discrete = TRUE)
 }
 
 .ig_ref_fisher <- function(p) {
   fit <- Exact::power.exact.test(p1 = p$p1, p2 = p$p2, n1 = p$n1, n2 = p$n2, alpha = p$alpha, method = "fisher",
     alternative = if (identical(p$tails, "two")) "two.sided" else if (p$p1 < p$p2) "less" else "greater")
   .ig_ref_result(fit$power, "Exact::power.exact.test(method = \"fisher\")", n_total = p$n1 + p$n2,
-    group_sizes = c(n1 = p$n1, n2 = p$n2))
+    group_sizes = c(n1 = p$n1, n2 = p$n2), discrete = TRUE)
 }
 
 .ig_ref_correlation <- function(p) {
@@ -52,22 +50,20 @@
     list(alternative = p$variant))
   fit <- do.call(Exact::power.exact.test, args)
   .ig_ref_result(fit$power, "Exact::power.exact.test(method = \"boschloo\")", n_total = p$n1 + p$n2,
-    group_sizes = c(n1 = p$n1, n2 = p$n2))
+    group_sizes = c(n1 = p$n1, n2 = p$n2), discrete = TRUE)
 }
 
 .ig_ref_binomial_branches <- function(p0_of, prob_of) list(
   .ig_ref_branch("pwrss", "power.exact.oneprop", "1.3.1", .ig_ref_binomial(p0_of, prob_of),
     "pwrss::power.exact.oneprop", generic_search = FALSE,
-    when = function(options, inputs) !identical(options$tails, "two") || identical(options$alpha_balancing, "half_each_side")),
-  .ig_ref_branch("MESS", "power_binom_test", "0.6.0", .ig_ref_binomial(p0_of, prob_of), "MESS::power_binom_test",
-    generic_search = FALSE))
+    when = function(options, inputs) !identical(options$tails, "two") || identical(options$alpha_balancing, "half_each_side")))
 
 .ig_engine_info_exact <- function() list(
-  exact_proportion_one_sample_binomial = list(source = "half each side and one-tailed: pwrss; other balancing: MESS",
+  exact_proportion_one_sample_binomial = list(source = "one-tailed and half-each-side two-sided: pwrss; the other balancing rules have no matching original",
     branches = .ig_ref_binomial_branches(function(p) p$p0, function(p) p$p0 + p$g)),
-  exact_proportion_sign_test = list(source = "half each side and one-tailed: pwrss; other balancing: MESS",
+  exact_proportion_sign_test = list(source = "one-tailed and half-each-side two-sided: pwrss; the other balancing rules have no matching original",
     branches = .ig_ref_binomial_branches(function(p) 0.5, function(p) 0.5 + p$g)),
-  exact_generic_binomial = list(source = "half each side and one-tailed: pwrss; other balancing: MESS",
+  exact_generic_binomial = list(source = "one-tailed and half-each-side two-sided: pwrss; the other balancing rules have no matching original",
     branches = .ig_ref_binomial_branches(function(p) p$p1, function(p) p$p2)),
   exact_proportions_mcnemar = list(source = paste("fast approximation, two-tailed: MESS conditional exact; one-tailed",
       "(MESS is 2.8e-5 off) and the exact unconditional computation (exact2x2, about 1e-7 off) have no matching original"),

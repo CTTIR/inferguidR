@@ -151,9 +151,13 @@ engines and original, and `inst/validation/power-provenance.csv` lists the
 supported and unsupported combinations with reasons. Base specifications keep
 their historical structure and hash.
 
-The reference engines search a priori designs with the procedure's own design
-rules (for example equal group sizes) and start where the original is defined.
-For the discrete exact tests they answer post hoc analyses only. Both engines
+The reference engines answer post hoc and a priori analyses; sensitivity,
+criterion and compromise analyses use the base engine. They search a priori
+designs with the procedure's own design rules (for example equal group sizes)
+and start where the original is defined; a design solved at that boundary,
+where the base engine admits smaller ones, is reported as unsupported. For the
+discrete exact tests they answer post hoc analyses only and report no attained
+significance level. Both engines
 are benchmarked against each other on the originals' help-page examples and
 G\*Power manual examples (`inst/validation/engine-benchmarks.rds`) and agree
 within a relative difference of 1e-8, including solved sample sizes. The

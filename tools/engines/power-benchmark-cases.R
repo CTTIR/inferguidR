@@ -46,9 +46,6 @@ power_benchmark_cases <- list(
   t_wilcoxon_mann_whitney = function() wilcoxon_cases("d", list(allocation_ratio = 1), list(n1 = 200, n2 = 300)),
   exact_proportion_one_sample_binomial = function() c(
     both_tails("mess-help", mess_binom, "post_hoc", list(g = 0.25, p0 = 0.5, alpha = 0.05, n_total = 50)),
-    list(power_case("mess-help-minor-tail", paste(mess_binom, "with the minor-tail balancing rule (derived)"), "post_hoc",
-        list(g = 0.25, p0 = 0.5, alpha = 0.05, n_total = 50),
-        list(tails = "two", alpha_balancing = "minor_tail_half_rest_major"))),
     both_tails("pwrss-help", pwrss_oneprop, "post_hoc", list(g = -0.05, p0 = 0.5, alpha = 0.05, n_total = 500))),
   exact_proportion_sign_test = function()
     both_tails("mess-help", paste(mess_binom, "as a sign test (derived)"), "post_hoc",

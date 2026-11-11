@@ -71,7 +71,12 @@
   n_min <- if (is.function(branch$n_min)) branch$n_min(spec$inputs) else branch$n_min
   if (!is.null(n_min)) {
     at <- which(vapply(def$params, function(x) identical(x$name, "n_total"), NA))
-    if (length(at)) def$params[[at]]$domain$lower <- max(def$params[[at]]$domain$lower, n_min)
+    if (length(at) && n_min > def$params[[at]]$domain$lower) {
+      def$params[[at]]$domain$lower <- n_min
+      # A design solved at this raised floor may not be minimal: the base
+      # engine admits smaller designs the original cannot evaluate.
+      def$ref_floor <- n_min
+    }
   }
   def
 }
