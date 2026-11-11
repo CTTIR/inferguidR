@@ -130,6 +130,35 @@ result is a calculation outcome to inspect, not a value to coerce into a number.
 Diagnostic examples are synthetic; selecting and evaluating a cutoff on the
 same observations does not establish out-of-sample performance.
 
+## Choosing an engine
+
+Every procedure computes its power with inferguidR's own forward model by
+default (`engine = "base"`). For 35 procedures, `engine = "reference"` computes
+it instead with an established R package that implements the same definition:
+
+```r
+spec <- analysis_spec("t_means_two_independent", "post_hoc",
+  inputs = list(d = 0.5, alpha = 0.05, n1 = 64, n2 = 64),
+  options = list(tails = "two"), engine = "reference")
+calculate_power(spec)$provenance$engine   # pwr::pwr.t2n.test and its version
+```
+
+The originals are optional (pwr, pwrss, WebPower, MESS, powerMediation, Exact
+and R's stats). When one is missing or older than required, or does not
+provide the chosen option combination, the result has status `"unsupported"`;
+no other engine is used instead. `list_methods()` shows each procedure's
+engines and original, and `inst/validation/power-provenance.csv` lists the
+supported and unsupported combinations with reasons. Base specifications keep
+their historical structure and hash.
+
+The reference engines search a priori designs with the procedure's own design
+rules (for example equal group sizes) and start where the original is defined.
+For the discrete exact tests they answer post hoc analyses only. Both engines
+are benchmarked against each other on the originals' help-page examples and
+G\*Power manual examples (`inst/validation/engine-benchmarks.rds`) and agree
+within a relative difference of 1e-8, including solved sample sizes. The
+recorded G\*Power values remain the authority for the base engines.
+
 ## Acknowledgements and sources
 
 inferguidR is part of an inference suite with infercalcR and infereportR. The
@@ -173,7 +202,9 @@ packages.
 inferguidR is written in R [5] and imports infercalcR [6], digest [7] and
 jsonlite [8]. The optional workbench uses shiny [9] and ggplot2 [10]. Tests
 compare Boschloo results with Exact [11] and classifier metrics with pROC [12]
-and yardstick [13]. Boschloo's test follows Boschloo (1970) [14]. Use
+and yardstick [13]. Boschloo's test follows Boschloo (1970) [14]. The
+reference power engines call the optional pwr [15], pwrss [16], WebPower [17],
+MESS [18], powerMediation [19] and Exact [11]. Use
 `citation("inferguidR")` for this package and `citation()` or
 `citation("<package>")` for R and the packages you used.
 
@@ -193,6 +224,11 @@ and yardstick [13]. Boschloo's test follows Boschloo (1970) [14]. Use
 12. Robin X, Turck N, Hainard A, Tiberti N, Lisacek F, Sanchez J-C, Müller M (2011). pROC: an open-source package for R and S+ to analyze and compare ROC curves. *BMC Bioinformatics*, 12, 77. <https://doi.org/10.1186/1471-2105-12-77>.
 13. Kuhn M, Vaughan D, Hvitfeldt E. *yardstick: Tidy Characterizations of Model Performance*. R package. <https://doi.org/10.32614/CRAN.package.yardstick>.
 14. Boschloo RD (1970). Raised conditional level of significance for the 2 x 2-table when testing the equality of two probabilities. *Statistica Neerlandica*, 24(1), 1-9. <https://doi.org/10.1111/j.1467-9574.1970.tb00104.x>.
+15. Champely S. *pwr: Basic Functions for Power Analysis*. R package. <https://doi.org/10.32614/CRAN.package.pwr>.
+16. Bulus M, Jentschke S. *pwrss: Statistical Power, Sample Size, and Detectable Effect Calculations*. R package. <https://doi.org/10.32614/CRAN.package.pwrss>.
+17. Zhang Z, Mai Y. *WebPower: Basic and Advanced Statistical Power Analysis*. R package. <https://doi.org/10.32614/CRAN.package.WebPower>.
+18. Ekstrøm C. *MESS: Miscellaneous Esoteric Statistical Scripts*. R package. <https://doi.org/10.32614/CRAN.package.MESS>.
+19. Qiu W. *powerMediation: Power/Sample Size Calculation for Mediation Analysis*. R package. <https://doi.org/10.32614/CRAN.package.powerMediation>.
 
 ## Authors, citation and licence
 
