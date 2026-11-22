@@ -40,3 +40,4 @@
 ^[^/]+[.]tar[.]gz$
 ^cran-comments\.md$
 ^tools/engines$
+^CITATION\.cff$
