@@ -34,7 +34,7 @@
 
 .ig_power_error_labels <- function(alpha, beta, lang) {
   de <- lang == "de"
-  number <- function(x) formatC(x, digits = 5L, format = "g", decimal.mark = if (de) "," else ".")
+  number <- function(x) trimws(formatC(x, digits = 5L, format = "g", decimal.mark = if (de) "," else "."))
   c(alpha = paste0(if (de) "Erreichtes alpha = " else "Attained alpha = ", number(alpha)),
     beta = paste0("beta = ", number(beta)))
 }

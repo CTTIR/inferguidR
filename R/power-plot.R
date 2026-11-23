@@ -71,15 +71,15 @@ plot_power <- function(result, panel = c("distribution", "decision_table", "mosa
       ggplot2::scale_linetype_manual(values = c(H0 = "solid", H1 = "longdash"),
                                     breaks = c("H0", "H1"), labels = hypothesis_labels) +
       ggplot2::labs(subtitle = paste(if (de) "Gepunktete Linien: kritische Werte" else "Dotted lines: critical values",
-                                      paste(formatC(finite_critical, digits = 5, format = "g",
-                                                    decimal.mark = if (de) "," else "."), collapse = "; ")),
+                                      paste(trimws(formatC(finite_critical, digits = 5, format = "g",
+                                                    decimal.mark = if (de) "," else ".")), collapse = "; ")),
                     x = if (de) "Teststatistik" else "Test statistic",
                     y = if (pd$ordinate == "density") {
                       if (de) "Dichte" else "Density"
                     } else if (de) "Wahrscheinlichkeitsmasse" else "Probability mass",
                     colour = NULL, linetype = NULL)
   } else {
-    tab$label <- formatC(tab$probability, digits = 5L, format = "g", decimal.mark = if (de) "," else ".")
+    tab$label <- trimws(formatC(tab$probability, digits = 5L, format = "g", decimal.mark = if (de) "," else "."))
     tab$hypothesis <- factor(tab$hypothesis, levels = c("H0", "H1"), labels = hypothesis_labels)
     tab$decision <- factor(tab$decision, levels = c("reject", "retain"),
                             labels = if (de) c("H0 verwerfen", "H0 nicht verwerfen") else c("Reject H0", "Do not reject H0"))
@@ -105,6 +105,8 @@ plot_power <- function(result, panel = c("distribution", "decision_table", "mosa
                    panel.grid.minor = ggplot2::element_blank(),
                    panel.grid.major = ggplot2::element_line(colour = "#DCE4EA"),
                    legend.position = "bottom", plot.caption = ggplot2::element_text(hjust = 0, size = 10))
+  # Hypothesis and error-band keys share the bottom edge; stack them so neither is clipped.
+  if (panel == "distribution") p <- p + ggplot2::theme(legend.box = "vertical")
   attr(p, "inferguidR_plot_data") <- pd
   p
 }
@@ -115,8 +117,8 @@ plot_power <- function(result, panel = c("distribution", "decision_table", "mosa
   x1 <- x2 <- probability <- hypothesis <- NULL
   tab <- pd$data
   tab$hypothesis <- factor(tab$hypothesis, levels = c("H0", "H1"))
-  pi0 <- formatC(pd$fixed_inputs$null_probability_at, digits = 5, format = "g",
-    decimal.mark = if (de) "," else ".")
+  pi0 <- trimws(formatC(pd$fixed_inputs$null_probability_at, digits = 5, format = "g",
+    decimal.mark = if (de) "," else "."))
   caption <- if (de) paste0("Kreuze: H0 verwerfen; keine beobachteten Daten.
 ",
     "H0 am Maximum der Fehlerwahrscheinlichkeit (gemeinsames p = ", pi0, ").

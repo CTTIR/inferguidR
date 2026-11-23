@@ -12,7 +12,8 @@
   tab$id <- ids
   tab$short <- .ig_cls_short_label(ids, lang)
   tab$label <- paste(tab$short, ifelse(is.finite(tab$value),
-    formatC(tab$value, digits = 5, format = "g", decimal.mark = if (de) "," else "."), tab$status), sep = "\n")
+    trimws(formatC(tab$value, digits = 5, format = "g", decimal.mark = if (de) "," else ".")), tab$status),
+    sep = "\n")
   tab$px <- c(rep(.1, length(parents)), .9)
   tab$py <- c(if (length(parents)) seq(.1, .9, length.out = length(parents)), .5)
   edges$px <- rep(.26, nrow(edges))
@@ -32,9 +33,9 @@
         c(input = "Direct inputs", bayes = "Bayes relationship"))
   dict <- metric_dictionary(lang)
   formula <- dict$formula[match(metric_focus, dict$id)]
-  caption <- paste(if (de) "Links: Eingaben; rechts: ausgewaehlte Kennzahl. Gezeigt werden direkte Abhaengigkeiten, keine kausalen Beziehungen." else
+  caption <- paste(if (de) "Links: Eingaben; rechts: ausgew\u00e4hlte Kennzahl. Gezeigt werden direkte Abh\u00e4ngigkeiten, keine kausalen Beziehungen." else
     "Left: inputs; right: selected metric. Direct calculation dependencies, not causal relationships.", formula)
-  p <- p + ggplot2::labs(title = paste(if (de) "Abhaengigkeiten:" else "Dependencies:", .ig_cls_short_label(metric_focus, lang)),
+  p <- p + ggplot2::labs(title = paste(if (de) "Abh\u00e4ngigkeiten:" else "Dependencies:", .ig_cls_short_label(metric_focus, lang)),
     subtitle = paste(if (de) "Bezugsbasis:" else "Basis:", pd$basis),
     caption = paste(strwrap(caption, width = 80), collapse = "\n"), linetype = NULL) +
     ggplot2::theme_void(base_size = 14) +
