@@ -13,7 +13,7 @@ specifications, typed results and reproducible exports. It includes a method
 advisor, power and sample-size calculations, classification and cutoff tools,
 and an optional Shiny workbench. In the inference suite, `infercalcR` owns
 observed analyses and shared numerical engines, `inferguidR` owns guidance and
-planning, and `infereportR` formats finalized results as tables, text and plot
+planning, and `infereportR` formats finalised results as tables, text and plot
 annotations. Existing inferguidR calculation entry points remain compatibility
 routes to the shared engines. Reporting can be used without guidance installed.
 
@@ -42,7 +42,7 @@ inferguidR, from GitHub:
 install.packages("remotes")
 remotes::install_github("CTTIR/infercalcR")
 remotes::install_github("CTTIR/inferguidR", build_vignettes = TRUE)
-# Optional: tables, text and plot annotations for finalized results
+# Optional: tables, text and plot annotations for finalised results
 remotes::install_github("CTTIR/infereportR")
 ```
 

@@ -46,7 +46,7 @@
 * Prepared for a first CRAN submission.
 * Observed calculations and the shared numerical engines (Boschloo,
   classifier, distribution and calculator code) now live in infercalcR, which
-  inferguidR imports; finalized-result tables, text and plot annotations live
+  inferguidR imports; finalised-result tables, text and plot annotations live
   in infereportR. inferguidR keeps guidance, prospective planning and the
   historical JSON and report formats. All previously exported functions remain
   available; status helpers and common result accessors are re-exported from
@@ -68,7 +68,7 @@
 
 * Add public common planning-result accessors and explicit observed-method
   relations to planning engines.
-* Standardize the named v5 package logo across README, documentation pages
+* Standardise the named v5 package logo across README, documentation pages
   and available application headers, with matching light and dark artwork.
 
 
@@ -111,7 +111,7 @@ Development version; numerical and release qualification remain incomplete.
   existing report intact; this follows filesystem rename semantics rather than
   promising crash durability or isolation from concurrent writers.
 * Canonical JSON string handling avoids repeated scans while preserving the
-  serialized bytes and hashes. Report normalization explicitly preserves NULL
+  serialised bytes and hashes. Report normalisation explicitly preserves NULL
   values across supported R versions.
 * Public numerical campaigns, method/mode/option inventories, installed release
   preflights and source/resource audits provide reproducible scoped evidence.

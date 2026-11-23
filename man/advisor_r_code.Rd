@@ -74,7 +74,7 @@ performed. Rank-deficient and numerically exact fits cannot supply inference.
 Model routes export two-sided inference. The standalone simple-regression
 example also supports prespecified directional slope tests, separately from
 the two-sided coefficient table. Correlation-to-regression overrides remain refused.
-PCA examples form exploratory weighted sums of centered numeric variables,
+PCA examples form exploratory weighted sums of centred numeric variables,
 standardised by default. The analyst chooses the retained component count;
 weights, scores, variance fractions and reconstruction error are reported.
 Missing-case exclusion is explicit. Repeated eigenvalues identify subspaces

@@ -23,4 +23,4 @@ signals an \code{invalid_input} error; use \code{\link[=update.power_spec]{updat
 constructors to create a new object.
 }
 \keyword{internal}
-\note{The assignment methods for the legacy \code{ig_frozen} class are provided and registered by \pkg{infercalcR}, which is loaded with this package. The historical class and error behavior are preserved.}
+\note{The assignment methods for the legacy \code{ig_frozen} class are provided and registered by \pkg{infercalcR}, which is loaded with this package. The historical class and error behaviour are preserved.}

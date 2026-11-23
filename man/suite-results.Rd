@@ -3,7 +3,7 @@
 \alias{result_data.power_result}
 \alias{result_metadata.power_result}
 \title{Access planning results through the shared inference contract}
-\description{View existing power results as finalized planning rows without changing historical objects or their hashes.}
+\description{View existing power results as finalised planning rows without changing historical objects or their hashes.}
 \usage{
 \method{as_inference}{power_result}(x, ...)
 \method{result_data}{power_result}(x, ...)

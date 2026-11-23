@@ -57,7 +57,7 @@
 #' @param locale Label language, en or de.
 #' @param display_timezone Display timezone recorded with the UTC timestamp.
 #' @param sweeps Optional list of entries with analysis (one-based envelope index) and sweep (a sweep_design() result). At most20sweeps and1000rows per sweep are retained; requested values must be finite. Each sweep must match its completed frozen base. Failed rows require report_kind = "incomplete_settings". Specifications, results, failures and individually evaluated points are retained without interpolation. Documents with sweeps use schema0.2; existing schema0.1 documents remain readable.
-#' @param resources Optional list of entries with analysis (one-based index) and resource_id. Currently inferguidR_boschloo_minlike is available only for the exact minlike observed test or power variant. Frozen titles, scope, file hashes and source references use a versioned bundled catalog. No resource code is executed and no website is requested. Attached resources use report schema0.3.
+#' @param resources Optional list of entries with analysis (one-based index) and resource_id. Currently inferguidR_boschloo_minlike is available only for the exact minlike observed test or power variant. Frozen titles, scope, file hashes and source references use a versioned bundled catalogue. No resource code is executed and no website is requested. Attached resources use report schema0.3.
 #' @param include_probability_summaries Logical, FALSE by default. Explicitly
 #'   include frozen calibration-bin counts and means, and aggregates at the
 #'   explicitly requested net-benefit thresholds, with point figures. Small
