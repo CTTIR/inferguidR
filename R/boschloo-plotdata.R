@@ -15,6 +15,9 @@
 #' pd <- boschloo_plotdata_power_n(0.2, 0.7, alpha = 0.05, variant = "central",
 #'                                 n_range = c(10, 40))
 #' head(pd$data)
+#' @seealso Re-exported Boschloo tools: [boschloo_test()], [boschloo_region()],
+#'   [boschloo_control()], [boschloo_variants()], [boschloo_compare_fisher()],
+#'   [boschloo_plotdata_lattice()] and [boschloo_plotdata_nuisance()].
 #' @family Boschloo
 #' @export
 boschloo_plotdata_power_n <- function(p1, p2, alpha = 0.05, variant, n_range, power = NULL,
@@ -93,6 +96,9 @@ boschloo_plotdata_power_n <- function(p1, p2, alpha = 0.05, variant, n_range, po
 #' base <- seq(0.05, 0.6, by = 0.05)
 #' boschloo_plotdata_power_effect(20, 20, p1 = base, p2 = base + 0.3,
 #'                                variant = "central")$data
+#' @seealso Re-exported Boschloo tools: [boschloo_test()], [boschloo_region()],
+#'   [boschloo_control()], [boschloo_variants()], [boschloo_compare_fisher()],
+#'   [boschloo_plotdata_lattice()] and [boschloo_plotdata_nuisance()].
 #' @family Boschloo
 #' @export
 boschloo_plotdata_power_effect <- function(n1, n2, p1, p2, alpha = 0.05, variant,
@@ -148,6 +154,9 @@ boschloo_plotdata_power_effect <- function(n1, n2, p1, p2, alpha = 0.05, variant
 #' pd <- boschloo_plotdata_allocation(0.2, 0.6, n_total = 30, variant = "central",
 #'                                    n1 = 8:22)
 #' pd$data[which.max(pd$data$power), ]
+#' @seealso Re-exported Boschloo tools: [boschloo_test()], [boschloo_region()],
+#'   [boschloo_control()], [boschloo_variants()], [boschloo_compare_fisher()],
+#'   [boschloo_plotdata_lattice()] and [boschloo_plotdata_nuisance()].
 #' @family Boschloo
 #' @export
 boschloo_plotdata_allocation <- function(p1, p2, n_total, alpha = 0.05, variant, n1 = NULL,

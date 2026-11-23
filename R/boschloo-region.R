@@ -6,7 +6,11 @@
 #' probability that a future study with group sizes `n1` and `n2` produces a
 #' table that Boschloo's test rejects. No asymptotic approximation is used.
 #'
-#' @inheritParams boschloo_region
+#' @param n1,n2 Planned group sizes.
+#' @param alpha Nominal significance level.
+#' @param variant `"minlike"`, `"central"`, `"less"` or `"greater"` (see
+#'   [boschloo_test()]).
+#' @param control Numerical settings from [boschloo_control()].
 #' @param p1,p2 Event probabilities of group 1 and group 2 under the
 #'   alternative (in `[0, 1]`). With `p1 = p2` the result is a null
 #'   rejection probability, at most the attained size.
@@ -15,6 +19,9 @@
 #'   inputs.
 #' @examples
 #' boschloo_power(20, 20, p1 = 0.2, p2 = 0.6, alpha = 0.05, variant = "central")
+#' @seealso Re-exported Boschloo tools: [boschloo_test()], [boschloo_region()],
+#'   [boschloo_control()], [boschloo_variants()], [boschloo_compare_fisher()],
+#'   [boschloo_plotdata_lattice()] and [boschloo_plotdata_nuisance()].
 #' @family Boschloo
 #' @export
 boschloo_power <- function(n1, n2, p1, p2, alpha = 0.05, variant, control = boschloo_control()) {

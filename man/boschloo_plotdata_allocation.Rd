@@ -46,18 +46,15 @@ pd <- boschloo_plotdata_allocation(0.2, 0.6, n_total = 30, variant = "central",
 pd$data[which.max(pd$data$power), ]
 }
 \seealso{
+Re-exported Boschloo tools: \code{\link[=boschloo_test]{boschloo_test()}}, \code{\link[=boschloo_region]{boschloo_region()}},
+\code{\link[=boschloo_control]{boschloo_control()}}, \code{\link[=boschloo_variants]{boschloo_variants()}}, \code{\link[=boschloo_compare_fisher]{boschloo_compare_fisher()}},
+\code{\link[=boschloo_plotdata_lattice]{boschloo_plotdata_lattice()}} and \code{\link[=boschloo_plotdata_nuisance]{boschloo_plotdata_nuisance()}}.
+
 Other Boschloo:
-\code{\link[=boschloo_compare_fisher]{boschloo_compare_fisher()}},
-\code{\link[=boschloo_control]{boschloo_control()}},
-\code{\link[=boschloo_plotdata_lattice]{boschloo_plotdata_lattice()}},
-\code{\link[=boschloo_plotdata_nuisance]{boschloo_plotdata_nuisance()}},
 \code{\link[=boschloo_plotdata_power_effect]{boschloo_plotdata_power_effect()}},
 \code{\link[=boschloo_plotdata_power_n]{boschloo_plotdata_power_n()}},
 \code{\link[=boschloo_power]{boschloo_power()}},
 \code{\link[=boschloo_probabilities]{boschloo_probabilities()}},
-\code{\link[=boschloo_region]{boschloo_region()}},
-\code{\link[=boschloo_sample_size]{boschloo_sample_size()}},
-\code{\link[=boschloo_test]{boschloo_test()}},
-\code{\link[=boschloo_variants]{boschloo_variants()}}
+\code{\link[=boschloo_sample_size]{boschloo_sample_size()}}
 }
 \concept{Boschloo}

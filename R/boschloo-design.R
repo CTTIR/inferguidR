@@ -110,6 +110,9 @@
 #' @examples
 #' boschloo_probabilities(0.2, difference = 0.15)
 #' boschloo_probabilities(0.2, odds_ratio = 3)
+#' @seealso Re-exported Boschloo tools: [boschloo_test()], [boschloo_region()],
+#'   [boschloo_control()], [boschloo_variants()], [boschloo_compare_fisher()],
+#'   [boschloo_plotdata_lattice()] and [boschloo_plotdata_nuisance()].
 #' @family Boschloo
 #' @export
 boschloo_probabilities <- function(p1, p2 = NULL, difference = NULL, ratio = NULL,
@@ -185,7 +188,10 @@ boschloo_probabilities <- function(p1, p2 = NULL, difference = NULL, ratio = NUL
 #'   the alternative; see [boschloo_probabilities()] for baseline-plus-effect
 #'   input.
 #' @param power Target power.
-#' @inheritParams boschloo_region
+#' @param alpha Nominal significance level.
+#' @param variant `"minlike"`, `"central"`, `"less"` or `"greater"` (see
+#'   [boschloo_test()]).
+#' @param control Numerical settings from [boschloo_control()].
 #' @param allocation_ratio The allocation ratio r = n2 / n1 (default 1).
 #' @param allocation `"n2_ceiling"` (default) or `"total_nearest"`.
 #' @param stability_window `K`, the number of following designs that must
@@ -206,6 +212,9 @@ boschloo_probabilities <- function(p1, p2 = NULL, difference = NULL, ratio = NUL
 #'                            variant = "central")
 #' ss
 #' ss$first
+#' @seealso Re-exported Boschloo tools: [boschloo_test()], [boschloo_region()],
+#'   [boschloo_control()], [boschloo_variants()], [boschloo_compare_fisher()],
+#'   [boschloo_plotdata_lattice()] and [boschloo_plotdata_nuisance()].
 #' @family Boschloo
 #' @export
 boschloo_sample_size <- function(p1, p2, power = 0.8, alpha = 0.05, variant,

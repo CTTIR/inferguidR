@@ -1,4 +1,5 @@
 # Public shared views leave historical power objects and their identities intact.
+#' @importFrom infercalcR as_inference result_data result_metadata
 #' @export
 as_inference.power_result <- function(x, ...) {
   status <- x$status$code
