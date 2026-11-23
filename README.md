@@ -27,8 +27,16 @@ for the numerical, product and release acceptance gates.
 
 ## Installation
 
-R 4.1.0 or later is required. The packages are not on CRAN yet. Install the
-calculation provider infercalcR first, then inferguidR, from GitHub:
+R 4.1.0 or later is required. The packages are not on CRAN yet. Binary and
+source builds of inferguidR and infercalcR are available from r-universe:
+
+```r
+install.packages("inferguidR",
+  repos = c("https://cttir.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+Alternatively, install the calculation provider infercalcR first, then
+inferguidR, from GitHub:
 
 ```r
 install.packages("remotes")
@@ -112,6 +120,7 @@ Hashes identify content; they do not establish scientific correctness.
 - [Guided analysis and reproducible power calculations](https://github.com/CTTIR/inferguidR/blob/main/vignettes/getting-started.Rmd).
 - [Classification metrics and explicit operating points](https://github.com/CTTIR/inferguidR/blob/main/vignettes/classification.Rmd).
 - [Understanding validation status](https://github.com/CTTIR/inferguidR/blob/main/vignettes/validation.Rmd).
+- [Statistical glossary / Statistisches Glossar](https://github.com/CTTIR/inferguidR/blob/main/vignettes/glossary.Rmd).
 
 After installing with vignettes, use `vignette("getting-started", package =
 "inferguidR")` or `vignette("classification", package = "inferguidR")`.
