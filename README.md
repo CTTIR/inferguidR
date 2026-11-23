@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://github.com/CTTIR/inferguidR/blob/main/LICENSE.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24426382.svg)](https://doi.org/10.5281/zenodo.24426382)
 <!-- badges: end -->
 
@@ -21,8 +21,8 @@ routes to the shared engines. Reporting can be used without guidance installed.
 A successful calculation is not proof of agreement with every external reference
 or suitability for a particular study. The package is not a CRAN release.
 
-See the [validation guide](VALIDATION.md) for evidence levels, reproducible
-public checks and known limitations, and the [improvement roadmap](ROADMAP.md)
+See the [validation guide](https://github.com/CTTIR/inferguidR/blob/main/VALIDATION.md) for evidence levels, reproducible
+public checks and known limitations, and the [improvement roadmap](https://github.com/CTTIR/inferguidR/blob/main/ROADMAP.md)
 for the numerical, product and release acceptance gates.
 
 ## Installation
@@ -59,7 +59,7 @@ The new plain result, descriptive and standard-method interfaces use standard
 R. Legacy canonical JSON, SHA-256 fingerprints and correctly rounded decimal
 parsing retain `jsonlite` and `digest`; these remain required by inferguidR.
 Specialist models and plotting use explicit optional backends, without silently
-substituting another statistical procedure. See [the suite guide](INFER-SUITE.md)
+substituting another statistical procedure. See [the suite guide](https://github.com/CTTIR/inferguidR/blob/main/INFER-SUITE.md)
 for migration, installation from local sources and validation commands.
 
 ## Quick start
@@ -248,7 +248,7 @@ MESS [18], powerMediation [19] and Exact [11]. Use
 
 R. Heller. Use `citation("inferguidR")` for installed-version metadata and
 record the exact repository revision for a development analysis. The package is
-licensed under [MIT](LICENSE.md). Report reproducible problems with synthetic
+licensed under [MIT](https://github.com/CTTIR/inferguidR/blob/main/LICENSE.md). Report reproducible problems with synthetic
 inputs through [GitHub issues](https://github.com/CTTIR/inferguidR/issues).
 
 ## Use of LLM tools
