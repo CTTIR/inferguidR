@@ -182,7 +182,7 @@
 #' Common-factor examples fit a prespecified factor count by maximum likelihood
 #' with oblique promax rotation and explicit Heywood-boundary refusal. They do
 #' not substitute PCA or select factor counts automatically. Clustering examples
-#' state k, scaling, distance and algorithm, and assess80-percent subsampling
+#' state k, scaling, distance and algorithm, and assess 80-percent subsampling
 #' stability with adjusted Rand indices. Gower/PAM requires declared variable
 #' types and weights. Cluster is required for Gower/PAM. Silhouette and internal
 #' stability do not establish real populations; failed subsamples are not
