@@ -61,6 +61,7 @@ Suggests:
     WebPower,
     withr,
     yardstick
+Additional_repositories: https://cttir.r-universe.dev
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 URL: https://github.com/CTTIR/inferguidR, https://cttir.github.io/inferguidR/
