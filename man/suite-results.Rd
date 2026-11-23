@@ -12,3 +12,10 @@
 \arguments{\item{x}{A power_result.}\item{...}{Reserved for future methods; unused.}}
 \details{Solved, achieved and numerical planning quantities become explicitly named planning rows. No artificial p-values or confidence intervals are introduced. The complete original result is retained as payload. Old JSON must first be read with inferguidR::ig_from_json(), which loads the registered methods. Convert once with infercalcR::as_inference() to use the common result in a session without guidance installed. Historical JSON round trips are separate from new result provenance.}
 \value{A common planning_result, data.frame or metadata list.}
+\examples{
+s <- analysis_spec("t_means_two_independent", "a_priori",
+  inputs = list(alpha = 0.05, power = 0.8, d = 0.5), options = list(tails = "two"))
+x <- solve_design(s)
+infercalcR::result_data(x)[, c("estimand", "estimate", "status")]
+infercalcR::result_metadata(x)$kind
+}
