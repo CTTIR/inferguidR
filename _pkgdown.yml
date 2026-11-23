@@ -14,12 +14,6 @@ destination: docs
 development:
   mode: auto
 home:
-  sidebar:
-    structure:
-    - links
-    - license
-    - citation
-    - authors
   title: inferguidR
   description: Guided inference, power analysis and diagnostic accuracy with explicit
     assumptions and reproducible results.
