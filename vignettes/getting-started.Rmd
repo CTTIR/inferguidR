@@ -97,6 +97,22 @@ are considered. The `ok` calculation status and the method's reference-validatio
 status answer different questions. Neither establishes clinical utility or
 correct study assumptions.
 
+## See how power depends on the sample size
+
+A design sweep repeats the calculation over a range of total sample sizes. Each
+point is a complete specification with its own result; the curve only connects
+evaluated designs. The figure needs the suggested package ggplot2.
+
+```{r power-sweep, eval = requireNamespace("ggplot2", quietly = TRUE), fig.width = 7, fig.height = 5, fig.alt = "Line chart of power against total sample size from 20 to 200 for a two-sided two-sample t test with d = 0.5 and alpha = 0.05; power rises from about 0.19 to about 0.94 and passes 0.80 between 120 and 130."}
+sweep_spec <- analysis_spec(
+  "t_means_two_independent", "post_hoc",
+  inputs = list(d = 0.5, n1 = 32, n2 = 32, alpha = 0.05),
+  options = list(tails = "two")
+)
+sweep <- xy_plot_data(sweep_spec, "power", "sample_size", 20, 200, 10)
+plot_design_sweep(sweep)
+```
+
 ## Check an invalid request
 
 Constructor errors and numerical outcomes are distinct. Here the error is
