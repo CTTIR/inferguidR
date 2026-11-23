@@ -34,7 +34,8 @@
 #'   spec <- analysis_spec("t_means_two_independent", "post_hoc",
 #'     inputs = list(d = 0.5, n1 = 20, n2 = 20, alpha = 0.05),
 #'     options = list(tails = "two"))
-#'   sweep <- xy_plot_data(spec, "power", "sample_size", 20, 40, 5)
+#'   # Even totals keep the two groups equal, so every point has a result.
+#'   sweep <- xy_plot_data(spec, "power", "sample_size", 20, 120, 10)
 #'   p <- plot_design_sweep(sweep)
 #'   # The axis labels use Greek letters; draw with a Unicode-capable device
 #'   # such as grDevices::cairo_pdf() or png().
@@ -68,21 +69,25 @@ plot_design_sweep <- function(x, lang = c("en", "de")) {
   }
   de <- lang == "de"
   missing <- nrow(tab) - nrow(good)
-  caption <- if (de) sprintf("%d Punkte ohne Ergebnis: keine Verbindung ueber Luecken. Jeder Punkt speichert seinen vollstaendigen Entwurf.", missing) else
+  caption <- if (missing == 0L) {
+    if (de) "Jeder Punkt speichert seinen vollst\u00e4ndigen Entwurf." else "Each point retains its full design."
+  } else if (de) sprintf("%d Punkte ohne Ergebnis: keine Verbindung \u00fcber L\u00fccken. Jeder Punkt speichert seinen vollst\u00e4ndigen Entwurf.", missing) else
     sprintf("%d points without results: no connections across gaps. Each point retains its full design.", missing)
   if (x$render == "step") caption <- paste(caption, if (de)
-    "Stufen verbinden berechnete Entwuerfe; Uebergaenge zwischen Stuetzstellen sind nicht bestimmt." else
+    "Stufen verbinden berechnete Entw\u00fcrfe; \u00dcberg\u00e4nge zwischen St\u00fctzstellen sind nicht bestimmt." else
     "Steps connect evaluated designs; transition locations between samples are unresolved.", sep = "\n")
   palette <- rep(c("#334E9A", "#007C78", "#956000", "#783D8C", "#4F626E"), length.out = nlevels(good$curve_label))
   p <- p + ggplot2::scale_colour_manual(values = palette) +
     ggplot2::scale_shape_manual(values = seq_len(nlevels(good$curve_label)) - 1L) +
     ggplot2::geom_point(size = 2) +
     ggplot2::labs(x = axis_label(x$axes$x$quantity), y = axis_label(x$axes$y$quantity),
-                  title = paste(strwrap(def$label[[lang]], 70), collapse = "\n"),
+                  title = paste(strwrap(def$label[[lang]], 55), collapse = "\n"),
                   subtitle = .ig_xy_local_fixed(x, def, lang),
-                  colour = NULL, shape = NULL, caption = paste(unlist(lapply(strsplit(caption, "\n", fixed = TRUE)[[1]], strwrap, width = 100)), collapse = "\n")) +
+                  colour = NULL, shape = NULL, caption = paste(unlist(lapply(strsplit(caption, "\n", fixed = TRUE)[[1]], strwrap, width = 85)), collapse = "\n")) +
     ggplot2::theme_minimal(base_size = 14) +
-    ggplot2::theme(legend.position = "bottom", plot.caption = ggplot2::element_text(hjust = 0, size = 10))
+    ggplot2::theme(legend.position = "bottom", plot.caption = ggplot2::element_text(hjust = 0, size = 10),
+      plot.title.position = "plot", plot.caption.position = "plot",
+      plot.margin = ggplot2::margin(5.5, 16, 5.5, 5.5))
   if (x$axes$y$quantity %in% c("power", "alpha"))
     p <- p + ggplot2::scale_y_continuous(limits = c(0, 1))
   if (is.null(x$curves)) p <- p + ggplot2::guides(colour = "none", shape = "none")
@@ -115,5 +120,5 @@ plot_design_sweep <- function(x, lang = c("en", "de")) {
     })
   }
   show <- function(v) if (is.numeric(v)) format(v, digits = 6, decimal.mark = if (lang == "de") "," else ".") else as.character(v)
-  paste(strwrap(paste(paste(labels, vapply(values, show, ""), sep = " = "), collapse = "; "), 85), collapse = "\n")
+  paste(strwrap(paste(paste(labels, vapply(values, show, ""), sep = " = "), collapse = "; "), 65), collapse = "\n")
 }

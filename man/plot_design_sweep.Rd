@@ -22,7 +22,8 @@ if (requireNamespace("ggplot2", quietly = TRUE)) {
   spec <- analysis_spec("t_means_two_independent", "post_hoc",
     inputs = list(d = 0.5, n1 = 20, n2 = 20, alpha = 0.05),
     options = list(tails = "two"))
-  sweep <- xy_plot_data(spec, "power", "sample_size", 20, 40, 5)
+  # Even totals keep the two groups equal, so every point has a result.
+  sweep <- xy_plot_data(spec, "power", "sample_size", 20, 120, 10)
   p <- plot_design_sweep(sweep)
   # The axis labels use Greek letters; draw with a Unicode-capable device
   # such as grDevices::cairo_pdf() or png().
