@@ -59,11 +59,22 @@ test_that("titles, captions and bottom legends stay inside the default figure wi
   skip_if_not_installed("ggplot2")
   width <- 7
   # Horizontal extent in inches of a layout element, measured on a 7-inch
-  # wide device with the standard PostScript font metrics.
+  # wide device with the standard PostScript font metrics. Characters outside
+  # Latin-1 (the Greek letters of the sweep labels) have no metrics in that
+  # encoding and are measured as "?".
+  latin1 <- function(p) {
+    for (key in c("title", "subtitle", "caption", "x", "y")) {
+      text <- p$labels[[key]]
+      if (is.character(text) && length(text) == 1L)
+        p <- p + do.call(ggplot2::labs, stats::setNames(
+          list(iconv(enc2utf8(text), "UTF-8", "latin1", sub = "?")), key))
+    }
+    p
+  }
   extent <- function(p, name) {
-    grDevices::pdf(NULL, width = width, height = width / 1.618)
+    grDevices::pdf(NULL, width = width, height = width / 1.618, encoding = "ISOLatin1.enc")
     on.exit(grDevices::dev.off())
-    gt <- suppressWarnings(ggplot2::ggplotGrob(p))
+    gt <- suppressWarnings(ggplot2::ggplotGrob(latin1(p)))
     i <- which(gt$layout$name == name)
     if (!length(i)) return(0)
     g <- gt$grobs[[i]]
