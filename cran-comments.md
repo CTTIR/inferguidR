@@ -25,7 +25,7 @@ only be submitted once infercalcR is available on CRAN.
   Bioconductor software repositories. Submission remains blocked until
   infercalcR is available on CRAN.
 
-The installed size is about 7.8 Mb (R 3.0 Mb, help 1.7 Mb, advisor 1.3 Mb)
+The installed size is about 6.7 Mb (R 2.0 Mb, help 1.7 Mb, advisor 1.2 Mb)
 and may be reported on some platforms. The package ships a registry of
 power-analysis procedures, versioned JSON Schemas and the method-advisor
 rule set as structured data in `inst/`; these are needed at run time.
