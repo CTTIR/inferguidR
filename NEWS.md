@@ -1,5 +1,25 @@
 # inferguidR 0.1.0
 
+* Figures: `plot_power()` prints attained alpha, beta, the decision-table
+  probabilities and the common null probability of the Boschloo lattice
+  without leading padding, and stacks the hypothesis and error-band legends
+  of the distribution panel so that neither is cut off at the default size.
+  `plot_design_sweep()` wraps its title, subtitle and caption to the default
+  device width, no longer reports "0 points without results", and its example
+  draws a sweep in which every design has a result. The metric-network panel
+  of `plot_classification()` shows node values without padding, and German
+  classification labels are written with umlauts (for example
+  "Prävalenz" instead of "Praevalenz") and decimal commas.
+* Running roxygen2 on the sources now reproduces the namespace and keeps the
+  help pages of the functions re-exported from infercalcR: the S3 methods for
+  `as_inference()`, `result_data()` and `result_metadata()` are declared
+  with roxygen tags, and the Boschloo help pages state their arguments
+  directly instead of inheriting them from topics that now live in
+  infercalcR.
+* DESCRIPTION declares `Additional_repositories: https://cttir.r-universe.dev`
+  for infercalcR; the README describes installation from r-universe and links
+  the glossary, and every reference group of the documentation site has a
+  description.
 * `analysis_spec()` gains `engine = "reference"`, which computes a procedure
   with an established R package that implements the same definition instead
   of inferguidR's own forward model; `engine = "base"` stays the default and
