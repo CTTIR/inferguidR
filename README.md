@@ -246,7 +246,7 @@ MESS [18], powerMediation [19] and Exact [11]. Use
 
 ## Authors, citation and licence
 
-Raban Heller. Use `citation("inferguidR")` for installed-version metadata and
+R. Heller. Use `citation("inferguidR")` for installed-version metadata and
 record the exact repository revision for a development analysis. The package is
 licensed under [MIT](LICENSE.md). Report reproducible problems with synthetic
 inputs through [GitHub issues](https://github.com/CTTIR/inferguidR/issues).
