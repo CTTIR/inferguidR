@@ -98,7 +98,7 @@
     c(mosaic = "Decision mosaic", score_distribution = "Score distributions",
       prevalence_curve = "Predictive values and prevalence", model_comparison = "Model comparison")
   p <- p + ggplot2::labs(title = paste(titles[[panel]], pd$model_id, sep = ": "),
-                          subtitle = paste(if (de) "Bezugsbasis:" else "Basis:", pd$basis)) +
+                          subtitle = .ig_cls_basis_subtitle(pd$basis, de)) +
     ggplot2::theme_minimal(base_size = 14) +
     ggplot2::theme(legend.position = "bottom", plot.caption = ggplot2::element_text(hjust = 0, size = 10),
                     panel.grid.minor = ggplot2::element_blank())

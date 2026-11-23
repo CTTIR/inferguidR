@@ -36,7 +36,7 @@
   caption <- paste(if (de) "Links: Eingaben; rechts: ausgew\u00e4hlte Kennzahl. Gezeigt werden direkte Abh\u00e4ngigkeiten, keine kausalen Beziehungen." else
     "Left: inputs; right: selected metric. Direct calculation dependencies, not causal relationships.", formula)
   p <- p + ggplot2::labs(title = paste(if (de) "Abh\u00e4ngigkeiten:" else "Dependencies:", .ig_cls_short_label(metric_focus, lang)),
-    subtitle = paste(if (de) "Bezugsbasis:" else "Basis:", pd$basis),
+    subtitle = .ig_cls_basis_subtitle(pd$basis, de),
     caption = paste(strwrap(caption, width = 80), collapse = "\n"), linetype = NULL) +
     ggplot2::theme_void(base_size = 14) +
     ggplot2::theme(legend.position = "bottom", plot.caption = ggplot2::element_text(hjust = 0, size = 10),

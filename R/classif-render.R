@@ -133,7 +133,7 @@ plot_classification <- function(x, panel = c("roc", "pr", "mosaic", "score_distr
     ggplot2::scale_x_continuous(breaks = seq(0, 1, .2)) +
     ggplot2::scale_y_continuous(breaks = seq(0, 1, .2)) +
     ggplot2::labs(title = paste(if (panel == "roc") "ROC" else "Precision-recall", pd$model_id, sep = ": "),
-                  subtitle = paste(if (de) "Bezugsbasis:" else "Basis:", pd$basis)) +
+                  subtitle = .ig_cls_basis_subtitle(pd$basis, de)) +
     ggplot2::theme_minimal(base_size = 14) +
     ggplot2::theme(plot.caption = ggplot2::element_text(hjust = 0, size = 10),
                     panel.grid.minor = ggplot2::element_blank())
@@ -150,4 +150,11 @@ plot_classification <- function(x, panel = c("roc", "pr", "mosaic", "score_distr
     ggplot2::theme(legend.position="bottom",plot.caption.position="plot")
   attr(p, "inferguidR_plot_data") <- pd
   p
+}
+
+# Subtitle naming the reference basis; German labels translate the basis code.
+.ig_cls_basis_subtitle <- function(basis, de) {
+  if (!de) return(paste("Basis:", basis))
+  label <- c(observed = "beobachtet", scenario = "Szenario")[basis]
+  paste("Bezugsbasis:", if (is.na(label)) basis else unname(label))
 }

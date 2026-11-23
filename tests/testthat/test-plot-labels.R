@@ -28,19 +28,29 @@ test_that("design sweep titles, subtitles and captions fit the default device wi
     expect_false(grepl("0 points|0 Punkte", p$labels$caption))
   }
   gaps <- plot_design_sweep(xy_plot_data(s, "power", "sample_size", 20, 24, 1), "de")
-  expect_match(gaps$labels$caption, "über Lücken", fixed = TRUE)
+  expect_match(gaps$labels$caption, "\u00fcber L\u00fccken", fixed = TRUE)
 })
 
 test_that("classification panels use German umlauts and unpadded node values", {
   skip_if_not_installed("ggplot2")
   r <- evaluate_cutoff(classification_examples("scored_synthetic")$spec)
   roc <- plot_classification(r, "roc", "model_b", lang = "de")
-  expect_match(roc$labels$caption, "gewählter Schwellenwert", fixed = TRUE)
+  expect_match(roc$labels$caption, "gew\u00e4hlter Schwellenwert", fixed = TRUE)
   expect_false(grepl("Praevalenz|gewaehlt|geaendert|fuer ", roc$labels$caption))
   pr <- plot_classification(r, "pr", "model_b", lang = "de")
-  expect_identical(pr$labels$x, "Sensitivität (Recall)")
+  expect_identical(pr$labels$x, "Sensitivit\u00e4t (Recall)")
   network <- plot_classification(r, "metric_network", "model_b")
   values <- vapply(strsplit(ggplot2::ggplot_build(network)$data[[2]]$label, "\n", fixed = TRUE),
     `[[`, "", 2L)
   expect_identical(values, trimws(values))
+})
+
+test_that("German classification subtitles translate the reference basis", {
+  expect_identical(.ig_cls_basis_subtitle("observed", FALSE), "Basis: observed")
+  expect_identical(.ig_cls_basis_subtitle("observed", TRUE), "Bezugsbasis: beobachtet")
+  expect_identical(.ig_cls_basis_subtitle("scenario", TRUE), "Bezugsbasis: Szenario")
+  skip_if_not_installed("ggplot2")
+  r <- evaluate_cutoff(classification_examples("scored_synthetic")$spec)
+  expect_identical(plot_classification(r, "mosaic", "model_b", lang = "de")$labels$subtitle,
+    "Bezugsbasis: beobachtet")
 })
