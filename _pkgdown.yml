@@ -33,6 +33,7 @@ articles:
   - validation
 reference:
 - title: Power and study design
+  desc: Specify, calculate, sweep and draw prospective power analyses, including exact Boschloo designs.
   contents:
   - analysis_spec
   - boschloo_compare_fisher
@@ -59,6 +60,7 @@ reference:
   - sweep_design
   - xy_plot_data
 - title: Classification and operating points
+  desc: Evaluate diagnostic classifiers, choose cutoffs and summarise operating points under stated prevalences.
   contents:
   - attach_classification_data
   - binormal_model
@@ -87,6 +89,7 @@ reference:
   - prevalence_scenario
   - select_cutoff
 - title: Method advisor
+  desc: Answer guided questions to obtain a documented method recommendation and its reproducible R code.
   contents:
   - advisor_answer
   - advisor_override
@@ -101,6 +104,7 @@ reference:
   - advisor_set_language
   - advisor_validate_rules
 - title: Reproducibility and interfaces
+  desc: Canonical JSON, hashes, status codes, protocol text, report snapshots and the interactive applications.
   contents:
   - analysis_envelope
   - calculator_functions
