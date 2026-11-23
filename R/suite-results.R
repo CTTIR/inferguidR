@@ -33,6 +33,9 @@ result_data.power_result <- function(x, ...) infercalcR::result_data(infercalcR:
 result_metadata.power_result <- function(x, ...) infercalcR::result_metadata(infercalcR::as_inference(x))
 
 #' Observed-method relations to planning engines
+#'
+#' The help page man/planning_methods.Rd is maintained by hand.
+#' @noRd
 #' @export
 planning_methods <- function(method_id = NULL) {
   file <- system.file("suite", "planning-relations.csv", package = "inferguidR")

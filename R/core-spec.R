@@ -766,4 +766,5 @@ print.power_spec <- function(x, ...) {
 #' @return Never returns; always signals an error.
 #' @name ig_immutable
 #' @keywords internal
+#' @noRd
 NULL
