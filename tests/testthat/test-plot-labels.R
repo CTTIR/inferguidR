@@ -55,7 +55,7 @@ test_that("German classification subtitles translate the reference basis", {
     "Bezugsbasis: beobachtet")
 })
 
-test_that("captions and bottom legends stay inside the default figure width", {
+test_that("titles, captions and bottom legends stay inside the default figure width", {
   skip_if_not_installed("ggplot2")
   width <- 7
   # Horizontal extent in inches of a layout element, measured on a 7-inch
@@ -68,22 +68,26 @@ test_that("captions and bottom legends stay inside the default figure width", {
     if (!length(i)) return(0)
     g <- gt$grobs[[i]]
     w <- if (inherits(g, "gtable")) sum(g$widths) else grid::grobWidth(g)
-    left <- if (name == "caption" && gt$layout$l[i] > 1L)
+    left <- if (name != "guide-box-bottom" && gt$layout$l[i] > 1L)
       grid::convertWidth(sum(gt$widths[seq_len(gt$layout$l[i] - 1L)]), "in", valueOnly = TRUE) else 0
     left + grid::convertWidth(w, "in", valueOnly = TRUE)
   }
   r <- calculate_power(analysis_spec("t_means_one_sample", "post_hoc",
     inputs = list(d = .5, alpha = .05, n_total = 30), options = list(tails = "two")))
   cr <- evaluate_cutoff(classification_examples("scored_synthetic")$spec)
+  s <- analysis_spec("t_means_two_independent", "post_hoc",
+    inputs = list(d = .5, n1 = 20, n2 = 20, alpha = .05), options = list(tails = "two"))
   for (lang in c("en", "de")) {
     plots <- list(power_decision_table = plot_power(r, "decision_table", lang = lang),
       power_mosaic = plot_power(r, "mosaic", lang = lang),
-      power_distribution = plot_power(r, "distribution", lang = lang))
+      power_distribution = plot_power(r, "distribution", lang = lang),
+      design_sweep = plot_design_sweep(xy_plot_data(s, "power", "sample_size", 20, 24, 1), lang))
     for (panel in c("roc", "pr", "mosaic", "metric_network", "metric_pair", "prevalence_curve",
                     "model_comparison", "score_distribution"))
       plots[[panel]] <- plot_classification(cr, panel, "model_b", lang = lang)
     for (name in names(plots)) {
-      expect_lte(extent(plots[[name]], "caption"), 0.9 * width, label = paste(lang, name, "caption"))
+      for (text in c("title", "subtitle", "caption"))
+        expect_lte(extent(plots[[name]], text), 0.9 * width, label = paste(lang, name, text))
       expect_lte(extent(plots[[name]], "guide-box-bottom"), 0.85 * width, label = paste(lang, name, "legend"))
     }
   }
