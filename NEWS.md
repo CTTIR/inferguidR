@@ -9,7 +9,8 @@
   draws a sweep in which every design has a result. The metric-network panel
   of `plot_classification()` shows node values without padding, and German
   classification labels are written with umlauts (for example
-  "Prävalenz" instead of "Praevalenz") and decimal commas.
+  "Prävalenz" instead of "Praevalenz"), decimal commas and a translated
+  reference basis in the subtitle ("Bezugsbasis: beobachtet").
 * Running roxygen2 on the sources now reproduces the namespace and keeps the
   help pages of the functions re-exported from infercalcR: the S3 methods for
   `as_inference()`, `result_data()` and `result_metadata()` are declared
