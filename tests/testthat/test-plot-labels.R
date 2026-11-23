@@ -68,8 +68,11 @@ test_that("titles, captions and bottom legends stay inside the default figure wi
     if (!length(i)) return(0)
     g <- gt$grobs[[i]]
     w <- if (inherits(g, "gtable")) sum(g$widths) else grid::grobWidth(g)
-    left <- if (name != "guide-box-bottom" && gt$layout$l[i] > 1L)
-      grid::convertWidth(sum(gt$widths[seq_len(gt$layout$l[i] - 1L)]), "in", valueOnly = TRUE) else 0
+    left <- 0
+    if (name != "guide-box-bottom" && gt$layout$l[i] > 1L) {
+      left <- grid::convertWidth(sum(gt$widths[seq_len(gt$layout$l[i] - 1L)]), "in",
+                                 valueOnly = TRUE)
+    }
     left + grid::convertWidth(w, "in", valueOnly = TRUE)
   }
   r <- calculate_power(analysis_spec("t_means_one_sample", "post_hoc",
@@ -88,7 +91,8 @@ test_that("titles, captions and bottom legends stay inside the default figure wi
     for (name in names(plots)) {
       for (text in c("title", "subtitle", "caption"))
         expect_lte(extent(plots[[name]], text), 0.9 * width, label = paste(lang, name, text))
-      expect_lte(extent(plots[[name]], "guide-box-bottom"), 0.85 * width, label = paste(lang, name, "legend"))
+      expect_lte(extent(plots[[name]], "guide-box-bottom"), 0.85 * width,
+                 label = paste(lang, name, "legend"))
     }
   }
 })

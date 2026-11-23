@@ -41,8 +41,9 @@ plot_power <- function(result, panel = c("distribution", "decision_table", "mosa
         if (pd$ordinate == "density") "Shown: central 99.998% of each distribution and critical values." else
           "Shown: full discrete support.", sep = "\n")
   } else {
-    paste(strwrap(if (de) "Jede Spalte bedingt auf eine Hypothese; keine gemeinsamen oder pr\u00e4diktiven Wahrscheinlichkeiten." else
-      "Each column conditions on one hypothesis; these are not joint or predictive probabilities.", 80), collapse = "\n")
+    note <- if (de) "Jede Spalte bedingt auf eine Hypothese; keine gemeinsamen oder pr\u00e4diktiven Wahrscheinlichkeiten." else
+      "Each column conditions on one hypothesis; these are not joint or predictive probabilities."
+    paste(strwrap(note, 80), collapse = "\n")
   }
   tab <- pd$data
   if (panel == "distribution") {
