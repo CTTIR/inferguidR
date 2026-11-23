@@ -32,14 +32,14 @@
   available <- data$status=="ok" & is.finite(data$x) & is.finite(data$xend) & is.finite(data$y) & is.finite(data$yend)
   note <- if(de) "Balken: getrennte marginale Intervalle am festen Betriebspunkt; kein gemeinsamer Konfidenzbereich und kein Kurvenband. Auswahlunsicherheit ist nicht enthalten." else
     "Bars: separate marginal intervals at the fixed operating point; neither a joint confidence region nor a curve band. Cutoff-selection uncertainty is not included."
-  if(any(!available)) note <- paste(note,if(de) "Nicht verfuegbare Intervalle stehen mit Grund in der Datentabelle der Abbildung." else "Unavailable intervals retain their reasons in the plot data table.")
+  if(any(!available)) note <- paste(note,if(de) "Nicht verf\u00fcgbare Intervalle stehen mit Grund in der Datentabelle der Abbildung." else "Unavailable intervals retain their reasons in the plot data table.")
   list(data=data,drawable=data[available,,drop=FALSE],caption=note)
 }
 
 .ig_classifier_interval_table <- function(result, model_id, basis, lang) {
   d <- classification_table(result,"intervals",model_id=model_id,lang=lang)
   if(!nrow(d)) d <- data.frame(metric_id="all",method="",level=NA_real_,lower=NA_real_,upper=NA_real_,
-    status="not_computed",reason=if(lang=="de") "Keine Intervalle fuer dieses Ergebnis berechnet." else
+    status="not_computed",reason=if(lang=="de") "Keine Intervalle f\u00fcr dieses Ergebnis berechnet." else
       "No intervals were computed for this result.",conditioning="",note="",stringsAsFactors=FALSE)
   if(basis=="scenario" && nrow(d)) {
     d$lower <- d$upper <- NA_real_;d$status <- "not_applicable"

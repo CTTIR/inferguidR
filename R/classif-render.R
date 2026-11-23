@@ -80,7 +80,7 @@ plot_classification <- function(x, panel = c("roc", "pr", "mosaic", "score_distr
       ggplot2::geom_path(data = pd$data$diagonal, colour = "#697984", linetype = "dashed") +
       ggplot2::labs(x = if (de) "Falsch-Positiv-Rate" else "False positive rate",
                     y = if (de) "Richtig-Positiv-Rate" else "True positive rate",
-                    caption = if (de) "Punkte: Entscheidungsregeln; Ring: gewaehlter Schwellenwert. Bei festen klassenbedingten Score-Verteilungen bleibt die ROC-Kurve bei geaenderter Praevalenz gleich." else
+                    caption = if (de) "Punkte: Entscheidungsregeln; Ring: gew\u00e4hlter Schwellenwert. Bei festen klassenbedingten Score-Verteilungen bleibt die ROC-Kurve bei ge\u00e4nderter Pr\u00e4valenz gleich." else
                       "Points: decision rules; ring: selected cutoff. The ROC curve is unchanged by prevalence when class-conditional score distributions stay fixed.")
   } else {
     mapping <- ggplot2::aes(x = recall, y = precision)
@@ -89,9 +89,9 @@ plot_classification <- function(x, panel = c("roc", "pr", "mosaic", "score_distr
     p <- ggplot2::ggplot(pd$data$points, mapping) +
       ggplot2::geom_point(colour = "#007C78", size = 1.7) +
       ggplot2::geom_hline(yintercept = pd$data$baseline$precision, colour = "#697984", linetype = "dashed") +
-      ggplot2::labs(x = if (de) "Sensitivitaet (Recall)" else "Recall (sensitivity)",
+      ggplot2::labs(x = if (de) "Sensitivit\u00e4t (Recall)" else "Recall (sensitivity)",
                     y = if (de) "Positiver Vorhersagewert (Precision)" else "Precision (positive predictive value)",
-                    caption = paste(if (de) "Keine lineare Interpolation zwischen Entscheidungsregeln. Ring: gewaehlter Schwellenwert.\nGestrichelt: Praevalenz" else
+                    caption = paste(if (de) "Keine lineare Interpolation zwischen Entscheidungsregeln. Ring: gew\u00e4hlter Schwellenwert.\nGestrichelt: Pr\u00e4valenz" else
                       "No linear interpolation between decision rules. Ring: selected cutoff.\nDashed: prevalence", prevalence,
                       paste0("(", pd$data$baseline$prevalence_kind, ").")))
   }
@@ -105,8 +105,8 @@ plot_classification <- function(x, panel = c("roc", "pr", "mosaic", "score_distr
       colour="#8b6b31",linewidth=.45) +
       ggplot2::scale_linetype_manual(values=stats::setNames(rep(c("dashed","dotted","dotdash","longdash","twodash","solid"),length.out=nlevels(iso$reference)),levels(iso$reference))) +
       ggplot2::labs(linetype=if(panel=="roc") "PPV" else "F1")
-    note <- if(panel=="roc") paste(if(de) "Referenzlinien fuer PPV bei Praevalenz" else "PPV reference lines at prevalence",
-      format(unique(iso$prevalence),digits=4),paste0(" (",unique(iso$prevalence_kind),")."),
+    note <- if(panel=="roc") paste(if(de) "Referenzlinien f\u00fcr PPV bei Pr\u00e4valenz" else "PPV reference lines at prevalence",
+      format(unique(iso$prevalence),digits=4,decimal.mark=if(de) "," else "."),paste0(" (",unique(iso$prevalence_kind),")."),
       if(de) "Am Ursprung ist PPV nicht definiert." else "PPV is undefined at the origin.") else
       if(de) "F1-Referenzlinien verbinden keine beobachteten Entscheidungsregeln." else "F1 reference lines do not connect observed decision rules."
     p <- p + ggplot2::labs(caption=paste(p$labels$caption,note))

@@ -22,9 +22,9 @@
       ggplot2::labs(x = if (de) "Ereignis links; kein Ereignis rechts" else "Event on left; non-event on right",
                     y = NULL, fill = NULL,
                     caption = if (mosaic_mode == "joint") {
-                      if (de) "Gemeinsame Anteile: Flaechen entsprechen Anteilen an allen Einheiten." else
+                      if (de) "Gemeinsame Anteile: Fl\u00e4chen entsprechen Anteilen an allen Einheiten." else
                         "Joint shares: areas represent proportions of all units."
-                    } else if (de) "Innerhalb jeder Klasse: Hoehen sind bedingte Raten. Flaechen sind keine gemeinsamen Anteile." else
+                    } else if (de) "Innerhalb jeder Klasse: H\u00f6hen sind bedingte Raten. Fl\u00e4chen sind keine gemeinsamen Anteile." else
                       "Within each class: heights are conditional rates. Areas are not joint shares.")
   } else if (panel == "score_distribution") {
     if (!is.null(pd$data$densities)) {
@@ -66,7 +66,7 @@
       ggplot2::scale_colour_manual(values = c(PPV = "#007C78", NPV = "#334E9A")) +
       ggplot2::scale_linetype_manual(values = c(PPV = "solid", NPV = "longdash")) +
       ggplot2::coord_cartesian(xlim = c(0, 1), ylim = c(0, 1)) +
-      ggplot2::labs(x = if (de) "Angenommene Praevalenz" else "Assumed prevalence", y = if (de) "Vorhersagewert" else "Predictive value",
+      ggplot2::labs(x = if (de) "Angenommene Pr\u00e4valenz" else "Assumed prevalence", y = if (de) "Vorhersagewert" else "Predictive value",
         colour = NULL, linetype = NULL, caption = if (de)
           "Szenario mit festen TPR/FPR; keine Messung, keine Unsicherheitsintervalle. Raster: 0,001 bis 0,999." else
           "Scenario with fixed TPR/FPR; not a measurement; no uncertainty intervals. Grid: 0.001 to 0.999.")
@@ -83,7 +83,7 @@
       ggplot2::coord_cartesian(xlim = c(0, 1), ylim = c(0, 1)) +
       ggplot2::labs(x = if (de) "Falsch-Positiv-Rate" else "False positive rate", y = if (de) "Richtig-Positiv-Rate" else "True positive rate",
         colour = if (de) "Modell" else "Model", linetype = if (de) "Modell" else "Model",
-        caption = if (de) "Jedes Modell behaelt seine eigene Regel; gleiche Zahlenwerte sind keine gleichwertigen Schwellenwerte." else
+        caption = if (de) "Jedes Modell beh\u00e4lt seine eigene Regel; gleiche Zahlenwerte sind keine gleichwertigen Schwellenwerte." else
           "Each model keeps its own rule; equal numeric cutoffs are not equivalent operating points.")
     if (!is.null(pts) && nrow(pts)) {
       pts$model <- pts$model_id
@@ -94,7 +94,7 @@
     }
   }
   titles <- if (de) c(mosaic = "Entscheidungsmosaik", score_distribution = "Score-Verteilungen",
-    prevalence_curve = "Vorhersagewerte und Praevalenz", model_comparison = "Modellvergleich") else
+    prevalence_curve = "Vorhersagewerte und Pr\u00e4valenz", model_comparison = "Modellvergleich") else
     c(mosaic = "Decision mosaic", score_distribution = "Score distributions",
       prevalence_curve = "Predictive values and prevalence", model_comparison = "Model comparison")
   p <- p + ggplot2::labs(title = paste(titles[[panel]], pd$model_id, sep = ": "),

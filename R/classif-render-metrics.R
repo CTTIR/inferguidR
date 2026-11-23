@@ -53,7 +53,7 @@
     if (log_x) p <- p + ggplot2::scale_x_log10()
     if (log_y) p <- p + ggplot2::scale_y_log10()
     p <- p + ggplot2::labs(x = pd$data$axes$short[1], y = pd$data$axes$short[2])
-    caption <- if (de) sprintf("%d Entscheidungsregeln sind auf diesen Achsen nicht darstellbar und bleiben in der Tabelle; keine Begrenzung auf Achsenraender. Aktueller Punkt: %s.", sum(!drawable), if (current_visible) "Ring" else "nicht darstellbar") else
+    caption <- if (de) sprintf("%d Entscheidungsregeln sind auf diesen Achsen nicht darstellbar und bleiben in der Tabelle; keine Begrenzung auf Achsenr\u00e4nder. Aktueller Punkt: %s.", sum(!drawable), if (current_visible) "Ring" else "nicht darstellbar") else
       sprintf("%d decision rules cannot be drawn on these axes and remain in the table; no clamping to axis bounds. Current point: %s.", sum(!drawable), if (current_visible) "ring" else "not drawable")
     rr <- pd$data$realised_rules
     if(!is.null(rr) && nrow(rr)) {
@@ -65,7 +65,7 @@
       caption <- paste(caption,if(de) "Dreiecke: separate realisierte Regeln." else "Triangles: separate realised rules.",
         if(de) paste(sum(!visible),"realisierte Regeln nicht darstellbar.") else paste(sum(!visible),"realised rules not drawable."))
     } else if(!is.null(realised_rules)) caption <- paste(caption,if(de)
-      "Beobachtete realisierte Regeln werden auf praevalenzabhaengigen Szenarioachsen nicht gezeigt." else
+      "Beobachtete realisierte Regeln werden auf pr\u00e4valenzabh\u00e4ngigen Szenarioachsen nicht gezeigt." else
       "Observed realised rules are hidden on prevalence-dependent scenario axes.")
     title <- if (de) "Kennzahlenpaar" else "Metric pair"
   }
