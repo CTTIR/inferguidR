@@ -4,6 +4,11 @@
   probabilities and the common null probability of the Boschloo lattice
   without leading padding, and stacks the hypothesis and error-band legends
   of the distribution panel so that neither is cut off at the default size.
+  The captions of its decision-table and mosaic panels wrap from the left
+  plot edge instead of running past the right edge, the decision mosaic of
+  `plot_classification()` lays out its legend in two rows and the
+  model-comparison panel stacks its two legends, so that no text is cut off
+  at the default size.
   `plot_design_sweep()` wraps its title, subtitle and caption to the default
   device width, no longer reports "0 points without results", and its example
   draws a sweep in which every design has a result. The metric-network panel

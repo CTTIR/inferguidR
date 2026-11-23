@@ -41,8 +41,8 @@ plot_power <- function(result, panel = c("distribution", "decision_table", "mosa
         if (pd$ordinate == "density") "Shown: central 99.998% of each distribution and critical values." else
           "Shown: full discrete support.", sep = "\n")
   } else {
-    if (de) "Jede Spalte bedingt auf eine Hypothese; keine gemeinsamen oder pr\u00e4diktiven Wahrscheinlichkeiten." else
-      "Each column conditions on one hypothesis; these are not joint or predictive probabilities."
+    paste(strwrap(if (de) "Jede Spalte bedingt auf eine Hypothese; keine gemeinsamen oder pr\u00e4diktiven Wahrscheinlichkeiten." else
+      "Each column conditions on one hypothesis; these are not joint or predictive probabilities.", 80), collapse = "\n")
   }
   tab <- pd$data
   if (panel == "distribution") {
@@ -106,7 +106,9 @@ plot_power <- function(result, panel = c("distribution", "decision_table", "mosa
                    panel.grid.major = ggplot2::element_line(colour = "#DCE4EA"),
                    legend.position = "bottom", plot.caption = ggplot2::element_text(hjust = 0, size = 10))
   # Hypothesis and error-band keys share the bottom edge; stack them so neither is clipped.
-  if (panel == "distribution") p <- p + ggplot2::theme(legend.box = "vertical")
+  # The other panels start their caption at the plot edge, left of the long row labels.
+  p <- p + if (panel == "distribution") ggplot2::theme(legend.box = "vertical") else
+    ggplot2::theme(plot.caption.position = "plot")
   attr(p, "inferguidR_plot_data") <- pd
   p
 }

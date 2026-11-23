@@ -19,6 +19,7 @@
           c("TP: richtig positiv", "FN: falsch negativ", "FP: falsch positiv", "TN: richtig negativ") else
           c("TP: true positive", "FN: false negative", "FP: false positive", "TN: true negative")) +
       ggplot2::coord_fixed(xlim = c(0, 1), ylim = c(0, 1)) +
+      ggplot2::guides(fill = ggplot2::guide_legend(nrow = 2, byrow = TRUE)) +
       ggplot2::labs(x = if (de) "Ereignis links; kein Ereignis rechts" else "Event on left; non-event on right",
                     y = NULL, fill = NULL,
                     caption = if (mosaic_mode == "joint") {
@@ -104,6 +105,9 @@
                     panel.grid.minor = ggplot2::element_blank())
   p$labels$caption <- paste(strwrap(p$labels$caption, width = 80), collapse = "\n")
   p <- p + ggplot2::theme(plot.caption.position = "plot", plot.title.position = "plot")
+  # Model and operating-point keys would not fit side by side at the default width.
+  if (panel == "model_comparison") p <- p + ggplot2::theme(legend.box = "vertical",
+    legend.spacing.y = grid::unit(0, "pt"), legend.margin = ggplot2::margin(0, 0, 0, 0))
   attr(p, "inferguidR_plot_data") <- pd
   p
 }
