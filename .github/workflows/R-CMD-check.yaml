@@ -71,13 +71,13 @@ jobs:
           stopifnot(status == 0L)
       - name: Retain source audit evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: source-audit
           path: source-audit/
           if-no-files-found: ignore
       - name: Retain the immutable source candidate
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: source-candidate
           path: ${{ runner.temp }}/source-candidate/
@@ -130,7 +130,7 @@ jobs:
             github::CTTIR/infercalcR
           needs: check
           dependencies: '"all"'
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: source-candidate
           path: source/
@@ -170,7 +170,7 @@ jobs:
         run: Rscript --vanilla tools/release/check-package.R check/release-preflight
       - name: Retain candidate and validation evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: check-${{ matrix.config.os }}-${{ matrix.config.r }}
           path: check/
@@ -190,7 +190,7 @@ jobs:
           r-version: '4.1.0'
           Ncpus: '2'
           use-public-rspm: false
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: source-candidate
           path: source/
@@ -219,7 +219,7 @@ jobs:
         run: Rscript --vanilla tools/release/check-package.R minimum-r-preflight --minimal
       - name: Retain minimum-R evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: minimum-r-4.1.0-core
           path: |
