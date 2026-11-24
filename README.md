@@ -3,8 +3,9 @@
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://github.com/CTTIR/inferguidR/blob/main/LICENSE.md)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24426382.svg)](https://doi.org/10.5281/zenodo.24426382)
 <!-- badges: end -->
+
+Zenodo DOI reserved for the release: `10.5281/zenodo.24426382` (not yet published).
 
 **Statistical guidance and prospective power/design planning in R.**
 
